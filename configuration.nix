@@ -38,11 +38,11 @@
     LC_TIME = "de_DE.UTF-8";
   };
 
-	# hyprland cachix
-	nix.settings = {
-		substituters = ["https://hyprland.cachix.org"];
-		trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
-	};
+  # hyprland cachix
+  nix.settings = {
+    substituters = [ "https://hyprland.cachix.org" ];
+    trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+  };
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -51,14 +51,14 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
-#   wayland.windowManager.hyprland = {
-# 		enable = true;
-# 		xwayland = {
-# 			enable = true;
-# 			# hidpi = true;
-# 		};
-# 		nvidiaPatches = false;
-#   };
+  #   wayland.windowManager.hyprland = {
+  # 		enable = true;
+  # 		xwayland = {
+  # 			enable = true;
+  # 			# hidpi = true;
+  # 		};
+  # 		nvidiaPatches = false;
+  #   };
 
   # Configure keymap in X11
   services.xserver = {
@@ -96,7 +96,7 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       firefox
-    #  thunderbird
+      #  thunderbird
     ];
   };
 
@@ -135,8 +135,9 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "22.11"; # Did you read the comment?
 
-	nix = {
-		package = pkgs.nixFlakes; # needed for initialisation?
-		extraOptions = "experimental-features = nix-command flakes";
-	};
+  nix = {
+    package = pkgs.nixFlakes; # needed for initialisation?
+    extraOptions = "experimental-features = nix-command flakes";
+  };
 }
+
