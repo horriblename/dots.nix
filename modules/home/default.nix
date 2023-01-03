@@ -6,9 +6,10 @@ in
   home.username = user;
   home.homeDirectory = "/home/${user}";
 
-	#imports = [
-	#	./shell/default
-	#];
+	imports = [
+		./packages.nix
+		#./shell/default
+	];
 
 	# shell = "zsh";
 
