@@ -8,7 +8,7 @@ in
 
 	imports = [
 		./packages.nix
-		./foot
+		# ./foot
 		./shell
 		./lf
 	];
