@@ -1,4 +1,4 @@
-{ nixpkgs, home-manager, ... }:
+{ nixpkgs, home-manager, pkgs, ... }:
 {
 	programs.lf = {
 		enable = true;
