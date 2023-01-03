@@ -8,7 +8,7 @@ in
 
 	imports = [
 		./packages.nix
-		#./shell/default
+		./shell
 	];
 
 	# shell = "zsh";
