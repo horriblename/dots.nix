@@ -7,6 +7,7 @@ let
 		inherit system;
 		# config.allowUnfree = true;
 	};
+	wayland = ../modules/wayland;
 	hmModule = home-manager.nixosModules.home-manager;
 in
 {
@@ -29,6 +30,7 @@ in
             ./nixvm/configuration.nix
             ./nixvm/hardware-configuration.nix
 				hmModule
+				wayland
 				{
 					home-manager.useGlobalPkgs = true;
 					home-manager.useUserPackages = true;
