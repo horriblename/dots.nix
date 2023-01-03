@@ -31,13 +31,13 @@
           modules = [
             ./configuration.nix
             ./hardware-configuration.nix
+				home-manager.nixosModules.home-manager
+				{
+					home-manager.useGlobalPkgs = true;
+					home-manager.useUserPackages = true;
+					home-manager.users.py = import ./hm/py/home.nix;
+				}
           ];
-        };
-      };
-      hmConfig = {
-        "py" = home-manager.lib.homeManagerConfiguration {
-          inherit system pkgs;
-          modules = [ ./hm/py/home.nix ]
         };
       };
     };
