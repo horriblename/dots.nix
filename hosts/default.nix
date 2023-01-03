@@ -1,7 +1,14 @@
-{ nixpkgs, self, ... }:
+{ nixpkgs, home-manager, ... }:
 let
-	inputs = self.inputs;
-	hmModule = inputs.home-manager.nixosModules.home-manager;
+	# inputs = self.inputs;
+	lib = nixpkgs.lib;
+	system = lib.currentSystem;
+	pkgs = import nixpkgs {
+		inherit system;
+		# config.allowUnfree = true;
+	};
+	hmModule = home-manager.nixosModules.home-manager;
+in
 {
         nixvm = lib.nixosSystem {
           inherit system;
