@@ -35,15 +35,9 @@
         };
       };
       hmConfig = {
-        nixos = home-manager.lib.homeManagerConfiguration {
+        "py" = home-manager.lib.homeManagerConfiguration {
           inherit system pkgs;
-          username = "py";
-          homeDirectory = "/home/py";
-          configuration = {
-            imports = [
-              ./hm/py/home.nix
-            ];
-          };
+          modules = [ ./hm/py/home.nix ]
         };
       };
     };
