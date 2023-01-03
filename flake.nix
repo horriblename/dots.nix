@@ -12,7 +12,6 @@
       ## use it...(?)
       # inputs.nixpkgs.follow = "nixpkgs";
     };
-
   };
 
   outputs = { self, nixpkgs, home-manager } @ inputs:

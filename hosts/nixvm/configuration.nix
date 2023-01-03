@@ -104,9 +104,16 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     git
-    neovim
     wget
   ];
+
+  programs.neovim = {
+  	enable = true;
+	defaultEditor = true;
+	configure = {
+		customRC = builtins.readFile ../../pkgs/config.vim;
+	};
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
