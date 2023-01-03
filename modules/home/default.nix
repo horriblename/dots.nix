@@ -14,8 +14,6 @@ in
 		./lf
 	];
 
-	# shell = "zsh";
-
   programs.btop.enable = true;
 
   home.stateVersion = "22.11";

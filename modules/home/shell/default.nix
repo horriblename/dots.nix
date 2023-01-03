@@ -1,5 +1,16 @@
 { config, lib, pkgs, ...}:
 {
+	home.sessionVariables = {
+		EDITOR = "nvim";
+	};
+	home.sessionPath = [
+		"$HOME/.local/bin"
+	];
+	home.shellAliases = {
+		lg = "lazygit";
+	};
+	# users.users.py.shell = pkgs.zsh;
+
 	programs = {
 		git = {
 			enable = true;
