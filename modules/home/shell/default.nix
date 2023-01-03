@@ -53,6 +53,20 @@
 				n = lib.getExe pkgs.neovim;
 			};
 
+			# TODO
+			initExtra = ''
+				lfcd (){
+					tmp="$(mktemp)"
+					lf -last-dir-path="$tmp" "$@"
+					if [ -f "$tmp" ]; then
+						dir="$(cat "$tmp")"
+						rm -f "$tmp"
+						[ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && pushd "$dir"
+					fi
+				}
+				bindkey -s "^o" "lfcd\n"
+			'';
+
 			plugins = with pkgs; [
 				{
 					name = "zsh-nix-shell";

@@ -1,0 +1,427 @@
+# vim: syntax=sh foldmethod=marker foldmarker={{,}}
+# uses zsh for shell scripting
+# Basic Settings {{
+set previewer ~/.config/lf/preview
+set preview true
+set hidden true
+#set shell /usr/bin/sh
+#set drawbox true
+set scrolloff 3
+set incsearch true
+set incfilter true
+set icons true
+set ignorecase true
+set truncatechar "…"
+set mouse on
+#set cleaner ~/.config/lf/cleaner
+# }}
+
+cmd on-cd $ printf '\033]0;%s\007' "${PWD##*/}/" 
+
+
+# Custom Functions {{
+cmd open ${{
+	# check for empty file
+	if [ ! -s "$f" ]; then
+		exec $EDITOR "$f"
+	fi
+
+   case $(file --mime-type "$f" -bL) in
+      text/*|application/json) exec $EDITOR "$f";;
+      *) exec xdg-open "$f" 1>/dev/null 2>/dev/null & disown;;
+   esac
+}}
+
+cmd mkdir %{{
+   printf "Directory Name: "
+   read ans
+   mkdir "$ans" && echo "directory $ans created"
+}}
+
+cmd shareViaNullPointer &{{
+   url=$(curl -F"file=@$f" https://0x0.st)
+   if [ -n "$WAYLAND_DISPLAY" ]; then
+		wl-copy --paste-once --trim-newline --no-fork "$url"
+	else
+		echo "$url" | xclip -selection clipboard
+	fi
+   lf -remote "send $remote echo $url"
+}}
+
+cmd new %{{
+	printf "File/Directory Name: "
+	read ans
+	
+	# using zsh/csh style parameter substitution
+	dir="$(echo "$ans" | grep -o '.*/')"
+	file=${ans##*/}
+	focus=${ans%%/*}
+
+	[ -z $dir ] || mkdir -p "$dir"
+	[ -z $file ] || touch "$ans"
+
+	lf -remote "send $id :select $focus; reload"
+}}
+
+cmd mkfile ${{
+   printf "File Name: "
+   read ans
+   $EDITOR "$ans"
+}}
+
+cmd chmod %{{
+   printf '%s \033[32mMode Bits: \033[0m' $(stat -c '%a' "$f")
+   read ans
+
+   IFS='
+'
+   chmod "$ans" $fx
+
+   lf -remote "send $id :unselect; reload"
+}}
+
+cmd sudomkfile %{{
+   echo 'File Name: '
+   read ans
+   sudo $EDITOR $ans
+}}
+
+# NOTE: for some reason, wl-copy blocks after being called using '!'-commands
+cmd copy_location %{{
+   if [ -n "$WAYLAND_DISPLAY" ]; then
+		# NOTE --paste-once and --no-fork is to workaround wl-copy not exiting after copying
+		# idk how to fix
+		wl-copy --trim-newline "$f" || echo 'failed to copy location'
+	else
+		echo "$f" | xclip -selection clipboard -rmlastnl || echo 'failed to copy location'
+	fi
+   lf -remote "send $remote echo copied location to clipboard: $f"
+}}
+
+# creates a link to location (uses ABSOLUTE path) marked by copy/cut
+# syntax: mkln [-ln_options]
+cmd mkln ${{
+   # extract list of files selected by lf's copy/cut commands
+   load=$(cat ~/.local/share/lf/files)
+   #mode=$(echo "$load" | sed -n '1p')
+   ln_targets=$(echo "$load" | sed '1d')
+   link_name=""
+   destination_dir="$PWD"
+   case "$(echo $ln_targets | wc -w)" in
+	0)	exec lf -remote 'send echo create link: no files selected' ;;
+	1)
+		printf "\033[33mLinking to:\033[0m $ln_targets\nLink Name: "
+		read link_name
+		ln $1 "$ln_targets" "$destination_dir/$link_name"
+		lf -remote "send echo created link \033[33m$link_name\033[0m -> \033[33m$ln_targets\033[0m"
+		lf -remote 'send clear'
+		exit
+	;;
+	*) {
+		echo "$ln_targets" | while IFS= read file; do
+		#for file in "$ln_targets"; do
+			printf "file is '$file'"
+			ln $1 "$file" "$destination_dir"
+		done
+		lf -remote 'send echo linked "$num_of_files" files'
+		lf -remote 'send clear'
+	} ;;
+	esac
+}}
+
+cmd follow_ln %{{
+	path="$(stat -c '%N' "$f" | sed -E "s/.*-> '(.*)'/\1/" )"
+	echo "$path"
+
+	[ -n $path ] && lf -remote "send $id select $path"
+}}
+
+cmd fzf_jump ${{
+   res=$(find . -maxdepth 3 | fzf --reverse --header='Jump to location')
+   if [ -f "$res" ]; then
+      cmd="select"
+   elif [ -d "$res" ]; then
+      cmd="cd"
+   fi
+   lf -remote "send $id $cmd $res"
+}}
+
+cmd broot_jump ${{
+   f=$(mktemp)
+   res="$(broot --outcmd $f && cat $f | sed 's/cd //')"
+   rm -f "$f"
+   if [ -f "$res" ]; then
+      cmd="select"
+   elif [ -d "$res" ]; then
+      cmd="cd"
+   fi
+   lf -remote "send $id $cmd \"$res\""
+}}
+
+cmd grep_string ${{
+   printf "\033[33mregexp: \033[0m"
+   read keyword
+
+   case "$1" in
+      pdf) ~/scripts/grep_pdf.sh "$keyword" | bat -p --paging=always;;
+      #*) grep -i -d 'skip' "$keyword" "$pwd" | bat -p --paging=always;;
+      *) rg --color=always --smart-case "$keyword" | bat -p --paging=always;;
+   esac
+}}
+
+cmd z_cd %{{
+   printf 'z.lua: where to? '
+   result="$(read input && z.lua -e $input)"
+   [ -z "$result" ] && printf '\033[31mdirectory not found\033[0m' || lf -remote "send ${id} cd '${result}'"
+}}
+
+cmd dragon %{{
+	IFS='
+'
+   dragon-drop $@ $fx
+}}
+
+cmd dragon-curl-target &{{
+   # doesn't work: use '\@ [comment]' to leave a comment on keymapped function
+   #@=${@/\@ */}
+   dragon-drop $@ --target | while read url
+   do
+      curl -O "$url" && lf -remote "send $id echo 'Download completed'"\
+			&& lf -remote "send $id reload"\
+			|| lf -remote "send $id echo 'Download Failed'"
+   done
+}}
+
+# Archive bindings
+cmd unarchive ${{
+   case "$f" in
+      *.zip) unzip "$f" ;;
+      *.tar.gz) tar -xzvf "$f" ;;
+      *.tar.bz2) tar -xjvf "$f" ;;
+      *.tar.zst) tar --use-compress-program=unzstd -xvf "$f";;
+      *.tar) tar -xvf "$f" ;;
+      *.zst) unzstd "$f";;
+      *) echo "Unsupported format" ;;
+   esac
+}}
+
+cmd zip ${{
+	zipfile="${f%.zip}.zip"
+	printf 'give archive name (default \033[32m%s\033[0m): ' "$(basename "$zipfile")"
+	read ans
+	ans="$(tr -d '\000-\011\013\014\016-\037' <<< "$ans")"
+	[ -n "$ans" ] && zipfile="$ans"
+	echo $zipfile
+
+   load=$(cat ~/.local/share/lf/files)
+   mode=$(echo "$load" | sed -n '1p')
+   rel_targets=$(echo "$load" | sed '1d' | sed "s|$PWD/||g")
+
+	if [ -z "$rel_targets" ]; then
+		lf -remote "send $id echo no files selected! use copy/cut to select files."
+	fi
+
+	(
+		IFS='
+'
+		if zip -r "$zipfile" $rel_targets; then
+			[ "$mode" = move ] && rm -r $rel_targets
+		else
+			lf -remote "send $id echo $(printf '\033[31mzip failed!\033[0m')"
+		fi
+	)
+
+	action="${mode//y/ie}d" # => 'moved' or 'copied'
+   lf -remote "send $id :echo $action $(echo "$rel_targets" | wc -l) files into $zipfile; clear"
+}}
+cmd tar %tar cvf "$f.tar" "$f"
+cmd targz %tar cvzf "$f.tar.gz" "$f"
+cmd tarbz2 %tar cjvf "$f.tar.bz2" "$f"
+
+# Trash cli bindings
+cmd trash &{{
+   files=$(printf "$fx" | tr '\n' ';')
+   failed=0
+   failmsg=''
+   while [ "$files" ]; do
+      # extract the substring from start of string up to delimiter.
+      # this is the first "element" of the string.
+      file=${files%%;*}
+      #lf -remote "send $id echo Moving $file to trash"
+      #lf -remote "send $id unselect"
+
+      trash-put "$(basename "$file")"
+      # if there's only one element left, set `files` to an empty string.
+      # this causes us to exit this `while` loop.
+      # else, we delete the first "element" of the string from files, and move onto the next.
+      if [ "$files" = "$file" ]; then
+         files=''
+      else
+         files="${files#*;}"
+      fi
+   done
+
+   if (( $failed == 0 )); then
+      lf -remote "send $id echo 'Moved to trash'"
+   else
+      lf -remote "send $id echo $failed files not moved to trash; last error msg"
+   fi
+
+   lf -remote "send $id :unselect; up; reload"
+}}
+
+cmd clear_trash %trash-empty
+
+cmd restore_trash ${{
+   trash-restore
+}}
+
+# }}
+
+# Bindings {{
+# Remove some defaults {{
+map m
+map o
+# map "'"
+map '"'
+map d
+map c
+map e
+map f
+map t
+map ?
+# }}
+
+# cmd line mappings {{
+cmap <backspace> cmd-delete-unix-word
+# }}
+
+# File Openers {{
+map sudo $ {{
+	sudo env EDITOR=nvim lf -config="$HOME/.config/lf/lfrc" -command 'set drawbox true'
+}}
+map ee $$EDITOR "$f"
+map es $sudo -e "$f"
+map ei $nvide -- "$f"
+map ed ${{
+	IFS='
+' 
+	nvim -d $fx && lf -remote "send $id unselect"
+}}
+map I $view "$f"
+map o $(xdg-open "$f" 1>/dev/null 2>/dev/null & disown)
+map O open_with
+map cv $gnvide
+map cd &LF_LEVEL=0 ${term:-xterm} -e "lf $PWD"
+# }}
+
+# Archive Mappings {{
+map Az zip
+map At tar
+map Ag targz
+map Ab targz
+map Au unarchive
+# }}
+
+# Trash Mappings {{
+map dd trash
+map tc clear_trash
+map tr restore_trash
+# }}
+
+# Broot Mapping {{
+map f fzf_jump
+map F filter
+#map ss stripspace
+# }}
+
+# Dragon Mapping {{
+map dr dragon --all --and-exit
+map ds dragon --all
+map di dragon
+map dt dragon-curl-target --and-exit
+map <m-2> dragon --all --and-exit
+# }}
+
+# Basic Functions {{
+map . set hidden!
+map <c-o> jump-prev
+map <c-i> jump-next
+map J :toggle; down
+map K :toggle; up
+map DD delete
+map p :paste; clear
+map x cut
+map y copy
+map <enter> open
+map a new
+map mf mkfile
+map mr sudomkfile
+map md mkdir
+map ms $mkscript
+map ch chmod
+map mls mkln -s
+map mlr mkln -sr
+map mlh mkln
+map mm mark-save
+map s0 shareViaNullPointer
+map r rename
+map H top
+map L bottom
+map R reload
+map C clear
+map U unselect
+map ex $$f
+map ?p grep_string "pdf"
+map ?? grep_string "txt"
+map du %du -h "$f"
+map cl copy_location
+map zd calcdirsize
+map g! !"$f"
+map g$ $"$f"
+map g% %"$f"
+map g& &"$f"
+
+# }}
+
+
+# for compatibility with qwertz keyboard layout
+map - search
+
+# Movement {{
+map gh cd ~
+map gd cd ~/Documents
+map gD cd ~/Downloads
+map gp cd ~/Pictures
+map gm cd ~/Music
+map gt cd ~/Templates
+map gs cd ~/scripts
+map gc cd ~/.config
+map gC cd ~/.cache
+map gn cd ~/Nextcloud
+map gj cd ~/Jail
+map gr cd ~/repo
+map gl cd ~/.local
+
+map Z z_cd
+map gf follow_ln
+map g/ cd /
+map gE cd /etc
+map gUU cd /usr
+map gUs cd /usr/share
+map gT cd /tmp
+map gM cd /mnt
+map gV cd /var
+
+map gbb cd /mnt/BUP
+map gbd cd /mnt/BUP/Documents_
+map gba cd /mnt/BUP/apps
+
+map gee cd /mnt/ext
+# }}
+
+# funny mouse stuff {{
+map <m-1>
+map <m-down> push 3j
+map <m-up> push 3k
+# }} }}

@@ -9,6 +9,7 @@ in
 	imports = [
 		./packages.nix
 		./shell
+		./lf
 	];
 
 	# shell = "zsh";
