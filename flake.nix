@@ -25,20 +25,6 @@
       lib = nixpkgs.lib;
     in
     {
-      nixosConfigurations = {
-        nixos = lib.nixosSystem {
-          inherit system;
-          modules = [
-            ./configuration.nix
-            ./hardware-configuration.nix
-				home-manager.nixosModules.home-manager
-				{
-					home-manager.useGlobalPkgs = true;
-					home-manager.useUserPackages = true;
-					home-manager.users.py = import ./hm/py/home.nix;
-				}
-          ];
-        };
-      };
+      nixosConfigurations = import ./hosts inputs;
     };
 }
