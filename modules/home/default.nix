@@ -7,7 +7,7 @@ in
   home.homeDirectory = "/home/${user}";
 
 	#imports = [
-	#	./shell
+	#	./shell/default
 	#];
 
 	# shell = "zsh";

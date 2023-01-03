@@ -19,7 +19,7 @@ in
 				{
 					home-manager.useGlobalPkgs = true;
 					home-manager.useUserPackages = true;
-					home-manager.users.py = import ../hm/py/home.nix;
+					home-manager.users.py = import ../modules/home;
 				}
           ];
         };
