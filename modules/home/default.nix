@@ -7,6 +7,7 @@ in
   home.homeDirectory = "/home/${user}";
 
 	imports = [
+		./apps.nix
 		./packages.nix
 		# ./foot
 		./shell
