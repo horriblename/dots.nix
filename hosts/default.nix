@@ -21,7 +21,16 @@ in
 		inherit pkgs;
 		modules = [
 			hyprland.homeManagerModules.default
-			{ wayland.windowManager.hyprland.enable = true; }
+			{
+				wayland.windowManager.hyprland = {
+					enable = true;
+					# package = inputs.hyprland.packages.${pkgs.system}.default.override {
+					#   nvidiaPatches = true;
+					# };
+					systemdIntegration = true;
+					extraConfig = builtins.readFile ./hyprland.conf;
+				};
+			}
 		];
 	};
 	surface = lib.nixosSystem {
