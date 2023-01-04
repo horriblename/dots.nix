@@ -8,6 +8,7 @@ in
 
 	imports = [
 		./apps.nix
+		./hyprland
 		./packages.nix
 		# ./foot
 		./shell
