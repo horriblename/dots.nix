@@ -1,11 +1,10 @@
 {
   config,
   pkgs,
-  inputs,
   ...
 }: {
   imports = [./fonts.nix ];
-  nixpkgs.overlays = with inputs; [nixpkgs-wayland.overlay];
+  # nixpkgs.overlays = with ; [nixpkgs-wayland.overlay];
 
   nix.settings = {
     substituters = ["https://hyprland.cachix.org"];
@@ -31,9 +30,8 @@
 
   # Configure keymap in X11
   services.xserver.layout = "us";
-  services.xserver.xkbOptions = {
-    "eurosign:e";
-    "caps:escape" # map caps to escape.
-  };
+  # services.xserver.xkbOptions = {
+  #   "eurosign:e";
+  # };
 
 }
