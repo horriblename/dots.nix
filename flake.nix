@@ -12,9 +12,10 @@
       ## use it...(?)
       # inputs.nixpkgs.follow = "nixpkgs";
     };
+	 hyprland.url = "github:hyprwm/Hyprland";
   };
 
-  outputs = { self, nixpkgs, home-manager } @ inputs:
+  outputs = { self, nixpkgs, home-manager, hyprland } @ inputs:
     {
       nixosConfigurations = import ./hosts inputs;
     };

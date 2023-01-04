@@ -1,4 +1,4 @@
-{ nixpkgs, home-manager, ... }:
+{ nixpkgs, home-manager, hyprland, ... }:
 let
 	# inputs = self.inputs;
 	lib = nixpkgs.lib;
@@ -16,6 +16,14 @@ let
 	};
 in
 {
+	# FIXME standardize home-manager configs (vv this and home-manager-config)
+	homeConfigurations."py@surface" = home-manager.lib.homeManagerConfiguration {
+		inherit pkgs;
+		modules = [
+			hyprland.homeManagerModules.default
+			{ wayland.windowManager.hyprland.enable = true; }
+		];
+	};
 	surface = lib.nixosSystem {
 		inherit system;
 		modules = [
@@ -23,6 +31,8 @@ in
 			./surface/hardware-configuration.nix
 				hmModule
 				home-manager-config
+				hyprland.nixosModules.default
+				{ programs.hyprland.enable = true; }
 		];
 	};
         nixvm = lib.nixosSystem {
