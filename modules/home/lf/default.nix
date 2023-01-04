@@ -5,4 +5,6 @@
 		extraConfig = builtins.readFile ./lfrc;
 		previewer.source = ./preview;
 	};
+
+	xdg.configFile."lf/icons".text = builtins.readFile ./icons;
 }
