@@ -9,6 +9,7 @@
 		ripgrep
 		fd
 		lazygit
+		z-lua
 
 		# compilers
 		gcc
