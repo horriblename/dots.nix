@@ -15,6 +15,9 @@ in
 	];
 
   programs.btop.enable = true;
+	 programs.neovim.plugins = [
+		pkgs.vimPlugins.nvim-treesitter.withPlugins (p: [ p.c p.nix ])
+	 ];
 
   home.stateVersion = "22.11";
   programs.home-manager.enable = true;
