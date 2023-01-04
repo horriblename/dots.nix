@@ -9,6 +9,11 @@ let
 	};
 	wayland = ../modules/wayland;
 	hmModule = home-manager.nixosModules.home-manager;
+	home-manager-config = {
+		home-manager.useGlobalPkgs = true;
+		home-manager.useUserPackages = true;
+		home-manager.users.py = import ../modules/home;
+	};
 in
 {
 	surface = lib.nixosSystem {
@@ -17,11 +22,7 @@ in
 			./surface/configuration.nix
 			./surface/hardware-configuration.nix
 				hmModule
-				{
-					home-manager.useGlobalPkgs = true;
-					home-manager.useUserPackages = true;
-					home-manager.users.py = import ../modules/home;
-				}
+				home-manager-config
 		];
 	};
         nixvm = lib.nixosSystem {
@@ -29,13 +30,10 @@ in
           modules = [
             ./nixvm/configuration.nix
             ./nixvm/hardware-configuration.nix
+
 				hmModule
 				wayland
-				{
-					home-manager.useGlobalPkgs = true;
-					home-manager.useUserPackages = true;
-					home-manager.users.py = import ../modules/home;
-				}
+				home-manager-config
           ];
         };
       }
