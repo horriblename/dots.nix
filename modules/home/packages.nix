@@ -4,6 +4,7 @@
 		# cli tools
 		file # lf config dependency
 		bat
+		trash-cli
 		fzf
 		ripgrep
 		fd
