@@ -38,10 +38,12 @@ in
 		modules = [
 			./surface/configuration.nix
 			./surface/hardware-configuration.nix
-				hmModule
-				home-manager-config
-				hyprland.nixosModules.default
-				{ programs.hyprland.enable = true; }
+
+			hmModule
+			home-manager-config
+			hyprland.nixosModules.default
+			{ programs.hyprland.enable = true; }
+			wayland
 		];
 	};
         nixvm = lib.nixosSystem {
