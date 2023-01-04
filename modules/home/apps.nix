@@ -4,5 +4,6 @@
 		xournalpp
 		foot
 		pavucontrol
+		mpv
 	];
 }
