@@ -11,6 +11,9 @@
 		lazygit
 		z-lua
 
+		# utilities
+		powertop
+
 		# compilers
 		gcc
 		cargo
