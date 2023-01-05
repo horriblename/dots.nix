@@ -11,6 +11,7 @@ in
     ./hyprland
     ./packages.nix
     ./eww
+    ./dunst
     ./foot
     ./tofi
     ./shell
