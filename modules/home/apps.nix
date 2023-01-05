@@ -1,13 +1,13 @@
 { inputs, pkgs, config, ... }:
 {
-	home.packages = with pkgs; [
+  home.packages = with pkgs; [
 
-		# utilities
-		foot
-		pavucontrol
+    # utilities
+    foot
+    pavucontrol
 
-		# general user apps
-		mpv
-		xournalpp
-	];
+    # general user apps
+    mpv
+    xournalpp
+  ];
 }

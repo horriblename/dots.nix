@@ -108,11 +108,11 @@
   ];
 
   programs.neovim = {
-  	enable = true;
-	defaultEditor = true;
-	configure = {
-		customRC = builtins.readFile ../../pkgs/config.vim;
-	};
+    enable = true;
+    defaultEditor = true;
+    configure = {
+      customRC = builtins.readFile ../../pkgs/config.vim;
+    };
   };
 
   # Some programs need SUID wrappers, can be configured further or are

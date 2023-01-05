@@ -1,10 +1,10 @@
 { nixpkgs, home-manager, pkgs, ... }:
 {
-	programs.lf = {
-		enable = true;
-		extraConfig = builtins.readFile ./lfrc;
-		previewer.source = ./preview;
-	};
+  programs.lf = {
+    enable = true;
+    extraConfig = builtins.readFile ./lfrc;
+    previewer.source = ./preview;
+  };
 
-	xdg.configFile."lf/icons".text = builtins.readFile ./icons;
+  xdg.configFile."lf/icons".text = builtins.readFile ./icons;
 }

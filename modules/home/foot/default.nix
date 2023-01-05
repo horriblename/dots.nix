@@ -1,22 +1,22 @@
-{ config, pkgs, ...}:
+{ config, pkgs, ... }:
 {
-	home.packages = with pkgs; [
-		libsixel
-	];
+  home.packages = with pkgs; [
+    libsixel
+  ];
 
-	programs.foot = {
-		enable = true;
-		server.enable = true;
-		settings = {
-			main = {
-				font = "FiraCode Nerd Font:size=14";
-			}; 
-			colors = {
-				alpha = "0.6";
-			};
-			key-bindings = {
-				search-start = "Control+Shift+f";
-			};
-		};
-	};
+  programs.foot = {
+    enable = true;
+    server.enable = true;
+    settings = {
+      main = {
+        font = "FiraCode Nerd Font:size=14";
+      };
+      colors = {
+        alpha = "0.6";
+      };
+      key-bindings = {
+        search-start = "Control+Shift+f";
+      };
+    };
+  };
 }
