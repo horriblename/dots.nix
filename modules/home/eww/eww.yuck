@@ -11,6 +11,7 @@
 (defvar SPEAKER_ICONS `["婢", "奄", "奔", "墳"]`)
 (defvar MIC_ICONS `["",""]`)
 (defvar NET_ICONS `{"wifi": " " , "ethernet": "", "unknown": "", "disconnected": ""}`)
+(defvar BATTERY_ICONS '[" ", " ", " ", " ", " "]')
 (defvar DAY_OF_WEEK `["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]`)
 (defvar SEPARATOR "|")
 
@@ -65,6 +66,34 @@
             :onclick `${EWW_CMD} open calendar_win`
             :tooltip `${DAY_OF_WEEK[datetime.dayOfWeek]}, ${datetime.date}`
             (label :text {datetime.time})))
+
+(defwidget _quick_settings_applet [volumeIn volumeOut batteryLvl netStat]
+ (box
+  :class "quick-settings"
+  :orientation "v" 
+  :space-evenly false
+  (box :orientation "h"
+   (box :class "quick-setting-unit qs-volume-in"
+    {MIC_ICONS[1]}
+    (_volInSlider :volumeIn volumeIn))
+   (box :class "quick-setting-unit qs-volume-out"
+    {SPEAKER_ICONS[3]}
+    (_volOutSlider :volumeOut volumeOut :flipped false)))
+  (box :orientation "h"
+   (_quick_setting_info
+    :icon {NET_ICONS[netStat.type]} 
+    :class "qs-network"
+    :text {netStat.name})
+   (_quick_setting_info
+    :icon {BATTERY_ICONS[4]} 
+    :class "qs-battery"
+    :text "${batteryLvl}%"))))
+
+(defwidget _quick_setting_info [icon class text]
+ (box :class "quick-setting-unit ${class}"
+  :orientation "h"
+  icon
+  (label :text text)))
 
 (defwidget _network []
   (box :class "sys-item net-box"
@@ -192,6 +221,8 @@
        :space-evenly false
        :halign "start"
        :spacing 1
+       ;(button :onclick ``
+       ;  " ")
        (widgetWorkspaces)
        (_taskbar :tasks lTasks)))
 
@@ -229,6 +260,19 @@
   :geometry (geometry :y 32
                       :anchor "top center")
   (_calendar_applet))
+
+(defwindow quick_settings_win
+ :monitor 0
+ :geometry (geometry 
+    :x -5
+    :y 5
+    :anchor "top right")
+ (_quick_settings_applet 
+  :volumeIn lVolumeIn
+  :volumeOut lVolumeOut
+  :batteryLvl pollBattery
+  :netStat pollNetStat
+ ))
 
 (defwindow bar
   :monitor 0
