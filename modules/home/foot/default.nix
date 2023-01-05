@@ -9,7 +9,7 @@
     server.enable = true;
     settings = {
       main = {
-        font = "FiraCode Nerd Font:size=14";
+        font = "FiraCode Nerd Font:size=12";
       };
       colors = {
         alpha = "0.6";
