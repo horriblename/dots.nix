@@ -1,0 +1,185 @@
+$bg_h: #0b0c0d;
+$bg_m: #1d2021;
+$bg: #282828;
+$bg_s: #32302f;
+$bg1: #3c3836;
+$bg2: #504945;
+$bg3: #665c54;
+$bg4: #7c6f64;
+
+$fg: #fbf1c7;
+$fg1: #ebdbb2;
+$fg2: #d5c4a1;
+$fg3: #bdae93;
+$fg4: #a89984;
+
+$red: #fb4934;
+$green: #b8bb26;
+$yellow: #fabd2f;
+$blue: #83a598;
+$purple: #d3869b;
+$aqua: #8ec07c;
+$gray: #928374;
+$orange: #fe8019;
+
+$red-dim: #cc2412;
+$green-dim: #98971a;
+$yellow-dim: #d79921;
+$blue-dim: #458588;
+$purple-dim: #b16286;
+$aqua-dim: #689d6a;
+$gray-dim: #a89984;
+$orange-dim: #d65d0e;
+
+* {
+  all: unset;
+  font-size: 16px;
+  font-family: Google Sans, Sans;
+  font-weight: 600;
+}
+
+window {
+  color: $fg;
+  background-color: $bg_h;
+}
+
+/* Styling */
+scale trough {
+  all: unset;
+  background-color: $gray-dim;
+  color: $orange;
+  border-radius: 2px;
+  min-height: 4px;
+  min-width: 80px;
+  margin: 0px 6px;
+}
+
+.bar {
+  background-color: $bg_h;
+  color: $fg4;
+  padding: 2px;
+}
+
+.boxed-widget-group {
+  background-color: $bg_s;
+  border-radius: 5px;
+  margin: 2px 2px;
+}
+
+/* Bar - left */
+.workspace {
+  color: $yellow;
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+
+.workspace:hover {
+  color: $bg_h;
+  background-color: $fg3;
+}
+
+.ws-persistent {
+  color: $gray;
+}
+
+.ws-focused {
+  color: $yellow;
+  border-bottom: 2px solid $orange;
+}
+
+.taskbar {
+  background-color: $bg_h;
+  margin: 0 4px;
+}
+
+.task-btn {
+  padding: 0px 5px;
+  border-radius: 3px;
+}
+
+.task-btn:hover {
+  // padding: 0px 5px;
+  background-color: $bg3;
+}
+
+/* Bar - center */
+.clock {
+  font-weight: bold;
+  padding-left: 4px;
+  padding-right: 4px;
+  color: $blue;
+}
+
+/* Bar - right */
+.system-overview {
+  padding: 0 0.5em;
+}
+
+.sys-item * {
+  font-family: FiraCode Nerd Font;
+}
+
+.sys-item {
+  padding: 2px 3px;
+}
+
+.audio-box {
+  // color: $red-dim;
+  padding: 0px 0px;
+}
+
+.mic-icon {
+  color: $red-dim;
+}
+
+.vol-in-bar trough highlight {
+  all: unset;
+  background-color: $red-dim;
+  border-radius: 2px;
+}
+
+.speaker-icon {
+  color: $red;
+}
+
+// .speaker-box > * {
+// 	padding: 0px 2px;
+// }
+
+.vol-out-bar trough highlight {
+  all: unset;
+  background-color: $orange;
+  border-radius: 2px;
+}
+
+.net-box {
+  color: $yellow;
+}
+
+.ram-box {
+  color: $green;
+}
+
+.icon-ram {
+  color: $bg_h;
+}
+
+.cpu-box {
+  color: $blue;
+}
+
+/* Calendar */
+.calendar {
+  color: $fg1;
+  border-radius: 5px;
+}
+
+/* Overview */
+.snap-box {
+  border: 4px solid $green;
+  border-radius: 10px;
+}
+
+.snap-box > image {
+  border-radius: 10px;
+}

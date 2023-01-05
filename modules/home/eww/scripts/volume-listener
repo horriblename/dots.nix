@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+# usage:
+#		volume-listener sink|source [device_name]
+# `device_name` defaults to @DEFAULT_SINK@
+#
+# TODO each volume adjustment fires two events by pactl subscribe; can we skip one?
+
+Type=${1:-sink}
+Target=${2:-@DEFAULT_SINK@}
+
+get_volume() {
+	pactl "get-$Type-mute" "$Target" | grep 'yes' > /dev/null && printf -
+	pactl "get-$Type-volume" "$Target" | awk 'NR==1{sub("%", "", $5); print $5}'
+}
+
+get_volume
+
+pactl subscribe | while read line; do [ -z "${line##*sink*}" ] && get_volume; done

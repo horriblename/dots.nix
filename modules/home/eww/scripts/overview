@@ -1,0 +1,33 @@
+#!/bin/sh
+
+cache="${XDG_CACHE_HOME:-"$HOME/.cache"}/hyprview"
+MAX_WORKSPACE=6
+WALLPAPER=~/Pictures/wallpapers/dwm_4.png
+
+snap() {
+	curr_workspace=$(hyprctl -j activewindow | jq '.workspace.id')
+	if [ -z "$curr_workspace" ] || [ "$curr_workspace" = '-99' ]; then
+		return
+	fi
+
+	rm "$cache/ws-${curr_workspace}.png"
+	grim -s 0.25 "$cache/ws-${curr_workspace}.png"
+}
+
+populate() {
+	mkdir -p "$cache"
+
+	for i in $(seq 1 $MAX_WORKSPACE); do
+		ln -s "$WALLPAPER" "$cache/ws-$i.png"
+	done
+}
+
+clear_snap() {
+	ln -fs "$WALLPAPER" "$cache/ws-$1.png"
+}
+
+case $1 in
+	init) populate;;
+	save) snap;;
+	del) clear_snap "$2";;
+esac

@@ -1,0 +1,107 @@
+#!/bin/bash
+NUM_PERSISTENT_WS=${NUM_PERSISTENT_WS:-6}
+
+# 1-index
+ActiveWorkspace="$(hyprctl activewindow -j | jq '.workspace.id' || echo 1)"
+[ "$ActiveWorkspace" = -99 ] && ActiveWorkspace=1
+WorkspaceState=''
+
+# generate default WORKSPACES array
+WORKSPACES=()
+for i in $(seq 0 $((NUM_PERSISTENT_WS - 1))); do
+	WORKSPACES+=('0')
+done
+
+# TODO remove
+max() {
+	local IFS=$'\n'
+	echo "$*" | sort -nr | head -n1
+}
+
+printerr() {
+	echo "$@" >&2
+}
+
+# array_fill_zero saves a zero-filled array of length $2 to variable of name $1
+# @param $1 variable name to write to
+# @param $2 number of elements
+array_fill_zero() {
+	local -n arr=$1
+	for i in $(seq 1 "$2"); do
+		arr+=('0')
+	done
+}
+
+json_encode() {
+	local array=("$@")
+	json='[{"index": 0, "state": '"${array[0]}"'}'
+	for i in $(seq 1 $((${#array[@]} - 1))); do
+		json+=", {\"index\": $i, \"state\": ${array[i]}}"
+	done
+
+	echo "$json]"
+}
+
+# @param $1 optional: the new active workspace number, 1-indexed, if none the previous ActiveWorkspace will be used
+workspace_changed() {
+			local occupied
+			local active
+			local workspaces
+			occupied="$(hyprctl -j workspaces | jq '.[] | .id' | awk '/^[0-9]/{print}' | sort -n)"
+			active="${1:-$ActiveWorkspace}"
+			ActiveWorkspace="$active"
+
+			# shellcheck disable=2086,2016
+			echo $occupied | sort --check || echo "Error: variable \$occupied is not sorted; got $occupied"  >&2
+			array_fill_zero workspaces "$(echo "$occupied" | tail -n1)"
+
+			for i in $occupied; do
+				workspaces[i - 1]=1
+			done
+			printerr "active=$active"
+			workspaces[active - 1]=2
+
+			if [ "$WorkspaceState" != "${workspaces[*]}" ]; then
+				json_encode "${workspaces[@]}"
+				WorkspaceState="${workspaces[*]}"
+			fi
+}
+
+function handle {
+	event=${1%%>>*}
+	data=${1#*>>}
+	case $event in
+		workspace)
+			if [ "$data" = -99 ]; then
+				workspace_changed
+			else
+				workspace_changed "$data"
+			fi
+			;;
+		*workspace | focusedmon | openwindow | closewindow | movewindow)
+			workspace_changed
+			;;
+	esac
+}
+
+[ "$1" = "test" ] && {
+	Error() {
+		echo "\033[31m$*\033[0m"
+	}
+
+	re='^[0-9]+$'
+	[[ $ActiveWorkspace =~ $re ]] || Error "variable ActiveWorkspace is not an integer $ActiveWorkspace"
+
+	[ "$(max 1 3 5)" = 5 ] || Error "Test failed: max"
+
+	array_fill_zero array 5
+	declare -p array || Error "not array?"
+	[[ "${array[*]}" = "0 0 0 0 0" ]] || Error "Test failed array_fill_zero: got ( ${array[*]} )"
+	exit 0
+}
+
+workspace_changed
+
+socat -u UNIX-CONNECT:/tmp/hypr/"$HYPRLAND_INSTANCE_SIGNATURE"/.socket2.sock - | while read -r event; do 
+	handle "$event"
+done 

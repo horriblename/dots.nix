@@ -10,6 +10,7 @@ in
 		./apps.nix
 		./hyprland
 		./packages.nix
+		./eww
 		./foot
 		./shell
 		./lf
