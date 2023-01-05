@@ -1,9 +1,10 @@
 { inputs, pkgs, config, ... }:
 {
 	home.packages = with pkgs; [
-		xournalpp
 		foot
-		pavucontrol
 		mpv
+		pavucontrol
+		tofi
+		xournalpp
 	];
 }
