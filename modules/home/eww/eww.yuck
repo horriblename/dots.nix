@@ -30,6 +30,10 @@
   :initial '{"type": "disconnected", "name": "checking..."}'
   `scripts/check-network`)
 
+(defpoll pollBattery :interval "60s"
+	:initial "100"
+	`cat /sys/class/power_supply/BAT0/capacity`)
+
 (deflisten lVolumeIn
   :initial `100`
   `scripts/volume-listener 'source'  '@DEFAULT_SOURCE@'`)
@@ -204,7 +208,9 @@
        SEPARATOR
        (_memUsage)
        SEPARATOR
-       (_cpuUsage)))
+       (_cpuUsage)
+       SEPARATOR
+       "${pollBattery}%"))
 
 
 (defwidget trays []
