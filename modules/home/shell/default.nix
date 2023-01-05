@@ -8,6 +8,7 @@
   ];
   home.shellAliases = {
     lg = "lazygit";
+    rebuild = "sudo nixos-rebuild switch --flake ~/dots.nix#";
   };
   # users.users.py.shell = pkgs.zsh;
 
