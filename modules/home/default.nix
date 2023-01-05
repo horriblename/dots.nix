@@ -21,7 +21,6 @@ in
       ./lf
     ];
 
-    programs.btop.enable = true;
     programs.neovim.plugins = with pkgs.vimPlugins; [
       vim-nix
       nvim-treesitter.withPlugins

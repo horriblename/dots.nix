@@ -10,9 +10,10 @@
     fd
     lazygit
     z-lua
-	 lua
+    lua
 
     # utilities
+    btop
     powertop
 
     # compilers
