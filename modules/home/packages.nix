@@ -10,6 +10,7 @@
     fd
     lazygit
     z-lua
+	 lua
 
     # utilities
     powertop

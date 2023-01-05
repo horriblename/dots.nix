@@ -67,7 +67,7 @@
 
       # TODO
       initExtra = ''
-                	eval "$(lua ~/.local/bin/z.lua --init zsh enhanced)"
+                	eval "$(z.lua --init zsh enhanced)"
         			lfcd (){
         				tmp="$(mktemp)"
         				lf -last-dir-path="$tmp" "$@"
