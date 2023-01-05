@@ -35,6 +35,7 @@ in {
 			wl-clipboard
 			#pngquant
 			cliphist
+			swaybg
 	];
 
 	xdg.configFile."hypr/hyprland.conf".text = builtins.readFile ./hyprland.conf;
