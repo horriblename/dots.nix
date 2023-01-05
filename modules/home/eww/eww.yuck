@@ -71,9 +71,9 @@
         (label :text {NET_ICONS[pollNetStat.type]} 
                :tooltip {pollNetStat.name})))
 
-(defwidget _volOutSlider [volumeOut]
+(defwidget _volOutSlider [volumeOut flipped]
   (scale :class "vol-out-bar"
-         :flipped true
+         :flipped flipped
          :marks false
          :round-digits 0
          :value { volumeOut < 0 ? -volumeOut : volumeOut}
@@ -127,7 +127,7 @@
 
 (defwidget _volumeSliders [volumeIn volumeOut]
   (box :class "vol-bar-box" :orientation "v"
-       (_volOutSlider :volumeOut volumeOut)
+       (_volOutSlider :volumeOut volumeOut :flipped true)
        (_volInSlider :volumeIn volumeIn)))
 
 (defwidget _memUsage []
