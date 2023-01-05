@@ -9,11 +9,6 @@ let
   };
   wayland = ../modules/wayland;
   hmModule = home-manager.nixosModules.home-manager;
-  home-manager-config = {
-    home-manager.useGlobalPkgs = true;
-    home-manager.useUserPackages = true;
-    home-manager.users.py = import ../modules/home;
-  };
 in
 {
   # FIXME standardize home-manager configs (vv this and home-manager-config)
@@ -40,7 +35,7 @@ in
       ./surface/hardware-configuration.nix
 
       hmModule
-      home-manager-config
+      ../modules/home
       hyprland.nixosModules.default
       { programs.hyprland.enable = true; }
       wayland
@@ -54,7 +49,7 @@ in
 
       hmModule
       wayland
-      home-manager-config
+      ../modules/home
     ];
   };
 }

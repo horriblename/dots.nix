@@ -3,28 +3,32 @@ let
   user = "py";
 in
 {
-  home.username = user;
-  home.homeDirectory = "/home/${user}";
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  home-manager.users.py = {
+    home.username = user;
+    home.homeDirectory = "/home/${user}";
 
-  imports = [
-    ./apps.nix
-    ./hyprland
-    ./packages.nix
-    ./eww
-    ./dunst
-    ./foot
-    ./tofi
-    ./shell
-    ./lf
-  ];
+    imports = [
+      ./apps.nix
+      ./hyprland
+      ./packages.nix
+      ./eww
+      ./dunst
+      ./foot
+      ./tofi
+      ./shell
+      ./lf
+    ];
 
-  programs.btop.enable = true;
-  programs.neovim.plugins = with pkgs.vimPlugins; [
-    vim-nix
-    nvim-treesitter.withPlugins
-    (p: [ p.c p.nix ])
-  ];
+    programs.btop.enable = true;
+    programs.neovim.plugins = with pkgs.vimPlugins; [
+      vim-nix
+      nvim-treesitter.withPlugins
+      (p: [ p.c p.nix ])
+    ];
 
-  home.stateVersion = "22.11";
-  programs.home-manager.enable = true;
+    home.stateVersion = "22.11";
+    programs.home-manager.enable = true;
+  };
 }
