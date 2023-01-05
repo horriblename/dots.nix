@@ -67,17 +67,18 @@
 
       # TODO
       initExtra = ''
-        				lfcd (){
-        					tmp="$(mktemp)"
-        					lf -last-dir-path="$tmp" "$@"
-        					if [ -f "$tmp" ]; then
-        						dir="$(cat "$tmp")"
-        						rm -f "$tmp"
-        						[ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && pushd "$dir"
-        					fi
-        				}
-        				bindkey -s "^o" "lfcd\n"
-        			'';
+                	eval "$(lua ~/.local/bin/z.lua --init zsh enhanced)"
+        			lfcd (){
+        				tmp="$(mktemp)"
+        				lf -last-dir-path="$tmp" "$@"
+        				if [ -f "$tmp" ]; then
+        					dir="$(cat "$tmp")"
+        					rm -f "$tmp"
+        					[ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && pushd "$dir"
+        				fi
+        			}
+        			bindkey -s "^o" "lfcd\n"
+      '';
 
       plugins = with pkgs; [
         {
