@@ -12,6 +12,7 @@ in
 		./packages.nix
 		./eww
 		./foot
+		./tofi
 		./shell
 		./lf
 	];

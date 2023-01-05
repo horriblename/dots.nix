@@ -5,7 +5,6 @@
 		# utilities
 		foot
 		pavucontrol
-		tofi
 
 		# general user apps
 		mpv
