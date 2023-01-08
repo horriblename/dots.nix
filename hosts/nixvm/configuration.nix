@@ -107,14 +107,6 @@
     wget
   ];
 
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    configure = {
-      customRC = builtins.readFile ../../pkgs/config.vim;
-    };
-  };
-
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -144,7 +136,6 @@
 
   nix = {
     package = pkgs.nixFlakes; # needed for initialisation?
-    extraOptions = "experimental-features = nix-command flakes";
   };
 }
 

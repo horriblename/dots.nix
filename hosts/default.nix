@@ -7,6 +7,8 @@ let
     inherit system;
     # config.allowUnfree = true;
   };
+
+  core = ../modules/core;
   wayland = ../modules/wayland;
   hmModule = home-manager.nixosModules.home-manager;
 in
@@ -34,6 +36,7 @@ in
       ./surface/configuration.nix
       ./surface/hardware-configuration.nix
 
+      core
       hmModule
       ../modules/home
       hyprland.nixosModules.default
