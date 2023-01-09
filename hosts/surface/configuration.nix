@@ -25,7 +25,7 @@
   users.users.py = {
     isNormalUser = true;
 	 shell = pkgs.zsh;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "input" ];
     packages = with pkgs; [
       firefox
       thunderbird
