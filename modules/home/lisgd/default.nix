@@ -1,12 +1,14 @@
 { config, lib, pkgs, ... }:
 let
-  configuredLisgd = pkgs.lisgd.overrideAttrs (finalAttrs: previousAttrs: {
-    conf = ./config.h;
-  });
+  # configuredLisgd = pkgs.lisgd.override {
+  #   inherit lib;
+  #   conf = ./config.h;
+  # };
 in
 {
-  home.packages = [
-    configuredLisgd
+  home.packages = with pkgs; [
+    # (lisgd.override { conf = ./config.h; })
+    lisgd
   ];
 
 }

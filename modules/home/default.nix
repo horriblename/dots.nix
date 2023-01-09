@@ -19,6 +19,7 @@ in
       ./tofi
       ./shell
       ./lf
+      ./lisgd # touchscreen gestures
     ];
 
     programs.neovim.plugins = with pkgs.vimPlugins; [
