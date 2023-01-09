@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cmd="$1"
+
+$cmd windows | grep "*$2" && exec $cmd close "$2"; $cmd open "$2"

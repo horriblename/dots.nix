@@ -63,7 +63,7 @@
 
 (defwidget _clock [datetime]
   (eventbox :class "clock"
-            :onclick `${EWW_CMD} open calendar_win`
+            :onclick `scripts/togglewindow "${EWW_CMD}" calendar_win`
             :tooltip `${DAY_OF_WEEK[datetime.dayOfWeek]}, ${datetime.date}`
             (label :text {datetime.time})))
 
@@ -94,6 +94,11 @@
   :orientation "h"
   icon
   (label :text text)))
+
+(defwidget _quick_setting_btn [icon class onclick]
+ (button :class "quick-setting-btn ${class}"
+  :onclick onclick
+  icon))
 
 (defwidget _network []
   (box :class "sys-item net-box"
@@ -241,7 +246,10 @@
        SEPARATOR
        (_cpuUsage)
        SEPARATOR
-       "${pollBattery}%"))
+	 (eventbox
+		  :class "battery-box"
+		  :onclick `scripts/togglewindow "${EWW_CMD}" quick_settings_win`
+		  "${pollBattery}%")))
 
 
 (defwidget trays []
