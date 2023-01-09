@@ -1,7 +1,6 @@
 # vim: syntax=sh foldmethod=marker foldmarker={{,}}
 # uses zsh for shell scripting
 # Basic Settings {{
-set previewer ~/.config/lf/preview
 set preview true
 set hidden true
 #set shell /usr/bin/sh
