@@ -66,6 +66,11 @@ capslock = overload(control, esc)
 	};
   };
 
+  services.openssh = {
+  	enable = true;
+	#permitRootLogin = "yes";
+  };
+
   # system.copySystemConfiguration = true;
 
   system.stateVersion = "22.11"; # DO NOT CHANGE THIS
