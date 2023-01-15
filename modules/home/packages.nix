@@ -11,6 +11,8 @@
     lazygit
     z-lua
     lua
+	 zip
+	 unzip
 
     # utilities
     btop
