@@ -66,6 +66,22 @@ capslock = overload(control, esc)
 	};
   };
 
+  services.openssh = {
+  	enable = true;
+	#permitRootLogin = "yes";
+  };
+
+  nix.settings = {
+  		substituters = [
+			https://cache.nixos.org
+			https://horriblename.cachix.org
+		];
+		trusted-public-keys = [
+			"cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+			"horriblename.cachix.org-1:FdI7l8gJJNhehkdW66BGcRrwn+14Iy+oC033gyONcs0="
+		];
+  };
+
   # system.copySystemConfiguration = true;
 
   system.stateVersion = "22.11"; # DO NOT CHANGE THIS
