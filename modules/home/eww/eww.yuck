@@ -87,7 +87,20 @@
    (_quick_setting_info
     :icon {BATTERY_ICONS[4]} 
     :class "qs-battery"
-    :text "${batteryLvl}%"))))
+    :text "${batteryLvl}%"))
+  (box :orientation "h"
+   (_quick_setting_btn
+    :icon "" 
+    :class ""
+    :onclick "scripts/rotate-screen anti-clockwise && eww reload")
+   (_quick_setting_btn
+    :icon "" 
+    :class ""
+    :onclick "scripts/rotate-screen clockwise && eww reload")
+   (_quick_setting_btn
+    :icon "" 
+    :class ""
+    :onclick "scripts/rotate-screen vertical && eww reload"))))
 
 (defwidget _quick_setting_info [icon class text]
  (box :class "quick-setting-unit ${class}"
@@ -275,12 +288,13 @@
     :x -5
     :y 5
     :anchor "top right")
- (_quick_settings_applet 
-  :volumeIn lVolumeIn
-  :volumeOut lVolumeOut
-  :batteryLvl pollBattery
-  :netStat pollNetStat
- ))
+ (eventbox :onhoverlost `${EWW_CMD} close quick_settings_win`
+  (_quick_settings_applet 
+   :volumeIn lVolumeIn
+   :volumeOut lVolumeOut
+   :batteryLvl pollBattery
+   :netStat pollNetStat
+ )))
 
 (defwindow bar
   :monitor 0

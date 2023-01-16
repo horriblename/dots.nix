@@ -1,0 +1,22 @@
+#!/bin/sh
+
+usage() {
+	echo 'usage:'
+	echo "    $0 clockwise|anti-clockwise|vertical"
+}
+
+case $1 in
+	clockwise) delta=-1;;
+	anti-clockwise) delta=1;;
+	vertical) delta=2;;
+	*) print 'invalid argument' &>2 && usage && exit 1;;
+esac
+
+initial="$(hyprctl monitors -j | jaq '.[0].transform')"
+
+rotation="$(((initial + delta) % 4))"
+echo $rotation
+
+hyprctl keyword monitor "eDP-1,transform,$rotation" \
+&& hyprctl keyword input:touchdevice:transform "$rotation" \
+&& hyprctl keyword 'device:ntrg0001:01-1b96:1b05-stylus:transform' "$rotation"
