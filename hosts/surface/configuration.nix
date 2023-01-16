@@ -71,15 +71,17 @@
     #permitRootLogin = "yes";
   };
 
-  nix.settings = {
-    substituters = [
-      https://cache.nixos.org
-      https://horriblename.cachix.org
-    ];
-    trusted-public-keys = [
-      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-      "horriblename.cachix.org-1:FdI7l8gJJNhehkdW66BGcRrwn+14Iy+oC033gyONcs0="
-    ];
+  nix = {
+    settings = {
+      substituters = [
+        https://cache.nixos.org
+        https://horriblename.cachix.org
+      ];
+      trusted-public-keys = [
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        "horriblename.cachix.org-1:FdI7l8gJJNhehkdW66BGcRrwn+14Iy+oC033gyONcs0="
+      ];
+    };
 
     buildMachines = [{
       hostName = "archbox";
@@ -88,8 +90,8 @@
       speedFactor = 2;
       supportedFeatures = [
         "nixos-test"
-        "benchmark "
-        big-parallel
+        "benchmark"
+        "big-parallel"
         "kvm"
       ];
       mandatoryFeatures = [ ];
