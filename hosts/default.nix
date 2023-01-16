@@ -35,7 +35,7 @@ in
     modules = [
       ./surface/configuration.nix
       ./surface/hardware-configuration.nix
-		nixos-hardware.nixosModules.microsoft-surface-pro-3
+      nixos-hardware.nixosModules.microsoft-surface-pro-3
 
       core
       hmModule
