@@ -1,0 +1,5 @@
+timeout 270 'brightnessctl -s s 2%' resume 'brightnessctl -r'
+timeout 300 'swaylock -f -i ~/Pictures/wallpapers/dwm_3.png'
+timeout 315 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on'
+timeout 330 'systemctl suspend'
+before-sleep 'swaylock -f -i ~/Pictures/wallpapers/wallpaper.png'

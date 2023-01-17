@@ -19,6 +19,7 @@ in
       ./tofi
       ./shell
       ./lf
+      ./swayidle
       ./lisgd # touchscreen gestures
     ];
 
