@@ -90,17 +90,17 @@
     :text "${batteryLvl}%"))
   (box :orientation "h"
    (_quick_setting_btn
-    :icon "" 
-    :class ""
-    :onclick "scripts/rotate-screen anti-clockwise && eww reload")
-   (_quick_setting_btn
     :icon "" 
     :class ""
     :onclick "scripts/rotate-screen clockwise && eww reload")
    (_quick_setting_btn
     :icon "" 
     :class ""
-    :onclick "scripts/rotate-screen vertical && eww reload"))))
+    :onclick "scripts/rotate-screen vertical && eww reload")
+	(_quick_setting_btn
+    :icon "" 
+    :class ""
+    :onclick "scripts/rotate-screen anti-clockwise && eww reload"))))
 
 (defwidget _quick_setting_info [icon class text]
  (box :class "quick-setting-unit ${class}"
