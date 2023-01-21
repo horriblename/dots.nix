@@ -38,7 +38,14 @@ in
     swaybg
   ];
 
-  xdg.configFile."hypr/hyprland.conf".text = builtins.readFile ./hyprland.conf;
+  xdg.configFile."hypr/hyprland.conf".text = ''
+    source = ${./options.conf}
+    source = ${./hardware.conf}
+    source = ${./theme.conf}
+    source = ${./winrules.conf}
+    source = ${./keybinds.conf}
+    source = ${./autostart.conf}
+  '';
 
   systemd.user.services = {
     swaybg = mkService {
