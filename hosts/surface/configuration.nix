@@ -58,8 +58,7 @@
     wantedBy = [ "sysinit.target" ];
   };
 
-  systemd.sleep.extraConfig = "HibernateDelaySec=300m";
-
+  systemd.sleep.extraConfig = "HibernateDelaySec=15min";
 
   programs.neovim = {
     enable = true;
