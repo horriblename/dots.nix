@@ -22,13 +22,29 @@
   #   useXkbConfig = true; # use xkbOptions in tty.
   # };
 
+  # encyrpted home partition
+  security.pam.mount.enable = true;
+  # NOTE since I cant pass mount options to btrfs (gets consumed by mount.crypt), the partition is structured like so:
+  #    btrfs-partition /dev/sdaX
+  #    - py            top level 5
+  #      - files...
+  security.pam.mount.extraVolumes = [
+    ''
+      	 <volume user="py"
+                  fstype="crypt"
+                  path="/dev/disk/by-uuid/3b3599cf-1783-4891-a4c6-15c50de09646"
+                  mountpoint="/home"
+                  options="fstype=btrfs" />
+      		''
+    # maybe add option "crypto_name" (see https://man.archlinux.org/man/mount.crypt.8#Mount_options)
+  ];
+
   users.users.py = {
     isNormalUser = true;
     shell = pkgs.zsh;
     extraGroups = [ "wheel" "input" ];
     packages = with pkgs; [
       firefox
-      thunderbird
     ];
   };
 

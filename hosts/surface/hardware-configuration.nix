@@ -26,10 +26,10 @@
     {
       device = "/dev/disk/by-uuid/4bad5d11-8134-4f24-850d-02950a7f71d4";
       fsType = "btrfs";
-      options = [ "subvol=@home" ];
-    };
-
-  boot.initrd.luks.devices."crypthome".device = "/dev/disk/by-uuid/3b3599cf-1783-4891-a4c6-15c50de09646";
+       options = [ "subvol=@home" ];
+     };
+  
+  # boot.initrd.luks.devices."crypthome".device = "/dev/disk/by-uuid/3b3599cf-1783-4891-a4c6-15c50de09646";
 
   fileSystems."/boot" =
     {
