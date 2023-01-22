@@ -1,3 +1,5 @@
+(include "shared/volume.yuck")
+(include "shared/battery.yuck")
 (include "windows/bar.yuck")
 (include "windows/quick-settings.yuck")
 

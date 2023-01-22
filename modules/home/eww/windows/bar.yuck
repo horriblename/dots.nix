@@ -1,7 +1,6 @@
 ;; ---------------------
 ;; Variable definitions
 ;; ---------------------
-(include "shared/volume.yuck")
 
 ;; Constants
 
@@ -27,10 +26,6 @@
 (defpoll pollNetStat :interval "100s"
   :initial '{"type": "disconnected", "name": "checking..."}'
   `scripts/check-network`)
-
-(defpoll pollBattery :interval "60s"
-	:initial "100"
-	`cat /sys/class/power_supply/BAT0/capacity`)
 
 (deflisten lWorkspaceState 
   :initial "[]"

@@ -38,6 +38,8 @@ $orange-dim: #d65d0e;
   font-weight: 600;
 }
 
+@import 'css/scale';
+
 window {
   color: $fg;
   background-color: $bg_h;
