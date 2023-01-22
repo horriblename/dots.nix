@@ -1,0 +1,80 @@
+;; ---------------------
+;; Variable definitions
+;; ---------------------
+(include "shared/volume.yuck")
+(include "shared/battery.yuck")
+
+;; ---------------------
+;; Widget definitions
+;; ---------------------
+
+(defwidget _brightnessSlider [brightness]
+  (scale :class "vol-out-bar"
+         :flipped flipped
+         :marks false
+         :round-digits 0
+         :value { volumeOut < 0 ? -volumeOut : volumeOut}
+         :min 0
+         :max 100
+         :onchange `pactl set-sink-volume @DEFAULT_SINK@ {}%`
+         :orientation 'h'))
+
+(defwidget _quick_setting_info [icon class text]
+ (box :class "quick-setting-unit ${class}"
+  :orientation "h"
+  icon
+  (label :text text)))
+
+(defwidget _quick_setting_btn [icon class onclick]
+ (button :class "quick-setting-btn ${class}"
+  :onclick onclick
+  icon))
+
+;; TODO don't use _volInSlider & _volOutSlider
+(defwidget _quick_settings_applet [volumeIn volumeOut batteryLvl netStat]
+ (box
+  :class "quick-settings"
+  :orientation "v" 
+  :space-evenly false
+  (box :orientation "h"
+   (box :class "quick-setting-unit qs-volume-in"
+    {MIC_ICONS[1]}
+    (_volInSlider :volumeIn volumeIn)) (box :class "quick-setting-unit qs-volume-out"
+    {SPEAKER_ICONS[3]}
+    (_volOutSlider :volumeOut volumeOut :flipped false)))
+  (box :orientation "h"
+   (_quick_setting_info
+    :icon {NET_ICONS[netStat.type]} 
+    :class "qs-network"
+    :text {netStat.name})
+   (_quick_setting_info
+    :icon {BATTERY_ICONS[4]} 
+    :class "qs-battery"
+    :text "${batteryLvl}%"))
+  (box :orientation "h"
+   (_quick_setting_btn
+    :icon "" 
+    :class ""
+    :onclick "scripts/rotate-screen clockwise && eww reload")
+   (_quick_setting_btn
+    :icon "" 
+    :class ""
+    :onclick "scripts/rotate-screen vertical && eww reload")
+	(_quick_setting_btn
+    :icon "" 
+    :class ""
+    :onclick "scripts/rotate-screen anti-clockwise && eww reload"))))
+
+(defwindow quick_settings_win
+ :monitor 0
+ :geometry (geometry 
+    :x -5
+    :y 5
+    :anchor "top right")
+ (eventbox :onhoverlost `${EWW_CMD} close quick_settings_win`
+  (_quick_settings_applet 
+   :volumeIn lVolumeIn
+   :volumeOut lVolumeOut
+   :batteryLvl pollBattery
+   :netStat pollNetStat)))
+

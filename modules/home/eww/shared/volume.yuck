@@ -1,0 +1,7 @@
+(deflisten lVolumeIn
+  :initial `100`
+  `scripts/volume-listener 'source'  '@DEFAULT_SOURCE@'`)
+
+(deflisten lVolumeOut
+  :initial `100`
+  `scripts/volume-listener 'sink' '@DEFAULT_SINK@'`)
