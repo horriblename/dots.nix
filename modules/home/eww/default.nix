@@ -10,6 +10,7 @@
   home.packages = with pkgs; [
     brightnessctl
     pulseaudio
+	 jaq
 
     ## unlisted deps
     # networkmanager
