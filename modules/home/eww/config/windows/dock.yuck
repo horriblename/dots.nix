@@ -6,10 +6,15 @@
 (defwidget dock []
     (box
       (for app in lDock
-        (eventbox :onclick "eww close dock && ${app.exec}"
+        (eventbox :onclick "hyprctl dispatch exec '${app.exec}'; ${EWW_CMD} close dock"
                   :tooltip {app.name}
-          (image :path {app.icon}
-                 :image-width 48)))))
+          (image :path {app.icon} 
+                 :width 48
+                 :height 48
+                 :image-width 48)
+          ;; (box :class 'app-icon'
+             ;; 	:style "background-image: url('${app.icon}'); padding: 20px; border: 2px solid white;")
+        ))))
 
 (defwindow dock
   :monitor 0

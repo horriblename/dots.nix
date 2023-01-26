@@ -1,0 +1,27 @@
+[
+	{
+		"name": "Firefox",
+		"icon": "/etc/profiles/per-user/py/share/icons/hicolor/48x48/apps/firefox.png",
+		"exec": "firefox"
+	},
+  {
+    "name": "Web",
+    "icon": "/run/current-system/sw/share/icons/hicolor/scalable/apps/org.gnome.Epiphany.svg",
+    "exec": "epiphany"
+  },
+  {
+    "name": "Files",
+    "icon": "/run/current-system/sw/share/icons/hicolor/scalable/apps/org.gnome.Nautilus.svg",
+    "exec": "nautilus --new-window"
+  },
+  {
+	  "name": "Xournal++",
+	  "icon": "/etc/profiles/per-user/py/share/icons/hicolor/scalable/apps/com.github.xournalpp.xournalpp.svg",
+	  "exec": "xournalpp"
+  },
+  {
+	  "name": "Foot Client",
+	  "icon": "/etc/profiles/per-user/py/share/icons/hicolor/48x48/apps/foot.png",
+	  "exec": "footclient"
+  }
+]
