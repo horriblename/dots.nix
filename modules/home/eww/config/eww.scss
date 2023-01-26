@@ -106,10 +106,19 @@ scale trough {
 
 /* Bar - center */
 .clock {
-  font-weight: bold;
-  padding-left: 4px;
-  padding-right: 4px;
   color: $blue;
+  padding: 2px 0px;
+}
+
+.clock-hour,
+.clock-dayofweek,
+.clock-month {
+  font-weight: bold;
+}
+
+.clock-minute,
+.clock-day {
+  font-weight: lighter;
 }
 
 /* Bar - right */
@@ -178,14 +187,14 @@ scale trough {
 
 /* Quick Settings */
 .quick-settings {
-	padding: 5px;
+  padding: 5px;
 }
 
 .quick-setting-unit {
-	padding: 5px 5px;
-	margin: 8px 5px;
-	background-color: $bg_s;
-	border-radius: 18px;
+  padding: 5px 5px;
+  margin: 8px 5px;
+  background-color: $bg_s;
+  border-radius: 18px;
 }
 
 /* Overview */
