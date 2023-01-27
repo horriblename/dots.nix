@@ -1,22 +1,36 @@
 #!/bin/sh
 
+EWW_CMD="${2:-eww}"
+
 usage() {
 	echo 'usage:'
-	echo "    $0 clockwise|anti-clockwise|vertical"
+	echo "    $0 clockwise|anti-clockwise|vertical [EWW_CMD]"
 }
 
 case $1 in
 	clockwise) delta=-1;;
 	anti-clockwise) delta=1;;
 	vertical) delta=2;;
-	*) print 'invalid argument' &>2 && usage && exit 1;;
+	*) print 'invalid argument' >&2 && usage && exit 1;;
 esac
 
 initial="$(hyprctl monitors -j | jaq '.[0].transform')"
-
 rotation="$(((initial + delta) % 4))"
-echo $rotation
+
+if [ $((delta % 2)) = 1 ]; then
+	if [ $((initial % 2)) = 0 ]; then 
+		bar_close="bar_vert"
+		bar_open="bar"
+	else
+		bar_close="bar"
+		bar_open="bar_vert"
+	fi
+fi
+
+[ -n "$bar_close" ] && $EWW_CMD close "$bar_close" 
 
 hyprctl keyword monitor "eDP-1,transform,$rotation" \
 && hyprctl keyword input:touchdevice:transform "$rotation" \
 && hyprctl keyword 'device:ntrg0001:01-1b96:1b05-stylus:transform' "$rotation"
+
+[ -n "$bar_open" ] && $EWW_CMD open "$bar_open" 

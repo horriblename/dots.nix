@@ -20,8 +20,8 @@
 (defvar VolInScaleShow false)
 
 (defpoll pollDateTime :interval "10s"
-  :initial '{"time": "", "date": "" , "dayOfWeek": "0"}'
-  `date +'{"time": "%H:%M", "date": "%d/%m" , "dayOfWeek": %w}'`)
+  :initial '{"hour": "00", "minute": "00", "date": "1/1" , "dayOfWeek": "0"}'
+  `date +'{"hour":"%H","minute":"%M","month":"%m","day":"%d","dayOfWeek":%w}'`)
 
 (defpoll pollNetStat :interval "100s"
   :initial '{"type": "disconnected", "name": "checking..."}'
@@ -45,18 +45,30 @@
             (calendar :show-details true
                       :show-heading true)))
 
-(defwidget _clock [datetime]
+(defwidget _clock [datetime ?orientation]
   (eventbox :class "clock"
             :onclick `scripts/togglewindow "${EWW_CMD}" calendar_win`
-            :tooltip `${DAY_OF_WEEK[datetime.dayOfWeek]}, ${datetime.date}`
-            (label :text {datetime.time})))
+            :tooltip `${DAY_OF_WEEK[datetime.dayOfWeek]}, ${datetime.day}/${datetime.month}`
+    (box
+      :space-evenly true
+      :orientation orientation
+      (box :orientation orientation
+        (label :class "clock-hour" :text {datetime.hour})
+        (label :class "clock-separator" :visible {orientation != "v"} :text ":")
+        (label :class "clock-minute" :text {datetime.minute}))
+      (label :class "clock-dayofweek" :visible {orientation != "v"} :text {DAY_OF_WEEK[datetime.dayOfWeek]} )
+      (box
+        (label :class "clock-day" :visible {orientation != "v"} :text {datetime.day})
+        (label :class "clock-separator" :visible {orientation != "v"} :text "/")
+        (label :class "clock-month" :visible {orientation != "v"} :text {datetime.month}))
+      )))
 
 (defwidget _network []
   (box :class "sys-item net-box"
         (label :text {NET_ICONS[pollNetStat.type]} 
                :tooltip {pollNetStat.name})))
 
-(defwidget _volOutSlider [volumeOut flipped]
+(defwidget _volOutSlider [volumeOut ?flipped ?orientation]
   (scale :class "vol-out-bar"
          :flipped flipped
          :marks false
@@ -65,9 +77,9 @@
          :min 0
          :max 100
          :onchange `pactl set-sink-volume @DEFAULT_SINK@ {}%`
-         :orientation 'h'))
+         :orientation orientation))
 
-(defwidget _volInSlider [volumeIn]
+(defwidget _volInSlider [volumeIn ?orientation]
   (scale :class "vol-in-bar"
          :flipped false
          :marks false
@@ -76,7 +88,7 @@
          :min 0
          :max 100
          :onchange `pactl set-source-volume @DEFAULT_SOURCE@ {}%`
-         :orientation 'h'))
+         :orientation orientation))
 
 (defwidget _micIcon [volumeIn]
   (eventbox :class "mic-icon"
@@ -93,26 +105,29 @@
             volumeOut < 30 ? SPEAKER_ICONS[1] :
             volumeOut < 70 ? SPEAKER_ICONS[2] : SPEAKER_ICONS[3]}))
 
-(defwidget _audio [volumeIn volumeOut]
+(defwidget _volumeSliders [volumeIn volumeOut ?orientation]
+  (box :class "vol-bar-box" 
+       :orientation {orientation == "v" ? "h" : "v"}
+    (_volOutSlider :volumeOut volumeOut :flipped true :orientation orientation)
+    (_volInSlider :volumeIn volumeIn :orientation orientation)))
+
+(defwidget _audio [volumeIn volumeOut ?orientation]
   (eventbox :class "sys-item audio-box"
             :onhover `${EWW_CMD} update VolInScaleShow=true` 
             :onhoverlost `${EWW_CMD} update VolInScaleShow=false`
             :onrightclick `pavucontrol`
-            (box :orientation 'h'
-                 :space-evenly false
-                 (_micIcon :volumeIn volumeIn)
-                 (revealer :transition "slideleft"
-                           :reveal VolInScaleShow
-                           :duration "550ms"
-                           (_volumeSliders :volumeIn volumeIn
-                                           :volumeOut volumeOut))
-                 (_speakerIcon :volumeOut volumeOut))))
+    (box :orientation orientation
+         :space-evenly false
+      (_micIcon :volumeIn volumeIn)
+      (revealer :transition "slideleft"
+                :orientation orientation
+                :reveal VolInScaleShow
+                :duration "550ms"
+        (_volumeSliders :volumeIn volumeIn
+                        :volumeOut volumeOut
+                        :orientation orientation))
+      (_speakerIcon :volumeOut volumeOut))))
 
-
-(defwidget _volumeSliders [volumeIn volumeOut]
-  (box :class "vol-bar-box" :orientation "v"
-       (_volOutSlider :volumeOut volumeOut :flipped true)
-       (_volInSlider :volumeIn volumeIn)))
 
 (defwidget _memUsage []
   (box :class "sys-item ram-box" :vexpand "false" :hexpand "false" 
@@ -146,16 +161,18 @@
           ws.state == 1 ? "workspace" : "workspace ws-focused"}
           { WS_ICONS[ws.index] ?: WS_UNKNOWN_ICON}))
 
-(defwidget workspaces [ wsState ]
+(defwidget workspaces [ wsState ?orientation ]
   (eventbox :class "workspaces boxed-widget-group"
             :halign "start"
             :onscroll "hyprctl dispatch workspace $([ {} = up ] && echo -1 || echo +1)"
-            (box
+            (box :orientation orientation
               (for ws in wsState
                    (workspace :ws ws)))))
 
-(defwidget widgetWorkspaces []
-  (workspaces :wsState lWorkspaceState))
+(defwidget widgetWorkspaces [?orientation]
+  (workspaces 
+    :wsState lWorkspaceState
+    :orientation orientation))
 
 (defwidget _taskbutton [ task_data ]
   (button :class "task-btn"
@@ -171,43 +188,50 @@
        (for app in tasks
             (_taskbutton :task_data app))))
 
-(defwidget widgetLeftBar []
-  (box :orientation "h"
+(defwidget widgetLeftBar [?orientation]
+  (box :orientation orientation
        :space-evenly false
-       :halign "start"
+       :halign {orientation == "v" ? "center" : "start"}
+       :valign {orientation == "v" ? "start" : "center"}
        :spacing 1
        ;(button :onclick ``
        ;  " ")
-       (widgetWorkspaces)
+       (widgetWorkspaces :orientation orientation)
        (_taskbar :tasks lTasks)))
 
-(defwidget system []
+(defwidget system [?orientation]
   (box :class "system-overview boxed-widget-group"
-       :orientation "h"
+       :orientation orientation
        :space-evenly false
        :halign "end"
        :spacing 5
        (_audio :volumeIn lVolumeIn
-               :volumeOut lVolumeOut)
-       SEPARATOR
+               :volumeOut lVolumeOut
+               :orientation orientation)
        (_network)
-       SEPARATOR
        (_memUsage)
-       SEPARATOR
        (_cpuUsage)
-       SEPARATOR
 	 (eventbox
 		  :class "battery-box"
 		  :onclick `scripts/togglewindow "${EWW_CMD}" quick_settings_win`
-		  "${pollBattery}%")))
+		  "%")))
 
 
-(defwidget trays []
-  (box :orientation "h"
+(defwidget trays [?orientation]
+  (box :orientation orientation
        :space-evenly false
-       :halign "end"
+       :halign {orientation == "v" ? "center" : "end"}
+       :valign {orientation == "v" ? "end" : "center"}
        :spacing 1
-       (system)))
+       (system :orientation orientation)))
+
+(defwidget bar [orientation]
+  (centerbox :class "bar"
+             :hexpand true
+             :orientation orientation
+    (widgetLeftBar :orientation orientation)
+    (_clock :datetime pollDateTime :orientation orientation)
+    (trays :orientation orientation)))
 
 ;; ---------------------
 ;; Window definitions
@@ -229,12 +253,18 @@
   :stacking "fg"
   :exclusive true
   :windowtype "dock"
-  (centerbox :class "bar"
-             :hexpand true
-             :orientation "h"
-             (widgetLeftBar)
-             (_clock :datetime pollDateTime)
-             (trays)))
+  (bar :orientation "h"))
 
+(defwindow bar_vert
+  :monitor 0
+  :exclusive false
+  :geometry (geometry
+				  :anchor "left center"
+              :width "40px"
+              :height "100%")
+  :stacking "fg"
+  :exclusive true
+  :windowtype "dock"
+  (bar :orientation "v"))
 
 
