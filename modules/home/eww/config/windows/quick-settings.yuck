@@ -45,13 +45,17 @@
   :orientation "v" 
   (box :orientation "h"
 	(_quick_setting_btn
-	 :icon "" 
+	 :icon " "
 	 :class ""
 	 :onclick "swaylock")
 	(_quick_setting_btn
+	 :icon "󰤄 "
+	 :class ""
+	 :onclick "systemctl suspend-then-hibernate")
+	(_quick_setting_btn
 	 :icon "󰍃 " 
 	 :class ""
-	 :onclick "hyprctl dispatch exit")
+	 :onclick "hyprctl dispatch exit 1")
 	(_quick_setting_btn
 	 :icon "󰜉 " 
 	 :class ""
