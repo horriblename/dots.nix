@@ -11,8 +11,8 @@
   },
   {
     "name": "Files",
-    "icon": "/run/current-system/sw/share/icons/hicolor/scalable/apps/org.gnome.Nautilus.svg",
-    "exec": "nautilus --new-window"
+    "icon": "/etc/profiles/per-user/py/share/icons/hicolor/scalable/apps/index.svg",
+    "exec": "index"
   },
   {
 	  "name": "Xournal++",
