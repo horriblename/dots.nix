@@ -239,8 +239,7 @@
 
 (defwindow calendar_win
   :monitor 0
-  :geometry (geometry :y 32
-                      :anchor "top center")
+  :geometry (geometry :anchor "top center")
   (_calendar_applet))
 
 (defwindow bar
