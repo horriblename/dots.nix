@@ -8,7 +8,7 @@ usage() {
 }
 
 case $1 in
-	clockwise) delta=-1;;
+	clockwise) delta=3;;
 	anti-clockwise) delta=1;;
 	vertical) delta=2;;
 	*) print 'invalid argument' >&2 && usage && exit 1;;
