@@ -1,18 +1,34 @@
 #!/bin/sh
 
-EWW_CMD="${2:-eww}"
-
 usage() {
 	echo 'usage:'
 	echo "    $0 clockwise|anti-clockwise|vertical [EWW_CMD]"
+	echo "where EWW_CMD is the magic variable provided by eww; do not quote this argument"
 }
 
 case $1 in
 	clockwise) delta=3;;
 	anti-clockwise) delta=1;;
 	vertical) delta=2;;
-	*) print 'invalid argument' >&2 && usage && exit 1;;
+	*) 
+		print 'invalid argument' >&2
+		usage
+		exit 1
+		;;
 esac
+
+shift
+if [ -n "$1" ]; then 
+	EWW_CMD="$1"
+	shift
+	EWW_ARGS="$@"
+else
+	EWW_CMD='eww'
+	EWW_ARGS=''
+fi
+
+echo 'eww cmd is: ' $EWW_CMD >&2
+echo 'eww args are: ' $EWW_ARGS >&2
 
 initial="$(hyprctl monitors -j | jaq '.[0].transform')"
 rotation="$(((initial + delta) % 4))"
@@ -27,10 +43,10 @@ if [ $((delta % 2)) = 1 ]; then
 	fi
 fi
 
-[ -n "$bar_close" ] && $EWW_CMD close "$bar_close" 
+[ -n "$bar_close" ] && $EWW_CMD $EWW_ARGS close "$bar_close" 
 
-hyprctl keyword monitor "eDP-1,transform,$rotation" \
-&& hyprctl keyword input:touchdevice:transform "$rotation" \
-&& hyprctl keyword 'device:ntrg0001:01-1b96:1b05-stylus:transform' "$rotation"
+hyprctl --batch keyword monitor "eDP-1,transform,$rotation" \; \
+	keyword input:touchdevice:transform "$rotation" \; \
+	keyword device:ntrg0001:01-1b96:1b05-stylus:transform "$rotation" \; \
 
-[ -n "$bar_open" ] && $EWW_CMD open "$bar_open" 
+[ -n "$bar_open" ] && hyprctl dispatch exec "sleep 1; $EWW_CMD $EWW_ARGS open $bar_open"
