@@ -135,24 +135,14 @@
     (circular-progress :value {EWW_RAM.used_mem_perc}
                        :class "mem-meter"
                        :start-at 25
-                       :thickness 15
-      (button 
-        :class "icon-ram"
-        :tooltip "RAM ${round(EWW_RAM.used_mem_perc, 0)}%"
-        :onclick "notify-send test"
-        ""))))
+                       :thickness 6)))
 
 (defwidget _cpuUsage []
   (box :class "sys-item cpu-box"
     (circular-progress :value {EWW_CPU.avg}
                        :class "cpu-meter"
                        :start-at 25
-                       :thickness 15
-      (button 
-        :class "icon-cpu"
-        :tooltip "CPU ${round(EWW_CPU.avg, 2)}%" 
-        :onclick "notify-send test"
-        ""))))
+                       :thickness 6)))
 
 (defwidget workspace [ws]
   (button :onclick "hyprctl dispatch workspace ${ws.index + 1}"
@@ -201,21 +191,21 @@
     (_taskbar :tasks lTasks)))
 
 (defwidget system [?orientation volumeIn volumeOut batteryLvl]
-  (box :class "system-overview boxed-widget-group"
-       :orientation orientation
-       :space-evenly false
-       :halign "end"
-       :spacing 5
-    (_audio :volumeIn volumeIn
-            :volumeOut volumeOut
-            :orientation orientation)
-    (_network)
-    (_memUsage)
-    (_cpuUsage)
-    (eventbox
-      :class "battery-box"
-      :onclick `scripts/togglewindow "${EWW_CMD}" quick_settings_win --anchor "${orientation == 'v' ? 'bottom left' : 'top right'}"`
-      "%")))
+  (eventbox
+    :onclick `scripts/togglewindow "${EWW_CMD}" quick_settings_win --anchor "${orientation == 'v' ? 'bottom left' : 'top right'}"`
+    (box :class "system-overview boxed-widget-group"
+         :orientation orientation
+         :space-evenly false
+         :halign "end"
+         :spacing 5
+      (_audio :volumeIn volumeIn
+              :volumeOut volumeOut
+              :orientation orientation)
+      (_network)
+      (_memUsage)
+      (_cpuUsage)
+      (label :class "battery-box"
+             :text "%"))))
 
 
 (defwidget trays [?orientation volumeIn volumeOut batteryLvl]
@@ -269,7 +259,7 @@
                     :geometry (geometry
                     :anchor "left center"
                     :width "40px"
-                    :height "100%")
+                    :height "90%")
                     :stacking "fg"
                     :exclusive true
                     :windowtype "dock"
