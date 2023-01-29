@@ -10,7 +10,7 @@
 (defvar WS_PERSISTENT 6)
 (defvar SPEAKER_ICONS `["婢", "奄", "奔", "墳"]`)
 (defvar MIC_ICONS `["",""]`)
-(defvar NET_ICONS `{"wifi": " " , "ethernet": "", "unknown": "", "disconnected": ""}`)
+(defvar NET_ICONS `{"wifi": " ", "ethernet": "", "unknown": "", "disconnected": ""}`)
 (defvar BATTERY_ICONS '[" ", " ", " ", " ", " "]')
 (defvar DAY_OF_WEEK `["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]`)
 (defvar SEPARATOR "|")

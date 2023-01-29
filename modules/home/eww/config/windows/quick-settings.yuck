@@ -20,98 +20,96 @@
   (scale :class "brightness-bar"
          :marks true
          :round-digits 0
-         ;; :value brightness
-			:value 20
+         :value 20 ;; TODO brightness
          :min 5
          :max 100
          :onchange `brightnessctl set --exponent=2 {}%`
          :orientation 'h'))
 
 (defwidget _quick_setting_info [icon class text]
- (box :class "quick-setting-unit ${class}"
-  :orientation "h"
-  icon
-  (label :text text)))
+  (box :class "quick-setting-unit ${class}"
+       :space-evenly false
+    icon
+    (label :text text)))
 
 (defwidget _quick_setting_btn [icon class onclick]
- (button :class "quick-setting-btn ${class}"
-  :onclick onclick
-  icon))
+  (button :class "quick-setting-btn ${class}"
+          :onclick onclick
+    icon))
 
 ;; TODO don't use _volInSlider & _volOutSlider
 (defwidget _quick_settings_applet [volumeIn volumeOut batteryLvl brightness netStat]
- (box
-  :class "quick-settings"
-  :orientation "v" 
-  (box :orientation "h"
-	(_quick_setting_btn
-	 :icon " "
-	 :class ""
-	 :onclick "swaylock")
-	(_quick_setting_btn
-	 :icon "󰤄 "
-	 :class ""
-	 :onclick "systemctl suspend-then-hibernate")
-	(_quick_setting_btn
-	 :icon "󰍃 " 
-	 :class ""
-	 :onclick "hyprctl dispatch exit 1")
-	(_quick_setting_btn
-	 :icon "󰜉 " 
-	 :class ""
-	 :onclick "systemctl restart")
-	(_quick_setting_btn
-	 :icon " " 
-	 :class ""
-	 :onclick "systemctl poweroff"))
-  (box :orientation "h"
-	(box :class "quick-setting-unit qs-volume-in"
-	 :space-evenly false
-	 (label :class "icon" :text {MIC_ICONS[1]})
-	 (_volInSlider :volumeIn volumeIn))
-	(box :class "quick-setting-unit qs-volume-out"
-	 :space-evenly false
-	 (label :class "icon" :text {SPEAKER_ICONS[3]})
-	 (_volOutSlider :volumeOut volumeOut :flipped false)))
-  (box :orientation "h"
-	(box :class "quick-setting-unit qs-brightness"
-	 :space-evenly false
-	 (label :class "icon" :text BRIGHTNESS_ICON)
-	 (_brightnessSlider :brightness brightness)))
-								  (box :orientation "h"
-									(_quick_setting_info
-									 :icon {NET_ICONS[netStat.type]} 
-									 :class "qs-network"
-									 :text {netStat.name})
-									(_quick_setting_info
-									 :icon {BATTERY_ICONS[4]} 
-									 :class "qs-battery"
-									 :text "${batteryLvl}%"))
-									  (box :orientation "h"
-										(_quick_setting_btn
-										 :icon "" 
-										 :class ""
-										 :onclick "scripts/rotate-screen clockwise ${EWW_CMD}")
-										(_quick_setting_btn
-										 :icon "" 
-										 :class ""
-										 :onclick "scripts/rotate-screen vertical ${EWW_CMD}")
-										(_quick_setting_btn
-										 :icon "" 
-										 :class ""
-										 :onclick "scripts/rotate-screen anti-clockwise ${EWW_CMD}"))))
+  (box :class "quick-settings"
+       :orientation "v" 
+    (box :orientation "h"
+      (_quick_setting_btn
+        :icon " "
+        :class ""
+        :onclick "swaylock")
+      (_quick_setting_btn
+        :icon "󰤄 "
+        :class ""
+        :onclick "systemctl suspend-then-hibernate")
+      (_quick_setting_btn
+        :icon "󰍃 " 
+        :class ""
+        :onclick "hyprctl dispatch exit 1")
+      (_quick_setting_btn
+        :icon "󰜉 " 
+        :class ""
+        :onclick "systemctl restart")
+      (_quick_setting_btn
+        :icon " " 
+        :class ""
+        :onclick "systemctl poweroff"))
+    (box :orientation "h"
+      (box :class "quick-setting-unit qs-volume-in"
+           :space-evenly false
+        (label :class "icon" :text {MIC_ICONS[1]})
+        (_volInSlider :volumeIn volumeIn))
+      (box :class "quick-setting-unit qs-volume-out"
+           :space-evenly false
+        (label :class "icon" :text {SPEAKER_ICONS[3]})
+        (_volOutSlider :volumeOut volumeOut :flipped false)))
+    (box :orientation "h"
+      (box :class "quick-setting-unit qs-brightness"
+           :space-evenly false
+        (label :class "icon" :text BRIGHTNESS_ICON)
+        (_brightnessSlider :brightness brightness)))
+    (box :orientation "h"
+      (_quick_setting_info
+        :icon {NET_ICONS[netStat.type]} 
+        :class "qs-network"
+        :text {netStat.name})
+      (_quick_setting_info
+        :icon {BATTERY_ICONS[4]} 
+        :class "qs-battery"
+        :text "${batteryLvl}%"))
+    (box :orientation "h"
+      (_quick_setting_btn
+        :icon "" 
+        :class ""
+        :onclick "scripts/rotate-screen clockwise ${EWW_CMD}")
+      (_quick_setting_btn
+        :icon "" 
+        :class ""
+        :onclick "scripts/rotate-screen vertical ${EWW_CMD}")
+      (_quick_setting_btn
+        :icon "" 
+        :class ""
+        :onclick "scripts/rotate-screen anti-clockwise ${EWW_CMD}"))))
 
 (defwindow quick_settings_win
- :monitor 0
- :geometry (geometry 
-    :x -5
-    :y 5
-    :anchor "top right")
- (eventbox :onhoverlost `${EWW_CMD} close quick_settings_win`
-  (_quick_settings_applet 
-   :volumeIn lVolumeIn
-   :volumeOut lVolumeOut
-   :batteryLvl pollBattery
-	:brightness pollBrightness
-   :netStat pollNetStat)))
+  :monitor 0
+  :geometry (geometry 
+  :x -5
+  :y 5
+  :anchor "top right")
+  (eventbox :onhoverlost `${EWW_CMD} close quick_settings_win`
+    (_quick_settings_applet 
+      :volumeIn lVolumeIn
+      :volumeOut lVolumeOut
+      :batteryLvl pollBattery
+      :brightness pollBrightness
+      :netStat pollNetStat)))
 
