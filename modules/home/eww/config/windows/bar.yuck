@@ -19,11 +19,13 @@
 (defvar VolOutScaleShow false)
 (defvar VolInScaleShow false)
 
-(defpoll pollDateTime :interval "10s"
+(defpoll pollDateTime
+  :interval "10s"
   :initial '{"hour": "00", "minute": "00", "date": "1/1" , "dayOfWeek": "0"}'
   `date +'{"hour":"%H","minute":"%M","month":"%m","day":"%d","dayOfWeek":%w}'`)
 
-(defpoll pollNetStat :interval "100s"
+(defpoll pollNetStat
+  :interval "100s"
   :initial '{"type": "disconnected", "name": "checking..."}'
   `scripts/check-network`)
 
@@ -42,8 +44,8 @@
 (defwidget _calendar_applet []
   (eventbox :onhoverlost `${EWW_CMD} close calendar_win`
             :class "calendar"
-            (calendar :show-details true
-                      :show-heading true)))
+    (calendar :show-details true
+              :show-heading true)))
 
 (defwidget _clock [datetime ?orientation]
   (eventbox :class "clock"
@@ -60,13 +62,12 @@
       (box
         (label :class "clock-day" :visible {orientation != "v"} :text {datetime.day})
         (label :class "clock-separator" :visible {orientation != "v"} :text "/")
-        (label :class "clock-month" :visible {orientation != "v"} :text {datetime.month}))
-      )))
+        (label :class "clock-month" :visible {orientation != "v"} :text {datetime.month})))))
 
 (defwidget _network []
   (box :class "sys-item net-box"
-        (label :text {NET_ICONS[pollNetStat.type]} 
-               :tooltip {pollNetStat.name})))
+    (label :text {NET_ICONS[pollNetStat.type]} 
+           :tooltip {pollNetStat.name})))
 
 (defwidget _volOutSlider [volumeOut ?flipped ?orientation]
   (scale :class "vol-out-bar"
@@ -95,15 +96,15 @@
             :onclick  `pactl set-source-mute @DEFAULT_SOURCE@ toggle`
             :visible { volumeIn > 0 || VolInScaleShow }
             :onscroll `pactl set-source-volume @DEFAULT_SOURCE@ $([ {} = up ] && echo + || echo -)4%`
-            { volumeIn > 0 ? MIC_ICONS[1] : MIC_ICONS [0]}))
+    { volumeIn > 0 ? MIC_ICONS[1] : MIC_ICONS [0]}))
 
 (defwidget _speakerIcon [volumeOut]
   (eventbox :class "speaker-icon"
             :onclick  `pactl set-sink-mute @DEFAULT_SINK@ toggle`
             :onscroll `pactl set-sink-volume @DEFAULT_SINK@ $([ {} = up ] && echo + || echo -)4%`
-            { volumeOut < 0 ? SPEAKER_ICONS[0] : 
-            volumeOut < 30 ? SPEAKER_ICONS[1] :
-            volumeOut < 70 ? SPEAKER_ICONS[2] : SPEAKER_ICONS[3]}))
+    { volumeOut < 0 ? SPEAKER_ICONS[0] : 
+    volumeOut < 30 ? SPEAKER_ICONS[1] :
+    volumeOut < 70 ? SPEAKER_ICONS[2] : SPEAKER_ICONS[3]}))
 
 (defwidget _volumeSliders [volumeIn volumeOut ?orientation]
   (box :class "vol-bar-box" 
@@ -131,43 +132,43 @@
 
 (defwidget _memUsage []
   (box :class "sys-item ram-box" :vexpand "false" :hexpand "false" 
-       (circular-progress :value {EWW_RAM.used_mem_perc}
-                          :class "mem-meter"
-                          :start-at 25
-                          :thickness 15
-                          (button 
-                            :class "icon-ram"
-                            :tooltip "RAM ${round(EWW_RAM.used_mem_perc, 0)}%"
-                            :onclick "notify-send test"
-                            ""))))
+    (circular-progress :value {EWW_RAM.used_mem_perc}
+                       :class "mem-meter"
+                       :start-at 25
+                       :thickness 15
+      (button 
+        :class "icon-ram"
+        :tooltip "RAM ${round(EWW_RAM.used_mem_perc, 0)}%"
+        :onclick "notify-send test"
+        ""))))
 
 (defwidget _cpuUsage []
   (box :class "sys-item cpu-box"
-       (circular-progress :value {EWW_CPU.avg}
-                          :class "cpu-meter"
-                          :start-at 25
-                          :thickness 15
-                          (button 
-                            :class "icon-cpu"
-                            :tooltip "CPU ${round(EWW_CPU.avg, 2)}%" 
-                            :onclick "notify-send test"
-                            ""))))
+    (circular-progress :value {EWW_CPU.avg}
+                       :class "cpu-meter"
+                       :start-at 25
+                       :thickness 15
+      (button 
+        :class "icon-cpu"
+        :tooltip "CPU ${round(EWW_CPU.avg, 2)}%" 
+        :onclick "notify-send test"
+        ""))))
 
 (defwidget workspace [ws]
   (button :onclick "hyprctl dispatch workspace ${ws.index + 1}"
           :visible { ws.state != 0 || ws.index < WS_PERSISTENT}
           :class {
-          ws.state == 0 ? "workspace ws-persistent" :
-          ws.state == 1 ? "workspace" : "workspace ws-focused"}
-          { WS_ICONS[ws.index] ?: WS_UNKNOWN_ICON}))
+    ws.state == 0 ? "workspace ws-persistent" :
+    ws.state == 1 ? "workspace" : "workspace ws-focused"}
+    { WS_ICONS[ws.index] ?: WS_UNKNOWN_ICON}))
 
 (defwidget workspaces [ wsState ?orientation ]
   (eventbox :class "workspaces boxed-widget-group"
             :halign "start"
             :onscroll "hyprctl dispatch workspace $([ {} = up ] && echo -1 || echo +1)"
-            (box :orientation orientation
-              (for ws in wsState
-                   (workspace :ws ws)))))
+    (box :orientation orientation
+      (for ws in wsState
+        (workspace :ws ws)))))
 
 (defwidget widgetWorkspaces [?orientation]
   (workspaces 
@@ -179,14 +180,14 @@
           :onclick 'hyprctl dispatch focuswindow address:${task_data.address}'
           :onmiddleclick 'hyprctl dispatch closewindow address:${task_data.address}'
           :tooltip { task_data.title }
-          (image :class 'task-icon'
-                 :path { task_data.icon_path }
-                 :image-width 18)))
+    (image :class 'task-icon'
+           :path { task_data.icon_path }
+           :image-width 18)))
 
 (defwidget _taskbar [ tasks ]
   (box :class "taskbar"
-       (for app in tasks
-            (_taskbutton :task_data app))))
+    (for app in tasks
+      (_taskbutton :task_data app))))
 
 (defwidget widgetLeftBar [?orientation]
   (box :orientation orientation
@@ -194,10 +195,10 @@
        :halign {orientation == "v" ? "center" : "start"}
        :valign {orientation == "v" ? "start" : "center"}
        :spacing 1
-       ;(button :onclick ``
-       ;  " ")
-       (widgetWorkspaces :orientation orientation)
-       (_taskbar :tasks lTasks)))
+    ;(button :onclick ``
+    ;  " ")
+    (widgetWorkspaces :orientation orientation)
+    (_taskbar :tasks lTasks)))
 
 (defwidget system [?orientation]
   (box :class "system-overview boxed-widget-group"
@@ -205,16 +206,16 @@
        :space-evenly false
        :halign "end"
        :spacing 5
-       (_audio :volumeIn lVolumeIn
-               :volumeOut lVolumeOut
-               :orientation orientation)
-       (_network)
-       (_memUsage)
-       (_cpuUsage)
-	 (eventbox
-		  :class "battery-box"
-		  :onclick `scripts/togglewindow "${EWW_CMD}" quick_settings_win`
-		  "%")))
+    (_audio :volumeIn lVolumeIn
+            :volumeOut lVolumeOut
+            :orientation orientation)
+    (_network)
+    (_memUsage)
+    (_cpuUsage)
+    (eventbox
+      :class "battery-box"
+      :onclick `scripts/togglewindow "${EWW_CMD}" quick_settings_win`
+      "%")))
 
 
 (defwidget trays [?orientation]
@@ -223,7 +224,7 @@
        :halign {orientation == "v" ? "center" : "end"}
        :valign {orientation == "v" ? "end" : "center"}
        :spacing 1
-       (system :orientation orientation)))
+    (system :orientation orientation)))
 
 (defwidget bar [orientation]
   (centerbox :class "bar"
@@ -246,24 +247,23 @@
   :monitor 0
   :exclusive false
   :geometry (geometry
-				  :anchor "top center"
-              :width "100%"
-              :height "30px")
+  :anchor "top center"
+  :width "100%"
+  :height "30px")
   :stacking "fg"
   :exclusive true
   :windowtype "dock"
   (bar :orientation "h"))
 
-(defwindow bar_vert
-  :monitor 0
-  :exclusive false
-  :geometry (geometry
-				  :anchor "left center"
-              :width "40px"
-              :height "100%")
-  :stacking "fg"
-  :exclusive true
-  :windowtype "dock"
+(defwindow bar_vert :monitor 0
+                    :exclusive false
+                    :geometry (geometry
+                    :anchor "left center"
+                    :width "40px"
+                    :height "100%")
+                    :stacking "fg"
+                    :exclusive true
+                    :windowtype "dock"
   (bar :orientation "v"))
 
 
