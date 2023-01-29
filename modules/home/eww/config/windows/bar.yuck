@@ -49,7 +49,7 @@
 
 (defwidget _clock [datetime ?orientation]
   (eventbox :class "clock"
-            :onclick `scripts/togglewindow "${EWW_CMD}" calendar_win`
+            :onclick `scripts/togglewindow "${EWW_CMD}" calendar_win --anchor "center ${orientation == 'v' ? 'left' : 'top'}"`
             :tooltip `${DAY_OF_WEEK[datetime.dayOfWeek]}, ${datetime.day}/${datetime.month}`
     (box
       :space-evenly true
@@ -214,7 +214,7 @@
     (_cpuUsage)
     (eventbox
       :class "battery-box"
-      :onclick `scripts/togglewindow "${EWW_CMD}" quick_settings_win`
+      :onclick `scripts/togglewindow "${EWW_CMD}" quick_settings_win --anchor "${orientation == 'v' ? 'bottom left' : 'top right'}"`
       "%")))
 
 
