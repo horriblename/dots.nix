@@ -200,14 +200,14 @@
     (widgetWorkspaces :orientation orientation)
     (_taskbar :tasks lTasks)))
 
-(defwidget system [?orientation]
+(defwidget system [?orientation volumeIn volumeOut batteryLvl]
   (box :class "system-overview boxed-widget-group"
        :orientation orientation
        :space-evenly false
        :halign "end"
        :spacing 5
-    (_audio :volumeIn lVolumeIn
-            :volumeOut lVolumeOut
+    (_audio :volumeIn volumeIn
+            :volumeOut volumeOut
             :orientation orientation)
     (_network)
     (_memUsage)
@@ -218,21 +218,27 @@
       "%")))
 
 
-(defwidget trays [?orientation]
+(defwidget trays [?orientation volumeIn volumeOut batteryLvl]
   (box :orientation orientation
        :space-evenly false
        :halign {orientation == "v" ? "center" : "end"}
        :valign {orientation == "v" ? "end" : "center"}
        :spacing 1
-    (system :orientation orientation)))
+    (system :orientation orientation
+            :volumeIn volumeIn
+            :volumeOut volumeOut
+            :batteryLvl batteryLvl)))
 
-(defwidget bar [orientation]
+(defwidget bar [orientation volumeIn volumeOut batteryLvl]
   (centerbox :class "bar"
              :hexpand true
              :orientation orientation
     (widgetLeftBar :orientation orientation)
     (_clock :datetime pollDateTime :orientation orientation)
-    (trays :orientation orientation)))
+    (trays :orientation orientation
+           :volumeIn volumeIn
+           :volumeOut volumeOut
+           :batteryLvl batteryLvl)))
 
 ;; ---------------------
 ;; Window definitions
@@ -253,7 +259,10 @@
   :stacking "fg"
   :exclusive true
   :windowtype "dock"
-  (bar :orientation "h"))
+  (bar :orientation "h"
+       :volumeIn lVolumeIn
+       :volumeOut lVolumeOut
+       :batteryLvl pollBattery))
 
 (defwindow bar_vert :monitor 0
                     :exclusive false
@@ -264,6 +273,9 @@
                     :stacking "fg"
                     :exclusive true
                     :windowtype "dock"
-  (bar :orientation "v"))
+  (bar :orientation "v"
+       :volumeIn lVolumeIn
+       :volumeOut lVolumeOut
+       :batteryLvl pollBattery))
 
 
