@@ -102,15 +102,16 @@
   (eventbox :class "speaker-icon"
             :onclick  `pactl set-sink-mute @DEFAULT_SINK@ toggle`
             :onscroll `pactl set-sink-volume @DEFAULT_SINK@ $([ {} = up ] && echo + || echo -)4%`
-    { volumeOut < 0 ? SPEAKER_ICONS[0] : 
+    { volumeOut < 0 ? SPEAKER_ICONS[0] :
     volumeOut < 30 ? SPEAKER_ICONS[1] :
     volumeOut < 70 ? SPEAKER_ICONS[2] : SPEAKER_ICONS[3]}))
 
 (defwidget _volumeSliders [volumeIn volumeOut ?orientation]
   (box :class "vol-bar-box" 
        :orientation {orientation == "v" ? "h" : "v"}
-    (_volOutSlider :volumeOut volumeOut :flipped true :orientation orientation)
-    (_volInSlider :volumeIn volumeIn :orientation orientation)))
+    ; (_volOutSlider :volumeOut volumeOut :flipped true :orientation orientation)
+    ; (_volInSlider :volumeIn volumeIn :orientation orientation)
+    ))
 
 (defwidget _audio [volumeIn volumeOut ?orientation]
   (eventbox :class "sys-item audio-box"
@@ -120,8 +121,7 @@
     (box :orientation orientation
          :space-evenly false
       (_micIcon :volumeIn volumeIn)
-      (revealer :transition "slideleft"
-                :orientation orientation
+      (revealer :transition {orientation == "v" ? "slideup" : "slideleft"}
                 :reveal VolInScaleShow
                 :duration "550ms"
         (_volumeSliders :volumeIn volumeIn
