@@ -1,0 +1,20 @@
+#!/bin/sh
+
+EWW_CMD="${1:-eww}"
+shift
+EWW_ARGS="$@"
+
+cacheDir=/tmp/screenshot
+imgViewer='nsxiv -s f'
+mkdir -p "$cacheDir"
+CACHE="$cacheDir/screenshot.$(date +'%d%m%y_%k%M%N').png"
+
+function wayland_ss() {
+	dim=$(slurp)
+	echo "slurped: $dim" > "$cacheDir/slurp.log"
+	grim -g "$dim" "$CACHE" 2>"$cacheDir/grim.log" || exec notify-send 'Grim' "Screenshot failed, check $cacheDir/grim.log"
+	$EWW_CMD $EWW_ARGS update ScreenshotCache "$CACHE"
+	$EWW_CMD $EWW_ARGS open screenshot-action
+}
+
+[ -z WAYLAND_DISPLAY ] && flameshot gui || wayland_ss

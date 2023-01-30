@@ -1,0 +1,15 @@
+#!/bin/sh
+imgViewer='nsxiv -s f'
+CACHE="$1"
+
+case $2 in
+	Save) mv "$CACHE" "${HOME}/Pictures}";;
+	Pin) $imgViewer "$CACHE";;
+	Copy) wl-copy < "$CACHE";;
+	OCR)
+		mkdir -p "/tmp/screentext/"
+		textfile="/tmp/screentext/res"
+		tesseract - "$textfile" <"$CACHE" 2>/tmp/screentext/log
+		foot nvim "$textfile.txt"
+		;;
+esac

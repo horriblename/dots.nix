@@ -10,7 +10,14 @@
   home.packages = with pkgs; [
     brightnessctl
     pulseaudio
-	 jaq
+    jaq
+
+    # screenshot stuff
+    grim
+    slurp
+    fzf
+    nsxiv
+
 
     ## unlisted deps
     # networkmanager

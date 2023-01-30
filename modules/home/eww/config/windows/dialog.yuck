@@ -1,0 +1,31 @@
+(defvar DialogOptions "[]")
+(defvar DialogPrompt "hi")
+(defvar ScreenshotCache "")
+
+(defwidget dialog [?prompt options action window-name]
+  (box :class "dialog-box"
+       :orientation "v"
+    (label :class "dialog-prompt"
+           :text prompt)
+    (for option in options
+      (button :class "dialog-option"
+              :onclick "hyprctl dispatch exec '${EWW_CMD} close ${window-name}; ${action} {}'"
+        option))))
+
+(defwindow screenshot-action
+  :monitor 0
+  :focusable true
+  :geometry (geometry :anchor "center")
+  (dialog :prompt "Screenshot"
+          :options '["Copy","Pin","Save","OCR"]'
+          :action `scripts/screenshot-action ${ScreenshotCache}`
+          :window-name "screenshot-action"))
+
+(defwindow dialog
+  :monitor 0
+  :focusable true
+  :geometry (geometry :anchor "center")
+  (dialog :prompt DialogPrompt
+          :options DialogOptions
+          :action `notify-send dialog`
+          :window-name "dialog"))
