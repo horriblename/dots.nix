@@ -5,6 +5,7 @@
     CARGO_HOME = "$XDG_DATA_HOME/cargo";
     RUSTUP_HOME = "$XDG_DATA_HOME/rustup";
     GOPATH = "$XDG_DATA_HOME/go";
+    _ZL_DATA = "$XDG_DATA_HOME/zlua";
   };
   home.sessionPath = [
     "$HOME/.local/bin"
