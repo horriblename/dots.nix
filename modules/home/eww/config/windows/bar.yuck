@@ -259,7 +259,7 @@
                     :geometry (geometry
                     :anchor "left center"
                     :width "40px"
-                    :height "90%")
+                    :height "100%")
                     :stacking "fg"
                     :exclusive true
                     :windowtype "dock"
