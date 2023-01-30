@@ -5,8 +5,6 @@
 , ...
 }:
 with lib; let
-  # ugly but it works
-  hostname = replaceStrings [ "\n" ] [ "" ] (builtins.readFile /etc/hostname);
   mkService = lib.recursiveUpdate {
     Unit.PartOf = [ "graphical-session.target" ];
     Unit.After = [ "graphical-session.target" ];
@@ -42,11 +40,11 @@ in
 
   xdg.configFile."hypr/hyprland.conf".text = ''
     source = ${./options.conf}
+    source = ${./hardware.conf}
     source = ${./theme.conf}
     source = ${./winrules.conf}
     source = ${./keybinds.conf}
     source = ${./autostart.conf}
-    source = ${./. + "/host/${hostname}.conf"}
   '';
 
   systemd.user.services = {
