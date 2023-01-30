@@ -34,6 +34,7 @@
 
 (defwidget _quick_setting_btn [icon class onclick]
   (button :class "quick-setting-btn ${class}"
+          :timeout '5s'
           :onclick onclick
     icon))
 
