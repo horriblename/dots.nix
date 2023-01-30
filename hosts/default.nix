@@ -25,7 +25,7 @@ in
           #   nvidiaPatches = true;
           # };
           systemdIntegration = true;
-          extraConfig = builtins.readFile ./hyprland.conf;
+          # extraConfig = builtins.readFile ../modules/home/hyprland/hyprland.conf;
         };
       }
     ];
