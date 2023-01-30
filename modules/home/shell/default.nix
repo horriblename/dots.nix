@@ -2,15 +2,27 @@
 {
   home.sessionVariables = {
     EDITOR = "nvim";
+    CARGO_HOME = "$XDG_DATA_HOME/cargo";
+    RUSTUP_HOME = "$XDG_DATA_HOME/rustup";
+    GOPATH = "$XDG_DATA_HOME/go";
   };
   home.sessionPath = [
     "$HOME/.local/bin"
+    "$XDG_DATA_HOME/go/bin"
+    "$XDG_DATA_HOME/cargo/bin"
+    "$XDG_DATA_HOME/npm/bin"
   ];
   home.shellAliases = {
+    n = lib.getExe pkgs.neovim;
+    nn = lib.getExe pkgs.neovim + " ./";
+    ls = "ls -A";
+    q = "exit";
     lg = "lazygit";
     rebuild = "sudo nixos-rebuild switch --flake ~/dots.nix#";
+    hm = "home-manager";
+    path = ''sed -e 's/:/\n/g' <<< "$PATH"'';
+    o = "xdg-open";
   };
-  # users.users.py.shell = pkgs.zsh;
 
   programs = {
     git = {
@@ -62,11 +74,6 @@
         ignoreDups = true;
       };
 
-      shellAliases = {
-        n = lib.getExe pkgs.neovim;
-      };
-
-      # TODO
       initExtra = ''
         eval "$(z.lua --init zsh enhanced)"
 
@@ -86,6 +93,16 @@
         bindkey -M vicmd 'Y' vi-yank-eol
 
         bindkey '^[[127;5u' backward-delete-word
+
+        function pathadd() {
+           PATH="$1:$\{PATH:+:$PATH}"
+           sed -e 's/:/\n/g' <<< "$PATH"
+        }
+
+        function pathdel() {
+           PATH=$(echo "$PATH" | sed -e "s/$1://")
+           sed -e 's/:/\n/g' <<< "$PATH"
+        }
 
         # Edit line in vim buffer ctrl-v
         autoload edit-command-line; zle -N edit-command-line
