@@ -47,6 +47,8 @@ in
     source = ${./autostart.conf}
   '';
 
+  xdg.configFile."hypr/hyprlandd.conf".text = builtins.readFile ./hyprlandd.conf;
+
   systemd.user.services = {
     swaybg = mkService {
       Unit.Description = "Wallpaper chooser";
