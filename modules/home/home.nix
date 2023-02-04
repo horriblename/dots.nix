@@ -16,6 +16,7 @@
     ./lf
     ./swayidle
     ./lisgd # touchscreen gestures
+    ./fonts.nix
   ];
 
   programs.neovim.plugins = with pkgs.vimPlugins; [
