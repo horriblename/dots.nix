@@ -20,6 +20,7 @@
 
     # compilers
     gcc
+	 rustc
     cargo
     go
   ];
