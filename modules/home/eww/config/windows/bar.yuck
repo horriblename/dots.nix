@@ -49,7 +49,7 @@
 
 (defwidget _clock [datetime ?orientation]
   (eventbox :class "clock"
-            :onclick `scripts/togglewindow "${EWW_CMD}" calendar_win --anchor "center ${orientation == 'v' ? 'left' : 'top'}"`
+            :onclick `${EWW_CMD} calendar_win --toggle --anchor "center ${orientation == 'v' ? 'left' : 'top'}"`
             :tooltip `${DAY_OF_WEEK[datetime.dayOfWeek]}, ${datetime.day}/${datetime.month}`
     (box
       :space-evenly true
@@ -192,7 +192,7 @@
 
 (defwidget system [?orientation volumeIn volumeOut batteryLvl]
   (eventbox
-    :onclick `scripts/togglewindow "${EWW_CMD}" quick_settings_win --anchor "${orientation == 'v' ? 'bottom left' : 'top right'}"`
+    :onclick `${EWW_CMD} open quick_settings_win --toggle --anchor "${orientation == 'v' ? 'bottom left' : 'top right'}"`
     (box :class "system-overview boxed-widget-group"
          :orientation orientation
          :space-evenly false
