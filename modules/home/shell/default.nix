@@ -23,6 +23,7 @@
     hm = "home-manager";
     path = ''sed -e 's/:/\n/g' <<< "$PATH"'';
     o = "xdg-open";
+    std = "env PATH=/sbin:/bin"; # sometimes I need to use system native apps on arch
   };
 
   programs = {
@@ -88,6 +89,7 @@
            fi
         }
         bindkey -s "^o" "lfcd\n"
+        bindkey -s "^g" "lazygit\n"
 
         bindkey -M vicmd 'gh' vi-beginning-of-line
         bindkey -M vicmd 'gl' vi-end-of-line
