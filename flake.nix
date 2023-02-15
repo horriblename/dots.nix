@@ -16,7 +16,7 @@
     hyprland.url = "github:hyprwm/Hyprland";
   };
 
-  outputs = inputs:
+  outputs = { nixpkgs, nixos-hardware, home-manager, hyprland, ... } @ inputs:
     let
       # inputs = self.inputs;
       lib = nixpkgs.lib;
