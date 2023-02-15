@@ -28,7 +28,6 @@
 
       core = ./modules/core;
       wayland = ./modules/wayland;
-      # hmModule = home-manager.nixosModules.home-manager;
     in
     {
       # FIXME standardize home-manager configs (vv this and home-manager-config)
@@ -57,7 +56,6 @@
           nixos-hardware.nixosModules.microsoft-surface-pro-3
 
           core
-          # hmModule
           hyprland.nixosModules.default
           { programs.hyprland.enable = true; }
           wayland
@@ -68,7 +66,6 @@
         modules = [
           ./hosts/nixvm/configuration.nix
           ./hosts/nixvm/hardware-configuration.nix
-          # hmModule
           wayland
         ];
       };
