@@ -48,7 +48,7 @@
           }
         ];
       };
-      surface = lib.nixosSystem {
+      nixosConfigurations.surface = lib.nixosSystem {
         inherit system;
         modules = [
           ./hosts/surface/configuration.nix
@@ -61,7 +61,7 @@
           wayland
         ];
       };
-      nixvm = lib.nixosSystem {
+      nixosConfigurations.nixvm = lib.nixosSystem {
         inherit system;
         modules = [
           ./hosts/nixvm/configuration.nix
