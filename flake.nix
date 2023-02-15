@@ -20,7 +20,7 @@
     let
       # inputs = self.inputs;
       lib = nixpkgs.lib;
-      system = lib.currentSystem;
+      system = "x86_64-linux";
       pkgs = import nixpkgs {
         inherit system;
         # config.allowUnfree = true;
