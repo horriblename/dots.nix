@@ -35,7 +35,7 @@
       homeConfigurations.py = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
-          ./modules/home
+          ./modules/home/home.nix
           hyprland.homeManagerModules.default
           {
             wayland.windowManager.hyprland = {
