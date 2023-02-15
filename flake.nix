@@ -30,7 +30,6 @@
       wayland = ./modules/wayland;
     in
     {
-      # FIXME standardize home-manager configs (vv this and home-manager-config)
       homeConfigurations.py = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
@@ -42,7 +41,6 @@
               # package = inputs.hyprland.packages.${pkgs.system}.default.override {
               #   nvidiaPatches = true;
               # };
-              systemdIntegration = true;
               # extraConfig = builtins.readFile ../modules/home/hyprland/hyprland.conf;
             };
           }
