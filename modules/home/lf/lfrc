@@ -136,7 +136,7 @@ cmd follow_ln %{{
 }}
 
 cmd fzf_jump ${{
-   res=$(find . -maxdepth 3 | fzf --reverse --header='Jump to location')
+   res=$(fzf --reverse --header='Jump to location')
    if [ -f "$res" ]; then
       cmd="select"
    elif [ -d "$res" ]; then
