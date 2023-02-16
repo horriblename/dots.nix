@@ -38,7 +38,10 @@ $orange-dim: #d65d0e;
   font-weight: 600;
 }
 
-@import 'css/scale';
+@import 'css/elements/scale';
+
+@import 'css/bar';
+@import 'css/quick-settings';
 
 window {
   color: $fg;
@@ -47,139 +50,6 @@ window {
 }
 
 /* Styling */
-scale trough {
-  all: unset;
-  background-color: $gray-dim;
-  color: $orange;
-  border-radius: 2px;
-  min-height: 4px;
-  min-width: 80px;
-  margin: 0px 6px;
-}
-
-.bar {
-  background-color: $bg_h;
-  color: $fg4;
-  padding: 2px;
-}
-
-.boxed-widget-group {
-  background-color: $bg_s;
-  border-radius: 5px;
-  margin: 2px 2px;
-}
-
-/* Bar - left */
-.workspace {
-  color: $yellow;
-  padding: 2px 8px;
-  border-radius: 3px;
-}
-
-.workspace:hover {
-  color: $bg_h;
-  background-color: $fg3;
-}
-
-.ws-persistent {
-  color: $gray;
-}
-
-.ws-focused {
-  color: $yellow;
-  border-bottom: 2px solid $orange;
-}
-
-.taskbar {
-  background-color: $bg_h;
-  margin: 0 4px;
-}
-
-.task-btn {
-  padding: 0px 5px;
-  border-radius: 3px;
-}
-
-.task-btn:hover {
-  // padding: 0px 5px;
-  background-color: $bg3;
-}
-
-/* Bar - center */
-.clock {
-  color: $blue;
-  padding: 2px 0px;
-}
-
-.clock-hour,
-.clock-dayofweek,
-.clock-month {
-  font-weight: bold;
-}
-
-.clock-minute,
-.clock-day {
-  font-weight: lighter;
-}
-
-/* Bar - right */
-.system-overview {
-  padding: 0 0.5em;
-}
-
-.sys-item * {
-  font-family: FiraCode Nerd Font;
-}
-
-.sys-item {
-  padding: 2px 3px;
-}
-
-.audio-box {
-  // color: $red-dim;
-  padding: 0px 0px;
-}
-
-.mic-icon {
-  color: $red-dim;
-}
-
-.vol-in-bar trough highlight {
-  all: unset;
-  background-color: $red-dim;
-  border-radius: 2px;
-}
-
-.speaker-icon {
-  color: $red;
-}
-
-// .speaker-box > * {
-// 	padding: 0px 2px;
-// }
-
-.vol-out-bar trough highlight {
-  all: unset;
-  background-color: $orange;
-  border-radius: 2px;
-}
-
-.net-box {
-  color: $yellow;
-}
-
-.ram-box {
-  color: $green;
-}
-
-.icon-ram {
-  color: $bg_h;
-}
-
-.cpu-box {
-  color: $blue;
-}
-
 /* Calendar */
 .calendar {
   color: $fg1;
@@ -187,23 +57,3 @@ scale trough {
 }
 
 /* Quick Settings */
-.quick-settings {
-  padding: 5px;
-}
-
-.quick-setting-unit {
-  padding: 5px 5px;
-  margin: 8px 5px;
-  background-color: $bg_s;
-  border-radius: 18px;
-}
-
-/* Overview */
-.snap-box {
-  border: 4px solid $green;
-  border-radius: 10px;
-}
-
-.snap-box > image {
-  border-radius: 10px;
-}
