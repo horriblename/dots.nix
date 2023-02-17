@@ -31,15 +31,6 @@
         modules = [
           ./modules/home/home.nix
           hyprland.homeManagerModules.default
-          {
-            wayland.windowManager.hyprland = {
-              enable = true;
-              # package = inputs.hyprland.packages.${pkgs.system}.default.override {
-              #   nvidiaPatches = true;
-              # };
-              # extraConfig = builtins.readFile ../modules/home/hyprland/hyprland.conf;
-            };
-          }
         ];
       };
       nixosConfigurations.surface = lib.nixosSystem {

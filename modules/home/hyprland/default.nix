@@ -38,14 +38,20 @@ in
     swayidle
   ];
 
-  xdg.configFile."hypr/hyprland.conf".text = ''
-    source = ${./options.conf}
-    source = ${./hardware.conf}
-    source = ${./theme.conf}
-    source = ${./winrules.conf}
-    source = ${./keybinds.conf}
-    source = ${./autostart.conf}
-  '';
+  wayland.windowManager.hyprland = {
+    enable = true;
+    # package = inputs.hyprland.packages.${pkgs.system}.default.override {
+    #   nvidiaPatches = true;
+    # };
+    extraConfig = ''
+      source = ${./options.conf}
+      source = ${./hardware.conf}
+      source = ${./theme.conf}
+      source = ${./winrules.conf}
+      source = ${./keybinds.conf}
+      source = ${./autostart.conf}
+    '';
+  };
 
   xdg.configFile."hypr/hyprlandd.conf".text = builtins.readFile ./hyprlandd.conf;
 
