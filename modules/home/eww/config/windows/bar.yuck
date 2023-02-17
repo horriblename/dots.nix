@@ -205,7 +205,7 @@
       (_memUsage)
       (_cpuUsage)
       (label :class "battery-box"
-             :text batteryLvl))))
+             :text {batteryLvl == 100? '': batteryLvl}))))
 
 
 (defwidget trays [?orientation volumeIn volumeOut batteryLvl]

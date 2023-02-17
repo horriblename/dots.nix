@@ -24,7 +24,6 @@ in
     libnotify
     #wf-recorder
     brightnessctl
-    pamixer
     #python39Packages.requests
     slurp
     tesseract5
