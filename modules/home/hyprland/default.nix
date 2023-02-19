@@ -53,6 +53,7 @@ in
   };
 
   xdg.configFile."hypr/hyprlandd.conf".text = builtins.readFile ./hyprlandd.conf;
+  xdg.configFile."hypr/scripts".source = ./scripts;
 
   systemd.user.services = {
     swaybg = mkHyprlandService {

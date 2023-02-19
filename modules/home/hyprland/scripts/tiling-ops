@@ -1,0 +1,21 @@
+#!/bin/sh
+
+options='
+layout: Master
+layout: Dwindle
+toggle Smart Gaps
+toggle Preserve Split
+toggle dwindle:pseudotile
+Pseudo-tile Window
+'
+
+choice=$(echo "$options" | tofi -c ~/.config/tofi/gruvbox-menu.ini)
+
+case $choice in
+  "layout: Master") hyprctl keyword general:layout master;;
+  "layout: Dwindle") hyprctl keyword general:layout dwindle;;
+  "toggle Smart Gaps") ~/.config/hypr/scripts/toggleopt dwindle:no_gaps_when_only;;
+  "toggle Preserve Split") ~/.config/hypr/scripts/toggleopt dwindle:preserve_split;;
+  "toggle dwindle:pseudotile") ~/.config/hypr/scripts/toggleopt dwindle:pseudotile;;
+  "Pseudo-tile Window") hyprctl dispatch pseudo '';;
+esac
