@@ -2,10 +2,6 @@
 {
   home.sessionVariables = {
     EDITOR = "nvim";
-    CARGO_HOME = "$XDG_DATA_HOME/cargo";
-    RUSTUP_HOME = "$XDG_DATA_HOME/rustup";
-    GOPATH = "$XDG_DATA_HOME/go";
-    _ZL_DATA = "$XDG_DATA_HOME/zlua";
   };
   home.sessionPath = [
     "$HOME/.local/bin"
@@ -77,6 +73,14 @@
       };
 
       initExtra = ''
+        # NOTE $XDG_DATA_HOME is not guaranteed to be exported before the others
+        # if using the home.sessionVariables option, this is safer, but other
+        # shells can't use these
+        export CARGO_HOME="$XDG_DATA_HOME/cargo"
+        export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
+        export GOPATH="$XDG_DATA_HOME/go"
+        export _ZL_DATA="$XDG_DATA_HOME/zlua"
+
         eval "$(z.lua --init zsh enhanced)"
 
         lfcd (){
