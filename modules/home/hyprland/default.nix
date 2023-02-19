@@ -58,7 +58,7 @@ in
     swaybg = mkHyprlandService {
       Unit.Description = "Wallpaper chooser";
       Service = {
-        ExecStart = "${lib.getExe pkgs.swaybg} -i $HOME/Pictures/wallpapers/wallpaper.png";
+        ExecStart = "${lib.getExe pkgs.swaybg} -i %h/Pictures/wallpapers/wallpaper.png";
         Restart = "always";
       };
     };
