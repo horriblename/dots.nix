@@ -34,6 +34,7 @@ in
     #pngquant
     cliphist
     swaybg
+    swayidle
   ];
 
   xdg.configFile."hypr/hyprland.conf".text = ''

@@ -1,0 +1,31 @@
+.quick-settings {
+  padding: 5px;
+}
+
+.quick-setting-unit {
+  padding: 5px 5px;
+  margin: 8px 5px;
+  background-color: $bg_s;
+  border-radius: 18px;
+}
+
+.vol-in-bar {
+  min-width: 100px;
+  trough highlight {
+    background-color: $red-dim;
+  }
+}
+
+.vol-out-bar {
+  min-width: 100px;
+  trough highlight {
+    background-color: $orange;
+  }
+}
+
+.brightness-bar {
+  min-width: 200px;
+  trough highlight {
+    background-color: $yellow;
+  }
+}

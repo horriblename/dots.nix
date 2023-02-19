@@ -1,0 +1,106 @@
+.bar {
+  background-color: $bg_h;
+  color: $fg4;
+  padding: 2px;
+}
+
+.boxed-widget-group {
+  background-color: $bg_s;
+  border-radius: 5px;
+  margin: 2px 2px;
+}
+
+/* Bar - left */
+.workspace {
+  color: $yellow;
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+
+.workspace:hover {
+  color: $bg_h;
+  background-color: $fg3;
+}
+
+.ws-persistent {
+  color: $gray;
+}
+
+.ws-focused {
+  color: $yellow;
+  border-bottom: 2px solid $orange;
+}
+
+.taskbar {
+  background-color: $bg_h;
+  margin: 0 4px;
+}
+
+.task-btn {
+  padding: 0px 5px;
+  border-radius: 3px;
+}
+
+.task-btn:hover {
+  // padding: 0px 5px;
+  background-color: $bg3;
+}
+
+/* Bar - center */
+.clock {
+  color: $blue;
+  padding: 2px 0px;
+}
+
+.clock-hour,
+.clock-dayofweek,
+.clock-month {
+  font-weight: bold;
+}
+
+.clock-minute,
+.clock-day {
+  font-weight: lighter;
+}
+
+/* Bar - right */
+.system-overview {
+  padding: 0 0.5em;
+}
+
+.sys-item * {
+  font-family: FiraCode Nerd Font;
+}
+
+.sys-item {
+  padding: 2px 3px;
+}
+
+.audio-box {
+  // color: $red-dim;
+  padding: 0px 0px;
+}
+
+.mic-icon {
+  color: $red-dim;
+}
+
+.speaker-icon {
+  color: $red;
+}
+
+.net-box {
+  color: $yellow;
+}
+
+.ram-box {
+  color: $green;
+}
+
+.icon-ram {
+  color: $bg_h;
+}
+
+.cpu-box {
+  color: $blue;
+}
