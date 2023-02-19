@@ -5,10 +5,10 @@
 , ...
 }:
 with lib; let
-  mkService = lib.recursiveUpdate {
-    Unit.PartOf = [ "graphical-session.target" ];
-    Unit.After = [ "graphical-session.target" ];
-    Install.WantedBy = [ "graphical-session.target" ];
+  mkHyprlandService = lib.recursiveUpdate {
+    Unit.PartOf = [ "hyprland-session.target" ];
+    Unit.After = [ "hyprland-session.target" ];
+    Install.WantedBy = [ "hyprland-session.target" ];
   };
   ocr = pkgs.writeShellScriptBin "ocr" ''
     		#!/bin/bash
@@ -24,7 +24,6 @@ in
     libnotify
     #wf-recorder
     brightnessctl
-    #python39Packages.requests
     slurp
     tesseract5
     #swappy
@@ -56,14 +55,21 @@ in
   xdg.configFile."hypr/hyprlandd.conf".text = builtins.readFile ./hyprlandd.conf;
 
   systemd.user.services = {
-    swaybg = mkService {
+    swaybg = mkHyprlandService {
       Unit.Description = "Wallpaper chooser";
       Service = {
         ExecStart = "${lib.getExe pkgs.swaybg} -i $HOME/Pictures/wallpapers/wallpaper.png";
         Restart = "always";
       };
     };
-    cliphist = mkService {
+    swayidle = mkHyprlandService {
+      Unit.Description = "Idle handler";
+      Service = {
+        ExecStart = "${lib.getExe pkgs.swayidle}";
+        Restart = "always";
+      };
+    };
+    cliphist = mkHyprlandService {
       Unit.Description = "Clipboard history";
       Service = {
         ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste --watch ${lib.getExe pkgs.cliphist} store";
