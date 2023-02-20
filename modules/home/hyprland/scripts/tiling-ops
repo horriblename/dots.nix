@@ -7,6 +7,7 @@ toggle Smart Gaps
 toggle Preserve Split
 toggle dwindle:pseudotile
 Pseudo-tile Window
+Change Split Direction
 '
 
 choice=$(echo "$options" | tofi -c ~/.config/tofi/gruvbox-menu.ini)
@@ -17,5 +18,6 @@ case $choice in
   "toggle Smart Gaps") ~/.config/hypr/scripts/toggleopt dwindle:no_gaps_when_only;;
   "toggle Preserve Split") ~/.config/hypr/scripts/toggleopt dwindle:preserve_split;;
   "toggle dwindle:pseudotile") ~/.config/hypr/scripts/toggleopt dwindle:pseudotile;;
-  "Pseudo-tile Window") hyprctl dispatch pseudo '';;
+  "Pseudo-tile Window") hyprctl dispatch pseudo;;
+  "Change Split Direction") hyprctl dispatch togglesplit;;
 esac
