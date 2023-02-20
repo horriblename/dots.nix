@@ -29,6 +29,7 @@
       homeConfigurations.py = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
+          core
           ./modules/home/home.nix
           hyprland.homeManagerModules.default
         ];
@@ -41,6 +42,7 @@
           nixos-hardware.nixosModules.microsoft-surface-pro-3
 
           core
+          ./modules/nixos
           hyprland.nixosModules.default
           { programs.hyprland.enable = true; }
           wayland
@@ -51,6 +53,8 @@
         modules = [
           ./hosts/nixvm/configuration.nix
           ./hosts/nixvm/hardware-configuration.nix
+
+          ./modules/nixos
           wayland
         ];
       };
