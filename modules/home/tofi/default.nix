@@ -2,11 +2,11 @@
 {
   home.packages = with pkgs; [
     tofi
-    lato # font
+    lexend # font
   ];
 
   xdg.configFile."tofi/gruvbox-menu.ini".text = ''
-    font = ${pkgs.lato}/share/fonts/lato/Lato-Regular.ttf
+    font = ${pkgs.lexend}/share/fonts/lexend/Lexend-Regular.ttf
     font-size = 16
     corner-radius = 30
     outline-color = #FE8019

@@ -3,6 +3,7 @@
   fonts.fontconfig.enable = true;
   home.packages = with pkgs; [
     lato
+    lexend
     material-icons
     material-design-icons
     noto-fonts
