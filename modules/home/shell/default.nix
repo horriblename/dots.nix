@@ -81,6 +81,8 @@
         export GOPATH="$XDG_DATA_HOME/go"
         export _ZL_DATA="$XDG_DATA_HOME/zlua"
 
+        # Didn't work in home.sessionVariables; got overriden by flatpak??
+        export XDG_DATA_DIRS="${config.home.profileDirectory}/share''${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}"
         eval "$(z.lua --init zsh enhanced)"
 
         lfcd (){
@@ -102,12 +104,14 @@
         bindkey '^[[127;5u' backward-delete-word
 
         function pathadd() {
-           PATH="$1:$\{PATH:+:$PATH}"
-           sed -e 's/:/\n/g' <<< "$PATH"
+          case ":$PATH:" in
+            *:"$1":*) ;;
+            *) PATH="${PATH:+$PATH:}$1"
+          esac
         }
 
         function pathdel() {
-           PATH=$(echo "$PATH" | sed -e "s/$1://")
+           PATH=$(echo "$PATH" | sed -e "s#$1:?##")
            sed -e 's/:/\n/g' <<< "$PATH"
         }
 
