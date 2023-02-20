@@ -1,7 +1,12 @@
 { config, lib, pkgs, ... }:
 {
   home.sessionVariables = {
-    EDITOR = "nvim";
+    # XDG_DATA_DIRS = "${config.home.profileDirectory}/share\${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}";
+    EDITOR = "helix";
+    CARGO_HOME = "${config.xdg.dataHome}/cargo";
+    RUSTUP_HOME = "${config.xdg.dataHome}/rustup";
+    GOPATH = "${config.xdg.dataHome}/go";
+    _ZL_DATA = "${config.xdg.dataHome}/zlua";
   };
   home.sessionPath = [
     "$HOME/.local/bin"
@@ -73,14 +78,6 @@
       };
 
       initExtra = ''
-        # NOTE $XDG_DATA_HOME is not guaranteed to be exported before the others
-        # if using the home.sessionVariables option, this is safer, but other
-        # shells can't use these
-        export CARGO_HOME="$XDG_DATA_HOME/cargo"
-        export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
-        export GOPATH="$XDG_DATA_HOME/go"
-        export _ZL_DATA="$XDG_DATA_HOME/zlua"
-
         # Didn't work in home.sessionVariables; got overriden by flatpak??
         export XDG_DATA_DIRS="${config.home.profileDirectory}/share''${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}"
         eval "$(z.lua --init zsh enhanced)"
@@ -94,6 +91,7 @@
               [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && pushd "$dir"
            fi
         }
+        bindkey -v
         bindkey -s "^o" "lfcd\n"
         bindkey -s "^g" "lazygit\n"
 
