@@ -10,6 +10,7 @@
     ./packages.nix
     ./gtk
     ./eww
+    ./helix
     ./dunst
     ./foot
     ./tofi
