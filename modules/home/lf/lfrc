@@ -33,7 +33,7 @@ cmd open ${{
 
 cmd open_with ${{
 	ftype=$(xdg-mime query filetype "$f")
-	open_with=$(grep text/plain "${XDG_CONFIG_HOME:-$HOME/.config}/mimeapps.list" | head -n 1 | sed -e 's/^.*=//' -e 's/\.desktop;/\n/g' | fzf)
+	open_with=$(grep "$ftype" "${XDG_CONFIG_HOME:-$HOME/.config}/mimeapps.list" | head -n 1 | sed -e 's/^.*=//' -e 's/\.desktop;/\n/g' | fzf)
 
 	OLD_IFS=$IFS
 	IFS=:
