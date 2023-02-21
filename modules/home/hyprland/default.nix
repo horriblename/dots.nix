@@ -22,6 +22,7 @@ in
 {
   home.packages = with pkgs; [
     libnotify
+    catppuccin-cursors.mochaRosewater
     #wf-recorder
     brightnessctl
     slurp

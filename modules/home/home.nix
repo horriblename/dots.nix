@@ -8,6 +8,7 @@
     ./apps.nix
     ./hyprland
     ./packages.nix
+    ./gtk
     ./eww
     ./dunst
     ./foot
