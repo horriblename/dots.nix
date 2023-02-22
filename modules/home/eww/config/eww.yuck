@@ -5,37 +5,4 @@
 (include "windows/dock.yuck")
 (include "windows/dialog.yuck")
 
-;; (defwindow overview
-;;   :stacking "fg"
-;;   :focusable false 
-;;   :monitor 0
-;;   :geometry (geometry
-;;               :width "75%"
-;;               :height "50%"
-;;               :anchor "center")
-;;   (box :class "overview"
-;;        :spacing 5
-;;        :orientation "v"
-;;        :space-evenly: true
-;;        (box :class "overview-row"
-;;             :spacing 5
-;;             :orientation "h"
-;;             :space-evenly true
-;;             (for i in "[1, 2, 3]"
-;;                  (button :class "snap-box"
-;;                          :onclick  "hyprctl dispatch workspace ${i} && ${EWW_CMD} close overview"
-;;                          (image :path "${snapCache}/ws-${i}.png"
-;;                                 :image-width {1920 * 0.25}
-;;                                 :image-height {1080 / 4}))))
-;;        (box :class "overview-row"
-;;             :spacing 5
-;;             :orientation "h"
-;;             :space-evenly true
-;;             (for i in "[4, 5, 6]"
-;;                  (button :class "snap-box"
-;;                          :onclick  "hyprctl dispatch workspace ${i} && ${EWW_CMD} close overview"
-;;                          (image :path "${snapCache}/ws-${i}.png"
-;;                                 :image-width {1920 * 0.25}
-;;                                 :image-height {1080 / 4}))))))
-
 ;; vim: ft=yuck : syn=scheme
