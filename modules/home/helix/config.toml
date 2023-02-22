@@ -1,0 +1,33 @@
+theme = "gruvbox_mod"
+
+[editor]
+line-number = "relative"
+cursorline = true
+auto-completion = true
+auto-format = true
+auto-save = true
+rulers = [80, 100]
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+# select = "underline"
+
+[editor.indent-guides]
+render = true
+character = "▏"
+
+[keys.normal]
+C-s = ":w"
+space = { q = ":q" }
+# C-' = "save_selection"
+
+"A-h" = "jump_view_left"
+"A-j" = "jump_view_down"
+"A-k" = "jump_view_up"
+"A-l" = "jump_view_right"
+G = "goto_last_line"
+g = {  s = "goto_line_start", h = "goto_first_nonwhitespace" }
+
+[keys.insert]
+C-l = "move_char_right"

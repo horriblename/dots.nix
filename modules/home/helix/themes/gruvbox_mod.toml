@@ -1,0 +1,7 @@
+inherits = "gruvbox_dark_hard"
+
+"ui.cursor" = {fg = "black", bg="yellow"}
+"ui.cursor.primary" = {fg = "black", bg="magenta"}
+"ui.cursor.select" = {fg = "black", bg="green"}
+# "ui.cursor.select" = {bg="light-cyan"}
+"ui.selection" = {bg="gray"}
