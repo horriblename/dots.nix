@@ -14,6 +14,9 @@
       colors = {
         alpha = "0.6";
       };
+      cursor = {
+        color = "282828 ebdbb2"; 
+      };
       key-bindings = {
         search-start = "Control+Shift+f";
       };
