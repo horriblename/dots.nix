@@ -13,6 +13,7 @@
     # general user apps
     mpv
     helix
+    dex
     nextcloud-client
     xournalpp
   ];
