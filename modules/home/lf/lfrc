@@ -44,7 +44,6 @@ cmd open_with ${{
 		if [ -f "$desktop_entry" ]; then
 			echo INFO: reading from "$desktop_entry"
 			exe=$(awk '/^Exec=/{sub("^Exec=", ""); print}' "$desktop_entry")
-			[ -n "$exe" ] || exe=$(awk '/^TryExec=/{sub("^TryExec=", ""); print}' "$desktop_entry")
 			if [ -n "$exe" ]; then
 				# TODO shell escape $f
 				# TODO maybe use $fx for %F?

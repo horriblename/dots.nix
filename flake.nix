@@ -33,6 +33,7 @@
           ./modules/home/home.nix
           hyprland.homeManagerModules.default
         ];
+        extraSpecialArgs = { inherit inputs; };
       };
       nixosConfigurations.surface = lib.nixosSystem {
         inherit system;
