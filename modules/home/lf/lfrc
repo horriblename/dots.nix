@@ -15,9 +15,6 @@ set mouse on
 #set cleaner ~/.config/lf/cleaner
 # }}
 
-cmd on-cd $ printf '\033]0;%s\007' "${PWD##*/}/" 
-
-
 # Custom Functions {{
 cmd open ${{
 	# check for empty file
