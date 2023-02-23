@@ -8,6 +8,7 @@ toggle Preserve Split
 toggle dwindle:pseudotile
 Pseudo-tile Window
 Change Split Direction
+Fake Fullscreen
 '
 
 choice=$(echo "$options" | tofi -c ~/.config/tofi/gruvbox-menu.ini)
@@ -20,4 +21,5 @@ case $choice in
   "toggle dwindle:pseudotile") ~/.config/hypr/scripts/toggleopt dwindle:pseudotile;;
   "Pseudo-tile Window") hyprctl dispatch pseudo;;
   "Change Split Direction") hyprctl dispatch togglesplit;;
+  "Fake Fullscreen") hyprctl dispatch fakefullscreen;;
 esac
