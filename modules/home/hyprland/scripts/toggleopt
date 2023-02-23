@@ -1,5 +1,5 @@
 #!/bin/sh
-if hyprctl getoption "$1" | grep '^    int: 1'; then
+if hyprctl getoption "$1" | grep $'^\tint: 1'; then
 	hyprctl keyword "$1" 0
 else
 	hyprctl keyword "$1" 1
