@@ -3,6 +3,7 @@
   home.sessionVariables = {
     # XDG_DATA_DIRS = "${config.home.profileDirectory}/share\${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}";
     EDITOR = "hx";
+    PAGER = "less -FR";
     CARGO_HOME = "${config.xdg.dataHome}/cargo";
     RUSTUP_HOME = "${config.xdg.dataHome}/rustup";
     GOPATH = "${config.xdg.dataHome}/go";
@@ -94,6 +95,7 @@
         bindkey -v
         bindkey -s "^o" "lfcd\n"
         bindkey -s "^g" "lazygit\n"
+        bindkey -s "^z" "fg\n"
 
         bindkey -M vicmd 'gh' vi-beginning-of-line
         bindkey -M vicmd 'gl' vi-end-of-line
