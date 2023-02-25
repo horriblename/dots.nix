@@ -306,7 +306,6 @@ cmd restore_trash ${{
 
 # Bindings {{
 # Remove some defaults {{
-map m
 map o
 # map "'"
 map '"'
@@ -382,15 +381,10 @@ map x cut
 map y copy
 map <enter> open
 map a new
-map mf mkfile
-map mr sudomkfile
-map md mkdir
-map ms $mkscript
 map ch chmod
-map mls mkln -s
-map mlr mkln -sr
-map mlh mkln
-map mm mark-save
+map Ps mkln -s
+map Pr mkln -sr
+map Ph mkln
 map s0 shareViaNullPointer
 map r rename
 map H top
