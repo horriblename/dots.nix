@@ -4,7 +4,7 @@
     enable = true;
     defaultEditor = true;
     configure = {
-      customRC = builtins.readFile ../../pkgs/config.vim;
+      customRC = builtins.readFile ./config.vim;
     };
   };
 }
