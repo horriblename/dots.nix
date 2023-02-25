@@ -1,5 +1,11 @@
 #!/bin/sh
-window=$(hyprctl clients -j | jaq -r '.| map(select(.workspace.name == "special:minimize"))[0].address')
-workspace=$(hyprctl  monitors -j | jaq '.[0].activeWorkspace.id')
+set -e
+window=$(hyprctl clients -j | jaq -r '
+	.| map(select(.workspace.name == "special:minimize"))[-1]
+	.address')
+workspace=$(hyprctl monitors -j | jaq '
+	map(select(.focused == true))[0]
+	.activeWorkspace
+	.id')
 
 hyprctl dispatch movetoworkspace "$workspace,address:$window"
