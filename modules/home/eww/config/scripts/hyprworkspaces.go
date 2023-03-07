@@ -122,7 +122,9 @@ func (hs *hyprState) workspacesChanged(focus int) {
 	for _, ows := range occupiedWorkspaces {
 		if ows.Id > len(ws) {
 			ws = append(ws, make([]workspaceState, ows.Id-len(ws))...)
-		} else if ows.Id == -99 {
+		} else if ows.Id < 0 {
+			// special workspaces start from id -99, -98...
+			// these are ignored
 			continue
 		}
 
@@ -131,7 +133,9 @@ func (hs *hyprState) workspacesChanged(focus int) {
 
 	if focus < 0 {
 		focus = index(hs.workspaces, FOCUSED)
-		// TODO: handle no previous focus
+		if focus < 0 { // no previous focus found
+			return
+		}
 	}
 	// try harder to not break
 	if focus >= len(ws) {
@@ -337,6 +341,9 @@ func max(xs []int) int {
 	return m
 }
 
+// Returns the index of the first found wokrspace matching a given state.
+//
+// returns -1 if not found
 func index(slice []workspaceState, needle workspaceState) int {
 	for i, x := range slice {
 		if x == needle {
