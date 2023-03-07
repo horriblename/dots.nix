@@ -28,6 +28,7 @@ cmd open ${{
    esac
 }}
 
+# open_with f|fx
 cmd open_with ${{
 	ftype=$(xdg-mime query filetype "$f")
 	open_with=$(grep "$ftype" "${XDG_CONFIG_HOME:-$HOME/.config}/mimeapps.list" | head -n 1 | sed -e 's/^.*=//' -e 's/\.desktop;/\n/g' | fzf)
@@ -44,7 +45,7 @@ cmd open_with ${{
 			if [ -n "$exe" ]; then
 				# TODO shell escape $f
 				# TODO maybe use $fx for %F?
-				cmd=$(echo "$exe" | sed -e "s#%f#$f#g" -e "s#%F#$f#g" -e "s#%u#file://$f#g" -e "s#%U#file://$f#g" )
+				cmd=$(echo "$exe" | sed -e "s#%f#$fx#g" -e "s#%F#$fx#g" -e "s#%u#file://$fx#g" -e "s#%U#file://$fx#g" )
 				grep 'Terminal=true' "$desktop_entry" && exec $cmd
 				$cmd 2> /dev/null > /dev/null & disown
 				exit 0
@@ -373,6 +374,7 @@ map <m-2> dragon --all --and-exit
 map . set hidden!
 map <c-o> jump-prev
 map <c-i> jump-next
+map <tab> jump-next
 map J :toggle; down
 map K :toggle; up
 map DD delete
