@@ -6,6 +6,7 @@
 
   imports = [
     ./apps.nix
+    ./sway
     ./hyprland
     ./packages.nix
     ./gtk
