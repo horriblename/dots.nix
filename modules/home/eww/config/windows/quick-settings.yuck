@@ -114,7 +114,7 @@
     (_quick_settings_applet 
       :volumeIn lVolumeIn
       :volumeOut lVolumeOut
-      :batteryLvl pollBattery
+      :batteryLvl { EWW_BATTERY.total_avg }
       :brightness pollBrightness
       :netStat pollNetStat)))
 
