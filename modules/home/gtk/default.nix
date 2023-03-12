@@ -3,7 +3,17 @@
 , config
 , inputs
 , ...
-}: {
+}:
+let
+  # gruvterial = (pkgs.gruvterial-theme.overrideAttrs (oldAttrs: {
+  #   THEME_VARIANT = "dark";
+  #   # THEME_LAPTOP_MODE = "true";
+  # }));
+  amarena = pkgs.gruvterial-theme.override {
+    theme = "amarena";
+  };
+in
+{
   gtk = {
     enable = true;
     font = {
@@ -11,9 +21,9 @@
       size = 13;
     };
     # theme.package = pkgs.colloid-gtk-theme;
-	 # theme.name = "Colloid-Dark";
-	 theme.package = pkgs.gruvterial-theme;
-	 theme.name = "gruvterial";
+    # theme.name = "Colloid-Dark";
+    theme.package = amarena;
+    theme.name = "amarena";
     gtk3.extraConfig = {
       gtk-xft-antialias = 1;
       gtk-xft-hinting = 1;
