@@ -16,6 +16,7 @@
     "$XDG_DATA_HOME/npm/bin"
   ];
   home.shellAliases = {
+    c = "clear";
     n = lib.getExe pkgs.neovim;
     nn = lib.getExe pkgs.neovim + " ./";
     ls = "ls -A";
@@ -122,10 +123,10 @@
         autoload -U edit-command-line && zle -N edit-command-line && bindkey -M vicmd "^v" edit-command-line
 
         # Use vim keys in tab complete menu:
-        # bindkey -M menuselect '^h' vi-backward-char
-        # bindkey -M menuselect '^j' vi-down-line-or-history
-        # bindkey -M menuselect '^k' vi-up-line-or-history
-        # bindkey -M menuselect '^l' vi-forward-char
+        bindkey -M menuselect '^h' vi-backward-char
+        bindkey -M menuselect '^j' vi-down-line-or-history
+        bindkey -M menuselect '^k' vi-up-line-or-history
+        bindkey -M menuselect '^l' vi-forward-char
         # bindkey -M menuselect 'left' vi-backward-char
         # bindkey -M menuselect 'down' vi-down-line-or-history
         # bindkey -M menuselect 'up' vi-up-line-or-history
