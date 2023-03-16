@@ -12,7 +12,7 @@
     hyprland.url = "github:hyprwm/Hyprland";
   };
 
-  outputs = { nixpkgs, nixos-hardware, home-manager, hyprland, ... } @ inputs:
+  outputs = { self, nixpkgs, nixos-hardware, home-manager, hyprland, ... } @ inputs:
     let
       # inputs = self.inputs;
       lib = nixpkgs.lib;
@@ -33,7 +33,7 @@
           ./modules/home/home.nix
           hyprland.homeManagerModules.default
         ];
-        extraSpecialArgs = { inherit inputs; };
+        extraSpecialArgs = { inherit self inputs; };
       };
       nixosConfigurations.surface = lib.nixosSystem {
         inherit system;
@@ -58,6 +58,9 @@
           ./modules/nixos
           wayland
         ];
+      };
+      packages = {
+        wf-osk = pkgs.callPackage ./pkgs/wf-osk.nix { };
       };
     };
 }
