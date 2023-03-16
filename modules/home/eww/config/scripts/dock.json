@@ -1,27 +1,27 @@
 [
-	{
-		"name": "Firefox",
-		"icon": "/etc/profiles/per-user/py/share/icons/hicolor/48x48/apps/firefox.png",
-		"exec": "firefox"
-	},
+  {
+    "name": "Firefox",
+    "icon": "/usr/share/icons/hicolor/48x48/apps/firefox.png",
+    "exec": "firefox"
+  },
   {
     "name": "Web",
-    "icon": "/run/current-system/sw/share/icons/hicolor/scalable/apps/org.gnome.Epiphany.svg",
+    "icon": "/usr/share/icons/hicolor/scalable/apps/org.gnome.Epiphany.svg",
     "exec": "epiphany"
   },
   {
     "name": "Files",
-    "icon": "/etc/profiles/per-user/py/share/icons/hicolor/scalable/apps/index.svg",
+    "icon": "/usr/share/icons/hicolor/scalable/apps/index.svg",
     "exec": "index"
   },
   {
-	  "name": "Xournal++",
-	  "icon": "/etc/profiles/per-user/py/share/icons/hicolor/scalable/apps/com.github.xournalpp.xournalpp.svg",
-	  "exec": "xournalpp"
+    "name": "Xournal++",
+    "icon": "/home/py/.nix-profile/share/icons/hicolor/scalable/apps/com.github.xournalpp.xournalpp.svg",
+    "exec": "xournalpp"
   },
   {
-	  "name": "Foot Client",
-	  "icon": "/etc/profiles/per-user/py/share/icons/hicolor/48x48/apps/foot.png",
-	  "exec": "footclient"
+    "name": "Foot Client",
+    "icon": "/home/py/.nix-profile/share/icons/hicolor/48x48/apps/foot.png",
+    "exec": "footclient"
   }
 ]
