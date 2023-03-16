@@ -3,6 +3,7 @@
 ;; ---------------------
 ;; Constants
 (defvar BRIGHTNESS_ICON "󰃞 ")
+(defvar ShowPowerButton false)
 
 ;(defpoll pollBrightness :interval "5s"
 ;  :initial '100'
@@ -32,9 +33,10 @@
     icon
     (label :text text)))
 
-(defwidget _quick_setting_btn [icon class onclick]
-  (button :class "quick-setting-btn ${class}"
+(defwidget _quick_setting_btn [icon onclick ?class ?style]
+  (button :class "quick-setting-btn ${class ?: ''}"
           :timeout '5s'
+          :style {style ?: ""}
           :onclick onclick
     icon))
 
@@ -42,31 +44,52 @@
 (defwidget _quick_settings_applet [volumeIn volumeOut batteryLvl brightness netStat]
   (box :class "quick-settings"
        :orientation "v" 
+    (eventbox :onhoverlost "${EWW_CMD} update ShowPowerButton=false"
+      (box :orientation "h"
+           :class "qs-power-options"
+           :halign "end"
+           :hexpand true
+           :space-evenly false
+      (revealer :transition "slideleft"
+                :reveal ShowPowerButton
+        (box :orientation "h"
+             :hexpand true
+             :class "qs-extended-power-options"
+          (_quick_setting_btn
+            :icon " "
+            :class ""
+            :onclick "swaylock")
+          (_quick_setting_btn
+            :icon "󰤄 "
+            :class ""
+            :onclick "systemctl suspend-then-hibernate")
+          (_quick_setting_btn
+            :icon "󰍃 " 
+            :class ""
+            :onclick "hyprctl dispatch exit 1")
+          (_quick_setting_btn
+            :icon "󰜉 " 
+            :class ""
+            :onclick "systemctl restart")
+          ))
+      (_quick_setting_btn
+        :icon {ShowPowerButton? " ": "< "} 
+        :style "color: crimson;"
+        :class ""
+        :onclick {ShowPowerButton? "systemctl poweroff" : "${EWW_CMD} update ShowPowerButton=true"})))
     (box :orientation "h"
       (_quick_setting_btn
         :icon " "
         :class ""
-        :onclick "hyprctl dispatch exec '${EWW_CMD} close quick_settings_win; sleep 0.5; screenshot'")
+        :onclick "hyprctl dispatch exec '${EWW_CMD} close quick_settings_win; screenshot'")
       (_quick_setting_btn
-        :icon " "
+        :icon "Aa"
         :class ""
-        :onclick "swaylock")
+        :onclick "${EWW_CMD} close quick_settings_win; ocr&")
       (_quick_setting_btn
-        :icon "󰤄 "
+        :icon "󰌌"
         :class ""
-        :onclick "systemctl suspend-then-hibernate")
-      (_quick_setting_btn
-        :icon "󰍃 " 
-        :class ""
-        :onclick "hyprctl dispatch exit 1")
-      (_quick_setting_btn
-        :icon "󰜉 " 
-        :class ""
-        :onclick "systemctl restart")
-      (_quick_setting_btn
-        :icon " " 
-        :class ""
-        :onclick "systemctl poweroff"))
+        :onclick "wf-osk -a bottom &"))
     (box :orientation "h"
       (box :class "quick-setting-unit qs-volume-in"
            :space-evenly false
@@ -106,10 +129,7 @@
 
 (defwindow quick_settings_win
   :monitor 0
-  :geometry (geometry 
-  ; :x -5
-  ; :y 5
-  :anchor "top right")
+  :geometry (geometry :anchor "top right")
   (eventbox :onhoverlost `${EWW_CMD} close quick_settings_win`
     (_quick_settings_applet 
       :volumeIn lVolumeIn
