@@ -3,27 +3,20 @@
 , config
 , inputs
 , ...
-}:
-let
-  # gruvterial = (pkgs.gruvterial-theme.overrideAttrs (oldAttrs: {
-  #   THEME_VARIANT = "dark";
-  #   # THEME_LAPTOP_MODE = "true";
-  # }));
-  amarena = pkgs.gruvterial-theme.override {
-    theme = "amarena";
-  };
-in
-{
+}: {
   gtk = {
     enable = true;
     font = {
       name = "Lexend";
       size = 13;
     };
-    # theme.package = pkgs.colloid-gtk-theme;
-    # theme.name = "Colloid-Dark";
-    theme.package = amarena;
-    theme.name = "amarena";
+    theme = {
+      name = "Catppuccin-Mocha-Standard-Rosewater-Dark";
+      package = pkgs.catppuccin-gtk.override {
+        accents = [ "rosewater" ];
+        variant = "mocha";
+      };
+    };
     gtk3.extraConfig = {
       gtk-xft-antialias = 1;
       gtk-xft-hinting = 1;
@@ -39,16 +32,31 @@ in
     '';
   };
 
-  qt = {
-    enable = true;
-    platformTheme = "gtk";
+  home.pointerCursor = {
+    package = pkgs.catppuccin-cursors.mochaDark;
+    name = "Catppuccin-Mocha-Dark-Cursors";
+    size = 16;
+    gtk.enable = true;
+    x11.enable = true;
   };
 
-  # cursor theme
-  home.pointerCursor = {
-    package = pkgs.catppuccin-cursors.mochaRosewater;
-    name = "Catppuccin-Mocha-Rosewater";
-    size = 16;
+  # credits: bruhvko
+  # catppuccin theme for qt-apps
+  home.packages = with pkgs; [ libsForQt5.qtstyleplugin-kvantum ];
+
+  xdg.configFile."Kvantum/catppuccin/catppuccin.kvconfig".source = builtins.fetchurl {
+    url = "https://raw.githubusercontent.com/catppuccin/Kvantum/main/src/Catppuccin-Mocha-Rosewater/Catppuccin-Mocha-Rosewater.kvconfig";
+    sha256 = "sha256:0rzlg03wf57js1kaf1hhrl44nrawy48nx7d21bacyq0ai1r8mvwk";
   };
-  home.pointerCursor.gtk.enable = true;
+  xdg.configFile."Kvantum/catppuccin/catppuccin.svg".source = builtins.fetchurl {
+    url = "https://raw.githubusercontent.com/catppuccin/Kvantum/main/src/Catppuccin-Mocha-Rosewater/Catppuccin-Mocha-Rosewater.svg";
+    sha256 = "sha256:08ankdfcnic4374d3kiqllqyzryn07iahxp72wk9f5q5zxy76gdq";
+  };
+  xdg.configFile."Kvantum/kvantum.kvconfig".text = ''
+    [General]
+    theme=catppuccin
+
+    [Applications]
+    catppuccin=Dolphin, dolphin, Nextcloud, nextcloud, qt5ct, org.kde.dolphin, org.kde.kalendar, kalendar, Kalendar
+  '';
 }
