@@ -12,6 +12,7 @@ Lock Groups
 Unlock Groups
 Fake Fullscreen
 Show Minimized
+OCR
 '
 
 choice=$(echo "$options" | tofi -c ~/.config/tofi/gruvbox-menu.ini)
@@ -28,4 +29,5 @@ case $choice in
   "Unlock Groups") hyprctl dispatch lockgroups unlock;;
   "Fake Fullscreen") hyprctl dispatch fakefullscreen;;
   "Show Minimized") hyprctl dispatch togglespecialworkspace minimize;;
+  "OCR") ocr;;
 esac

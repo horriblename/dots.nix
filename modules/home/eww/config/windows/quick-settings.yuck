@@ -46,7 +46,7 @@
       (_quick_setting_btn
         :icon " "
         :class ""
-        :onclick "hyprctl dispatch exec '${EWW_CMD} close quick_settings_win; sleep 0.5; ${EWW_CONFIG_DIR}/scripts/screenshot ${EWW_CMD}'")
+        :onclick "hyprctl dispatch exec '${EWW_CMD} close quick_settings_win; sleep 0.5; screenshot'")
       (_quick_setting_btn
         :icon " "
         :class ""

@@ -294,7 +294,7 @@ bindsym $mod+o exec timer
 bindsym $mod+Print exec scrnshot full
 bindsym $mod+shift+Print exec scrnshot select
 bindsym $mod+control+Print exec scrnshot fulltime
-bindsym $mod+shift+s exec ~/.local/bin/screenshot
+bindsym $mod+shift+s exec screenshot
 
 # --- Terminal
 bindsym $mod+$alt+x exec $term
