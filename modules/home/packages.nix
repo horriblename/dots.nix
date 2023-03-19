@@ -19,9 +19,9 @@
     powertop
 
     # compilers
-    gcc
-	 rustc
-    cargo
-    go
+    # gcc
+    # rustc
+    # cargo
+    # go
   ];
 }
