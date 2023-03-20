@@ -9,6 +9,8 @@
     # - create the directory /nix/var/cache/ccache with the same owner and group as /nix/store
     # see https://nixos.wiki/wiki/CCache
     extra-sandbox-paths = "/nix/var/cache/ccache";
+
+    print-build-logs = true;
     substituters = [
       "https://cache.nixos.org"
       "https://nix-community.cachix.org"
