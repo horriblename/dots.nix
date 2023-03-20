@@ -24,17 +24,29 @@
 
       core = ./modules/core;
       wayland = ./modules/wayland;
+      machineNames = [
+        "archbox"
+        "surface"
+      ];
+      homeConfigs = builtins.listToAttrs
+        (map
+          (machineName: {
+            name = "py@${machineName}";
+            value = home-manager.lib.homeManagerConfiguration {
+              inherit pkgs;
+              modules = [
+                core
+                { machineName = machineName; }
+                ./modules/home/home.nix
+                hyprland.homeManagerModules.default
+              ];
+              extraSpecialArgs = { inherit self inputs; };
+            };
+          })
+          machineNames);
     in
     {
-      homeConfigurations.py = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [
-          core
-          ./modules/home/home.nix
-          hyprland.homeManagerModules.default
-        ];
-        extraSpecialArgs = { inherit self inputs; };
-      };
+      homeConfigurations = homeConfigs;
       nixosConfigurations.surface = lib.nixosSystem {
         inherit system;
         modules = [

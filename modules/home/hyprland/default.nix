@@ -10,6 +10,9 @@ with lib; let
     Unit.After = [ "hyprland-session.target" ];
     Install.WantedBy = [ "hyprland-session.target" ];
   };
+  hlDebugMonitor = ''
+    monitor=WL-1,${if config.machineName == "surface" then "1228x847" else "1878x1080"},auto,1
+  '';
   ocr = pkgs.writeShellScriptBin "ocr" ''
     #!/bin/bash
     set -e
@@ -65,7 +68,7 @@ in
     '';
   };
 
-  xdg.configFile."hypr/hyprlandd.conf".text = builtins.readFile ./hyprlandd.conf;
+  xdg.configFile."hypr/hyprlandd.conf".text = hlDebugMonitor + builtins.readFile ./hyprlandd.conf;
   xdg.configFile."hypr/scripts".source = ./scripts;
 
   systemd.user.services = {
