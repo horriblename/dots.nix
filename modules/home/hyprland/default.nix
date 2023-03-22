@@ -34,6 +34,9 @@ with lib; let
   '';
 in
 {
+  imports = [
+    ./ts-gestures.nix # TODO make optional
+  ];
   home.packages = with pkgs; [
     libnotify
     catppuccin-cursors.mochaRosewater
