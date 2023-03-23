@@ -22,12 +22,13 @@ let
 			-g '1,UD,L,*,R,brightnessctl s 2%-' \
 			-g '1,LR,L,*,R,brightnessctl s 2%-' \
 			-g '1,BL,DLUR,*,R,wf-osk -w ${osk-size.w} --height ${osk-size.h} -a bottom' \
-			-g '3,LR,*,*,R,hyprctl dispatch workspace e-1' \
-			-g '3,RL,*,*,R,hyprctl dispatch workspace e+1' \
 			-g '3,UD,*,*,R,hyprctl dispatch killactive 1' \
 			-g '4,LR,*,*,R,hyprctl dispatch movetoworkspace +1' \
 			-g '4,RL,*,*,R,hyprctl dispatch movetoworkspace -1' \
 			-g '1,UD,U,*,R,hyprctl dispatch togglespecialworkspace ""'
+
+			# -g '3,LR,*,*,R,hyprctl dispatch workspace e-1' \
+			# -g '3,RL,*,*,R,hyprctl dispatch workspace e+1' \
   '';
 in
 { 
