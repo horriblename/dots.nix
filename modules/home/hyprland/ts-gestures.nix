@@ -6,8 +6,8 @@
 }:
 let
 	osk-size = {
-		w = "700";
-		h = "340";
+		w = "500";
+		h = "250";
 	};
   ts-gestures = pkgs.writeShellScriptBin "ts-gestures" ''
 		#!/bin/sh

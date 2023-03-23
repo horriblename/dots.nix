@@ -214,7 +214,7 @@
        :halign {orientation == "v" ? "center" : "end"}
        :valign {orientation == "v" ? "end" : "center"}
        :spacing 1
-    (button :onclick "wf-osk -a bottom &"
+    (button :onclick "wf-osk -a bottom -w 500 --height 250 &"
       (label :text "󰌌"))
     (system :orientation {orientation ?: "h"}
             :volumeIn volumeIn
