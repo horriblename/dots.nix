@@ -74,5 +74,6 @@
       packages = {
         wf-osk = pkgs.callPackage ./pkgs/wf-osk.nix { };
       };
+      formatter.${system} = pkgs.alejandra;
     };
 }
