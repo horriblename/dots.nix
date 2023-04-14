@@ -8,7 +8,7 @@
 #  $5 = position y of preview pane
 
 image() {
-   chafa "$1" -f sixel -s "$(($2-2))x$3" | sed 's/#/\n#/g'
+  chafa "$1" -f sixel -s "$(($2-2))x$3"
 }
 
 batorcat() {
@@ -38,8 +38,8 @@ case "$(printf "%s\n" "$1" | awk '{print tolower($0)}')" in
 	*.iso) iso-info --no-header -l "$1" ;;
 	*.odt|*.ods|*.odp|*.sxw) odt2txt "$1" ;;
 	*.doc) catdoc "$1" ;;
-	*.docx) docx2txt "$1" - ;;
-   *.md) glow --width "$2" --style dark "$1" ;;
+	*.docx) catdocx "$1" - ;;
+	*.md) glow --width "$2" --style dark "$1" ;;
 #	*.xls|*.xlsx)
 #   	ssconvert --export-type=Gnumeric_stf:stf_csv "$1" "fd://1" | batorcat --language=csv
 #		;;
@@ -65,7 +65,7 @@ case "$(printf "%s\n" "$1" | awk '{print tolower($0)}')" in
 	*.bmp|*.jpg|*.jpeg|*.png|*.xpm|*.webp|*.gif|*.svg)
 		image "$1" "$2" "$3" "$4" "$5"
 		;;
-   *.sixel|*.six) echo -e "printing sixel\n" $(cat "$1");;
+   # *.sixel|*.six) echo -e "printing sixel\n" $(cat "$1");;
    *.sixel|*.six) cat "$1";;
    *) batorcat "$1" ;;
 esac

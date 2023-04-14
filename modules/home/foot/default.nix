@@ -1,9 +1,5 @@
 { config, pkgs, ... }:
 {
-  home.packages = with pkgs; [
-    libsixel
-  ];
-
   programs.foot = {
     enable = true;
     settings = {
