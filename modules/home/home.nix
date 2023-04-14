@@ -11,7 +11,7 @@
     ./packages.nix
     ./gtk
     ./eww
-    ./helix
+    # ./helix
     ./dunst
     ./foot
     ./tofi
