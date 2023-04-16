@@ -11,7 +11,7 @@ set incfilter true
 set icons true
 set ignorecase true
 set truncatechar "…"
-set mouse on
+set mouse
 set sixel
 #set cleaner ~/.config/lf/cleaner
 # }}
@@ -392,7 +392,7 @@ map U unselect
 map ex $$f
 map ?p grep_string "pdf"
 map ?? grep_string "txt"
-map du calcdirsize
+map du set info size; calcdirsize
 map cl copy_location
 map g! !"$f"
 map g$ $"$f"
