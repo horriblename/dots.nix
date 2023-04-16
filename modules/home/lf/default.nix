@@ -1,8 +1,11 @@
-{ nixpkgs, home-manager, pkgs, ... }:
-let
-  lf-version = "28";
-in
 {
+  nixpkgs,
+  home-manager,
+  pkgs,
+  ...
+}: let
+  lf-version = "28";
+in {
   home.packages = with pkgs; [
     xdg-utils
     # preview tools
@@ -23,13 +26,14 @@ in
     # gzip
     # xz
     (unp.override {
-        extraBackends = [ # file, unzip & gzip already included
-           binutils
-           bzip2
-           unrar-wrapper
-           gnutar
-           xz
-        ];
+      extraBackends = [
+        # file, unzip & gzip already included
+        binutils
+        bzip2
+        unrar-wrapper
+        gnutar
+        xz
+      ];
     })
 
     # others
@@ -37,7 +41,7 @@ in
   ];
   programs.lf = {
     enable = true;
-    package = (pkgs.lf.overrideAttrs (prevAttrs: {
+    package = pkgs.lf.overrideAttrs (prevAttrs: {
       version = lf-version;
       src = pkgs.fetchFromGitHub {
         owner = "horriblename";
@@ -45,7 +49,7 @@ in
         rev = "r${lf-version}";
         hash = "sha256-VEXWjpdUP5Kabimp9kKoLR7/FlE39MAroRBl9au2TI8=";
       };
-    }));
+    });
     extraConfig = builtins.readFile ./lfrc;
     previewer.source = ./preview;
   };

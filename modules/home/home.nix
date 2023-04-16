@@ -1,6 +1,10 @@
-{ self, config, pkgs, inputs, ... }:
-
 {
+  self,
+  config,
+  pkgs,
+  inputs,
+  ...
+}: {
   home.username = "py";
   home.homeDirectory = "/home/py";
 

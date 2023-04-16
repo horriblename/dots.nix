@@ -1,6 +1,7 @@
-{ config
-, pkgs
-, ...
+{
+  config,
+  pkgs,
+  ...
 }: {
   fonts = {
     fonts = with pkgs; [
@@ -12,7 +13,7 @@
       noto-fonts
       noto-fonts-cjk
       noto-fonts-emoji
-      (nerdfonts.override { fonts = [ "FiraCode" ]; })
+      (nerdfonts.override {fonts = ["FiraCode"];})
     ];
 
     enableDefaultFonts = false;
@@ -26,9 +27,9 @@
           "FiraCode Nerd Font"
           "Noto Color Emoji"
         ];
-        sansSerif = [ "Lato" "Noto Color Emoji" ];
-        serif = [ "Lato Serif" "Noto Color Emoji" ];
-        emoji = [ "Noto Color Emoji" ];
+        sansSerif = ["Lato" "Noto Color Emoji"];
+        serif = ["Lato Serif" "Noto Color Emoji"];
+        emoji = ["Noto Color Emoji"];
       };
     };
   };

@@ -1,6 +1,9 @@
 # TODO wrap package; build hyprworkspaces.go
-{ config, pkgs, ... }:
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.eww = {
     enable = true;
     package = pkgs.eww-wayland;
@@ -17,7 +20,6 @@
     slurp
     fzf
     nsxiv
-
 
     ## unlisted deps
     # networkmanager

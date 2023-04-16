@@ -1,7 +1,11 @@
-{ self, inputs, pkgs, config, ... }:
 {
+  self,
+  inputs,
+  pkgs,
+  config,
+  ...
+}: {
   home.packages = with pkgs; [
-
     # utilities
     foot
     brightnessctl

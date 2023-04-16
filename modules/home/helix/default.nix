@@ -1,5 +1,10 @@
-{ pkgs, lib, config, inputs, ... }:
 {
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+}: {
   programs.helix = {
     enable = true;
     settings = {
@@ -10,7 +15,7 @@
         auto-completion = true;
         auto-format = true;
         auto-save = true;
-        rulers = [ 80 100 ];
+        rulers = [80 100];
         cursor-shape = {
           insert = "bar";
           normal = "block";
@@ -45,12 +50,17 @@
           fg = "black";
           bg = "yellow";
         };
-        "ui.cursor.primary" = { fg = "black"; bg = "magenta"; };
-        "ui.cursor.select" = { fg = "black"; bg = "green"; };
+        "ui.cursor.primary" = {
+          fg = "black";
+          bg = "magenta";
+        };
+        "ui.cursor.select" = {
+          fg = "black";
+          bg = "green";
+        };
         # "ui.cursor.select" = {bg="light-cyan";};
-        "ui.selection" = { bg = "gray"; };
+        "ui.selection" = {bg = "gray";};
       };
     };
   };
 }
-

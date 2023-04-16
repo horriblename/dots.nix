@@ -1,8 +1,9 @@
-{ self
-, pkgs
-, config
-, inputs
-, ...
+{
+  self,
+  pkgs,
+  config,
+  inputs,
+  ...
 }: {
   gtk = {
     enable = true;
@@ -13,7 +14,7 @@
     theme = {
       name = "Catppuccin-Mocha-Standard-Rosewater-Dark";
       package = pkgs.catppuccin-gtk.override {
-        accents = [ "rosewater" ];
+        accents = ["rosewater"];
         variant = "mocha";
       };
     };
@@ -42,7 +43,7 @@
 
   # credits: bruhvko
   # catppuccin theme for qt-apps
-  home.packages = with pkgs; [ libsForQt5.qtstyleplugin-kvantum ];
+  home.packages = with pkgs; [libsForQt5.qtstyleplugin-kvantum];
   home.sessionVariables = {
     # this is "not recommended" but I'm too lazy to care anymore
     QT_STYLE_OVERRIDE = "kvantum";

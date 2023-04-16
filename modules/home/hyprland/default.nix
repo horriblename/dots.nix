@@ -1,17 +1,22 @@
-{ pkgs
-, lib
-, config
-, inputs
-, ...
+{
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
 }:
 with lib; let
   mkHyprlandService = lib.recursiveUpdate {
-    Unit.PartOf = [ "hyprland-session.target" ];
-    Unit.After = [ "hyprland-session.target" ];
-    Install.WantedBy = [ "hyprland-session.target" ];
+    Unit.PartOf = ["hyprland-session.target"];
+    Unit.After = ["hyprland-session.target"];
+    Install.WantedBy = ["hyprland-session.target"];
   };
   hlDebugMonitor = ''
-    monitor=WL-1,${if config.machineName == "surface" then "1228x847" else "1878x1080"},auto,1
+    monitor=WL-1,${
+      if config.machineName == "surface"
+      then "1228x847"
+      else "1878x1080"
+    },auto,1
   '';
   ocr = pkgs.writeShellScriptBin "ocr" ''
     #!/bin/bash
@@ -32,8 +37,7 @@ with lib; let
       | ${pkgs.swappy}/bin/swappy -f -
     hyprctl keyword animation "fadeOut,1,5,default"
   '';
-in
-{
+in {
   imports = [
     ./ts-gestures.nix # TODO make optional
   ];
@@ -98,4 +102,3 @@ in
     };
   };
 }
-

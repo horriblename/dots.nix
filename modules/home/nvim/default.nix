@@ -1,5 +1,10 @@
-{ pkgs, lib, config, inputs, ... }:
 {
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+}: {
   xdg.configFile."nvim".source = ./config;
   programs.neovim = {
     enable = true;
@@ -10,4 +15,3 @@
     ];
   };
 }
-

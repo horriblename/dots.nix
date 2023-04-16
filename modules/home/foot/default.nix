@@ -1,5 +1,8 @@
-{ config, pkgs, ... }:
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.foot = {
     enable = true;
     settings = {
@@ -10,7 +13,7 @@
         alpha = "0.6";
       };
       cursor = {
-        color = "282828 ebdbb2"; 
+        color = "282828 ebdbb2";
       };
       key-bindings = {
         search-start = "Control+Shift+f";

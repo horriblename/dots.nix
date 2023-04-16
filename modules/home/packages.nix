@@ -1,5 +1,9 @@
-{ inputs, pkgs, config, ... }:
 {
+  inputs,
+  pkgs,
+  config,
+  ...
+}: {
   home.packages = with pkgs; [
     # cli tools
     file # lf config dependency
@@ -11,8 +15,8 @@
     lazygit
     z-lua
     lua
-	 zip
-	 unzip
+    zip
+    unzip
 
     # utilities
     btop

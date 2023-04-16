@@ -1,14 +1,16 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, gtk-layer-shell
-, gtkmm3
-, meson
-, ninja
-, pkg-config
-, wayland
-, wayland-protocols
-}: stdenv.mkDerivation {
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  gtk-layer-shell,
+  gtkmm3,
+  meson,
+  ninja,
+  pkg-config,
+  wayland,
+  wayland-protocols,
+}:
+stdenv.mkDerivation {
   pname = "wf-osk";
   version = "git-01-09-2020";
 
@@ -30,7 +32,7 @@
     wayland
     wayland-protocols
   ];
-  outputs = [ "out" ];
+  outputs = ["out"];
   meta = with lib; {
     homepage = "https://github.com/WayfireWM/wf-touch";
     license = licenses.mit;
