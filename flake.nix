@@ -86,6 +86,7 @@
     };
     packages = {
       wf-osk = pkgs.callPackage ./pkgs/wf-osk.nix {};
+      kanagawa-gtk = pkgs.callPackage ./pkgs/kanagawa-gtk {};
     };
     formatter.${system} = pkgs.alejandra;
   };
