@@ -37,6 +37,7 @@ with lib; let
       | ${pkgs.swappy}/bin/swappy -f -
     hyprctl keyword animation "fadeOut,1,5,default"
   '';
+  hyprbars = inputs.hyprbars.packages.${pkgs.system}.default;
 in {
   imports = [
     ./ts-gestures.nix # TODO make optional
@@ -57,6 +58,7 @@ in {
     cliphist
     swaybg
     swayidle
+    hyprbars
   ];
 
   wayland.windowManager.hyprland = {
@@ -72,6 +74,8 @@ in {
       source = ${./winrules.conf}
       source = ${./keybinds.conf}
       source = ${./autostart.conf}
+
+      exec-once = hyprctl plugin load ${hyprbars}/lib/libhyprbars.so
     '';
   };
 

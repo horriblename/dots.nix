@@ -9,7 +9,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland.url = "github:horriblename/Hyprland/nix-pluginenv";
+    hyprbars.url = "github:horriblename/hyprbars-nix";
+    hyprbars.inputs.hyprland.follows = "hyprland";
+	 hyprbars.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
