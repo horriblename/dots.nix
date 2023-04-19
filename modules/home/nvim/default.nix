@@ -106,6 +106,7 @@
           };
           view = {
             width = 25;
+            adaptiveSize = false;
           };
         };
       };
