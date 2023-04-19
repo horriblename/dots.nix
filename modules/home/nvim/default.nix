@@ -146,7 +146,7 @@
       vim.projects = {
         project-nvim = {
           enable = true;
-          scopeChdir = "tab";
+          manualMode = false;
           detectionMethods = ["lsp" "pattern"]; # NOTE: lsp detection will get annoying with multiple langs in one project
           patterns = [
             ".git"
