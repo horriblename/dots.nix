@@ -1,8 +1,4 @@
-{
-  inputs,
-  pkgs,
-  ...
-}: {
+{inputs, ...}: {
   imports = [
     inputs.neovim-flake.homeManagerModules.default
   ];
@@ -11,7 +7,7 @@
     enable = true;
     settings = {
       vim = {
-        enableEditorconfig = true;
+        # enableEditorconfig = true;
         viAlias = true;
         vimAlias = true;
         # debugMode = {
