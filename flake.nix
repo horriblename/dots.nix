@@ -14,7 +14,7 @@
     hyprbars.inputs.hyprland.follows = "hyprland";
     hyprbars.inputs.nixpkgs.follows = "nixpkgs";
     neovim-flake = {
-      url = "github:horriblename/neovim-flake";
+      url = "github:NotAShelf/neovim-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
