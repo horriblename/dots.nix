@@ -37,7 +37,7 @@
         html.enable = true;
         clang.enable = true;
 
-        sql.enable = true;
+        sql.enable = false;
         rust = {
           enable = true;
           crates.enable = true;
