@@ -226,6 +226,12 @@
         "<leader>gdh" = ":DiffviewFileHistory %<CR>";
       };
 
+      vim.inoremap = {
+        "<C-y>" = "<cmd>lua require'cmp'.mapping.confirm({ select = true })()<CR>";
+        "<C-n>" = "<cmd>lua require'cmp'.mapping.select_next_item()()<CR>";
+        "<C-p>" = "<cmd>lua require'cmp'.mapping.select_prev_item()()<CR>";
+      };
+
       vim.tnoremap = {
         "<M-x>" = "<cmd>ToggleTerm<CR>";
       };
