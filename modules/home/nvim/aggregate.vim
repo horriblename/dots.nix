@@ -109,6 +109,20 @@ noremap <M-x> :call ToggleTerm()<cr>
 inoremap <M-x> <Esc>:call ToggleTerm()<cr>
 tnoremap <M-x> <Cmd>:call ToggleTerm()<cr>
 " }}}
+" Cmdline/HUD
+" {{{
+" Cursor movement
+noremap! <M-b> <S-Left>
+noremap! <M-f> <S-Right>
+
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+cnoremap <C-d> <Del>
+
+" regex shortcuts
+cnoremap <M-w> \<\><Left><Left>
+cnoremap <M-g> \(\)<Left><Left>
+" }}}
 " Window Management {{{
 nnoremap <leader>q :q<CR>
 nnoremap <leader>Q :q!

@@ -81,7 +81,10 @@
         name = "tokyonight";
         style = "night";
       };
-      vim.autopairs.enable = true;
+      vim.autopairs = {
+        enable = true;
+        nvim-compe.map_complete = false; # auto insert '(' after selecting function
+      };
 
       vim.autocomplete = {
         enable = true;
@@ -93,7 +96,10 @@
           enable = true;
           openTreeOnNewTab = false;
           indentMarkers = true;
-          actions.changeDir.global = false;
+          actions = {
+            changeDir.global = false;
+            openFile.windowPicker.enable = true;
+          };
           renderer = {
             rootFolderLabel = null;
 
@@ -193,7 +199,10 @@
       };
 
       vim.session = {
-        nvim-session-manager.enable = true;
+        nvim-session-manager = {
+          enable = true;
+          autoloadMode = "Disabled";
+        };
       };
 
       vim.gestures = {
@@ -216,10 +225,12 @@
       '';
 
       vim.nnoremap = {
-        "<M-x>" = ":ToggleTerm<CR>";
+        "<M-x>" = "<cmd>execute v:count . 'ToggleTerm'<CR>";
         "<M-n>" = ":BufferLineCycleNext<CR>";
         "<M-p>" = ":BufferLineCyclePrev<CR>";
         "<leader>e" = ":NvimTreeToggle<CR>";
+        # "<leader>gg" = "<cmd>lua require'toggleterm'.exec('lazygit')";
+        "<leader>gP" = ":Gitsigns preview_hunk_inline<CR>";
         "<leader>gdq" = ":DiffviewClose<CR>";
         "<leader>gdd" = ":DiffviewOpen ";
         "<leader>gdm" = ":DiffviewOpen<CR>";
