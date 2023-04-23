@@ -42,30 +42,38 @@
       surface = {system = "x86_64-linux";};
       droid = {system = "aarch64-linux";};
     };
-		genHomeConfig = {machineName, homeConfigurationMode}:
-      home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs nixpkgsConfigs.${machineName};
-        modules =
-          [
-            core
-            {inherit machineName homeConfigurationMode;}
-            ./modules/home/home.nix
-          ]
-          ++ lib.optional (homeConfigurationMode == "graphical") hyprland.homeManagerModules.default;
-        extraSpecialArgs = {inherit self inputs;};
-      };
+    genHomeConfig = {
+      machineName,
+      homeConfigurationMode, # can be "terminal" or "full"
+    }:
+      assert lib.assertOneOf "homeConfigurationMode" homeConfigurationMode ["terminal" "full"];
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs nixpkgsConfigs.${machineName};
+          modules =
+            [
+              core
+              {inherit machineName;}
+              ./modules/home/home.nix
+              ./modules/home/terminal
+            ]
+            ++ lib.optionals (homeConfigurationMode == "full") [
+              hyprland.homeManagerModules.default
+              ./modules/home/graphical
+            ];
+          extraSpecialArgs = {inherit self inputs;};
+        };
   in {
     homeConfigurations."py@archbox" = genHomeConfig {
       machineName = "archbox";
-      homeConfigurationMode = "graphical";
+      homeConfigurationMode = "full";
     };
     homeConfigurations."py@surface" = genHomeConfig {
-      machineName = "archbox";
-      homeConfigurationMode = "graphical";
+      machineName = "surface";
+      homeConfigurationMode = "full";
     };
     homeConfigurations.nix-on-droid = genHomeConfig {
       machineName = "droid";
-      homeConfigurationMode = "cli-tools";
+      homeConfigurationMode = "terminal";
     };
     nixosConfigurations.surface = lib.nixosSystem {
       inherit system;
