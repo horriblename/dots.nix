@@ -62,7 +62,7 @@
           (_quick_setting_btn
             :icon "󰤄 "
             :class ""
-            :onclick "systemctl suspend-then-hibernate")
+            :onclick "systemctl suspend")
           (_quick_setting_btn
             :icon "󰍃 " 
             :class ""
