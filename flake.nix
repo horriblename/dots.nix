@@ -37,32 +37,36 @@
 
     core = ./modules/core;
     wayland = ./modules/wayland;
-    machineNames = [
-      "archbox"
-      "surface"
-    ];
-    homeConfigs =
-      builtins.listToAttrs
-      (map
-        (machineName: {
-          name = "py@${machineName}";
-          value = home-manager.lib.homeManagerConfiguration {
-            inherit pkgs;
-            modules = [
-              core
-              ./modules/home/home.nix
-              {
-                machineName = machineName;
-                homeConfigurationMode = "graphical";
-              }
-              hyprland.homeManagerModules.default
-            ];
-            extraSpecialArgs = {inherit self inputs;};
-          };
-        })
-        machineNames);
+    nixpkgsConfigs = {
+      archbox = {system = "x86_64-linux";};
+      surface = {system = "x86_64-linux";};
+      droid = {system = "aarch64-linux";};
+    };
+		genHomeConfig = {machineName, homeConfigurationMode}:
+      home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs nixpkgsConfigs.${machineName};
+        modules =
+          [
+            core
+            {inherit machineName homeConfigurationMode;}
+            ./modules/home/home.nix
+          ]
+          ++ lib.optional (homeConfigurationMode == "graphical") hyprland.homeManagerModules.default;
+        extraSpecialArgs = {inherit self inputs;};
+      };
   in {
-    homeConfigurations = homeConfigs;
+    homeConfigurations."py@archbox" = genHomeConfig {
+      machineName = "archbox";
+      homeConfigurationMode = "graphical";
+    };
+    homeConfigurations."py@surface" = genHomeConfig {
+      machineName = "archbox";
+      homeConfigurationMode = "graphical";
+    };
+    homeConfigurations.nix-on-droid = genHomeConfig {
+      machineName = "droid";
+      homeConfigurationMode = "cli-tools";
+    };
     nixosConfigurations.surface = lib.nixosSystem {
       inherit system;
       modules = [
