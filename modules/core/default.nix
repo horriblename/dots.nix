@@ -1,12 +1,4 @@
-{
-  pkgs,
-  config,
-  ...
-}: {
-  imports = [
-    ./machine.nix
-  ];
-
+{pkgs, ...}: {
   nix.package = pkgs.nix;
   nix.extraOptions = "experimental-features = nix-command flakes";
 

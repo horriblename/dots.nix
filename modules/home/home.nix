@@ -9,6 +9,7 @@
   home.homeDirectory = "/home/py";
 
   imports = [
+    ./module.nix
     ./apps.nix
     ./sway
     ./hyprland

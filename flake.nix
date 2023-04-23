@@ -50,8 +50,11 @@
             inherit pkgs;
             modules = [
               core
-              {machineName = machineName;}
               ./modules/home/home.nix
+              {
+                machineName = machineName;
+                homeConfigurationMode = "graphical";
+              }
               hyprland.homeManagerModules.default
             ];
             extraSpecialArgs = {inherit self inputs;};
