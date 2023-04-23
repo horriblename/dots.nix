@@ -230,9 +230,10 @@
         local terminal = require 'toggleterm.terminal'
         _G.LazyGit = terminal.Terminal:new({
           cmd = "lazygit",
+					direction = "tab",
           hidden = true,
           on_open = function(term)
-            vim.keymap.set('t', '<M-x>', term:toggle, {silent = true, noremap = true, buffer = term.bufnr})
+            vim.keymap.set('t', '<M-x>', function() term:toggle() end, {silent = true, noremap = true, buffer = term.bufnr})
           end
         })
       '';
