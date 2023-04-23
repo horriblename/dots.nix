@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   imports = [
     inputs.neovim-flake.homeManagerModules.default
   ];
@@ -7,14 +11,9 @@
     enable = true;
     settings = {
       vim = {
-        # enableEditorconfig = true;
         viAlias = true;
         vimAlias = true;
-        # debugMode = {
-        #   enable = false;
-        #   level = 20;
-        #   logFile = "/tmp/nvim.log";
-        # };
+        preventJunkFiles = true;
       };
 
       vim.lsp = {
@@ -221,7 +220,21 @@
 
       # HACK
       vim.theme.extraConfig = ''
-        vim.cmd [[source ${./aggregate.vim}]]
+        vim.cmd [[
+          source ${./aggregate.vim}
+          set foldmethod=expr
+          set foldexpr=nvim_treesitter#foldexpr()
+          set foldlevelstart=99
+          set nowrap
+        ]]
+        local terminal = require 'toggleterm.terminal'
+        _G.LazyGit = terminal.Terminal:new({
+          cmd = "lazygit",
+          hidden = true,
+          on_open = function(term)
+            vim.keymap.set('t', '<M-x>', term:toggle, {silent = true, noremap = true, buffer = term.bufnr})
+          end
+        })
       '';
 
       vim.nnoremap = {
@@ -229,7 +242,7 @@
         "<M-n>" = ":BufferLineCycleNext<CR>";
         "<M-p>" = ":BufferLineCyclePrev<CR>";
         "<leader>e" = ":NvimTreeToggle<CR>";
-        # "<leader>gg" = "<cmd>lua require'toggleterm'.exec('lazygit')";
+        "<leader>gg" = "<cmd>lua _G.LazyGit:toggle()<CR>";
         "<leader>gP" = ":Gitsigns preview_hunk_inline<CR>";
         "<leader>gdq" = ":DiffviewClose<CR>";
         "<leader>gdd" = ":DiffviewOpen ";
