@@ -29,11 +29,11 @@
   } @ inputs: let
     # inputs = self.inputs;
     lib = nixpkgs.lib;
-    system = "x86_64-linux";
-    pkgs = import nixpkgs {
-      inherit system;
-      # config.allowUnfree = true;
-    };
+    defaultSystems = [
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
+    forEachSystem = lib.genAttrs defaultSystems;
 
     core = ./modules/core;
     wayland = ./modules/wayland;
@@ -76,7 +76,7 @@
       homeConfigurationMode = "terminal";
     };
     nixosConfigurations.surface = lib.nixosSystem {
-      inherit system;
+      system = "x86_64-linux";
       modules = [
         ./hosts/surface/configuration.nix
         ./hosts/surface/hardware-configuration.nix
@@ -90,7 +90,7 @@
       ];
     };
     nixosConfigurations.nixvm = lib.nixosSystem {
-      inherit system;
+      system = "x86_64-linux";
       modules = [
         ./hosts/nixvm/configuration.nix
         ./hosts/nixvm/hardware-configuration.nix
@@ -99,10 +99,12 @@
         wayland
       ];
     };
-    packages = {
+    packages = forEachSystem (system: let
+      pkgs = import nixpkgs {inherit system;};
+    in {
       wf-osk = pkgs.callPackage ./pkgs/wf-osk.nix {};
       kanagawa-gtk = pkgs.callPackage ./pkgs/kanagawa-gtk {};
-    };
-    formatter.${system} = pkgs.alejandra;
+    });
+    formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
   };
 }

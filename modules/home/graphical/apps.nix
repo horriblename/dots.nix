@@ -1,8 +1,6 @@
 {
   self,
-  inputs,
   pkgs,
-  config,
   ...
 }: {
   home.packages = with pkgs; [
@@ -11,7 +9,7 @@
     brightnessctl
     pulseaudio # TODO migrate to pipewire fully (with pw-cli)
     pavucontrol
-    self.packages.wf-osk
+    self.packages.${pkgs.system}.wf-osk
     libsForQt5.index
 
     # general user apps
