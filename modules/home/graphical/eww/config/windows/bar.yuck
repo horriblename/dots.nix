@@ -31,7 +31,7 @@
 
 (deflisten lWorkspaceState 
   :initial "[]"
-  `scripts/hyprworkspaces`)
+  `hyprworkspaces`)
 
 (deflisten lTasks
   :initial "[]"

@@ -104,6 +104,7 @@
     in {
       wf-osk = pkgs.callPackage ./pkgs/wf-osk.nix {};
       kanagawa-gtk = pkgs.callPackage ./pkgs/kanagawa-gtk {};
+      hyprworkspaces = pkgs.callPackage ./pkgs/hyprworkspaces/default.nix {};
     });
     formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
   };

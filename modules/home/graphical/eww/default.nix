@@ -1,6 +1,6 @@
 # TODO wrap package; build hyprworkspaces.go
 {
-  config,
+  self,
   pkgs,
   ...
 }: {
@@ -20,6 +20,7 @@
     slurp
     fzf
     nsxiv
+    self.packages.${pkgs.system}.hyprworkspaces
 
     ## unlisted deps
     # networkmanager
