@@ -1,4 +1,4 @@
 (defpoll pollBattery :interval "60s"
 	:initial "100"
-	`cat /sys/class/power_supply/BAT0/capacity`)
+	`cat /sys/class/power_supply/BAT0/capacity || echo 100`)
 
