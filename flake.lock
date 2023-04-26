@@ -928,11 +928,11 @@
         "zig": "zig"
       },
       "locked": {
-        "lastModified": 1682257774,
-        "narHash": "sha256-65yke1CQ6zEWGxvoL3Dov0j2qn2WOh7mL5aqiPfjvLE=",
+        "lastModified": 1682351958,
+        "narHash": "sha256-e/xpvynUcbgThi+5FnMv2HuX1HlXF0Ky2i+pvBNl8Ac=",
         "owner": "NotAShelf",
         "repo": "neovim-flake",
-        "rev": "796f6558d1e117d1fabc35f0d09174c4a0f3033b",
+        "rev": "9e224d710c2c33f35b56621cc33f75f3ef5d7466",
         "type": "github"
       },
       "original": {

@@ -34,7 +34,14 @@
 
         nix.enable = true;
         html.enable = true;
-        clang.enable = true;
+        clang = {
+          enable = true;
+          lsp = {
+            enable = true;
+            package = pkgs.clang-tools_15;
+            server = "clangd";
+          };
+        };
 
         sql.enable = false;
         rust = {
