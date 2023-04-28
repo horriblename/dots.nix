@@ -21,6 +21,7 @@
     # utilities
     btop
     powertop
+    nix-du
 
     # compilers
     # gcc
