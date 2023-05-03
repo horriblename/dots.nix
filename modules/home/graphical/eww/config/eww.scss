@@ -38,10 +38,10 @@ $orange-dim: #d65d0e;
   font-weight: 600;
 }
 
-@import 'css/elements/scale';
-
-@import 'css/bar';
-@import 'css/quick-settings';
+@import "css/elements/scale";
+@import "css/elements/calendar";
+@import "css/bar";
+@import "css/quick-settings";
 
 window {
   color: $fg;
