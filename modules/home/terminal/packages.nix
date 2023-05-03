@@ -1,9 +1,4 @@
-{
-  inputs,
-  pkgs,
-  config,
-  ...
-}: {
+{pkgs, ...}: {
   home.packages = with pkgs; [
     # cli tools
     file # lf config dependency
@@ -22,11 +17,7 @@
     btop
     powertop
     nix-du
-
-    # compilers
-    # gcc
-    # rustc
-    # cargo
-    # go
+    asciinema
+    graphviz
   ];
 }
