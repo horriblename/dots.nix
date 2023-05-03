@@ -231,7 +231,7 @@
           source ${./aggregate.vim}
           set foldmethod=expr
           set foldexpr=nvim_treesitter#foldexpr()
-          set foldlevelstart=99
+          set nofoldenable
           set nowrap
         ]]
         local terminal = require 'toggleterm.terminal'

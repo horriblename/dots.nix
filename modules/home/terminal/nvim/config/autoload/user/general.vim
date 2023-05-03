@@ -26,6 +26,7 @@ fu! user#general#resetup()
 	set linebreak
 	set spelllang=en,de
 	set foldlevel=99
+	set undofile
 
 	" Tab Settings
 	set noexpandtab
