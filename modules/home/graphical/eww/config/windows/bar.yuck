@@ -8,10 +8,11 @@
 (defvar WS_ICONS `["","","","","﨧", "", "", "","",""]`)
 (defvar WS_UNKNOWN_ICON "")
 (defvar WS_PERSISTENT 6)
-(defvar SPEAKER_ICONS `["婢", "奄", "奔", "墳"]`)
-(defvar MIC_ICONS `["",""]`)
-(defvar NET_ICONS `{"wifi": "", "ethernet": "", "unknown": "", "disconnected": ""}`)
-(defvar BATTERY_ICONS '[" ", " ", " ", " ", " "]')
+(defvar SPEAKER_ICONS `["", "", "", ""]`)
+(defvar MIC_ICONS `["",""]`)
+(defvar NET_ICONS `{"wifi": "", "ethernet": "", "unknown": "", "disconnected": ""}`)
+(defvar BATTERY_ICONS '["", "", "", "", ""]')
+(defvar KEYBOARD_ICON "")
 (defvar DAY_OF_WEEK `["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]`)
 (defvar SEPARATOR "|")
 
@@ -29,7 +30,7 @@
   :initial '{"type": "disconnected", "name": "checking..."}'
   `scripts/check-network`)
 
-(deflisten lWorkspaceState 
+(deflisten lWorkspaceState
   :initial "[]"
   `hyprworkspaces`)
 
@@ -66,7 +67,8 @@
 
 (defwidget _network []
   (box :class "sys-item net-box"
-    (label :text {NET_ICONS[pollNetStat.type]} 
+    (label :class "icon"
+           :text {NET_ICONS[pollNetStat.type]}
            :tooltip {pollNetStat.name})))
 
 (defwidget _volOutSlider [volumeOut ?flipped ?orientation]
@@ -99,15 +101,16 @@
     { volumeIn > 0 ? MIC_ICONS[1] : MIC_ICONS [0]}))
 
 (defwidget _speakerIcon [volumeOut]
-  (eventbox :class "speaker-icon"
+  (eventbox :class "speaker-icon icon"
             :onclick  `pactl set-sink-mute @DEFAULT_SINK@ toggle`
             :onscroll `pactl set-sink-volume @DEFAULT_SINK@ $([ {} = up ] && echo + || echo -)4%`
-    { volumeOut < 0 ? SPEAKER_ICONS[0] :
-    volumeOut < 30 ? SPEAKER_ICONS[1] :
-    volumeOut < 70 ? SPEAKER_ICONS[2] : SPEAKER_ICONS[3]}))
+    (label :class "icon"
+      { volumeOut < 0 ? SPEAKER_ICONS[0] :
+        volumeOut < 30 ? SPEAKER_ICONS[1] :
+        volumeOut < 70 ? SPEAKER_ICONS[2] : SPEAKER_ICONS[3]})))
 
 (defwidget _volumeSliders [volumeIn volumeOut ?orientation]
-  (box :class "vol-bar-box" 
+  (box :class "vol-bar-box"
        :orientation {orientation == "v" ? "h" : "v"}
     ; (_volOutSlider :volumeOut volumeOut :flipped true :orientation orientation)
     ; (_volInSlider :volumeIn volumeIn :orientation orientation)
@@ -115,7 +118,7 @@
 
 (defwidget _audio [volumeIn volumeOut ?orientation]
   (eventbox :class "sys-item audio-box"
-            :onhover `${EWW_CMD} update VolInScaleShow=true` 
+            :onhover `${EWW_CMD} update VolInScaleShow=true`
             :onhoverlost `${EWW_CMD} update VolInScaleShow=false`
             :onrightclick `pavucontrol`
     (box :orientation {orientation ?: "h"}
@@ -131,7 +134,7 @@
 
 
 (defwidget _memUsage []
-  (box :class "sys-item ram-box" :vexpand "false" :hexpand "false" 
+  (box :class "sys-item ram-box" :vexpand "false" :hexpand "false"
     (circular-progress :value {EWW_RAM.used_mem_perc}
                        :class "mem-meter"
                        :start-at 25
@@ -161,7 +164,7 @@
         (workspace :ws ws)))))
 
 (defwidget widgetWorkspaces [?orientation]
-  (workspaces 
+  (workspaces
     :wsState lWorkspaceState
     :orientation {orientation ?: "h"}))
 
@@ -215,14 +218,14 @@
        :valign {orientation == "v" ? "end" : "center"}
        :spacing 1
     (button :onclick "wf-osk -a bottom -w 500 --height 250 &"
-      (label :text "󰌌"))
+      (label :class "icon" :text KEYBOARD_ICON))
     (system :orientation {orientation ?: "h"}
             :volumeIn volumeIn
             :volumeOut volumeOut
             :batteryLvl batteryLvl)))
 
 (defwidget bar [orientation volumeIn volumeOut batteryLvl]
-  (centerbox :class "bar"
+  (centerbox :class "bar bar-${orientation ?: 'h'}"
              :hexpand true
              :orientation {orientation ?: "h"}
     (widgetLeftBar :orientation {orientation ?: "h"})

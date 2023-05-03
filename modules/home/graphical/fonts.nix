@@ -1,14 +1,9 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   fonts.fontconfig.enable = true;
   home.packages = with pkgs; [
     lato
     lexend
-    material-icons
-    material-design-icons
+    material-symbols
     noto-fonts
     noto-fonts-cjk
     noto-fonts-emoji

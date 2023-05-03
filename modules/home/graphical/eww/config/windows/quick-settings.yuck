@@ -2,7 +2,7 @@
 ;; Variable definitions
 ;; ---------------------
 ;; Constants
-(defvar BRIGHTNESS_ICON "󰃞 ")
+(defvar BRIGHTNESS_ICON "")
 (defvar ShowPowerButton false)
 
 ;(defpoll pollBrightness :interval "5s"
@@ -30,7 +30,7 @@
 (defwidget _quick_setting_info [icon class text]
   (box :class "quick-setting-unit ${class}"
        :space-evenly false
-    icon
+    (label :class "icon" :text icon)
     (label :text text)))
 
 (defwidget _quick_setting_btn [icon onclick ?class ?style]
@@ -38,7 +38,7 @@
           :timeout '5s'
           :style {style ?: ""}
           :onclick onclick
-    icon))
+    (label :class "icon" :text icon)))
 
 ;; TODO don't use _volInSlider & _volOutSlider
 (defwidget _quick_settings_applet [volumeIn volumeOut batteryLvl brightness netStat]
@@ -56,38 +56,38 @@
              :hexpand true
              :class "qs-extended-power-options"
           (_quick_setting_btn
-            :icon " "
+            :icon " "
             :class ""
             :onclick "swaylock")
           (_quick_setting_btn
-            :icon "󰤄 "
+            :icon " "
             :class ""
             :onclick "systemctl suspend")
           (_quick_setting_btn
-            :icon "󰍃 " 
+            :icon " " 
             :class ""
             :onclick "hyprctl dispatch exit 1")
           (_quick_setting_btn
-            :icon "󰜉 " 
+            :icon " " 
             :class ""
             :onclick "systemctl restart")
           ))
       (_quick_setting_btn
-        :icon {ShowPowerButton? " ": "< "} 
+        :icon {ShowPowerButton? " ": " "}
         :style "color: crimson;"
         :class ""
         :onclick {ShowPowerButton? "systemctl poweroff" : "${EWW_CMD} update ShowPowerButton=true"})))
     (box :orientation "h"
       (_quick_setting_btn
-        :icon " "
+        :icon " "
         :class ""
         :onclick "hyprctl dispatch exec '${EWW_CMD} close quick_settings_win; screenshot'")
       (_quick_setting_btn
-        :icon "Aa"
+        :icon ""
         :class ""
         :onclick "${EWW_CMD} close quick_settings_win; ocr&")
       (_quick_setting_btn
-        :icon "󰌌"
+        :icon KEYBOARD_ICON
         :class ""
         :onclick "wf-osk -a bottom &"))
     (box :orientation "h"
@@ -115,15 +115,15 @@
         :text "${batteryLvl}%"))
     (box :orientation "h"
       (_quick_setting_btn
-        :icon "" 
+        :icon "" 
         :class ""
         :onclick "scripts/rotate-screen clockwise ${EWW_CMD}")
       (_quick_setting_btn
-        :icon "" 
+        :icon "" 
         :class ""
         :onclick "scripts/rotate-screen vertical ${EWW_CMD}")
       (_quick_setting_btn
-        :icon "" 
+        :icon "" 
         :class ""
         :onclick "scripts/rotate-screen anti-clockwise ${EWW_CMD}"))))
 
