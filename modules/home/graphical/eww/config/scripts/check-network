@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ID="$(nmcli -f DEVICE con show --active | head -n 2 | tail -n 1)"
+INFO="$(nmcli -f TYPE,NAME con show --active | head -n 2 | tail -n 1)"
 
 json_wrap() {
 	echo "{\"type\": \"$1\", \"name\": \"$2\"}"
@@ -8,13 +8,15 @@ json_wrap() {
 
 net_stat () {
 	if (ping -c 1 archlinux.org || ping -c 1 google.com || ping -c 1 bitbucket.org || ping -c 1 github.com || ping -c 1 sourceforge.net) > /dev/null; then
-		case $ID in
-			e*)
-				json_wrap 'ethernet' "$ID";;
-			w*)
-				json_wrap 'wifi' "$ID";;
+		# FIXME leaves an extra leading space
+		NAME="$(echo "$INFO" | awk '{$1=""; print $0}')"
+		case ${INFO%% *} in
+			ethernet)
+				json_wrap 'ethernet' "$NAME";;
+			wifi)
+				json_wrap 'wifi' "$NAME";;
 			*)
-				json_wrap 'unknown' "$ID";;
+				json_wrap 'unknown' "$NAME";;
 		esac
 	else
 		json_wrap 'disconnected' 'Disconnected'
