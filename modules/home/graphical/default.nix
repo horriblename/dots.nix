@@ -1,7 +1,7 @@
 {...}: {
   imports = [
     ./apps.nix
-		./fonts.nix
+    ./fonts.nix
     ./dunst
     ./eww
     ./foot
