@@ -16,6 +16,8 @@
         preventJunkFiles = true;
       };
 
+      vim.snippets.vsnip.enable = true;
+
       vim.lsp = {
         formatOnSave = true;
         lspkind.enable = false;
