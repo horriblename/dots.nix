@@ -34,6 +34,7 @@
     path = ''sed -e 's/:/\n/g' <<< "$PATH"'';
     o = "xdg-open";
     std = "env PATH=/sbin:/bin"; # sometimes I need to use system native apps on arch
+    flake = "nix flake";
   };
 
   programs = {
