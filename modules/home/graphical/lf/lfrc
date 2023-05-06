@@ -392,7 +392,7 @@ map U unselect
 map ex $$f
 map ?p grep_string "pdf"
 map ?? grep_string "txt"
-map du set info size; calcdirsize
+map du :set info size; calcdirsize
 map cl copy_location
 map g! !"$f"
 map g$ $"$f"
