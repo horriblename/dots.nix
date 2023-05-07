@@ -27,6 +27,7 @@ fu! user#general#resetup()
 	set spelllang=en,de
 	set foldlevel=99
 	set undofile
+	set autowrite
 
 	" Tab Settings
 	set noexpandtab
