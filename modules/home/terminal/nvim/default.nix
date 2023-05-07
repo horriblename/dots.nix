@@ -141,7 +141,7 @@
       vim.git = {
         enable = true;
         gitsigns.enable = true;
-        gitsigns.codeActions = true;
+        gitsigns.codeActions = false;
       };
 
       vim.minimap = {
