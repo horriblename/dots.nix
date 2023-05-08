@@ -298,27 +298,26 @@
         })
       '';
 
-      vim.nnoremap = {
-        "<M-x>" = "<cmd>execute v:count . 'ToggleTerm'<CR>";
-        "<M-n>" = ":BufferLineCycleNext<CR>";
-        "<M-p>" = ":BufferLineCyclePrev<CR>";
-        "<leader>e" = ":NvimTreeToggle<CR>";
-        "<leader>gg" = "<cmd>lua _G.LazyGit:toggle()<CR>";
-        "<leader>gP" = ":Gitsigns preview_hunk_inline<CR>";
-        "<leader>gdq" = ":DiffviewClose<CR>";
-        "<leader>gdd" = ":DiffviewOpen ";
-        "<leader>gdm" = ":DiffviewOpen<CR>";
-        "<leader>gdh" = ":DiffviewFileHistory %<CR>";
+      vim.maps.normal = {
+        "<M-x>".action = "<cmd>execute v:count . 'ToggleTerm'<CR>";
+        "<M-n>".action = ":BufferLineCycleNext<CR>";
+        "<M-p>".action = ":BufferLineCyclePrev<CR>";
+        "<leader>e".action = ":NvimTreeToggle<CR>";
+        "<leader>gg".action = "<cmd>lua _G.LazyGit:toggle()<CR>";
+        "<leader>gdq".action = ":DiffviewClose<CR>";
+        "<leader>gdd".action = ":DiffviewOpen ";
+        "<leader>gdm".action = ":DiffviewOpen<CR>";
+        "<leader>gdh".action = ":DiffviewFileHistory %<CR>";
       };
 
-      vim.inoremap = {
-        "<C-y>" = "<cmd>lua require'cmp'.mapping.confirm({ select = true })()<CR>";
-        "<C-n>" = "<cmd>lua require'cmp'.mapping.select_next_item()()<CR>";
-        "<C-p>" = "<cmd>lua require'cmp'.mapping.select_prev_item()()<CR>";
+      vim.maps.insert = {
+        "<C-y>".action = "<cmd>lua require'cmp'.mapping.confirm({ select = true })()<CR>";
+        "<C-n>".action = "<cmd>lua require'cmp'.mapping.select_next_item()()<CR>";
+        "<C-p>".action = "<cmd>lua require'cmp'.mapping.select_prev_item()()<CR>";
       };
 
-      vim.tnoremap = {
-        "<M-x>" = "<cmd>ToggleTerm<CR>";
+      vim.maps.terminal = {
+        "<M-x>".action = "<cmd>ToggleTerm<CR>";
       };
     };
   };
