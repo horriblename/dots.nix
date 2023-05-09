@@ -16,6 +16,27 @@
         "type": "github"
       }
     },
+    "anyrun": {
+      "inputs": {
+        "naersk": "naersk",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1682582186,
+        "narHash": "sha256-DPBTzSvAqsvQiFeV9F5jX1B2Ba3vlh/HbKHe9kMc9gc=",
+        "owner": "Kirottu",
+        "repo": "anyrun",
+        "rev": "e11aa3550342cd099370f26308c89645a81b0737",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Kirottu",
+        "repo": "anyrun",
+        "type": "github"
+      }
+    },
     "bufdelete-nvim": {
       "flake": false,
       "locked": {
@@ -773,6 +794,27 @@
     "naersk": {
       "inputs": {
         "nixpkgs": [
+          "anyrun",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1679567394,
+        "narHash": "sha256-ZvLuzPeARDLiQUt6zSZFGOs+HZmE+3g4QURc8mkBsfM=",
+        "owner": "nmattia",
+        "repo": "naersk",
+        "rev": "88cd22380154a2c36799fe8098888f0f59861a15",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nmattia",
+        "repo": "naersk",
+        "type": "github"
+      }
+    },
+    "naersk_2": {
+      "inputs": {
+        "nixpkgs": [
           "neovim-flake",
           "rnix-lsp",
           "nixpkgs"
@@ -1457,7 +1499,7 @@
     },
     "rnix-lsp": {
       "inputs": {
-        "naersk": "naersk",
+        "naersk": "naersk_2",
         "nixpkgs": "nixpkgs_2",
         "utils": "utils"
       },
@@ -1477,6 +1519,7 @@
     },
     "root": {
       "inputs": {
+        "anyrun": "anyrun",
         "home-manager": "home-manager",
         "hyprland": "hyprland",
         "neovim-flake": "neovim-flake",

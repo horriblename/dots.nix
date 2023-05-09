@@ -2,6 +2,7 @@
   imports = [
     ./apps.nix
     ./fonts.nix
+    ./anyrun
     ./dunst
     ./eww
     ./foot

@@ -14,6 +14,10 @@
       url = "github:NotAShelf/neovim-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    anyrun = {
+      url = "github:Kirottu/anyrun";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -22,6 +26,7 @@
     nixos-hardware,
     home-manager,
     hyprland,
+    anyrun,
     ...
   } @ inputs: let
     # inputs = self.inputs;
@@ -45,7 +50,7 @@
     }:
       assert lib.assertOneOf "homeConfigurationMode" homeConfigurationMode ["terminal" "full"];
         home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs nixpkgsConfigs.${machineName};
+          pkgs = import nixpkgs ({overlays = [anyrun.overlay];} // nixpkgsConfigs.${machineName});
           modules =
             [
               core
