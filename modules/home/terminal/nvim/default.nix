@@ -34,8 +34,13 @@
         lspSignature.enable = true;
       };
 
+      vim.debugger.nvim-dap = {
+        ui.enable = true;
+      };
+
       vim.languages = {
         enableLSP = true;
+        enableDAP = true;
         enableFormat = true;
         enableTreesitter = true;
         enableExtraDiagnostics = true;
