@@ -5,6 +5,7 @@
 }: {
   imports = [
     inputs.neovim-flake.homeManagerModules.default
+    ./plugins
   ];
 
   programs.neovim-flake = {
@@ -271,4 +272,22 @@
       };
     };
   };
+
+  vim.extraPlugins = with pkgs.vimPlugins; [
+    {
+      package = aerial-nvim;
+      setup = ''
+        require('aerial').setup({
+          on_attach = function(bufnr)
+            vim.keymap.set('n', '{', '<cmd>AerialPrev<CR>', {buffer = bufnr})
+            vim.keymap.set('n', '}', '<cmd>AerialNext<CR>', {buffer = bufnr})
+          end
+        })
+      '';
+    }
+    {
+      package = friendly-snippets;
+      setup = "";
+    }
+  ];
 }
