@@ -105,7 +105,7 @@
       pkgs = import nixpkgs {inherit system;};
     in {
       wf-osk = pkgs.callPackage ./pkgs/wf-osk.nix {};
-      kanagawa-gtk = pkgs.callPackage ./pkgs/kanagawa-gtk {};
+      kanagawa-gtk = pkgs.callPackage ./pkgs/kanagawa-gtk.nix {};
       hyprworkspaces = pkgs.callPackage ./pkgs/hyprworkspaces/default.nix {};
     });
     formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
