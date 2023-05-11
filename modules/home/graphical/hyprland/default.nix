@@ -37,6 +37,15 @@ with lib; let
       | ${pkgs.swappy}/bin/swappy -f -
     hyprctl keyword animation "fadeOut,1,5,default"
   '';
+
+  mkPluginSo = plugin: soName: "${plugin}/lib/${soName}";
+  loadHyprlandPlugins = pluginsSo:
+    builtins.concatStringsSep "\n"
+    (map (so: "exec-once = hyprctl plugin load ${so}") pluginsSo);
+
+  hlPluginsSo = [
+    (mkPluginSo inputs.hyprland-touch-gestures.packages.${pkgs.system}.default "libtouch-gestures.so")
+  ];
 in {
   imports = [
     ./ts-gestures.nix # TODO make optional
@@ -72,6 +81,8 @@ in {
       source = ${./winrules.conf}
       source = ${./keybinds.conf}
       source = ${./autostart.conf}
+      source = ${./touch-gestures.conf}
+      ${loadHyprlandPlugins hlPluginsSo}
     '';
   };
 
