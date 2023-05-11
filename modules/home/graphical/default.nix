@@ -8,7 +8,6 @@
     ./foot
     ./gtk
     ./hyprland
-    ./lf
     ./lisgd
     ./sway
     ./swayidle

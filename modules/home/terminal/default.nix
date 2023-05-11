@@ -3,5 +3,6 @@
     ./packages.nix
     ./nvim
     ./shell
+    ./lf
   ];
 }
