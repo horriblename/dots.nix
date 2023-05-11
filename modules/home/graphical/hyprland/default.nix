@@ -43,7 +43,7 @@ with lib; let
     builtins.concatStringsSep "\n"
     (map (so: "exec-once = hyprctl plugin load ${so}") pluginsSo);
 
-  hlPluginsSo = [
+  hlPluginsSo = lib.optionals config.enableTouchScreen [
     (mkPluginSo inputs.hyprland-touch-gestures.packages.${pkgs.system}.default "libtouch-gestures.so")
   ];
 in {
@@ -81,7 +81,9 @@ in {
       source = ${./winrules.conf}
       source = ${./keybinds.conf}
       source = ${./autostart.conf}
-      source = ${./touch-gestures.conf}
+      ${lib.optionalString config.enableTouchScreen ''
+        source = ${./touch-gestures.conf}
+      ''}
       ${loadHyprlandPlugins hlPluginsSo}
     '';
   };

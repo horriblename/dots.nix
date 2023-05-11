@@ -1,4 +1,8 @@
-{lib, ...}:
+{
+  lib,
+  config,
+  ...
+}:
 with lib; {
   options.machineName = mkOption {
     type = types.enum [
@@ -8,4 +12,8 @@ with lib; {
     ];
     default = "archbox";
   };
+
+  options.enableTouchScreen = mkEnableOption "Enable touch screen features";
+
+  config.enableTouchScreen = config.machineName == "surface";
 }
