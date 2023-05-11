@@ -12,11 +12,8 @@
       size = 13;
     };
     theme = {
-      name = "Catppuccin-Mocha-Standard-Rosewater-Dark";
-      package = pkgs.catppuccin-gtk.override {
-        accents = ["rosewater"];
-        variant = "mocha";
-      };
+      name = "Kanagawa-BL";
+      package = self.packages.${pkgs.system}.kanagawa-gtk;
     };
     gtk3.extraConfig = {
       gtk-xft-antialias = 1;
