@@ -41,7 +41,7 @@ with lib; let
   mkPluginSo = plugin: soName: "${plugin}/lib/${soName}";
   loadHyprlandPlugins = pluginsSo:
     builtins.concatStringsSep "\n"
-    (map (so: "exec-once = hyprctl plugin load ${so}") pluginsSo);
+    (map (so: "plugin = ${so}") pluginsSo);
 
   hlPluginsSo = lib.optionals config.enableTouchScreen [
     (mkPluginSo inputs.hyprland-touch-gestures.packages.${pkgs.system}.default "libtouch-gestures.so")
