@@ -612,6 +612,26 @@
         "type": "github"
       }
     },
+    "hyprland-border-actions": {
+      "inputs": {
+        "hyprland": [
+          "hyprland"
+        ]
+      },
+      "locked": {
+        "lastModified": 1683899367,
+        "narHash": "sha256-CihmPiKSHK8Qsa2SNelGwCnr+Bj4sVKOHMdbX++qL7U=",
+        "owner": "horriblename",
+        "repo": "hyprland-border-actions",
+        "rev": "edcb8181c8a84f2a90cde7ca0b224d891a29674f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "horriblename",
+        "repo": "hyprland-border-actions",
+        "type": "github"
+      }
+    },
     "hyprland-protocols": {
       "inputs": {
         "nixpkgs": [
@@ -1565,6 +1585,7 @@
         "anyrun": "anyrun",
         "home-manager": "home-manager",
         "hyprland": "hyprland",
+        "hyprland-border-actions": "hyprland-border-actions",
         "hyprland-touch-gestures": "hyprland-touch-gestures",
         "neovim-flake": "neovim-flake",
         "nixos-hardware": "nixos-hardware",

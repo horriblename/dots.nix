@@ -15,6 +15,10 @@
       inputs.hyprland.follows = "hyprland";
       inputs.nixpkgs.follows = "hyprland/nixpkgs";
     };
+    hyprland-border-actions = {
+      url = "github:horriblename/hyprland-border-actions";
+      inputs.hyprland.follows = "hyprland";
+    };
     neovim-flake = {
       url = "github:NotAShelf/neovim-flake";
       inputs.nixpkgs.follows = "nixpkgs";

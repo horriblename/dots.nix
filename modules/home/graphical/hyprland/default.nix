@@ -43,9 +43,13 @@ with lib; let
     builtins.concatStringsSep "\n"
     (map (so: "plugin = ${so}") pluginsSo);
 
-  hlPluginsSo = lib.optionals config.enableTouchScreen [
-    (mkPluginSo inputs.hyprland-touch-gestures.packages.${pkgs.system}.default "libtouch-gestures.so")
-  ];
+  hlPluginsSo =
+    [
+      (mkPluginSo inputs.hyprland-border-actions.packages.${pkgs.system}.default "libborder-actions.so")
+    ]
+    ++ lib.optionals config.enableTouchScreen [
+      (mkPluginSo inputs.hyprland-touch-gestures.packages.${pkgs.system}.default "libtouch-gestures.so")
+    ];
 in {
   imports = [
     ./ts-gestures.nix # TODO make optional
