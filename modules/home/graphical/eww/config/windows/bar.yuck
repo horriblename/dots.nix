@@ -8,11 +8,10 @@
 (defvar WS_ICONS `["","","","","﨧", "", "", "","",""]`)
 (defvar WS_UNKNOWN_ICON "")
 (defvar WS_PERSISTENT 6)
-(defvar SPEAKER_ICONS `["", "", "", ""]`)
-(defvar MIC_ICONS `["",""]`)
-(defvar NET_ICONS `{"wifi": "", "ethernet": "", "unknown": "", "disconnected": ""}`)
-(defvar BATTERY_ICONS '["", "", "", "", ""]')
-(defvar KEYBOARD_ICON "")
+(defvar SPEAKER_ICONS `["Volume_Off", "Volume_Mute", "Volume_Down", "Volume_Up"]`)
+(defvar MIC_ICONS `["Mic_Off","Mic"]`)
+(defvar NET_ICONS `{"wifi": "Wifi", "ethernet": "Lan", "unknown": "Language", "disconnected": "Wifi_Off"}`)
+(defvar BATTERY_ICONS '["Battery_0_Bar", "Battery_2_Bar", "Battery_4_Bar", "Battery_6_Bar", Battery_Full"]')
 (defvar DAY_OF_WEEK `["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]`)
 (defvar SEPARATOR "|")
 
@@ -98,16 +97,17 @@
             :onclick  `pactl set-source-mute @DEFAULT_SOURCE@ toggle`
             :visible { volumeIn > 0 || VolInScaleShow }
             :onscroll `pactl set-source-volume @DEFAULT_SOURCE@ $([ {} = up ] && echo + || echo -)4%`
-    { volumeIn > 0 ? MIC_ICONS[1] : MIC_ICONS [0]}))
+    (label :class "icon"
+           :text { volumeIn > 0 ? MIC_ICONS[1] : MIC_ICONS [0]})))
 
 (defwidget _speakerIcon [volumeOut]
-  (eventbox :class "speaker-icon icon"
+  (eventbox :class "speaker-icon"
             :onclick  `pactl set-sink-mute @DEFAULT_SINK@ toggle`
             :onscroll `pactl set-sink-volume @DEFAULT_SINK@ $([ {} = up ] && echo + || echo -)4%`
     (label :class "icon"
-      { volumeOut < 0 ? SPEAKER_ICONS[0] :
-        volumeOut < 30 ? SPEAKER_ICONS[1] :
-        volumeOut < 70 ? SPEAKER_ICONS[2] : SPEAKER_ICONS[3]})))
+           :text { volumeOut < 0 ? SPEAKER_ICONS[0] :
+              volumeOut < 30 ? SPEAKER_ICONS[1] :
+              volumeOut < 70 ? SPEAKER_ICONS[2] : SPEAKER_ICONS[3]})))
 
 (defwidget _volumeSliders [volumeIn volumeOut ?orientation]
   (box :class "vol-bar-box"
@@ -218,7 +218,7 @@
        :valign {orientation == "v" ? "end" : "center"}
        :spacing 1
     (button :onclick "wf-osk -a bottom -w 500 --height 250 &"
-      (label :class "icon" :text KEYBOARD_ICON))
+      (label :class "icon" :text "Keyboard"))
     (system :orientation {orientation ?: "h"}
             :volumeIn volumeIn
             :volumeOut volumeOut

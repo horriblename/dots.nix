@@ -54,40 +54,41 @@
                 :reveal ShowPowerButton
         (box :orientation "h"
              :hexpand true
+				 :spacing "20px"
              :class "qs-extended-power-options"
           (_quick_setting_btn
-            :icon " "
+            :icon "Lock"
             :class ""
             :onclick "swaylock")
           (_quick_setting_btn
-            :icon " "
+            :icon "Bedtime"
             :class ""
             :onclick "systemctl suspend")
           (_quick_setting_btn
-            :icon " " 
+            :icon "Logout" 
             :class ""
             :onclick "hyprctl dispatch exit 1")
           (_quick_setting_btn
-            :icon " " 
+            :icon "Restart_Alt"
             :class ""
             :onclick "systemctl restart")
           ))
       (_quick_setting_btn
-        :icon {ShowPowerButton? " ": " "}
+        :icon {ShowPowerButton? "Power_Rounded": "Settings_Power "}
         :style "color: crimson;"
         :class ""
         :onclick {ShowPowerButton? "systemctl poweroff" : "${EWW_CMD} update ShowPowerButton=true"})))
     (box :orientation "h"
       (_quick_setting_btn
-        :icon " "
+        :icon "Screenshot_Monitor"
         :class ""
         :onclick "hyprctl dispatch exec '${EWW_CMD} close quick_settings_win; screenshot'")
       (_quick_setting_btn
-        :icon ""
+        :icon "Abc"
         :class ""
         :onclick "${EWW_CMD} close quick_settings_win; ocr&")
       (_quick_setting_btn
-        :icon KEYBOARD_ICON
+        :icon "Keyboard"
         :class ""
         :onclick "wf-osk -a bottom &"))
     (box :orientation "h"
@@ -115,15 +116,15 @@
         :text "${batteryLvl}%"))
     (box :orientation "h"
       (_quick_setting_btn
-        :icon "" 
+        :icon "Rotate_Right"
         :class ""
         :onclick "scripts/rotate-screen clockwise ${EWW_CMD}")
       (_quick_setting_btn
-        :icon "" 
+        :icon "Swap_Vert" 
         :class ""
         :onclick "scripts/rotate-screen vertical ${EWW_CMD}")
       (_quick_setting_btn
-        :icon "" 
+        :icon "Rotate_Left" 
         :class ""
         :onclick "scripts/rotate-screen anti-clockwise ${EWW_CMD}"))))
 
