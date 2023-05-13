@@ -8,6 +8,8 @@
     ./plugins
   ];
 
+	xdg.configFile."nvim".source = ./config;
+
   programs.neovim-flake = {
     enable = true;
     settings = {
