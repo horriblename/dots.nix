@@ -323,6 +323,9 @@
         # Telescope
         "<M-f>".action = ":Telescope resume<CR>";
         "<leader>fq".action = ":Telescope quickfix<CR>";
+
+        # Aerial
+        "gO".action = ":AerialToggle<CR>";
       };
 
       vim.maps.normalVisualOp = {
