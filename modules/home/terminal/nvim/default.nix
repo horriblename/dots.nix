@@ -168,8 +168,14 @@
           detectionMethods = ["lsp" "pattern"]; # NOTE: lsp detection will get annoying with multiple langs in one project
           patterns = [
             ".git"
+            "_darcs"
+            ".hg"
+            ".bzr"
+            ".svn"
             "Makefile"
             "package.json"
+            "flake.nix"
+            "cargo.toml"
             "index.*"
             ".anchor"
             ">.config"
