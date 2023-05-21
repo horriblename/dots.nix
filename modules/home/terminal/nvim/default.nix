@@ -8,7 +8,7 @@
     ./plugins
   ];
 
-	xdg.configFile."nvim".source = ./config;
+  xdg.configFile."nvim".source = ./config;
 
   programs.neovim-flake = {
     enable = true;
@@ -174,6 +174,7 @@
             ".anchor"
             ">.config"
             ">repo"
+            ">/nix/store"
           ];
         };
       };
@@ -206,7 +207,7 @@
       };
 
       vim.assistant = {
-        copilot.enable = true;
+        copilot.enable = false;
       };
 
       vim.session = {
