@@ -51,9 +51,6 @@ with lib; let
       (mkPluginSo inputs.hyprland-touch-gestures.packages.${pkgs.system}.default "libtouch-gestures.so")
     ];
 in {
-  imports = [
-    ./ts-gestures.nix # TODO make optional
-  ];
   home.packages = with pkgs; [
     libnotify
     catppuccin-cursors.mochaRosewater
