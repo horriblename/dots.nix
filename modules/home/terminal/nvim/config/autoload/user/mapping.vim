@@ -22,6 +22,7 @@ fu! user#mapping#resetup()
 	tnoremap <C-BS> <C-w>
 
 	tnoremap <M-C-V> <cmd>put "<CR>
+	tnoremap <C-BS> <C-w>
 
 	xnoremap x "_x
 	nnoremap ' `

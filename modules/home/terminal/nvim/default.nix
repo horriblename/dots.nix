@@ -130,6 +130,7 @@
       vim.filetree = {
         nvimTreeLua = {
           enable = true;
+          openOnSetup = false;
           openTreeOnNewTab = false;
           indentMarkers = true;
           actions = {
@@ -323,6 +324,7 @@
         # Telescope
         "<M-f>".action = ":Telescope resume<CR>";
         "<leader>fq".action = ":Telescope quickfix<CR>";
+        "<leader>f/".action = ":Telescope live_grep<cr>";
 
         # Aerial
         "gO".action = ":AerialToggle<CR>";
