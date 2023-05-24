@@ -15,7 +15,7 @@ Show Minimized
 OCR
 '
 
-choice=$(echo "$options" | tofi -c ~/.config/tofi/gruvbox-menu.ini)
+choice=$(echo "$options" | selectorMenu)
 
 case $choice in
   "layout: Master") hyprctl keyword general:layout master;;

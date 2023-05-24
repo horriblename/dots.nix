@@ -82,6 +82,9 @@ in {
       source = ${./winrules.conf}
       source = ${./keybinds.conf}
       source = ${./autostart.conf}
+
+      bind=ALT,SPACE,exec,${config.menu.launcher}
+
       ${lib.optionalString config.enableTouchScreen ''
         source = ${./touch-gestures.conf}
       ''}
