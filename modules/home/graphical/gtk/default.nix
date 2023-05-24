@@ -2,7 +2,6 @@
   self,
   pkgs,
   config,
-  inputs,
   ...
 }: {
   gtk = {

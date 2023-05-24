@@ -1,7 +1,15 @@
-{pkgs, ...}: {
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}: {
   home.packages = [
     pkgs.anyrun
   ];
+  menu.selector = "GTK_THEME='${config.gtk.theme.name}' ${lib.getExe pkgs.anyrun} -o ${pkgs.anyrun}/lib/libstdin.so";
+  menu.launcher = "pkill anyrun || GTK_THEME='${config.gtk.theme.name}' ${lib.getExe pkgs.anyrun}";
+
   xdg.configFile."anyrun/config.ron".text = ''
     Config(
       // `width` and `vertical_offset` use an enum for the value it can be either:
@@ -15,7 +23,7 @@
       position: Top,
 
       // How much the runner is shifted vertically
-      vertical_offset: Fraction(0.3),
+      vertical_offset: Absolute(40),
 
       // Hide match and plugin info icons
       hide_icons: false,
@@ -27,8 +35,19 @@
       layer: Overlay,
 
       // Hide the plugin info panel
-      hide_plugin_info: true,
+      hide_plugin_info: false,
 
+      // Close window when a click outside the main box is received
+      close_on_click: false,
+
+      // Show search results immediately when Anyrun starts
+      show_results_immediately: false,
+
+      // Limit amount of entries shown in total
+      max_entries: None,
+
+      // List of plugins to be loaded by default, can be specified with a relative path to be loaded from the
+      // `<anyrun config dir>/plugins` directory or with an absolute path to just load the file the path points to.
       plugins: [
         "${pkgs.anyrun}/lib/libapplications.so",
         "${pkgs.anyrun}/lib/libsymbols.so",
@@ -36,6 +55,4 @@
       ],
     )
   '';
-
-  xdg.configFile."anyrun/style.css".source = ./style.css;
 }
