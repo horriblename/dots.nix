@@ -9,7 +9,6 @@ output * bg "/home/py/Pictures/wallpapers/dwm_3.png" fill
 # Your preferred terminal emulator
 set $term footclient || foot
 #set $quake yakuake
-set $menu tofi-drun -c ~/.config/tofi/gruvbox-menu.ini | xargs sway exec
 
 # sway better initialization
 exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
@@ -283,8 +282,6 @@ bindsym XF86AudioPrev exec playerctl previous
 
 ###---System Control---###
 bindsym XF86Sleep exec systemctl suspend
-bindsym $mod+shift+z exec ~/.config/tofi/powermenu.sh reboot
-bindsym $mod+shift+x exec ~/.config/tofi/powermenu.sh shutdown
 bindsym $mod+v exec clipman pick -t wofi
 
 ###---Timer(Clock)---###

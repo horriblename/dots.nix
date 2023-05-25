@@ -1,11 +1,10 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+{config, ...}: {
   wayland.windowManager.sway = {
     enable = true;
-    extraConfig = builtins.readFile ./config;
+    extraConfig =
+      ''
+        set $menu ${config.menu.launcher}
+      ''
+      + builtins.readFile ./config;
   };
 }
