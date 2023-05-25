@@ -1,5 +1,4 @@
 {
-  self,
   pkgs,
   config,
   ...
@@ -12,7 +11,7 @@
     };
     theme = {
       name = "Kanagawa-BL";
-      package = self.packages.${pkgs.system}.kanagawa-gtk;
+      package = pkgs.kanagawa-gtk;
     };
     gtk3.extraConfig = {
       gtk-xft-antialias = 1;

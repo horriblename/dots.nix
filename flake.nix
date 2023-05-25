@@ -59,7 +59,7 @@
     }:
       assert lib.assertOneOf "homeConfigurationMode" homeConfigurationMode ["terminal" "full"];
         home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs ({overlays = [anyrun.overlay];} // nixpkgsConfigs.${machineName});
+          pkgs = import nixpkgs ({overlays = [anyrun.overlay self.overlay];} // nixpkgsConfigs.${machineName});
           modules =
             [
               core
@@ -111,12 +111,20 @@
       ];
     };
     packages = forEachSystem (system: let
-      pkgs = import nixpkgs {inherit system;};
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [self.overlay];
+      };
     in {
-      wf-osk = pkgs.callPackage ./pkgs/wf-osk.nix {};
-      kanagawa-gtk = pkgs.callPackage ./pkgs/kanagawa-gtk.nix {};
-      hyprworkspaces = pkgs.callPackage ./pkgs/hyprworkspaces/default.nix {};
+      wf-osk = pkgs.wf-osk;
+      kanagawa-gtk = pkgs.kanagawa-gtk;
+      hyprworkspaces = pkgs.hyprworkspaces;
     });
+    overlay = final: prev: {
+      wf-osk = final.callPackage ./pkgs/wf-osk.nix {};
+      kanagawa-gtk = final.callPackage ./pkgs/kanagawa-gtk.nix {};
+      hyprworkspaces = final.callPackage ./pkgs/hyprworkspaces/default.nix {};
+    };
     formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
   };
 }
