@@ -13,7 +13,6 @@
     hyprland-touch-gestures = {
       url = "github:horriblename/hyprland-touch-gestures";
       inputs.hyprland.follows = "hyprland";
-      inputs.nixpkgs.follows = "hyprland/nixpkgs";
     };
     hyprland-border-actions = {
       url = "github:horriblename/hyprland-border-actions";
