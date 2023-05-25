@@ -7,6 +7,7 @@
     ./eww
     ./foot
     ./gtk
+    ./menu
     ./hyprland
     ./lisgd
     ./sway
