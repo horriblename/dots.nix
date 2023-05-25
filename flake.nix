@@ -113,12 +113,15 @@
     packages = forEachSystem (system: let
       pkgs = import nixpkgs {
         inherit system;
-        overlays = [self.overlay];
+        overlays = [anyrun.overlay self.overlay];
       };
     in {
       wf-osk = pkgs.wf-osk;
       kanagawa-gtk = pkgs.kanagawa-gtk;
       hyprworkspaces = pkgs.hyprworkspaces;
+      ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
+        buildInputs = [pkgs.anyrun pkgs.wf-osk];
+      };
     });
     overlay = final: prev: {
       wf-osk = final.callPackage ./pkgs/wf-osk.nix {};
