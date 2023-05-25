@@ -296,7 +296,12 @@
     }
     {
       package = friendly-snippets;
-      setup = "";
+      # friendly-snippets has no setup, these are unrelated but, eh,
+      # noone's using it anyways
+      setup = ''
+        require('lspconfig').yamlls.setup{}
+        require('lspconfig').csharp_ls.setup{}
+      '';
     }
   ];
 }
