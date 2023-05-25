@@ -1,7 +1,6 @@
 #!/bin/sh
 
-options='
-layout: Master
+options='layout: Master
 layout: Dwindle
 toggle Smart Gaps
 toggle Preserve Split
@@ -12,8 +11,7 @@ Lock Groups
 Unlock Groups
 Fake Fullscreen
 Show Minimized
-OCR
-'
+OCR'
 
 choice=$(echo "$options" | selectorMenu)
 
