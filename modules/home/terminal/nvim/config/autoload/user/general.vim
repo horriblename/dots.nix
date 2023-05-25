@@ -28,6 +28,7 @@ fu! user#general#resetup()
 	set foldlevel=99
 	set undofile
 	set autowrite
+	set conceallevel=2
 
 	" Tab Settings
 	set noexpandtab

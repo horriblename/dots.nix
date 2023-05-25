@@ -41,7 +41,7 @@
       close_on_click: false,
 
       // Show search results immediately when Anyrun starts
-      show_results_immediately: false,
+      show_results_immediately: true,
 
       // Limit amount of entries shown in total
       max_entries: None,
