@@ -12,6 +12,5 @@
     ./lisgd
     ./sway
     ./swayidle
-    ./tofi
   ];
 }
