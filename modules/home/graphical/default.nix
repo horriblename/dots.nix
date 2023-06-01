@@ -12,5 +12,6 @@
     ./lisgd
     ./sway
     ./swayidle
+    ./input
   ];
 }
