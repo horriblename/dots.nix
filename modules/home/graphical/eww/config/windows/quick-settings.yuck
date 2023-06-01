@@ -47,42 +47,18 @@
 
 ;; TODO don't use _volInSlider & _volOutSlider
 (defwidget _quick_settings_applet [volumeIn volumeOut batteryLvl brightness netStat]
-  (box :class "quick-settings"
-       :orientation "v" 
-    (eventbox :onhoverlost "${EWW_CMD} update ShowPowerButton=false"
-      (box :orientation "h"
-           :class "qs-power-options"
-           :halign "end"
-           :hexpand true
-           :space-evenly false
-      (revealer :transition "slideleft"
-                :reveal ShowPowerButton
-        (box :orientation "h"
-             :hexpand true
-				 :spacing "20px"
-             :class "qs-extended-power-options"
-          (_quick_setting_btn
-            :icon "Lock"
-            :class ""
-            :onclick "swaylock")
-          (_quick_setting_btn
-            :icon "Bedtime"
-            :class ""
-            :onclick "systemctl suspend")
-          (_quick_setting_btn
-            :icon "Logout" 
-            :class ""
-            :onclick "hyprctl dispatch exit 1")
-          (_quick_setting_btn
-            :icon "Restart_Alt"
-            :class ""
-            :onclick "systemctl restart")
-          ))
-      (_quick_setting_btn
-        :icon {ShowPowerButton? "Power_Rounded": "Settings_Power "}
-        :style "color: crimson;"
-        :class ""
-        :onclick {ShowPowerButton? "systemctl poweroff" : "${EWW_CMD} update ShowPowerButton=true"})))
+  (box 
+    :class "quick-settings"
+    :orientation "v" 
+    (box :orientation "h"
+         :class "qs-power-options"
+         :halign "end"
+         :hexpand true
+         (_quick_setting_btn
+           :icon  "Settings_Power"
+           :style "color: crimson;"
+           :class ""
+           :onclick "${EWW_CMD} open logout_win"))
     (box :orientation "h"
       (_quick_setting_btn
         :icon "Screenshot_Monitor"

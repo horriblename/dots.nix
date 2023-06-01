@@ -1,0 +1,25 @@
+.logout-buttons-container {
+  animation: transitionIn 150ms ease forwards;
+}
+
+@keyframes transitionIn {
+  from {
+    margin-left: -200px;
+    margin-right: 200px;
+  }
+
+  to {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+}
+
+.power-btn-icon {
+  padding: 0px 5px;
+  font-size: 52px;
+}
+
+.power-btn:hover {
+  color: $red;
+  transition: 150ms ease;
+}
