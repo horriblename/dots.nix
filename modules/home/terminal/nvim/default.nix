@@ -295,6 +295,13 @@
       '';
     }
     {
+      package = undotree;
+      setup = ''
+        vim.g.undotree_ShortIndicators = 1
+        vim.g.undotree_TreeVertShape = '│'
+      '';
+    }
+    {
       package = friendly-snippets;
       # friendly-snippets has no setup, these are unrelated but, eh,
       # noone's using it anyways
