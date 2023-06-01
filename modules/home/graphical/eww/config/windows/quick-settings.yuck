@@ -111,12 +111,15 @@
 
 (defwindow quick_settings_win
   :monitor 0
-  :geometry (geometry :anchor "top right")
-  (eventbox :onhoverlost `${EWW_CMD} close quick_settings_win`
-    (_quick_settings_applet 
-      :volumeIn lVolumeIn
-      :volumeOut lVolumeOut
-      :batteryLvl { EWW_BATTERY.total_avg }
-      :brightness pollBrightness
-      :netStat pollNetStat)))
+  :geometry (geometry :anchor "top right"
+                      :width "400px")
+  (box :class "quick-settings-app"
+       (eventbox
+         :onhoverlost "${EWW_CMD} close quick_settings_win"
+         (_quick_settings_applet
+           :volumeIn lVolumeIn
+           :volumeOut lVolumeOut
+           :batteryLvl { EWW_BATTERY.total_avg }
+           :brightness pollBrightness
+           :netStat pollNetStat))))
 
