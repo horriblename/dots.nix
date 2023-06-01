@@ -29,10 +29,14 @@
          :orientation 'h'))
 
 (defwidget _quick_setting_info [icon class text]
-  (box :class "quick-setting-unit ${class}"
-       :space-evenly false
-    (label :class "icon" :text icon)
-    (label :text text)))
+  (box 
+    :class "quick-setting-unit ${class}"
+    :space-evenly false
+    (label :class "icon"
+           :text icon
+           :style "padding: 0px 5px;")
+    (label :text text
+           :limit-width 12)))
 
 (defwidget _quick_setting_btn [icon onclick ?class ?style]
   (button :class "quick-setting-btn ${class ?: ''}"
