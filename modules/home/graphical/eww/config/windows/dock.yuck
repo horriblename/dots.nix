@@ -22,4 +22,5 @@
     :anchor "center bottom"
     :width "80%"
     :height "50px")
-  (dock))
+  (box :class "dock-app"
+       (dock)))
