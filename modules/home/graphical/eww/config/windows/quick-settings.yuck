@@ -21,6 +21,7 @@
   (scale :class "brightness-bar"
          :marks true
          :round-digits 0
+         :hexpand true
          :value 20 ;; TODO brightness
          :min 5
          :max 100
