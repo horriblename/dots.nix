@@ -86,6 +86,7 @@ in {
       bind=ALT,SPACE,exec,${config.menu.launcher}
 
       ${lib.optionalString config.enableTouchScreen ''
+        bindr=SUPER,SUPER_L,exec, eww open dock --toggle
         source = ${./touch-gestures.conf}
       ''}
       ${loadHyprlandPlugins hlPluginsSo}
