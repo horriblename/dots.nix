@@ -4,9 +4,19 @@
 
 .quick-setting-unit {
   padding: 5px 5px;
-  margin: 8px 5px;
+  margin: 0.5em 0.5em;
+  padding: 0.3em 0.5em;
   background-color: $bg_s;
-  border-radius: 18px;
+  border-radius: 1em;
+}
+
+.quick-setting-btn {
+  border-radius: 1em;
+}
+
+.quick-setting-btn:hover {
+  transition: 150ms ease;
+  background-color: $bg4;
 }
 
 .quick-setting-btn > .icon {
