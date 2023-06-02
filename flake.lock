@@ -641,11 +641,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1684936394,
-        "narHash": "sha256-QorDsrWmtm4EAov3Dd6D6OGop3zoTguZ1k2IhkQ1Wu8=",
+        "lastModified": 1685444438,
+        "narHash": "sha256-mLzKJNblcr1IHQNDM5oAaeehf35AbojsMAL9Xmpi8QU=",
         "owner": "horriblename",
         "repo": "hyprland-touch-gestures",
-        "rev": "dd6b1b965a9a5b526e6310cff749f1379c826a81",
+        "rev": "9cccea222bd29e2a6bb064f2eb41d31f028aed61",
         "type": "github"
       },
       "original": {
