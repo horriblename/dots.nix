@@ -353,7 +353,7 @@
       };
 
       vim.maps.terminal = {
-        "<M-x>".action = "<cmd>ToggleTerm<CR>";
+        "<M-x>".action = "<cmd>q<CR>";
       };
     };
   };
