@@ -166,7 +166,17 @@
         nvimBufferline.enable = true;
       };
 
-      vim.treesitter.context.enable = true;
+      vim.treesitter = {
+        fold = true;
+        context.enable = true;
+        mappings = {
+          incrementalSelection = {
+            init = "<M-o>";
+            incrementByNode = "<M-o>";
+            decrementByNode = "<M-i>";
+          };
+        };
+      };
 
       vim.binds = {
         whichKey.enable = true;
