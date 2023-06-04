@@ -14,5 +14,6 @@
     dex
     nextcloud-client
     xournalpp
+    xdragon
   ];
 }

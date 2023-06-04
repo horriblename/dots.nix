@@ -206,13 +206,13 @@ cmd z_cd %{{
 cmd dragon %{{
 	IFS='
 '
-   dragon-drop $@ $fx
+   xdragon $@ $fx
 }}
 
 cmd dragon-curl-target &{{
    # doesn't work: use '\@ [comment]' to leave a comment on keymapped function
    #@=${@/\@ */}
-   dragon-drop $@ --target | while read url
+   xdragon $@ --target | while read url
    do
       curl -O "$url" && lf -remote "send $id echo 'Download completed'"\
 			&& lf -remote "send $id reload"\

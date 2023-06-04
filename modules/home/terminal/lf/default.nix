@@ -1,11 +1,4 @@
-{
-  nixpkgs,
-  home-manager,
-  pkgs,
-  ...
-}: let
-  lf-version = "28";
-in {
+{pkgs, ...}: {
   home.packages = with pkgs; [
     xdg-utils
     # preview tools
@@ -14,7 +7,6 @@ in {
     glow
     catdoc
     catdocx
-    xdragon
     # FIXME broken package
     # haskellPackages.pdftotext
 
