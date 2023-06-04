@@ -3,7 +3,7 @@ with lib; let
   plugin-spec = types.submodule {
     options = {
       package = mkOption {
-        type = types.package;
+        type = with types; either package str;
         description = "Package to use";
       };
       loadOnStart = mkOption {

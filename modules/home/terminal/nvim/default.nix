@@ -245,8 +245,13 @@
 
       vim.terminal = {
         toggleterm = {
+          mappings.open = "<M-x>";
           enable = true;
           direction = "tab";
+          lazygit = {
+            enable = true;
+            direction = "tab";
+          };
         };
       };
 
@@ -293,16 +298,6 @@
           call user#general#setup()
           call user#mapping#setup()
         ]]
-        local terminal = require 'toggleterm.terminal'
-        _G.LazyGit = terminal.Terminal:new({
-          cmd = "lazygit",
-          direction = "tab",
-          hidden = true,
-          on_open = function(term)
-            vim.keymap.set('t', '<M-x>', function() term:toggle() end, {silent = true, noremap = true, buffer = term.bufnr})
-          end
-        })
-
         vim.opt.wrap = false
         vim.filetype.add({
           yuck = 'lisp',
@@ -317,11 +312,9 @@
       '';
 
       vim.maps.normal = {
-        "<M-x>".action = "<cmd>execute v:count . 'ToggleTerm'<CR>";
         "<M-n>".action = ":BufferLineCycleNext<CR>";
         "<M-p>".action = ":BufferLineCyclePrev<CR>";
         "<leader>e".action = ":NvimTreeToggle<CR>";
-        "<leader>gg".action = "<cmd>lua _G.LazyGit:toggle()<CR>";
         "<leader>gdq".action = ":DiffviewClose<CR>";
         "<leader>gdd".action = ":DiffviewOpen ";
         "<leader>gdm".action = ":DiffviewOpen<CR>";
