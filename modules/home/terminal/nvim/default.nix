@@ -256,6 +256,13 @@
         vim.filetype.add({
           yuck = 'lisp',
         })
+
+        require("tokyonight").setup({
+          style = "night",
+          on_highlights = function(hl, _)
+            hl.WinSeparator = { fg = '#727ca7' }
+          end,
+        })
       '';
 
       vim.nnoremap = {
