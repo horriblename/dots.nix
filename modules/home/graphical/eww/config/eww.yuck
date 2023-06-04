@@ -6,4 +6,40 @@
 (include "windows/dialog.yuck")
 (include "windows/logout.yuck")
 
-;; vim: ft=yuck : syn=scheme
+(defvar gCoords '[{"x": 20, "y": 20}, {"x": 0, "y": 30}, {"x": 300, "y": 400}]')
+
+(defwidget canvas [x y]
+  (box :class "canvas"
+		 ;; :style "background-color: rgba(200, 10, 10, 0.1)"
+		 :space-evenly false
+		 :visible {x != -1}
+		 (overlay
+			(box :space-evenly false
+				  :orientation "v"
+				  :style "margin-left: ${x}px;"
+				  (coord :y y)))))
+
+(defwidget coord [y]
+  (box :class ""
+		 ;; :width 20
+		 ;; :height 20
+		 :style "
+		 margin-top: ${y};
+		 padding: 10px;
+		 border-radius: 50%;
+		 background-color: rgba(250, 250, 250, 0.4)
+		 "))
+
+(defwidget finger-processor [fingers]
+  (overlay
+	 (canvas :x {fingers[0].x} :y {fingers[0].y})
+	 (canvas :x {fingers[1].x} :y {fingers[1].y})
+	 (canvas :x {fingers[2].x} :y {fingers[2].y})))
+
+(defwindow testing
+  :monitor 0
+  :geometry (geometry :anchor "right bottom" :width "100%" :height "100%")
+  :focusable false
+  (box :class "testing-app"
+		 :style "margin: 10px;"
+		 (finger-processor :fingers gCoords)))
