@@ -300,7 +300,9 @@
         ]]
         vim.opt.wrap = false
         vim.filetype.add({
-          yuck = 'lisp',
+          extension = {
+            yuck = 'lisp',
+          }
         })
 
         require("tokyonight").setup({
