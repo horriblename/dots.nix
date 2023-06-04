@@ -240,11 +240,8 @@
       # HACK
       vim.theme.extraConfig = ''
         vim.cmd [[
-          source ${./aggregate.vim}
-          set foldmethod=expr
-          set foldexpr=nvim_treesitter#foldexpr()
-          set nofoldenable
-          set nowrap
+          call user#general#setup()
+          call user#mapping#setup()
         ]]
         local terminal = require 'toggleterm.terminal'
         _G.LazyGit = terminal.Terminal:new({
@@ -254,6 +251,10 @@
           on_open = function(term)
             vim.keymap.set('t', '<M-x>', function() term:toggle() end, {silent = true, noremap = true, buffer = term.bufnr})
           end
+
+        vim.opt.wrap = false
+        vim.filetype.add({
+          yuck = 'lisp',
         })
       '';
 
