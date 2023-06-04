@@ -125,6 +125,14 @@
       vim.autocomplete = {
         enable = true;
         type = "nvim-cmp";
+        mappings = {
+          # close = "<C-e>";
+          confirm = "<C-y>";
+          next = "<C-n>";
+          previous = "<C-p>";
+          scrollDocsDown = "<C-d>";
+          scrollDocsUp = "<C-u>";
+        };
       };
 
       vim.filetree = {
@@ -333,12 +341,6 @@
       vim.maps.normalVisualOp = {
         "<leader>gs".action = ":Gitsigns stage_hunk<CR>";
         "<leader>gr".action = ":Gitsigns reset_hunk<CR>";
-      };
-
-      vim.maps.insert = {
-        "<C-y>".action = "<cmd>lua require'cmp'.mapping.confirm({ select = true })()<CR>";
-        "<C-n>".action = "<cmd>lua require'cmp'.mapping.select_next_item()()<CR>";
-        "<C-p>".action = "<cmd>lua require'cmp'.mapping.select_prev_item()()<CR>";
       };
 
       vim.maps.terminal = {
