@@ -14,6 +14,7 @@
     dex
     nextcloud-client
     xournalpp
+    noisetorch
     xdragon
   ];
 }
