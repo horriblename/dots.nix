@@ -137,6 +137,17 @@ fu! user#mapping#resetup()
 	silent! nnoremap <unique> <leader>e :25Lexplore<CR>
 	silent! nnoremap <unique> <leader>f :find 
 
+	" quickfix
+	nnoremap <C-'><C-n> :cnext<CR>
+	nnoremap <C-'><C-p> :cprev<CR>
+	nnoremap <C-'><C-'> :copen<CR>
+	nnoremap '<C-n> :cnext<CR>
+	nnoremap '<C-p> :cprev<CR>
+
+	" toggleterm
+	noremap <M-x> :call user#general#ToggleTerm()<cr>
+	inoremap <M-x> <Esc>:call user#general#ToggleTerm()<cr>
+	tnoremap <M-x> <Cmd>q<cr>
 	" }}}
 	" Cmdline/HUD
 	" {{{
