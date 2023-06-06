@@ -237,6 +237,13 @@
 
       vim.mapTimeout = 0;
 
+      # Note: this should in theory install all grammars:
+      #	    vim.treesitter.grammars = pkgs.vimPlugins.nvim-treesitter.builtGrammars;
+      #
+      vim.treesitter.grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+        glsl
+      ];
+
       # HACK
       vim.theme.extraConfig = ''
         vim.cmd [[
