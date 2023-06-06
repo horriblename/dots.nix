@@ -316,6 +316,7 @@
       vim.maps.normal = {
         "<M-n>".action = ":BufferLineCycleNext<CR>";
         "<M-p>".action = ":BufferLineCyclePrev<CR>";
+        "<M-c>".action = ":Bdelete<CR>";
         "<leader>e".action = ":NvimTreeToggle<CR>";
         "<leader>gdq".action = ":DiffviewClose<CR>";
         "<leader>gdd".action = ":DiffviewOpen ";
