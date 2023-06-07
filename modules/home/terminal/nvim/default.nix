@@ -258,6 +258,7 @@
           on_open = function(term)
             vim.keymap.set('t', '<M-x>', function() term:toggle() end, {silent = true, noremap = true, buffer = term.bufnr})
           end
+        })
 
         vim.opt.wrap = false
         vim.filetype.add({
