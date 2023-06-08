@@ -38,20 +38,9 @@ fu! user#mapping#resetup()
 	nnoremap gV ^v$
 	xnoremap ga gg0oG$
 
-	fu! s:insertBeforeSelection()
-		let mode = mode()
-		" visual block <c-v>
-		if mode == "\x16" | return 'I' | endif
-		" if mode ==# "V" | return "\<C-v>$o0I" | endif
-		let [l1, c1] = getpos('.')[1:2]
-		let [l2, c2] = getpos('v')[1:2]
-		if l1 < l2 || l1 == l2 && c1 < c2
-			return "\<Esc>i"
-		endif
-		return "o\<Esc>i"
-	endfu
-	xnoremap <expr> I <SID>insertBeforeSelection()
-	" xnoremap <expr> A mode() ==# 'V'? "\<C-v>0o$A":'A'
+	" \x16 is <c-v>
+	xnoremap <expr> I mode() ==# "\x16"? "I" : "\<Esc>`<i"
+	xnoremap <expr> A mode() ==# "\x16"? "A" : "\<Esc>`>a"
 
 	xnoremap X "_x
 	vnoremap <C-n> :m '>+1<CR>gv-gv
@@ -66,33 +55,50 @@ fu! user#mapping#resetup()
 	inoremap { {}<left>
 	inoremap {<CR> {<CR>}<ESC>O
 	inoremap <expr> ) user#autoclose#CloseRight(")")
-	inoremap <expr> ] user#autoclose#CloseRight("]")
-	inoremap <expr> } user#autoclose#CloseRight("}")
+	inoremap <expr> ] user#autoclose#(CloseRight)("]")
+	inoremap <expr> } user#(autoclose)#CloseRight("}")
 
 	nnoremap S :%s##gI<Left><Left><Left>
 	xnoremap S :s##gI<Left><Left><Left>
-	" surround with parenthesis. Using register "z to not interfere with clipboard
+
+	fu s:surround(left, right)
+		if mode() ==# "V"
+			return '"zs' . a:left . "\<cr>" . a:right . "\<Esc>\"zgPm>"
+		else
+			let offset_left = "h"->repeat(len(a:right) - 1)
+			let offset_right = "l"->repeat(len(a:right) - 1)
+			return '"zs' . a:left . a:right . "\<Esc>" . offset_left . "\"zgP" . offset_right . "m>"
+		endif
+		return
+	endfu
+
+	fu s:surroundTag()
+		let name = input('Surround with tag: ')
+		return s:surround('<'.name.'>', '<'.name.'/>')
+	endfu
+
 	xmap s <Nop>
-	xnoremap s( "zs()<Esc>"zPgvlOlO<Esc>
-	xnoremap s) "zs()<Esc>"zPgvlOlO<Esc>
-	xnoremap sb "zs()<Esc>"zPgvlOlO<Esc>
-	xnoremap s[ "zs[]<Esc>"zPgvlOlO<Esc>
-	xnoremap s] "zs[]<Esc>"zPgvlOlO<Esc>
-	xnoremap s{ "zs{}<Esc>"zPgvlOlO<Esc>
-	xnoremap s} "zs{}<Esc>"zPgvlOlO<Esc>
-	xnoremap sB "zs{}<Esc>"zPgvlOlO<Esc>
-	xnoremap s< "zs<><Esc>"zPgvlOlO<Esc>
-	xnoremap s> "zs<><Esc>"zPgvlOlO<Esc>
-	xnoremap s" "zs""<Esc>"zPgvlOlO<Esc>
-	xnoremap s' "zs''<Esc>"zPgvlOlO<Esc>
-	xnoremap s` "zs``<Esc>"zPgvlOlO<Esc>
-	xnoremap s* "zs**<Esc>"zPgvlOlO<Esc>
-	xnoremap s_ "zs__<Esc>"zPgvlOlO<Esc>
-	xnoremap se "zs****<Left><Esc>"zPgvllOllO<Esc>
-	xnoremap sE "zs******<Left><Left><Esc>"zPgv3lO3lO<Esc>
-	xnoremap s<space> "zs<space><space><Esc>"zPgvlOlO<Esc>
+	xnoremap <expr> s( <SID>surround('(', ')')
+	xnoremap <expr> s) <SID>surround('(', ')')
+	xnoremap <expr> sb <SID>surround('(', ')')
+	xnoremap <expr> s[ <SID>surround('[', ']')
+	xnoremap <expr> s] <SID>surround('[', ']')
+	xnoremap <expr> s{ <SID>surround('{', '}')
+	xnoremap <expr> s} <SID>surround('{', '}')
+	xnoremap <expr> sB <SID>surround('{', '}')
+	xnoremap <expr> s< <SID>surround('<', '>')
+	xnoremap <expr> s> <SID>surround('<', '>')
+	xnoremap <expr> s" <SID>surround('"', '"')
+	xnoremap <expr> s' <SID>surround("'", "'")
+	xnoremap <expr> s` <SID>surround('`', '`')
+	xnoremap <expr> s* <SID>surround('*', '*')
+	xnoremap <expr> s_ <SID>surround('_', '_')
+	xnoremap <expr> se <SID>surround('**', '**')
+	xnoremap <expr> sE <SID>surround('***', '***')
+	xnoremap <expr> s<space> <SID>surround(' ', ' ')
 	" single line only, `gv` highlights whole thing including surrounding tag
-	xnoremap su "zy:let @z='<u>'..@z..'</u>'<cr>gv"zP
+	xnoremap <expr> su <SID>surround('<u>', '</u>')
+	xnoremap <expr> st <SID>surroundTag()
 
 	" de-surround
 	for char in "(){}[]<>bBt"
