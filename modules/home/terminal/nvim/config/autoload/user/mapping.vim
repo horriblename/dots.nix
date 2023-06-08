@@ -19,9 +19,17 @@ fu! user#mapping#resetup()
 	vnoremap <S-Tab>  <gv
 
 	noremap! <C-BS> <C-w>
+	tnoremap <C-BS> <C-w>
 
-	tnoremap <M-C-N> <C-\><C-n>
 	tnoremap <M-C-V> <cmd>put "<CR>
+
+	xnoremap x "_x
+	nnoremap ' `
+	nnoremap ` '
+	xnoremap ' `
+	xnoremap ` '
+
+	" Movement {{{
 
 	noremap gh ^
 	noremap gl g_
@@ -42,9 +50,9 @@ fu! user#mapping#resetup()
 	xnoremap <expr> I mode() ==# "\x16"? "I" : "\<Esc>`<i"
 	xnoremap <expr> A mode() ==# "\x16"? "A" : "\<Esc>`>a"
 
-	xnoremap X "_x
 	vnoremap <C-n> :m '>+1<CR>gv-gv
 	vnoremap <C-p> :m '<-2<CR>gv-gv
+	" }}}
 
 	" Autoclose
 	inoremap <expr> " user#autoclose#InsertSymmetric('"')
@@ -61,6 +69,7 @@ fu! user#mapping#resetup()
 	nnoremap S :%s##gI<Left><Left><Left>
 	xnoremap S :s##gI<Left><Left><Left>
 
+	" surround {{{
 	fu s:surround(left, right)
 		if mode() ==# "V"
 			return '"zs' . a:left . "\<cr>" . a:right . "\<Esc>\"zgPm>"
@@ -70,11 +79,6 @@ fu! user#mapping#resetup()
 			return '"zs' . a:left . a:right . "\<Esc>" . offset_left . "\"zgP" . offset_right . "m>"
 		endif
 		return
-	endfu
-
-	fu s:surroundTag()
-		let name = input('Surround with tag: ')
-		return s:surround('<'.name.'>', '<'.name.'/>')
 	endfu
 
 	xmap s <Nop>
@@ -96,10 +100,15 @@ fu! user#mapping#resetup()
 	xnoremap <expr> se <SID>surround('**', '**')
 	xnoremap <expr> sE <SID>surround('***', '***')
 	xnoremap <expr> s<space> <SID>surround(' ', ' ')
-	" single line only, `gv` highlights whole thing including surrounding tag
-	xnoremap <expr> su <SID>surround('<u>', '</u>')
-	xnoremap <expr> st <SID>surroundTag()
 
+	fu s:surroundTag(name)
+		return s:surround('<'.a:name.'>', '</'.a:name.'>')
+	endfu
+
+	xnoremap <expr> su <SID>surroundTag('u')
+	xnoremap <expr> st <SID>surroundTag(input('Surround with tag: ')) .. '`<f>'
+
+	" }}}
 	" de-surround
 	for char in "(){}[]<>bBt"
 		exec 'nnoremap ds'.char ' di'.char.'va'.char.'pgv'
@@ -127,21 +136,12 @@ fu! user#mapping#resetup()
 	silent! nnoremap <unique> <leader>e :25Lexplore<CR>
 	silent! nnoremap <unique> <leader>f :find 
 
-	" quickfix
-	nnoremap <C-'><C-n> :cnext<CR>
-	nnoremap <C-'><C-p> :cprev<CR>
-	nnoremap <C-'><C-'> :copen<CR>
-	nnoremap '<C-n> :cnext<CR>
-	nnoremap '<C-p> :cprev<CR>
-
-	" toggleterm
-	noremap <M-x> :call user#general#ToggleTerm()<cr>
-	inoremap <M-x> <Esc>:call user#general#ToggleTerm()<cr>
-	tnoremap <M-x> <Cmd>call user#general#ToggleTerm()<cr>
 	" }}}
 	" Cmdline/HUD
 	" {{{
 	" Cursor movement
+	noremap! <C-b> <Left>
+	noremap! <C-f> <Right>
 	noremap! <M-b> <S-Left>
 	noremap! <M-f> <S-Right>
 
@@ -160,12 +160,12 @@ fu! user#mapping#resetup()
 	" Window Management {{{
 	nnoremap <leader>q :q<CR>
 	nnoremap <leader>Q :q!
-	nnoremap <leader>c :bdelete<CR>
-	nnoremap <leader>C :bdelete!<CR>
+	nnoremap <M-c> :bdelete<CR>
 	nnoremap <C-s> :w<CR>
 	nnoremap g<C-s> :noau w<CR>
 	nnoremap <c-w>Z :exec 'tabnew +'. line('.') . ' %'<cr>
 
+	" Resizing
 	nnoremap <M-C-.>  <C-W>3>
 	nnoremap <M-C-,>  <C-W>3<
 	nnoremap <M-C-=>  <C-W>3+
@@ -184,6 +184,7 @@ fu! user#mapping#resetup()
 	nnoremap <C-/> :nohlsearch<cr>
 	nnoremap <C-_> :nohlsearch<cr>
 
+	" Window Focus
 	tnoremap <A-h> <C-\><C-N><C-w>h
 	tnoremap <A-j> <C-\><C-N><C-w>j
 	tnoremap <A-k> <C-\><C-N><C-w>k
@@ -197,6 +198,7 @@ fu! user#mapping#resetup()
 	nnoremap <A-k> <C-w>k
 	nnoremap <A-l> <C-w>l
 
+	" Swap Buffer
 	nnoremap <M-n>      :bnext<CR>
 	nnoremap <M-p>      :bNext<CR>
 	inoremap <M-n>      <Esc>:bnext<CR>
@@ -204,6 +206,7 @@ fu! user#mapping#resetup()
 	tnoremap <M-n>      <C-\><C-n>:bnext<CR>
 	tnoremap <M-p>      <C-\><C-n>:bNext<CR>
 
+	" Tabs
 	nnoremap <leader>t  :tabnew<CR>
 	nnoremap <M-.>      :tabnext<CR>
 	nnoremap <M-,>      :tabprevious<CR>
@@ -217,6 +220,17 @@ fu! user#mapping#resetup()
 	tnoremap <C-S-Tab>  <C-\><C-n>:tabprevious<CR>
 	tnoremap <M-.>      <C-\><C-n>:tabnext<CR>
 	tnoremap <M-,>      <C-\><C-n>:tabprevious<CR>
+
+	" quickfix
+	nnoremap <M-'><M-n> :cnext<CR>
+	nnoremap <M-'><M-p> :cprev<CR>
+	nnoremap <M-'><M-'> :copen<CR>
+
+	" toggleterm
+	noremap <M-x> :call user#general#ToggleTerm()<cr>
+	inoremap <M-x> <Esc>:call user#general#ToggleTerm()<cr>
+	tnoremap <M-x> <Cmd>q<cr>
+	tnoremap <M-C-N> <C-\><C-n>
 
 	for i in range(1,8)
 		exec 'noremap <M-' . i . '> :' . i . 'tabnext<CR>'
