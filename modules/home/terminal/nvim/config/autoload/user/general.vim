@@ -40,6 +40,7 @@ fu! user#general#resetup()
 	set number relativenumber
 	set termguicolors
 	set scrolloff=5
+	set sidescrolloff=2
 	set cursorline
 	set lazyredraw
 	set cmdheight=1
