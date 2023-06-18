@@ -18,6 +18,7 @@
         viAlias = true;
         vimAlias = true;
         preventJunkFiles = true;
+        enableLuaLoader = true;
       };
 
       vim.snippets.vsnip.enable = true;
@@ -229,7 +230,6 @@
       };
 
       vim.utility = {
-        colorizer.enable = true;
         icon-picker.enable = true;
         diffview-nvim.enable = true;
         motion = {
@@ -257,7 +257,7 @@
 
       vim.ui = {
         noice.enable = false;
-        smartcolumn.enable = true;
+        smartcolumn.enable = false;
       };
 
       vim.assistant = {
@@ -311,6 +311,10 @@
             hl.WinSeparator = { fg = '#727ca7' }
           end,
         })
+
+        vim.fn.sign_define("DapBreakpointCondition", { text = "⊜", texthl = "ErrorMsg", linehl = "", numhl = "" })
+        vim.fn.sign_define("DapBreakpointRejected", { text = "󰜺", texthl = "ErrorMsg", linehl = "", numhl = "" })
+        vim.fn.sign_define("DapLogPoint", { text = "", texthl = "ErrorMsg", linehl = "", numhl = "" })
       '';
 
       vim.maps.normal = {
