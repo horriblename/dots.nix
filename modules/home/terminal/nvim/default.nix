@@ -403,6 +403,24 @@
       '';
     }
     {
+      package = friendly-snippets;
+      # friendly-snippets has no setup, these are unrelated but, eh,
+      # noone's using it anyways
+      setup = ''
+        local navic = require("nvim-navic")
+        navic.setup({
+          highlight = true,
+          lsp = {auto_attach = true,},
+        })
+
+        vim.api.nvim_create_autocmd({"LspAttach"}, {
+          callback = function()
+            vim.wo.winbar = "%!v:lua.require'nvim-navic'.get_location()"
+          end
+        })
+      '';
+    }
+    {
       package = ssr-nvim;
       setup = "require('ssr').setup {}";
     }
