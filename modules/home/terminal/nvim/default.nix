@@ -374,6 +374,22 @@
       '';
     }
     {
+      package = nvim-navic;
+      setup = ''
+        local navic = require("nvim-navic")
+        navic.setup({
+          highlight = true,
+          lsp = {auto_attach = true,},
+        })
+
+        vim.api.nvim_create_autocmd({"LspAttach"}, {
+          callback = function()
+            vim.wo.winbar = "%!v:lua.require'nvim-navic'.get_location()"
+          end
+        })
+      '';
+    }
+    {
       package = friendly-snippets;
       setup = "";
     }
