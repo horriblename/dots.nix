@@ -350,6 +350,9 @@
       vim.maps.normalVisualOp = {
         "<leader>gs".action = ":Gitsigns stage_hunk<CR>";
         "<leader>gr".action = ":Gitsigns reset_hunk<CR>";
+
+        # ssr.nvim
+        "<leader>sr".action = ":lua require('ssr').open()<CR>";
       };
 
       vim.maps.terminal = {
@@ -392,6 +395,10 @@
           end
         })
       '';
+    }
+    {
+      package = ssr-nvim;
+      setup = "require('ssr').setup {}";
     }
     {
       package = friendly-snippets;
