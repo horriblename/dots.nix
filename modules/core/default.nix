@@ -1,6 +1,13 @@
-{pkgs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   nix.package = pkgs.nix;
   nix.extraOptions = "experimental-features = nix-command flakes";
+  nix.registry = {
+    nixpkgs.flake = inputs.nixpkgs;
+  };
 
   # TODO move out
   nix.settings = {
