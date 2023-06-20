@@ -219,7 +219,6 @@
             "Makefile"
             "package.json"
             "flake.nix"
-            "cargo.toml"
             "index.*"
             ".anchor"
             ">.config"
