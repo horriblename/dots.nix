@@ -126,6 +126,8 @@
       wf-osk = final.callPackage ./pkgs/wf-osk.nix {};
       kanagawa-gtk = final.callPackage ./pkgs/kanagawa-gtk.nix {};
       hyprworkspaces = final.callPackage ./pkgs/hyprworkspaces/default.nix {};
+
+      mpv = prev.mpv.override {scripts = [prev.mpvScripts.mpris];};
     };
     formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
   };
