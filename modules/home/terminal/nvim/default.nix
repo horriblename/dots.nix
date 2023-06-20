@@ -403,6 +403,10 @@
       '';
     }
     {
+      package = ssr-nvim;
+      setup = "require('ssr').setup {}";
+    }
+    {
       package = friendly-snippets;
       # friendly-snippets has no setup, these are unrelated but, eh,
       # noone's using it anyways
