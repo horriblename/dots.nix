@@ -317,14 +317,21 @@
       '';
 
       vim.maps.normal = {
+        # General
+        "<leader>zf".action = ":lua vim.g.formatsave = not vim.g.formatsave<CR>";
+        "<leader>e".action = ":NvimTreeToggle<CR>";
+
+        # Buffer
         "<M-n>".action = ":BufferLineCycleNext<CR>";
         "<M-p>".action = ":BufferLineCyclePrev<CR>";
         "<M-c>".action = ":Bdelete<CR>";
-        "<leader>e".action = ":NvimTreeToggle<CR>";
+
+        # Diffview
         "<leader>gdq".action = ":DiffviewClose<CR>";
         "<leader>gdd".action = ":DiffviewOpen ";
         "<leader>gdm".action = ":DiffviewOpen<CR>";
         "<leader>gdh".action = ":DiffviewFileHistory %<CR>";
+        "<leader>gde".action = ":DiffviewToggleFiles<CR>";
 
         # Git
         "<leader>gu".action = "<cmd>Gitsigns undo_stage_hunk<CR>";
