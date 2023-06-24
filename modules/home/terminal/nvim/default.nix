@@ -1,4 +1,5 @@
 {
+  config,
   inputs,
   pkgs,
   ...
@@ -60,6 +61,30 @@
         dart.enable = false;
         elixir.enable = false;
       };
+
+      vim.lsp.lspconfig.sources = let
+        lspconfigSetup = server: extraConfig: ''
+          lspconfig.${server}.setup {
+            capabilities = capabilities;
+            on_attach = default_on_attach;
+            ${extraConfig}
+          }
+        '';
+        mkLspSources = builtins.mapAttrs lspconfigSetup;
+      in
+        mkLspSources {
+          yamlls = "";
+          csharp_ls = "";
+          jdtls = ''
+            cmd = {
+              "jdt-language-server",
+              "-configuration",
+              "${config.xdg.cacheHome}/jdtls/config",
+              "-data",
+              "${config.xdg.cacheHome}/jdtls/workspace",
+            },
+          '';
+        };
 
       vim.visuals = {
         enable = true;
@@ -319,12 +344,7 @@
     }
     {
       package = friendly-snippets;
-      # friendly-snippets has no setup, these are unrelated but, eh,
-      # noone's using it anyways
-      setup = ''
-        require('lspconfig').yamlls.setup{}
-        require('lspconfig').csharp_ls.setup{}
-      '';
+      setup = "";
     }
   ];
 }
