@@ -53,7 +53,8 @@ fu! user#general#resetup()
 	augroup SetListChars
 		au!
 		au OptionSet expandtab if &expandtab | setl listchars=tab:\ \ →,trail:· | else | set listchars=tab:\ \ ,lead:·,trail:· | endif
-		au BufRead * if &expandtab | setl listchars=tab:\ \ →,trail:· | else | set listchars=tab:\ \ ,lead:·,trail:· | endif
+		" reset listchars after modeline/.editorconfig settings
+		au BufWinEnter * if &expandtab | setl listchars=tab:\ \ →,trail:· | else | set listchars=tab:\ \ ,lead:·,trail:· | endif
 	augroup END
 
 	set wildcharm=<Tab>
