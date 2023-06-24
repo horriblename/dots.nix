@@ -4,6 +4,8 @@
   inputs = {
     # attribute sets listing all dependency used within the flake?
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nix-index-database.url = "github:Mic92/nix-index-database";
+    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -31,6 +33,7 @@
   outputs = {
     self,
     nixpkgs,
+    nix-index-database,
     nixos-hardware,
     home-manager,
     hyprland,
@@ -62,6 +65,7 @@
           modules =
             [
               core
+              nix-index-database.hmModules.nix-index
               {inherit machineName;}
               ./modules/home/home.nix
               ./modules/home/terminal

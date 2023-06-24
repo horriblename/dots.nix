@@ -984,6 +984,26 @@
         "type": "github"
       }
     },
+    "nix-index-database": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1687097842,
+        "narHash": "sha256-NPAaRZx5foWLgIPfEaiEZMr9JIlEQhLEVEXpx09341Q=",
+        "owner": "Mic92",
+        "repo": "nix-index-database",
+        "rev": "c8210cb3fcde6860255b54ddba74dc177e6232cd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Mic92",
+        "repo": "nix-index-database",
+        "type": "github"
+      }
+    },
     "nixos-hardware": {
       "locked": {
         "lastModified": 1686838567,
@@ -1543,6 +1563,7 @@
         "hyprland-border-actions": "hyprland-border-actions",
         "hyprland-touch-gestures": "hyprland-touch-gestures",
         "neovim-flake": "neovim-flake",
+        "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_5"
       }
