@@ -18,6 +18,7 @@
         viAlias = true;
         vimAlias = true;
         preventJunkFiles = true;
+        enableLuaLoader = true;
       };
 
       vim.snippets.vsnip.enable = true;
@@ -117,19 +118,27 @@
         name = "tokyonight";
         style = "night";
       };
-      vim.autopairs = {
-        enable = true;
-        nvim-compe.map_complete = false; # auto insert '(' after selecting function
-      };
+
+      # custom setup at the bottom
+      vim.autopairs.enable = false;
 
       vim.autocomplete = {
         enable = true;
         type = "nvim-cmp";
+        mappings = {
+          # close = "<C-e>";
+          confirm = "<C-y>";
+          next = "<C-n>";
+          previous = "<C-p>";
+          scrollDocsDown = "<C-d>";
+          scrollDocsUp = "<C-u>";
+        };
       };
 
       vim.filetree = {
         nvimTreeLua = {
           enable = true;
+          openOnSetup = false;
           openTreeOnNewTab = false;
           indentMarkers = true;
           actions = {
@@ -157,7 +166,17 @@
         nvimBufferline.enable = true;
       };
 
-      vim.treesitter.context.enable = true;
+      vim.treesitter = {
+        fold = true;
+        context.enable = true;
+        mappings = {
+          incrementalSelection = {
+            init = "<M-o>";
+            incrementByNode = "<M-o>";
+            decrementByNode = "<M-i>";
+          };
+        };
+      };
 
       vim.binds = {
         whichKey.enable = true;
@@ -200,7 +219,6 @@
             "Makefile"
             "package.json"
             "flake.nix"
-            "cargo.toml"
             "index.*"
             ".anchor"
             ">.config"
@@ -211,7 +229,6 @@
       };
 
       vim.utility = {
-        colorizer.enable = true;
         icon-picker.enable = true;
         diffview-nvim.enable = true;
         motion = {
@@ -227,14 +244,19 @@
 
       vim.terminal = {
         toggleterm = {
+          mappings.open = "<M-x>";
           enable = true;
           direction = "tab";
+          lazygit = {
+            enable = true;
+            direction = "tab";
+          };
         };
       };
 
       vim.ui = {
         noice.enable = false;
-        smartcolumn.enable = true;
+        smartcolumn.enable = false;
       };
 
       vim.assistant = {
@@ -275,19 +297,11 @@
           call user#general#setup()
           call user#mapping#setup()
         ]]
-        local terminal = require 'toggleterm.terminal'
-        _G.LazyGit = terminal.Terminal:new({
-          cmd = "lazygit",
-          direction = "tab",
-          hidden = true,
-          on_open = function(term)
-            vim.keymap.set('t', '<M-x>', function() term:toggle() end, {silent = true, noremap = true, buffer = term.bufnr})
-          end
-        })
-
         vim.opt.wrap = false
         vim.filetype.add({
-          yuck = 'lisp',
+          extension = {
+            yuck = 'lisp',
+          }
         })
 
         require("tokyonight").setup({
@@ -296,29 +310,59 @@
             hl.WinSeparator = { fg = '#727ca7' }
           end,
         })
+
+        vim.fn.sign_define("DapBreakpointCondition", { text = "⊜", texthl = "ErrorMsg", linehl = "", numhl = "" })
+        vim.fn.sign_define("DapBreakpointRejected", { text = "󰜺", texthl = "ErrorMsg", linehl = "", numhl = "" })
+        vim.fn.sign_define("DapLogPoint", { text = "", texthl = "ErrorMsg", linehl = "", numhl = "" })
       '';
 
-      vim.nnoremap = {
-        "<M-x>" = "<cmd>execute v:count . 'ToggleTerm'<CR>";
-        "<M-n>" = ":BufferLineCycleNext<CR>";
-        "<M-p>" = ":BufferLineCyclePrev<CR>";
-        "<leader>e" = ":NvimTreeToggle<CR>";
-        "<leader>gg" = "<cmd>lua _G.LazyGit:toggle()<CR>";
-        "<leader>gP" = ":Gitsigns preview_hunk_inline<CR>";
-        "<leader>gdq" = ":DiffviewClose<CR>";
-        "<leader>gdd" = ":DiffviewOpen ";
-        "<leader>gdm" = ":DiffviewOpen<CR>";
-        "<leader>gdh" = ":DiffviewFileHistory %<CR>";
+      vim.maps.normal = {
+        # General
+        "<leader>zf".action = ":lua vim.g.formatsave = not vim.g.formatsave<CR>";
+        "<leader>e".action = ":NvimTreeToggle<CR>";
+
+        # Buffer
+        "<M-n>".action = ":BufferLineCycleNext<CR>";
+        "<M-p>".action = ":BufferLineCyclePrev<CR>";
+        "<M-c>".action = ":Bdelete<CR>";
+
+        # Diffview
+        "<leader>gdq".action = ":DiffviewClose<CR>";
+        "<leader>gdd".action = ":DiffviewOpen ";
+        "<leader>gdm".action = ":DiffviewOpen<CR>";
+        "<leader>gdh".action = ":DiffviewFileHistory %<CR>";
+        "<leader>gde".action = ":DiffviewToggleFiles<CR>";
+
+        # Git
+        "<leader>gu".action = "<cmd>Gitsigns undo_stage_hunk<CR>";
+        "<leader>g<C-w>".action = "<cmd>Gitsigns preview_hunk<CR>";
+        "<leader>gp".action = "<cmd>Gitsigns prev_hunk<CR>";
+        "<leader>gn".action = "<cmd>Gitsigns next_hunk<CR>";
+        "<leader>gP".action = "<cmd>Gitsigns preview_hunk_inline<CR>";
+        "<leader>gR".action = "<cmd>Gitsigns reset_buffer<CR>";
+        "<leader>gb".action = "<cmd>Gitsigns blame_line<CR>";
+        "<leader>gD".action = "<cmd>Gitsigns diffthis HEAD<CR>";
+        "<leader>gw".action = "<cmd>Gitsigns toggle_word_diff<CR>";
+
+        # Telescope
+        "<M-f>".action = ":Telescope resume<CR>";
+        "<leader>fq".action = ":Telescope quickfix<CR>";
+        "<leader>f/".action = ":Telescope live_grep<cr>";
+
+        # Aerial
+        "gO".action = ":AerialToggle<CR>";
       };
 
-      vim.inoremap = {
-        "<C-y>" = "<cmd>lua require'cmp'.mapping.confirm({ select = true })()<CR>";
-        "<C-n>" = "<cmd>lua require'cmp'.mapping.select_next_item()()<CR>";
-        "<C-p>" = "<cmd>lua require'cmp'.mapping.select_prev_item()()<CR>";
+      vim.maps.normalVisualOp = {
+        "<leader>gs".action = ":Gitsigns stage_hunk<CR>";
+        "<leader>gr".action = ":Gitsigns reset_hunk<CR>";
+
+        # ssr.nvim
+        "<leader>sr".action = ":lua require('ssr').open()<CR>";
       };
 
-      vim.tnoremap = {
-        "<M-x>" = "<cmd>ToggleTerm<CR>";
+      vim.maps.terminal = {
+        "<M-x>".action = "<cmd>q<CR>";
       };
     };
   };
@@ -343,8 +387,66 @@
       '';
     }
     {
+      package = nvim-navic;
+      setup = ''
+        local navic = require("nvim-navic")
+        navic.setup({
+          highlight = true,
+          lsp = {auto_attach = true,},
+        })
+
+        vim.api.nvim_create_autocmd({"LspAttach"}, {
+          callback = function()
+            vim.wo.winbar = "%!v:lua.require'nvim-navic'.get_location()"
+          end
+        })
+      '';
+    }
+    {
+      package = ssr-nvim;
+      setup = "require('ssr').setup {}";
+    }
+    {
       package = friendly-snippets;
       setup = "";
+    }
+    {
+      package = "nvim-autopairs";
+      setup = ''
+        require('nvim-autopairs').setup({
+          check_ts = true, -- treesitter integration
+          disable_filetype = { "TelescopePrompt", "lisp" },
+          enable_afterquote = false,
+          fast_wrap = {
+            map = "<M-e>",
+            end_key = "e",
+            highlight = "PmenuSel",
+            highlight_grey = "LineNr",
+          },
+        })
+
+        do
+          local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+          require'cmp'.event:on('confirm_done', cmp_autopairs.on_confirm_done({
+            map_char = { text = "" },
+            filetypes = {
+              -- ["*"] = {
+              --   ["("] = {
+              --     kind = {
+              --       cmp.lsp.CompletionItemKind.Function,
+              --       cmp.lsp.CompletionItemKind.Method,
+              --     },
+              --     -- handler = handlers["*"]
+              --   }
+              -- },
+              lisp = false,
+              nix = false,
+              bash = false,
+              sh = false,
+            },
+          }))
+        end
+      '';
     }
   ];
 }

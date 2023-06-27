@@ -21,7 +21,7 @@
       inputs.hyprland.follows = "hyprland";
     };
     neovim-flake = {
-      url = "github:NotAShelf/neovim-flake";
+      url = "github:NotAShelf/neovim-flake/release/v0.4";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     anyrun = {
@@ -61,7 +61,7 @@
     }:
       assert lib.assertOneOf "homeConfigurationMode" homeConfigurationMode ["terminal" "full"];
         home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs ({overlays = [anyrun.overlay self.overlay];} // nixpkgsConfigs.${machineName});
+          pkgs = import nixpkgs ({overlays = [self.overlay];} // nixpkgsConfigs.${machineName});
           modules =
             [
               core
@@ -116,7 +116,7 @@
     packages = forEachSystem (system: let
       pkgs = import nixpkgs {
         inherit system;
-        overlays = [anyrun.overlay self.overlay];
+        overlays = [self.overlay];
       };
     in {
       wf-osk = pkgs.wf-osk;
@@ -130,6 +130,7 @@
       wf-osk = final.callPackage ./pkgs/wf-osk.nix {};
       kanagawa-gtk = final.callPackage ./pkgs/kanagawa-gtk.nix {};
       hyprworkspaces = final.callPackage ./pkgs/hyprworkspaces/default.nix {};
+      anyrun = anyrun.packages.${final.system}.anyrun-with-all-plugins;
 
       mpv = prev.mpv.override {scripts = [prev.mpvScripts.mpris];};
     };
