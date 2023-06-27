@@ -1,4 +1,5 @@
 {
+  lib,
   config,
   inputs,
   pkgs,
@@ -85,6 +86,7 @@
               "${config.xdg.cacheHome}/jdtls/workspace",
             },
           '';
+          lua_ls = ''cmd = { "${lib.getExe pkgs.lua-language-server}" },'';
         };
 
       vim.visuals = {
@@ -284,11 +286,9 @@
 
       vim.mapTimeout = 0;
 
-      # Note: this should in theory install all grammars:
-      #	    vim.treesitter.grammars = pkgs.vimPlugins.nvim-treesitter.builtGrammars;
-      #
       vim.treesitter.grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
         glsl
+        java
       ];
 
       # HACK
@@ -469,6 +469,16 @@
           }))
         end
       '';
+    }
+    {
+      package = neodev-nvim;
+      setup = ''
+        require("neodev").setup({})
+      '';
+    }
+    {
+      package = pkgs.nosam-nvim;
+      setup = "";
     }
     {
       package = "nvim-autopairs";
