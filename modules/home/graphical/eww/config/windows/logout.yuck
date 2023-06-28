@@ -30,6 +30,8 @@
                      :onclick "swaylock")
         (PowerButton :icon "Bedtime"
                      :onclick "systemctl suspend")
+        (PowerButton :icon "Logout"
+                     :onclick "hyprctl dispatch exit")
         (PowerButton :icon "Restart_Alt"
                      :onclick "systemctl restart")
         (PowerButton :icon "Power_Rounded"
