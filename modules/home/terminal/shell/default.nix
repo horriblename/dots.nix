@@ -74,7 +74,9 @@
       enable = true;
       enableCompletion = true;
       enableAutosuggestions = true;
-      enableSyntaxHighlighting = true;
+      syntaxHighlighting = {
+        enable = true;
+      };
       dotDir = ".config/zsh";
       sessionVariables = {
         LC_ALL = "en_US.UTF-8";
