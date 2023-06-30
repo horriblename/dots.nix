@@ -482,10 +482,6 @@
       '';
     }
     {
-      package = pkgs.nosam-nvim;
-      setup = "";
-    }
-    {
       package = "nvim-autopairs";
       setup = ''
         require('nvim-autopairs').setup({
