@@ -11,6 +11,7 @@ augroup ColorTweaks
 	au!
 	au ColorScheme badwolf hi Comment guifg=#aaa6a1
 	au ColorScheme gruvbox hi Comment guifg=#a5998d | hi Visual gui=NONE
+	au ColorScheme habamax hi MatchParen guifg=orange gui=bold
 	au ColorScheme * hi Normal guibg=NONE
 augroup END
 

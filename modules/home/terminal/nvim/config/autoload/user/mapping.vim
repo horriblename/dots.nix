@@ -18,6 +18,8 @@ fu! user#mapping#resetup()
 	vnoremap <Tab>    >gv
 	vnoremap <S-Tab>  <gv
 
+	inoremap <S-Tab> <C-d>
+
 	noremap! <C-BS> <C-w>
 	tnoremap <C-BS> <C-w>
 
@@ -149,17 +151,16 @@ fu! user#mapping#resetup()
 	inoremap <M-x> <Esc>:call user#general#ToggleTerm()<cr>
 	tnoremap <M-x> <Cmd>q<cr>
 	" }}}
-	" Cmdline/HUD
-	" {{{
+	" {{{ Cmdline/HUD
 	" Cursor movement
 	noremap! <C-b> <Left>
 	noremap! <C-f> <Right>
 	noremap! <M-b> <S-Left>
 	noremap! <M-f> <S-Right>
 
+	noremap! <C-d> <Del>
 	cnoremap <C-a> <Home>
 	cnoremap <C-e> <End>
-	cnoremap <C-d> <Del>
 
 	" regex shortcuts
 	cnoremap <M-w> \<\><Left><Left>
