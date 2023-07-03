@@ -11,11 +11,6 @@
 
   # TODO move out
   nix.settings = {
-    # ccache still needs to be set-up per device:
-    # - create the directory /nix/var/cache/ccache with the same owner and group as /nix/store
-    # see https://nixos.wiki/wiki/CCache
-    extra-sandbox-paths = "/nix/var/cache/ccache";
-
     substituters = [
       "https://cache.nixos.org"
       "https://nix-community.cachix.org"
