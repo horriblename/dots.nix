@@ -4,5 +4,6 @@
     ./nvim
     ./shell
     ./lf
+    ./scripts
   ];
 }

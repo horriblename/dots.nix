@@ -1,0 +1,132 @@
+#!/usr/bin/env python
+
+import os
+import argparse
+import shutil
+
+
+def notNone(x):
+    assert x is not None
+    return x
+
+
+def maybeAppend(x: str | None, y: str) -> None | str:
+    if x is None:
+        return None
+    else:
+        return x + y
+
+
+TEMPLATES_DIR = (
+    os.getenv("PLAYGROUND_TEMPLATES")
+    or (maybeAppend(os.getenv("XDG_CONFIG_HOME"), "/playground/templates"))
+    or (notNone(os.getenv("HOME")) + ".config/playground/templates")
+)
+PLAYGROUND_BASE_DIR = os.getenv("PLAYGROUND_DIR") or "/tmp/playground"
+EDITOR = os.getenv("EDITOR") or "nvim"
+
+NAME_RANDOM_SUFFIX_LENGTH = 3
+
+
+def genUniqueDir(base: str) -> str:
+    for i in range(1000):
+        name = base + str(i)
+        if not os.path.exists(name):
+            return name
+
+    raise Exception("Could not find unique name, too many tries")
+
+
+def lastPlaygroundId(base: str) -> int | None:
+    """The id of a playground is 0-indexed. Returns None if no playgrounds are found."""
+    if not os.path.exists(base):
+        return None
+
+    last = 0
+    for i in range(1, 1000):
+        if not os.path.exists(base + str(i)):
+            last = i - 1
+            break
+
+    return last
+
+
+def setupNewPlayground(template: str, id: int) -> str:
+    """
+    Creates a new playground directory and returns its path
+    """
+    src = TEMPLATES_DIR + f"/{template}"
+    if not os.path.exists(src):
+        raise Exception(f"Could not find template {src}")
+
+    if not os.path.exists(PLAYGROUND_BASE_DIR):
+        os.mkdir(PLAYGROUND_BASE_DIR)
+
+    dest = os.path.join(PLAYGROUND_BASE_DIR, template)
+    if id != 0:
+        dest += str(id)
+
+    shutil.copytree(src, dest)
+
+    return dest
+
+
+def getPlayground(template: str, always_create: bool = False) -> str:
+    """
+    Get playground path from a template name, an existing playground will be used,
+    unless `always_create` is set to true. A new playground is created if none exist
+    """
+    base = os.path.join(PLAYGROUND_BASE_DIR, template)
+    last = lastPlaygroundId(base)
+    if last is None or always_create:
+        suffix = last + 1 if last is not None else 0
+        return setupNewPlayground(template, suffix)
+
+    suffix = str(last) if last != 0 else ""
+    return base + suffix
+
+
+def listTemplates():
+    print(*os.listdir(TEMPLATES_DIR), sep="\n")
+
+
+def openPlayground(path: str):
+    command = EDITOR.split(" ")
+    os.execvp(command[0], command + [path])
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Creates a project from a template")
+    parser.add_argument("template_name")
+    parser.add_argument(
+        "-n", "--new", action="store_true", help="Create new playground"
+    )
+    # BUG: `-l` still requires position argument `template_name`
+    parser.add_argument(
+        "-l", "--list", action="store_true", help="List available templates"
+    )
+    parser.add_argument(
+        "-p",
+        "--print-path",
+        action="store_true",
+        help="Prints the path to the playground instead of opening $EDITOR",
+    )
+    args = parser.parse_args()
+
+    if args.list:
+        listTemplates()
+        exit(0)
+
+    if args.template_name == None:
+        print("Error: template_name is not given.")
+        exit(1)
+
+    playground = getPlayground(args.template_name, args.new)
+    if args.print_path:
+        print(playground)
+    else:
+        openPlayground(playground)
+
+
+if __name__ == "__main__":
+    main()
