@@ -114,14 +114,24 @@ fu! user#mapping#resetup()
 	" }}}
 	" de-surround
 	for char in "(){}[]<>bBt"
-		exec 'nnoremap ds'.char ' di'.char.'va'.char.'pgv'
+		exec printf('nnoremap ds%s di%sva%spgv', char, char, char)
+		for replace in "(){}[]<>bBt"
+			exec printf('nmap <silent> cs%s%s ds%ss%s', char, replace, char, replace)
+		endfor
 	endfor
 
 	" quotes are single-line only, so this can work
 	" using a different keymap as `da'` could delete a whitespace
 	for char in "\"`'"
 		exec 'nnoremap' 'ds'.char ' di'.char.'vhpgv'
+		exec printf('nnoremap ds%s di%svhpgv', char, char)
 	endfor
+	" desurrounds anything
+	fu s:desurround_f()
+		let c = getcharstr()
+		return printf("F%sxm<f%sxm>", c, c)
+	endfu
+	nnoremap <expr> dsf <SID>desurround_f()
 
 	" keyboard layout switching
 	nnoremap <leader>zl :set langmap=yYzZ\\"§&/()=?`ü+öä#-Ü*ÖÄ'\\;:_;zZyY@#^&*()_+[]\\;'\\\\/{}:\\"\\|\\<\\>?<cr>
@@ -136,15 +146,17 @@ fu! user#mapping#resetup()
 	nnoremap <leader>zb :set bg=dark<CR>
 	nnoremap <leader>zB :noau set bg=dark<CR>
 
+	" silent! map <unique> prevents new binds from replacing old ones
 	silent! nnoremap <unique> <leader>e :25Lexplore<CR>
-	silent! nnoremap <unique> <leader>f :find 
+	silent! nnoremap <unique> <leader>ff :find 
+	silent! nnoremap <unique> <leader>f/ :vimgrep // **<Left><Left><Left><Left>
 
 	" quickfix
-	nnoremap <C-'><C-n> :cnext<CR>
-	nnoremap <C-'><C-p> :cprev<CR>
-	nnoremap <C-'><C-'> :copen<CR>
-	nnoremap '<C-n> :cnext<CR>
-	nnoremap '<C-p> :cprev<CR>
+	nnoremap <leader>xn :cnext<CR>
+	nnoremap <leader>xp :cprev<CR>
+	nnoremap <leader>x, :cnewer<CR>
+	nnoremap <leader>x; :colder<CR>
+	nnoremap <leader>xx :copen<CR>
 
 	" toggleterm
 	noremap <M-x> :call user#general#ToggleTerm()<cr>
@@ -173,10 +185,14 @@ fu! user#mapping#resetup()
 	" Window Management {{{
 	nnoremap <leader>q :q<CR>
 	nnoremap <leader>Q :q!
-	nnoremap <M-c> :bdelete<CR>
+	nnoremap <M-S-c> :edit # <bar> bdelete! #<CR>
 	nnoremap <C-s> :w<CR>
 	nnoremap g<C-s> :noau w<CR>
 	nnoremap <c-w>Z :exec 'tabnew +'. line('.') . ' %'<cr>
+   function s:closeBuffer()
+      return (buflisted(0)? ':edit #' : ':bnext' ) . '| bdelete ' . bufnr() . "\<CR>"
+   endfu
+   nnoremap <expr> <M-c> <SID>closeBuffer()
 
 	" Resizing
 	nnoremap <M-C-.>  <C-W>3>
@@ -222,16 +238,19 @@ fu! user#mapping#resetup()
 	" Tabs
 	nnoremap <leader>t  :tabnew<CR>
 	nnoremap <M-.>      :tabnext<CR>
+	nnoremap <M-;>      :tabnext<CR>
 	nnoremap <M-,>      :tabprevious<CR>
 	nnoremap <C-Tab>    :tabnext<CR>
 	nnoremap <C-S-Tab>  :tabprevious<CR>
 	inoremap <C-Tab>    <Esc>:tabnext<CR>
 	inoremap <C-S-Tab>  <Esc>:tabprevious<CR>
 	inoremap <M-.>      <Esc>:tabnext<CR>
+	inoremap <M-;>      <Esc>:tabnext<CR>
 	inoremap <M-,>      <Esc>:tabprevious<CR>
 	tnoremap <C-Tab>    <C-\><C-n>:tabnext<CR>
 	tnoremap <C-S-Tab>  <C-\><C-n>:tabprevious<CR>
 	tnoremap <M-.>      <C-\><C-n>:tabnext<CR>
+	tnoremap <M-;>      <C-\><C-n>:tabnext<CR>
 	tnoremap <M-,>      <C-\><C-n>:tabprevious<CR>
 
 	" quickfix
@@ -258,6 +277,11 @@ fu! user#mapping#resetup()
 	" }}}
 
 	" Plugins
+	nnoremap <leader>mt :make test<CR>
+	nnoremap <leader>mr :make run<CR>
+	nnoremap <leader>mb :make build<CR>
+	nnoremap <leader>mc :make clean<CR>
+	nnoremap <leader>mm :make<CR>
 	nnoremap <silent> <leader>u :UndotreeToggle <bar> UndotreeFocus<CR>
 endfu
 
