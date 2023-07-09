@@ -30,7 +30,7 @@
         lightbulb.enable = true;
         lspsaga.enable = false;
         nvimCodeActionMenu.enable = true;
-        trouble.enable = true;
+        trouble.enable = false;
         lspSignature.enable = true;
       };
 
@@ -325,6 +325,7 @@
         # General
         "<leader>zf".action = ":lua vim.g.formatsave = not vim.g.formatsave<CR>";
         "<leader>e".action = ":NvimTreeToggle<CR>";
+        "<leader>ldq".action = ":lua vim.diagnostic.setqflist({open = true})<CR>";
 
         # Buffer
         "<M-n>".action = ":BufferLineCycleNext<CR>";
@@ -360,6 +361,7 @@
       vim.maps.normalVisualOp = {
         "<leader>gs".action = ":Gitsigns stage_hunk<CR>";
         "<leader>gr".action = ":Gitsigns reset_hunk<CR>";
+        "<leader>lr".action = "<cmd>lua vim.lsp.buf.references()<CR>";
 
         # ssr.nvim
         "<leader>sr".action = ":lua require('ssr').open()<CR>";
