@@ -329,7 +329,6 @@
         # Buffer
         "<M-n>".action = ":BufferLineCycleNext<CR>";
         "<M-p>".action = ":BufferLineCyclePrev<CR>";
-        "<M-c>".action = ":Bdelete<CR>";
 
         # Diffview
         "<leader>gdq".action = ":DiffviewClose<CR>";
@@ -479,44 +478,6 @@
       package = neodev-nvim;
       setup = ''
         require("neodev").setup({})
-      '';
-    }
-    {
-      package = "nvim-autopairs";
-      setup = ''
-        require('nvim-autopairs').setup({
-          check_ts = true, -- treesitter integration
-          disable_filetype = { "TelescopePrompt", "lisp" },
-          enable_afterquote = false,
-          fast_wrap = {
-            map = "<M-e>",
-            end_key = "e",
-            highlight = "PmenuSel",
-            highlight_grey = "LineNr",
-          },
-        })
-
-        do
-          local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-          require'cmp'.event:on('confirm_done', cmp_autopairs.on_confirm_done({
-            map_char = { text = "" },
-            filetypes = {
-              -- ["*"] = {
-              --   ["("] = {
-              --     kind = {
-              --       cmp.lsp.CompletionItemKind.Function,
-              --       cmp.lsp.CompletionItemKind.Method,
-              --     },
-              --     -- handler = handlers["*"]
-              --   }
-              -- },
-              lisp = false,
-              nix = false,
-              bash = false,
-              sh = false,
-            },
-          }))
-        end
       '';
     }
   ];
