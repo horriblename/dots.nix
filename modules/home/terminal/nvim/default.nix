@@ -319,6 +319,20 @@
         vim.fn.sign_define("DapBreakpointCondition", { text = "⊜", texthl = "ErrorMsg", linehl = "", numhl = "" })
         vim.fn.sign_define("DapBreakpointRejected", { text = "󰜺", texthl = "ErrorMsg", linehl = "", numhl = "" })
         vim.fn.sign_define("DapLogPoint", { text = "", texthl = "ErrorMsg", linehl = "", numhl = "" })
+
+        local direnvExtras = vim.api.nvim_create_augroup("ExtraDirenvRTP", {})
+        vim.api.nvim_create_autocmd({"VimEnter", "User DirenvLoaded"}, {
+          group = direnvExtras,
+          callback = function()
+            local extra_rtp = os.getenv('VIM_EXTRA_PATH')
+            if extra_rtp then
+              local paths = vim.fn.split(extra_rtp, ':')
+              for _, path in ipairs(paths) do
+                vim.opt.runtimepath:prepend(path)
+              end
+            end
+          end,
+        })
       '';
 
       vim.maps.normal = {
