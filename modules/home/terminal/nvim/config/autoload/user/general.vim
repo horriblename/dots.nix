@@ -110,6 +110,13 @@ fu! user#general#resetup()
 		au TextYankPost * silent! lua vim.highlight.on_yank()
 		lua vim.unload_module = function (mod) package.loaded[mod] = nil end
 	endif
+
+	" default behavior: closing tab opens the next one, I want the previous one
+	" instead
+	augroup FixTabClose
+		au!
+		au TabClosed * if str2nr(expand('<afile>')) <= tabpagenr('$') | tabprev | endif
+	augroup END
 	" }}}
 
 	let g:markdown_folding = 1
