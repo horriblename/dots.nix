@@ -141,8 +141,8 @@ cmd mkln ${{
 		printf "\033[33mLinking to:\033[0m $ln_targets\nLink Name: "
 		read link_name
 		ln $1 "$ln_targets" "$destination_dir/$link_name"
-		lf -remote "send echo created link \033[33m$link_name\033[0m -> \033[33m$ln_targets\033[0m"
 		lf -remote 'send clear'
+		lf -remote "send $id % printf 'created link \033[33m%s\033[0m -> \033[33m%s\033[0m' '$link_name' '$ln_targets'"
 		exit
 	;;
 	*) {
@@ -155,6 +155,33 @@ cmd mkln ${{
 		lf -remote 'send clear'
 	} ;;
 	esac
+}}
+
+cmd intoZip ${{
+	load=$(cat ~/.local/share/lf/files)
+	mode=$(echo "$load" | sed -n '1p')
+   files=$(echo "$load" | sed '1d' | sed "s|$PWD/||g")
+	echo "$files"
+	[ "$(echo "$files" | wc -w)" -eq 0 ] && exec lf -remote "send $id % printf '\033[31mNo files in clipboard'"
+
+	if [ "${f%.zip}" != "$f" ] ; then
+		defaultZip="$f"
+	elif [ -d "$f" ]; then
+		defaultZip="$f.zip"
+	fi
+
+	printf 'give zip file (%s):' "$defaultZip"
+	read zip
+	if [ -z "$zip" ]; then
+		[ -z "$defaultZip" ] && exec lf -remote "send $id % printf '\033[31mPlease enter the zip file name.'"
+		zip="$defaultZip"
+	fi
+
+	if [ "$mode" = 'move' ]; then
+		flags='-m'
+	fi
+	echo "$files" | xargs -d '\n' zip -r $@ $flags "$zip"
+	lf -remote 'send clear'
 }}
 
 cmd follow_ln %{{
@@ -382,6 +409,7 @@ map ch chmod
 map Ps mkln -s
 map Pr mkln -sr
 map Ph mkln
+map Pz intoZip
 map s0 shareViaNullPointer
 map r rename
 map H top
