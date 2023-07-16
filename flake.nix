@@ -28,6 +28,10 @@
       url = "github:Kirottu/anyrun";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    md-img-paste-vim = {
+      url = "github:ferrine/md-img-paste.vim";
+      flake = false;
+    };
   };
 
   outputs = {
@@ -38,6 +42,7 @@
     home-manager,
     hyprland,
     anyrun,
+    md-img-paste-vim,
     ...
   } @ inputs: let
     # inputs = self.inputs;
@@ -131,6 +136,11 @@
       kanagawa-gtk = final.callPackage ./pkgs/kanagawa-gtk.nix {};
       hyprworkspaces = final.callPackage ./pkgs/hyprworkspaces/default.nix {};
       anyrun = anyrun.packages.${final.system}.anyrun-with-all-plugins;
+      md-img-paste-vim = final.vimUtils.buildVimPluginFrom2Nix {
+        pname = "md-img-paste-vim";
+        version = "master";
+        src = md-img-paste-vim;
+      };
 
       mpv = prev.mpv.override {scripts = [prev.mpvScripts.mpris];};
     };

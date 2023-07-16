@@ -370,6 +370,9 @@
 
         # Aerial
         "gO".action = ":AerialToggle<CR>";
+
+        # Image pasre
+        "<leader>P".action = ":call mdip#MarkdownClipboardImage()<CR>";
       };
 
       vim.maps.normalVisualOp = {
@@ -494,6 +497,12 @@
       package = neodev-nvim;
       setup = ''
         require("neodev").setup({})
+      '';
+    }
+    {
+      package = pkgs.md-img-paste-vim;
+      setup = ''
+        vim.g.mdip_imgdir = "attachments"
       '';
     }
   ];

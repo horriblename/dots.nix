@@ -821,6 +821,22 @@
         "type": "github"
       }
     },
+    "md-img-paste-vim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1666591630,
+        "narHash": "sha256-LaqEGKbpZmcOJeIz00Ts5DvbFnduScBEUnisTcX1srI=",
+        "owner": "ferrine",
+        "repo": "md-img-paste.vim",
+        "rev": "787be15ff52ea2db5ae7b813ab8808c8d4cf749e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ferrine",
+        "repo": "md-img-paste.vim",
+        "type": "github"
+      }
+    },
     "mind-nvim": {
       "flake": false,
       "locked": {
@@ -1704,6 +1720,7 @@
         "hyprgrass": "hyprgrass",
         "hyprland": "hyprland",
         "hyprland-border-actions": "hyprland-border-actions",
+        "md-img-paste-vim": "md-img-paste-vim",
         "neovim-flake": "neovim-flake",
         "nix-index-database": "nix-index-database",
         "nixos-hardware": "nixos-hardware",
