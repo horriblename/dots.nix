@@ -1,4 +1,5 @@
 {
+  self,
   inputs,
   pkgs,
   ...
@@ -11,6 +12,7 @@
 
   # TODO move out
   nix.settings = {
+    nix-path = ["nixpkgs=${inputs.nixpkgs}" "dots=${self}"];
     substituters = [
       "https://cache.nixos.org"
       "https://nix-community.cachix.org"
