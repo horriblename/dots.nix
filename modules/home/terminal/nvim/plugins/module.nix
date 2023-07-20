@@ -14,6 +14,7 @@ with lib; let
       setup = mkOption {
         type = types.str;
         description = "The lua code to run during setup, usually `require(module).setup {...}`";
+        default = "";
         example = ''
           require('aerial').setup({
             on_attach = function(bufnr)
