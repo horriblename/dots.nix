@@ -16,8 +16,6 @@ let mapleader = " "
 xnoremap > >gv
 xnoremap < <gv
 
-noremap <leader>/ :ToggleLineComments<cr>
-
 vnoremap <Tab>    >gv
 vnoremap <S-Tab>  <gv
 
@@ -457,7 +455,6 @@ endif
 command! CDC cd %:p:h
 " delete augroup
 command! -nargs=1 AugroupDel call AugroupDel(<q-args>)
-command! -addr=lines ToggleLineComments call ToggleLineCommentOnRange(<line1>, <line2>)
 command! -nargs=1 -complete=file ShareVia0x0 
 			\ call setreg(v:register, system('curl --silent -F"file=@"'.expand(<q-args>).' https://0x0.st')) <bar>
 			\ echo getreg()

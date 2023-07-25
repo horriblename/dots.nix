@@ -91,7 +91,6 @@ fu! user#general#resetup()
 	command! CDC cd %:p:h
 	" delete augroup
 	command! -nargs=1 AugroupDel call user#general#AugroupDel(<q-args>)
-	command! -addr=lines ToggleLineComments call user#general#ToggleLineCommentOnRange(<line1>, <line2>)
 	command! -nargs=1 -complete=file ShareVia0x0 
 				\ call setreg(v:register, system('curl --silent -F"file=@"'.expand(<q-args>).' https://0x0.st')) <bar>
 				\ echo getreg()
@@ -192,56 +191,6 @@ fu! s:getIndentOfLength(length)
 
 	let tabs = a:length / &tabstop
 	return repeat("\t", tabs)
-endfu
-
-fu! user#general#ToggleLineComment(lnum, indent)
-	let comm=&commentstring
-	if comm->strpart(0, 2) == '%s' || empty(comm)
-		echoerr "commentstring does not have preceding symbol or is empty"
-	endif
-
-	let exprs = comm->split("%s")
-
-	let beg_str = exprs[0]
-	let end_str = exprs->get(1, "") 
-	let beg_re = '\(' . beg_str->trim() . ' \?\)\?'
-	let end_re = '\(' . end_str->trim() . '\)\?'
-	if a:indent < 0
-		let a:indent = indent(a:lnum)
-	endif
-
-	let tabs = a:indent / &tabstop
-	let indent_re = escape('^((\t| {'.&tabstop.'}){'.tabs.'})', '(){}|')
-
-	let mlist = matchlist(getline(a:lnum), indent_re. beg_re . '\(.*\)' . end_re . '$')
-
-	if len(mlist) == 0
-		echo "error matching line " . a:lnum . "with indents " . a:indent
-		return
-	endif
-
-	let extra_groups = len(mlist) - 10
-
-	let [_, indents, _, cmatch_beg; rest] = mlist 
-	let code = rest[0 + extra_groups]
-	let trail = rest[2 + extra_groups]
-
-	if !empty(cmatch_beg)
-		call setline(a:lnum, indents . code . trail)
-	else
-		call setline(a:lnum, indents . beg_str . code . end_str . trail)
-	endif
-endfu
-
-fu! user#general#ToggleLineCommentOnRange(line1, line2)
-	let min_ind = indent(a:line1)
-	for lnum in range(a:line1, a:line2)
-		let min_ind = min([min_ind, indent(lnum)])
-	endfor
-
-	for lnum in range(a:line1, a:line2)
-		call user#general#ToggleLineComment(lnum, min_ind)
-	endfor
 endfu
 
 let g:AnsiTermColors = {

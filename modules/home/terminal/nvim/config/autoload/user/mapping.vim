@@ -13,8 +13,6 @@ fu! user#mapping#resetup()
 	xnoremap > >gv
 	xnoremap < <gv
 
-	noremap <leader>/ :ToggleLineComments<cr>
-
 	vnoremap <Tab>    >gv
 	vnoremap <S-Tab>  <gv
 
