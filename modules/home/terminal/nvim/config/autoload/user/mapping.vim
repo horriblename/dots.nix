@@ -48,6 +48,7 @@ fu! user#mapping#resetup()
 
 	nnoremap gV ^v$
 	xnoremap ga gg0oG$
+	onoremap ga :<c-u>normal! ggVG<CR>
 
 	" \x16 is <c-v>
 	xnoremap <expr> I mode() ==# "\x16"? "I" : "\<Esc>`<i"
