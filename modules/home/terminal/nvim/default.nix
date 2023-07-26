@@ -126,6 +126,7 @@ in {
         enable = true;
         name = "tokyonight";
         style = "night";
+        transparent = true;
       };
 
       # custom setup at the bottom
@@ -139,8 +140,8 @@ in {
           confirm = "<C-y>";
           next = "<C-n>";
           previous = "<C-p>";
-          scrollDocsDown = "<C-d>";
-          scrollDocsUp = "<C-u>";
+          scrollDocsDown = "<C-j>";
+          scrollDocsUp = "<C-k>";
         };
       };
 
@@ -294,8 +295,8 @@ in {
       vim.mapTimeout = 0;
 
       vim.treesitter.grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
-        glsl
-        java
+        markdown
+        markdown-inline
       ];
 
       # HACK
@@ -371,6 +372,10 @@ in {
 
         # Image pasre
         "<leader>P".action = ":call mdip#MarkdownClipboardImage()<CR>";
+
+        # vsnip
+        "<C-;>".action = "<Plug>(vsnip-jump-next)";
+        "<C-,>".action = "<Plug>(vsnip-jump-prev)";
       };
 
       vim.maps.normalVisualOp = {
@@ -380,6 +385,12 @@ in {
 
         # ssr.nvim
         "<leader>sr".action = ":lua require('ssr').open()<CR>";
+      };
+
+      vim.maps.select = {
+        # vsnip
+        "<C-;>".action = "<Plug>(vsnip-jump-next)";
+        "<C-,>".action = "<Plug>(vsnip-jump-prev)";
       };
 
       vim.maps.terminal = {

@@ -29,6 +29,7 @@ fu! user#general#resetup()
 	set undofile
 	set autowrite
 	set conceallevel=2
+	set cedit=\<C-q>
 
 	" Tab Settings
 	set noexpandtab
