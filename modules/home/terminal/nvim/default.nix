@@ -172,7 +172,7 @@ in {
       };
 
       vim.tabline = {
-        nvimBufferline.enable = true;
+        nvimBufferline.enable = false;
       };
 
       vim.treesitter = {
@@ -341,11 +341,7 @@ in {
         # General
         "<leader>zf".action = ":lua vim.g.formatsave = not vim.g.formatsave<CR>";
         "<leader>e".action = ":NvimTreeToggle<CR>";
-        "<leader>ldq".action = ":lua vim.diagnostic.setqflist({open = true})<CR>";
-
-        # Buffer
-        "<M-n>".action = ":BufferLineCycleNext<CR>";
-        "<M-p>".action = ":BufferLineCyclePrev<CR>";
+        "<leader>ld".action = ":lua vim.diagnostic.setqflist({open = true})<CR>";
 
         # Diffview
         "<leader>gdq".action = ":DiffviewClose<CR>";
