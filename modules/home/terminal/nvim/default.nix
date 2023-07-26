@@ -4,10 +4,12 @@
   inputs,
   pkgs,
   ...
-}: {
+}: let
+  nix2Lua = import ./lib/nix2Lua.nix;
+  setup = module: table: "require('${module}').setup ${nix2Lua table}";
+in {
   imports = [
     inputs.neovim-flake.homeManagerModules.default
-    ./plugins
   ];
 
   xdg.configFile."nvim".source = ./config;
@@ -387,123 +389,133 @@
       vim.maps.terminal = {
         "<M-x>".action = "<cmd>q<CR>";
       };
+
+      vim.extraPlugins = with pkgs.vimPlugins; {
+        aerial = {
+          package = aerial-nvim;
+          setup = setup "aerial" {};
+        };
+        undotree = {
+          package = undotree;
+          setup = ''
+            vim.g.undotree_ShortIndicators = true
+            vim.g.undotree_TreeVertShape = '│'
+          '';
+        };
+        nvim-navic = {
+          package = nvim-navic;
+          setup = ''
+            local navic = require("nvim-navic")
+            navic.setup({
+              highlight = true,
+              lsp = {auto_attach = true,},
+            })
+
+            vim.api.nvim_create_autocmd({"LspAttach"}, {
+              callback = function()
+                vim.wo.winbar = "%!v:lua.require'nvim-navic'.get_location()"
+              end
+            })
+          '';
+        };
+        ssr-nvim = {
+          package = ssr-nvim;
+          setup = "require('ssr').setup {}";
+        };
+        friendly-snippets = {package = friendly-snippets;};
+        direnv = {package = direnv-vim;};
+        nvim-autopairs = {
+          package = "nvim-autopairs";
+          setup = ''
+            require('nvim-autopairs').setup({
+              check_ts = true, -- treesitter integration
+              disable_filetype = { "TelescopePrompt", "lisp" },
+              enable_afterquote = false,
+              fast_wrap = {
+                map = "<M-e>",
+                end_key = "l",
+                highlight = "PmenuSel",
+                highlight_grey = "LineNr",
+              },
+            })
+
+            do
+              local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+              require'cmp'.event:on('confirm_done', cmp_autopairs.on_confirm_done({
+                map_char = { text = "" },
+                filetypes = {
+                  haskell = false,
+                  lisp = false,
+                  nix = false,
+                  bash = false,
+                  sh = false,
+                },
+              }))
+            end
+          '';
+        };
+        neodev-nvim = {
+          package = neodev-nvim;
+          setup = setup "neodev" {};
+        };
+        md-img-paste-vim = {
+          package = pkgs.md-img-paste-vim;
+          setup = ''
+            vim.g.mdip_imgdir = "attachments"
+          '';
+        };
+        nvim-treesitter-textobjects = {
+          package = nvim-treesitter-textobjects;
+          setup = setup "nvim-treesitter.configs" {
+            textobjects = {
+              select = {
+                enable = true;
+                lookahed = true;
+                keymaps = {
+                  "af" = "@function.outer";
+                  "if" = "@function.inner";
+                  "ac" = "@class.outer";
+                  "ic" = "@class.inner";
+                };
+
+                selection_modes = {
+                  "@parameter.outer" = "v";
+                  "@function.outer" = "V";
+                  "@class.outer" = "<c-v>";
+                };
+              };
+              swap = {
+                enable = true;
+                swap_next = {
+                  "cx;" = "@parameter.inner";
+                };
+                swap_previous = {
+                  "cx," = "@parameter.inner";
+                };
+              };
+
+              move = {
+                enable = true;
+                set_jumps = true;
+                goto_next_start = {
+                  "]f" = "@function.outer";
+                  "]s" = "@scope";
+                };
+                goto_previous_start = {
+                  "[f" = "@function.outer";
+                  "[s" = "@scope";
+                };
+                goto_next_end = {
+                  "]F" = "@function.outer";
+                };
+                goto_previous_end = {
+                  "[F" = "@function.outer";
+                };
+              };
+            };
+          };
+        };
+      };
     };
   };
-
-  vim.extraPlugins = with pkgs.vimPlugins; [
-    {
-      package = aerial-nvim;
-      setup = ''
-        require('aerial').setup({
-          on_attach = function(bufnr)
-            -- vim.keymap.set('n', '{', '<cmd>AerialPrev<CR>', {buffer = bufnr})
-            -- vim.keymap.set('n', '}', '<cmd>AerialNext<CR>', {buffer = bufnr})
-          end
-        })
-      '';
-    }
-    {
-      package = undotree;
-      setup = ''
-        vim.g.undotree_ShortIndicators = 1
-        vim.g.undotree_TreeVertShape = '│'
-      '';
-    }
-    {
-      package = nvim-navic;
-      setup = ''
-        local navic = require("nvim-navic")
-        navic.setup({
-          highlight = true,
-          lsp = {auto_attach = true,},
-        })
-
-        vim.api.nvim_create_autocmd({"LspAttach"}, {
-          callback = function()
-            vim.wo.winbar = "%!v:lua.require'nvim-navic'.get_location()"
-          end
-        })
-      '';
-    }
-    {
-      package = ssr-nvim;
-      setup = "require('ssr').setup {}";
-    }
-    {
-      package = friendly-snippets;
-      # friendly-snippets has no setup, these are unrelated but, eh,
-      # noone's using it anyways
-      setup = ''
-        local navic = require("nvim-navic")
-        navic.setup({
-          highlight = true,
-          lsp = {auto_attach = true,},
-        })
-
-        vim.api.nvim_create_autocmd({"LspAttach"}, {
-          callback = function()
-            vim.wo.winbar = "%!v:lua.require'nvim-navic'.get_location()"
-          end
-        })
-      '';
-    }
-    {
-      package = ssr-nvim;
-      setup = "require('ssr').setup {}";
-    }
-    {
-      package = friendly-snippets;
-      setup = "";
-    }
-    {
-      package = "nvim-autopairs";
-      setup = ''
-        require('nvim-autopairs').setup({
-          check_ts = true, -- treesitter integration
-          disable_filetype = { "TelescopePrompt", "lisp" },
-          enable_afterquote = false,
-          fast_wrap = {
-            map = "<M-e>",
-            end_key = "e",
-            highlight = "PmenuSel",
-            highlight_grey = "LineNr",
-          },
-        })
-
-        do
-          local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-          require'cmp'.event:on('confirm_done', cmp_autopairs.on_confirm_done({
-            map_char = { text = "" },
-            filetypes = {
-              -- ["*"] = {
-              --   ["("] = {
-              --     kind = {
-              --       cmp.lsp.CompletionItemKind.Function,
-              --       cmp.lsp.CompletionItemKind.Method,
-              --     },
-              --     -- handler = handlers["*"]
-              --   }
-              -- },
-              lisp = false,
-              nix = false,
-              bash = false,
-              sh = false,
-            },
-          }))
-        end
-      '';
-    }
-    {
-      package = neodev-nvim;
-      setup = ''
-        require("neodev").setup({})
-      '';
-    }
-    {
-      package = pkgs.md-img-paste-vim;
-      setup = ''
-        vim.g.mdip_imgdir = "attachments"
-      '';
-    }
-  ];
 }
