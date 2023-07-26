@@ -51,6 +51,18 @@ def lastPlaygroundId(base: str) -> int | None:
     return last
 
 
+USER_PERM_WRITE = 0o200
+
+
+def permAppendWrite(file: str):
+    """
+    Like `chmod +w <file>` in shell script.
+    """
+    perm = os.stat(file).st_mode
+    if USER_PERM_WRITE & perm == 0:
+        os.chmod(file, perm | USER_PERM_WRITE)
+
+
 def setupNewPlayground(template: str, id: int) -> str:
     """
     Creates a new playground directory and returns its path
@@ -67,6 +79,14 @@ def setupNewPlayground(template: str, id: int) -> str:
         dest += str(id)
 
     shutil.copytree(src, dest)
+
+    permAppendWrite(dest)
+    for dir, subdirs, files in os.walk(dest):
+        for subdir in subdirs:
+            permAppendWrite(subdir)
+
+        for f in files:
+            permAppendWrite(os.path.join(dir, f))
 
     return dest
 
