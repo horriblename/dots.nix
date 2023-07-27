@@ -29,10 +29,8 @@ in {
       vim.lsp = {
         formatOnSave = true;
         lspkind.enable = false;
-        lightbulb.enable = true;
         lspsaga.enable = false;
         nvimCodeActionMenu.enable = true;
-        trouble.enable = false;
         lspSignature.enable = true;
       };
 
@@ -190,7 +188,6 @@ in {
 
       vim.binds = {
         whichKey.enable = true;
-        cheatsheet.enable = true;
       };
 
       vim.telescope.enable = true;
@@ -241,10 +238,6 @@ in {
       vim.utility = {
         icon-picker.enable = true;
         diffview-nvim.enable = true;
-        motion = {
-          hop.enable = true;
-          leap.enable = false;
-        };
       };
 
       vim.notes = {

@@ -329,15 +329,11 @@ cmd restore_trash ${{
 
 # Bindings {{
 # Remove some defaults {{
-map o
-# map "'"
-map '"'
 map d
 map c
 map e
 map f
 map t
-map ?
 # }}
 
 # cmd line mappings {{
