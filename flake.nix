@@ -12,8 +12,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland.url = "github:hyprwm/Hyprland";
-    hyprland-touch-gestures = {
-      url = "github:horriblename/hyprland-touch-gestures";
+    hyprgrass = {
+      url = "github:horriblename/hyprgrass";
       inputs.hyprland.follows = "hyprland";
     };
     hyprland-border-actions = {

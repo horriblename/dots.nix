@@ -595,6 +595,26 @@
         "type": "github"
       }
     },
+    "hyprgrass": {
+      "inputs": {
+        "hyprland": [
+          "hyprland"
+        ]
+      },
+      "locked": {
+        "lastModified": 1690105782,
+        "narHash": "sha256-MAeHkBaLQ0F5/hGCD2BczTqMFy+gwEOJeUMr7V4Ct1Y=",
+        "owner": "horriblename",
+        "repo": "hyprgrass",
+        "rev": "84d5ff103df1bffbcbc18d0d77a9d0323137bd93",
+        "type": "github"
+      },
+      "original": {
+        "owner": "horriblename",
+        "repo": "hyprgrass",
+        "type": "github"
+      }
+    },
     "hyprland": {
       "inputs": {
         "hyprland-protocols": "hyprland-protocols",
@@ -654,26 +674,6 @@
       "original": {
         "owner": "hyprwm",
         "repo": "hyprland-protocols",
-        "type": "github"
-      }
-    },
-    "hyprland-touch-gestures": {
-      "inputs": {
-        "hyprland": [
-          "hyprland"
-        ]
-      },
-      "locked": {
-        "lastModified": 1689795590,
-        "narHash": "sha256-rACVGJTaf6ZVDOHzyHF7BFwwo/yZxlYh+RclJ18wEE4=",
-        "owner": "horriblename",
-        "repo": "hyprland-touch-gestures",
-        "rev": "03942c4baca5d7350a0aa96b5fc0497abd4b1b7f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "horriblename",
-        "repo": "hyprland-touch-gestures",
         "type": "github"
       }
     },

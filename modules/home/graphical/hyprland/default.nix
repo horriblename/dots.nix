@@ -37,19 +37,6 @@ with lib; let
       | ${pkgs.swappy}/bin/swappy -f -
     hyprctl keyword animation "fadeOut,1,5,default"
   '';
-
-  mkPluginSo = plugin: soName: "${plugin}/lib/${soName}";
-  loadHyprlandPlugins = pluginsSo:
-    builtins.concatStringsSep "\n"
-    (map (so: "plugin = ${so}") pluginsSo);
-
-  hlPluginsSo =
-    [
-      (mkPluginSo inputs.hyprland-border-actions.packages.${pkgs.system}.default "libborder-actions.so")
-    ]
-    ++ lib.optionals config.enableTouchScreen [
-      (mkPluginSo inputs.hyprland-touch-gestures.packages.${pkgs.system}.default "libtouch-gestures.so")
-    ];
 in {
   home.packages = with pkgs; [
     libnotify
@@ -89,8 +76,11 @@ in {
         bindr=SUPER,SUPER_L,exec, eww open dock --toggle
         source = ${./touch-gestures.conf}
       ''}
-      ${loadHyprlandPlugins hlPluginsSo}
     '';
+    plugins = [
+      inputs.hyprland-border-actions.packages.${pkgs.system}.default
+      inputs.hyprgrass.packages.${pkgs.system}.default
+    ];
   };
 
   xdg.configFile."hypr/hyprlandd.conf".text = hlDebugMonitor + builtins.readFile ./hyprlandd.conf;
