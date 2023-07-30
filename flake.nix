@@ -123,7 +123,7 @@
       kanagawa-gtk = pkgs.kanagawa-gtk;
       hyprworkspaces = pkgs.hyprworkspaces;
       ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
-        buildInputs = [pkgs.anyrun pkgs.wf-osk];
+        buildInputs = with pkgs; [wf-osk kanagawa-gtk hyprworkspaces];
       };
     });
     overlay = final: prev: {
