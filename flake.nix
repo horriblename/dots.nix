@@ -21,7 +21,7 @@
       inputs.hyprland.follows = "hyprland";
     };
     neovim-flake = {
-      url = "github:NotAShelf/neovim-flake/release/v0.4";
+      url = "github:NotAShelf/neovim-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     anyrun = {
