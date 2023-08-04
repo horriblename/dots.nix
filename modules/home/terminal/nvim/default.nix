@@ -260,6 +260,7 @@ in {
       vim.ui = {
         noice.enable = false;
         smartcolumn.enable = false;
+        illuminate.enable = true;
       };
 
       vim.assistant = {
@@ -290,6 +291,7 @@ in {
       vim.treesitter.grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
         markdown
         markdown-inline
+        regex
       ];
 
       # HACK
@@ -381,6 +383,12 @@ in {
       };
 
       vim.maps.select = {
+        # vsnip
+        "<C-;>".action = "<Plug>(vsnip-jump-next)";
+        "<C-,>".action = "<Plug>(vsnip-jump-prev)";
+      };
+
+      vim.maps.insert = {
         # vsnip
         "<C-;>".action = "<Plug>(vsnip-jump-next)";
         "<C-,>".action = "<Plug>(vsnip-jump-prev)";
