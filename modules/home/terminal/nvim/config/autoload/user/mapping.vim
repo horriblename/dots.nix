@@ -72,13 +72,14 @@ fu! user#mapping#resetup()
 	xnoremap S :s##gI<Left><Left><Left>
 
 	" surround {{{
-	fu s:surround(left, right)
+	fu s:surround(left, right = '')
+		let right = a:right ==# '' ? a:left : a:right
 		if mode() ==# "V"
-			return '"zs' . a:left . "\<cr>" . a:right . "\<Esc>\"zgPm>"
+			return '"zs' . a:left . "\<cr>" . right . "\<Esc>\"zgPm>"
 		else
-			let offset_left = "h"->repeat(len(a:right) - 1)
-			let offset_right = "l"->repeat(len(a:right) - 1)
-			return '"zs' . a:left . a:right . "\<Esc>" . offset_left . "\"zgP" . offset_right . "m>"
+			let offset_left = "h"->repeat(len(right) - 1)
+			let offset_right = "l"->repeat(len(right) - 1)
+			return '"zs' . a:left . right . "\<Esc>" . offset_left . "\"zgP" . offset_right . "m>"
 		endif
 		return
 	endfu
@@ -102,6 +103,7 @@ fu! user#mapping#resetup()
 	xnoremap <expr> se <SID>surround('**', '**')
 	xnoremap <expr> sE <SID>surround('***', '***')
 	xnoremap <expr> s<space> <SID>surround(' ', ' ')
+	xnoremap <expr> sf <SID>surround(getcharstr())
 
 	fu s:surroundTag(name)
 		return s:surround('<'.a:name.'>', '</'.a:name.'>')
@@ -170,8 +172,10 @@ fu! user#mapping#resetup()
 	noremap! <M-f> <S-Right>
 
 	noremap! <C-d> <Del>
-	cnoremap <C-a> <Home>
+	cnoremap <expr> <C-a> pumvisible() == 0? '<Home>' : '<C-a>'
 	cnoremap <C-e> <End>
+
+	cnoremap <C-x> <Tab>
 
 	" regex shortcuts
 	cnoremap <M-w> \<\><Left><Left>
@@ -187,7 +191,7 @@ fu! user#mapping#resetup()
 	nnoremap <M-S-c> :edit # <bar> bdelete! #<CR>
 	nnoremap <C-s> :w<CR>
 	nnoremap g<C-s> :noau w<CR>
-	nnoremap <c-w>Z :exec 'tabnew +'. line('.') . ' %'<cr>
+	nnoremap <c-w>Z :tabnew<CR><C-o>
    function s:closeBuffer()
       return (buflisted(0)? ':edit #' : ':bnext' ) . '| bdelete ' . bufnr() . "\<CR>"
    endfu
