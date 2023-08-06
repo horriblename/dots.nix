@@ -4,6 +4,7 @@
     ./shell
     ./lf
     ./scripts
+    ./lazygit
   ];
 
   home.packages = with pkgs; [
@@ -14,7 +15,6 @@
     fzf
     ripgrep
     fd
-    lazygit
     z-lua
     lua
     zip

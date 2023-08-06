@@ -1,0 +1,8 @@
+customCommands:
+  - key: "<c-u>"
+    context: "files"
+    command: "git update-index --assume-unchanged {{.SelectedFile.Name | quote}}"
+    prompts:
+      - type: "confirm"
+        title: "Assume unchanged"
+        body: "Hide changes from index?"
