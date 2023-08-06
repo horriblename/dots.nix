@@ -78,7 +78,7 @@ in {
       ''}
     '';
     plugins = [
-      inputs.hyprland-border-actions.packages.${pkgs.system}.default
+      "${inputs.hyprland-border-actions.packages.${pkgs.system}.default}/lib/libborder-actions.so"
       inputs.hyprgrass.packages.${pkgs.system}.default
     ];
   };
