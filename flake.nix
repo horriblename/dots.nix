@@ -128,7 +128,7 @@
       kanagawa-gtk = pkgs.kanagawa-gtk;
       hyprworkspaces = pkgs.hyprworkspaces;
       ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
-        buildInputs = with pkgs; [wf-osk kanagawa-gtk hyprworkspaces];
+        buildInputs = with pkgs; [wf-osk kanagawa-gtk hyprworkspaces lf];
       };
     });
     overlay = final: prev: {
@@ -141,6 +141,7 @@
         version = "master";
         src = md-img-paste-vim;
       };
+      lf = final.callPackage ./pkgs/lf-sixel.nix {};
 
       mpv = prev.mpv.override {scripts = [prev.mpvScripts.mpris];};
     };
