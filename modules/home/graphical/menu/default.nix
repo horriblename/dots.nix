@@ -6,8 +6,10 @@
 }:
 with lib; let
   selectorScript = pkgs.writeShellScriptBin "selectorMenu" ''
-    #!/bin/bash
-    ${config.menu.selector}
+    exec ${config.menu.selector}
+  '';
+  clipboardSelector = pkgs.writeShellScriptBin "clipboardSelector" ''
+    cliphist list | ${config.menu.selector} | cliphist decode | wl-copy
   '';
 in {
   options.menu = {
@@ -21,5 +23,5 @@ in {
     };
   };
 
-  config.home.packages = [selectorScript];
+  config.home.packages = [selectorScript clipboardSelector];
 }
