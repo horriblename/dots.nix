@@ -1,11 +1,12 @@
 ;; ;; thanks github.com/end-4 for the sick animations
-;; (defvar LOGOUT_CURVE_IN "transition: 150ms cubic-bezier(0.05, 0.9, 0.1, 1.0);")
+(defvar LOGOUT_CURVE_IN "cubic-bezier(0.05, 0.9, 0.1, 1.0)")
 ;; (defvar LOGOUT_CURVE_OUT "transition: 80ms cubic-bezier(0.3, 0, 0.8, 0.15);")
 ;; (defvar AnimOpenLogout false)
 
-(defwidget PowerButton [icon onclick]
+(defwidget PowerButton [icon onclick style]
   (button
     :class "power-btn"
+    :style style
     :onclick onclick
     (label :class "icon power-btn-icon"
            :text icon)))
@@ -17,7 +18,8 @@
                       :height "100%")
   :namespace "logout"
   :focusable true
-  (box :class  "logout-app"
+  (box 
+    :class  "logout-app"
     (eventbox 
       :onclick "${EWW_CMD} close logout_win"
       (box
@@ -27,12 +29,17 @@
         :spacing 50
         :space-evenly true
         (PowerButton :icon "Lock"
+                     :style "animation: transitionIn 405ms ${LOGOUT_CURVE_IN} forwards;"
                      :onclick "swaylock")
         (PowerButton :icon "Bedtime"
+                     :style "animation: transitionIn 345ms ${LOGOUT_CURVE_IN} forwards;"
                      :onclick "systemctl suspend")
         (PowerButton :icon "Logout"
+                     :style "animation: transitionIn 305ms ${LOGOUT_CURVE_IN} forwards;"
                      :onclick "hyprctl dispatch exit")
         (PowerButton :icon "Restart_Alt"
+                     :style "animation: transitionIn 265ms ${LOGOUT_CURVE_IN} forwards;"
                      :onclick "systemctl restart")
         (PowerButton :icon "Power_Rounded"
+                     :style "animation: transitionIn 225ms ${LOGOUT_CURVE_IN} forwards;"
                      :onclick "systemctl poweroff")))))

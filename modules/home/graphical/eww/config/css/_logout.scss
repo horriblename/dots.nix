@@ -1,11 +1,7 @@
-.logout-buttons-container {
-  animation: transitionIn 150ms ease forwards;
-}
-
 @keyframes transitionIn {
   from {
-    margin-left: -200px;
-    margin-right: 200px;
+    margin-left: -50rem;
+    margin-right: 50rem;
   }
 
   to {
