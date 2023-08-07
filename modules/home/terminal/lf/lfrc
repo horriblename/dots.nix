@@ -108,12 +108,6 @@ cmd chmod %{{
    lf -remote "send $id :unselect; reload"
 }}
 
-cmd sudomkfile %{{
-   echo 'File Name: '
-   read ans
-   sudo $EDITOR $ans
-}}
-
 # NOTE: for some reason, wl-copy blocks after being called using '!'-commands
 cmd copy_location %{{
    if [ -n "$WAYLAND_DISPLAY" ]; then
@@ -201,27 +195,32 @@ cmd fzf_jump ${{
    lf -remote "send $id $cmd $res"
 }}
 
-cmd broot_jump ${{
-   f=$(mktemp)
-   res="$(broot --outcmd $f && cat $f | sed 's/cd //')"
-   rm -f "$f"
-   if [ -f "$res" ]; then
-      cmd="select"
-   elif [ -d "$res" ]; then
-      cmd="cd"
-   fi
-   lf -remote "send $id $cmd \"$res\""
+cmd fzf_grep ${{
+	RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+	INITIAL_QUERY="${*:-}"
+	: | fzf --ansi --disabled --query "$INITIAL_QUERY" \
+		 --bind "start:reload:$RG_PREFIX {q}" \
+		 --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
+		 --delimiter : \
+		 --preview 'bat --color=always {1} --highlight-line {2}' \
+		 --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
+		 --bind "enter:become($EDITOR {1} +{2})"
 }}
 
-cmd grep_string ${{
+cmd grep_pdf ${{
    printf "\033[33mregexp: \033[0m"
    read keyword
 
-   case "$1" in
-      pdf) ~/scripts/grep_pdf.sh "$keyword" | bat -p --paging=always;;
-      #*) grep -i -d 'skip' "$keyword" "$pwd" | bat -p --paging=always;;
-      *) rg --color=always --smart-case "$keyword" | bat -p --paging=always;;
-   esac
+	files="./*.pdf"
+
+	for f in $files ; do
+		#res=$(pdftotext "$f" - 2>/dev/null | grep --color=always -i "$1")
+		#if [ ! -z "$res" ]; then
+		#	printf '\x1b[33;1m  %s:\x1b[0m\n' "$f" 
+		#	echo "$res"
+		#fi
+		pdftotext "$f" - 2>/dev/null | rg --smart-case --color=always "$1" && printf '\x1b[33;1m  %s\x1b[0m\n' "$f" 
+	done
 }}
 
 cmd z_cd %{{
@@ -374,8 +373,10 @@ map tc clear_trash
 map tr restore_trash
 # }}
 
-# Fzf Mapping {{
-map f fzf_jump
+# Search Mappings. {{
+map ff fzf_jump
+map f/ fzf_grep
+map fp grep_pdf "pdf"
 map F filter
 #map ss stripspace
 # }}
@@ -414,8 +415,6 @@ map R reload
 map C clear
 map U unselect
 map ex $$f
-map ?p grep_string "pdf"
-map ?? grep_string "txt"
 map du :set info size; calcdirsize
 map cl copy_location
 map * tag-toggle
