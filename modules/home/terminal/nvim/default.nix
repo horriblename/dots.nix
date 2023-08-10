@@ -463,7 +463,7 @@ in {
                 selection_modes = {
                   "@parameter.outer" = "v";
                   "@function.outer" = "V";
-                  "@class.outer" = "<c-v>";
+                  "@class.outer" = "V";
                 };
               };
               swap = {
@@ -481,17 +481,21 @@ in {
                 set_jumps = true;
                 goto_next_start = {
                   "]f" = "@function.outer";
+                  "]c" = "@class.outer";
                   "]s" = "@scope";
                 };
                 goto_previous_start = {
                   "[f" = "@function.outer";
+                  "[c" = "@class.outer";
                   "[s" = "@scope";
                 };
                 goto_next_end = {
                   "]F" = "@function.outer";
+                  "]C" = "@class.outer";
                 };
                 goto_previous_end = {
                   "[F" = "@function.outer";
+                  "[C" = "@class.outer";
                 };
               };
             };
