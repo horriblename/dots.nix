@@ -249,8 +249,7 @@ in {
       };
 
       vim.ui = {
-        noice.enable = false;
-        smartcolumn.enable = false;
+        breadcrumbs.enable = false;
         illuminate.enable = true;
       };
 
@@ -399,22 +398,6 @@ in {
           setup = ''
             vim.g.undotree_ShortIndicators = true
             vim.g.undotree_TreeVertShape = '│'
-          '';
-        };
-        nvim-navic = {
-          package = nvim-navic;
-          setup = ''
-            local navic = require("nvim-navic")
-            navic.setup({
-              highlight = true,
-              lsp = {auto_attach = true,},
-            })
-
-            vim.api.nvim_create_autocmd({"LspAttach"}, {
-              callback = function()
-                vim.wo.winbar = "%!v:lua.require'nvim-navic'.get_location()"
-              end
-            })
           '';
         };
         ssr-nvim = {
