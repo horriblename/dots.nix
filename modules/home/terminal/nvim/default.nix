@@ -144,28 +144,19 @@ in {
       };
 
       vim.filetree = {
-        nvimTreeLua = {
+        nvimTree = {
           enable = true;
           openOnSetup = false;
-          openTreeOnNewTab = false;
-          indentMarkers = true;
           actions = {
+            changeDir.enable = false;
             changeDir.global = false;
             openFile.windowPicker.enable = true;
           };
           renderer = {
-            rootFolderLabel = null;
-
             icons.show.git = true;
-            icons.glyphs = {
-              git = {
-                untracked = "U";
-              };
-            };
           };
           view = {
             width = 25;
-            adaptiveSize = false;
           };
         };
       };
