@@ -67,8 +67,8 @@ fu! user#mapping#resetup()
 	inoremap { {}<left>
 	inoremap {<CR> {<CR>}<ESC>O
 	inoremap <expr> ) user#autoclose#CloseRight(")")
-	inoremap <expr> ] user#autoclose#(CloseRight)("]")
-	inoremap <expr> } user#(autoclose)#CloseRight("}")
+	inoremap <expr> ] user#autoclose#CloseRight("]")
+	inoremap <expr> } user#autoclose#CloseRight("}")
 
 	nnoremap S :%s##gI<Left><Left><Left>
 	xnoremap S :s##gI<Left><Left><Left>
