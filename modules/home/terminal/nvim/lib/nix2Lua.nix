@@ -3,10 +3,13 @@ with builtins; let
 
   typeConvertors = rec {
     int = toString;
-    bool = toString;
+    bool = x:
+      if x
+      then "true"
+      else "false";
     string = x: ''"${replaceStrings ["\"" "\\"] [''\"'' ''\\''] x}"'';
     path = x: string (toString x);
-    null = x: "nil";
+    null = _: "nil";
     set = x: "{ ${
       concatStringsSep ", " (attrValues (mapAttrs attrItemToLua x))
     } }";
