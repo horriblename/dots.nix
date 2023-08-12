@@ -124,11 +124,9 @@
         overlays = [self.overlay];
       };
     in {
-      wf-osk = pkgs.wf-osk;
-      kanagawa-gtk = pkgs.kanagawa-gtk;
-      hyprworkspaces = pkgs.hyprworkspaces;
+      inherit (pkgs) wf-osk kanagawa-gtk hyprworkspaces;
       ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
-        buildInputs = with pkgs; [wf-osk kanagawa-gtk hyprworkspaces lf];
+        buildInputs = with pkgs; [wf-osk kanagawa-gtk hyprworkspaces];
       };
     });
     overlay = final: prev: {
