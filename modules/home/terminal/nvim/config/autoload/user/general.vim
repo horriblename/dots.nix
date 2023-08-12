@@ -147,17 +147,7 @@ fu! s:nvimSudoWrite()
 	call assert_true(password != getline('1'), 'something went wrong: delete the first line of your file and perhaps delete the undofile !')
 endfu
 
-" focus the first floating window found
-fu! user#general#GotoFirstFloat() abort
-  for w in range(1, winnr('$'))
-	 let c = nvim_win_get_config(win_getid(w))
-	 if c.focusable && !empty(c.relative)
-		execute w . 'wincmd w'
-	 endif
-  endfor
-endfu
-
-fu! user#general#GotoNextFloat(reverse) abort
+fu user#general#GotoNextFloat(reverse) abort
 	if !has("nvim")
 		return
 	endif

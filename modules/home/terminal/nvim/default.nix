@@ -264,16 +264,8 @@ in {
         };
       };
 
-      vim.gestures = {
-        gesture-nvim.enable = false;
-      };
-
       vim.comments = {
         comment-nvim.enable = true;
-      };
-
-      vim.presence = {
-        presence-nvim.enable = false;
       };
 
       vim.mapTimeout = 0;
