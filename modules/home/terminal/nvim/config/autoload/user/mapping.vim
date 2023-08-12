@@ -30,6 +30,8 @@ fu! user#mapping#resetup()
 	xnoremap ' `
 	xnoremap ` '
 
+	nnoremap zV :let &foldlevel = foldlevel('.')<CR>
+
 	" Movement {{{
 
 	noremap gh ^
@@ -146,6 +148,9 @@ fu! user#mapping#resetup()
 	" transparent background, :noau ignores the autocmd (and any other aucmd)
 	nnoremap <leader>zb :set bg=dark<CR>
 	nnoremap <leader>zB :noau set bg=dark<CR>
+	nnoremap <leader>zz :<C-U>let &foldcolumn = &foldcolumn ==# "0"? 
+				\ v:count ==# "0" ? "auto" : "auto:" . v:count
+				\ : "0" <CR>
 
 	" silent! map <unique> prevents new binds from replacing old ones
 	silent! nnoremap <unique> <leader>e :25Lexplore<CR>
@@ -192,10 +197,10 @@ fu! user#mapping#resetup()
 	nnoremap <C-s> :w<CR>
 	nnoremap g<C-s> :noau w<CR>
 	nnoremap <c-w>Z :tabnew<CR><C-o>
-   function s:closeBuffer()
-      return (buflisted(0)? ':edit #' : ':bnext' ) . '| bdelete ' . bufnr() . "\<CR>"
-   endfu
-   nnoremap <expr> <M-c> <SID>closeBuffer()
+	function s:closeBuffer()
+		return (buflisted(0)? ':edit #' : ':bnext' ) . '| bdelete ' . bufnr() . "\<CR>"
+	endfu
+	nnoremap <expr> <M-c> <SID>closeBuffer()
 
 	" Resizing
 	nnoremap <M-C-.>  <C-W>3>
