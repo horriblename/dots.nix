@@ -3,13 +3,13 @@ let g:netrw_banner = 0
 let g:netrw_liststyle = 0
 let g:netrw_keepdir = 0
 let g:netrw_list_hide='^\./,^\.\./'
-let g:netrw_sizestyle = "H"
+let g:netrw_sizestyle = 'H'
 let g:netrw_browse_split = 0
 let g:netrw_alto = 0
 let g:netrw_altv = 1
 let g:netrw_preview=1
 if has('unix')
-   let g:netrw_browsex_viewer = "xdg-open"
+   let g:netrw_browsex_viewer = 'xdg-open'
 endif
 let g:Netrw_UserMaps = [
          \['K', 'netrw#custom#MarkFileUp'],
@@ -33,15 +33,15 @@ hi! netrwCopyMark  guibg=Yellow guifg=black
 hi! netrwMoveMark  guibg=Red guifg=black
 
 " defining g:netrw_pasteaction for future use (in ftplugin)
-let g:netrw_pasteaction = ""
+let g:netrw_pasteaction = ''
 
 "  --------------- "
 "  For Statusline defined in ftplugin
 "  --------------- "
 function! NetrwNumOfMarked()
-   let marked=netrw#Expose("netrwmarkfilelist")
+   let marked=netrw#Expose('netrwmarkfilelist')
    if type(marked) != type([]) || len(marked) == 0
-      return ""
+      return ''
    endif
 
    return ' '.len(marked).' '

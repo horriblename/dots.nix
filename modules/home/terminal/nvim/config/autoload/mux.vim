@@ -1,6 +1,6 @@
-let s:mux_zsh="autoload/mux/.zshrc"
+let s:mux_zsh='autoload/mux/.zshrc'
 
-fu! mux#setup()
+fu! mux#setup() abort
 	set laststatus=2 cmdheight=1 nohidden
 
 	map	<leader>q :close<CR>

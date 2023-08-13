@@ -8,141 +8,135 @@
 " on reload, since this file will only be sourced once
 
 " dummy function
-fu! user#general#setup()
+fu user#general#setup() abort
 endfu
 
-" call this function directly to re-setup
-fu! user#general#resetup()
-	" General Options
-	" {{{
-	set mouse=a
-	set mousemodel=extend
-	syntax on
-	set ignorecase
-	set smartcase
-	set incsearch
-	set encoding=utf-8
-	set autoindent
-	set linebreak
-	set spelllang=en,de
-	set foldlevel=99
-	set undofile
-	set autowrite
-	set conceallevel=2
-	set cedit=\<C-q>
+" General Options
+" {{{
+set mouse=a
+set mousemodel=extend
+syntax on
+set ignorecase
+set smartcase
+set incsearch
+set encoding=utf-8
+set autoindent
+set linebreak
+set spelllang=en,de
+set foldlevel=99
+set undofile
+set autowrite
+set conceallevel=2
+set cedit=\<C-q>
 
-	" Tab Settings
-	set noexpandtab
-	set tabstop=3
-	set shiftwidth=0   " 0 = follow tabstop
-	"set softtabstop=3
+" Tab Settings
+set noexpandtab
+set tabstop=3
+set shiftwidth=0   " 0 = follow tabstop
+"set softtabstop=3
 
-	" Appearance
-	set number relativenumber
-	set termguicolors
-	set scrolloff=5
-	set sidescrolloff=2
-	set cursorline
-	set lazyredraw
-	set cmdheight=1
-	set noshowmode
-	set splitbelow splitright
-	set matchpairs+=<:>,*:*,`:`
-	set list listchars=tab:\ \ ,trail:·
-	set fillchars=diff:╱,foldopen:▼,foldclose:⯈
+" Appearance
+set number relativenumber
+set termguicolors
+set scrolloff=5
+set sidescrolloff=2
+set cursorline
+set lazyredraw
+set cmdheight=1
+set noshowmode
+set splitbelow splitright
+set matchpairs+=<:>,*:*,`:`
+set list listchars=tab:\ \ ,trail:·
+set fillchars=diff:╱,foldopen:▼,foldclose:⯈
 
-	augroup SetListChars
-		au!
-		au OptionSet expandtab if &expandtab | setl listchars=tab:\ \ →,trail:· | else | set listchars=tab:\ \ ,lead:·,trail:· | endif
-		" reset listchars after modeline/.editorconfig settings
-		au BufWinEnter * if &expandtab | setl listchars=tab:\ \ →,trail:· | else | set listchars=tab:\ \ ,lead:·,trail:· | endif
-	augroup END
+augroup SetListChars
+	au!
+	au OptionSet expandtab if &expandtab | setl listchars=tab:\ \ →,trail:· | else | set listchars=tab:\ \ ,lead:·,trail:· | endif
+	" reset listchars after modeline/.editorconfig settings
+	au BufWinEnter * if &expandtab | setl listchars=tab:\ \ →,trail:· | else | set listchars=tab:\ \ ,lead:·,trail:· | endif
+augroup END
 
-	set wildcharm=<Tab>
-	set wildmode=longest:full
-	set wildmenu
+set wildcharm=<Tab>
+set wildmode=longest:full
+set wildmenu
 
-	set cmdwinheight=4
+set cmdwinheight=4
 
-	set path-=/usr/include
-	set path+=**
-	" Use system clipboard, change to unnamed for vim
-	if has('nvim')
-		set clipboard=unnamedplus
-	else
-		set clipboard=unnamed
-	endif
+set path-=/usr/include
+set path+=**
+" Use system clipboard, change to unnamed for vim
+if has('nvim')
+	set clipboard=unnamedplus
+else
+	set clipboard=unnamed
+endif
 
-	" auto load ft plugins (vim compatibility) 
-	filetype plugin on
-	" }}}
+" auto load ft plugins (vim compatibility) 
+filetype plugin on
+" }}}
 
-	" User Commands
-	" {{{
-	command! -bar -nargs=1 -complete=customlist,ZluaComp Z call Zlua(<q-args>)
-	command! -bar -nargs=1 -complete=customlist,s:AnsiColorComp AnsiColor call user#general#InsertAnsiTermColor(<q-args>)
+" User Commands
+" {{{
+command! -bar -nargs=1 -complete=customlist,user#zlua#comp Z call user#zlua#chdir(<q-args>)
+command! -bar -nargs=1 -complete=customlist,user#ansicolors#AnsiColorComp AnsiColor call user#ansicolors#InsertAnsiTermColor(<q-args>)
 
-	" Save file as sudo when no sudo permissions
-	if has('vim')
-		command! Sudowrite write !sudo tee % <bar> edit!
-	else " nvim
-		command! Sudowrite call s:nvimSudoWrite()
-	endif
-	" CDC = Change to Directory of Current file
-	command! CDC cd %:p:h
-	" delete augroup
-	command! -nargs=1 AugroupDel call user#general#AugroupDel(<q-args>)
-	command! -nargs=1 -complete=file ShareVia0x0 
-				\ call setreg(v:register, system('curl --silent -F"file=@"'.expand(<q-args>).' https://0x0.st')) <bar>
-				\ echo getreg()
+" Save file as sudo when no sudo permissions
+if has('vim')
+	command! Sudowrite write !sudo tee % <bar> edit!
+else " nvim
+	command! Sudowrite call s:nvimSudoWrite()
+endif
+" CDC = Change to Directory of Current file
+command! CDC cd %:p:h
+" delete augroup
+command! -nargs=1 -complete=augroup AugroupDel call user#general#AugroupDel(<q-args>)
+command! -nargs=1 -complete=file ShareVia0x0 
+			\ call setreg(v:register, system('curl --silent -F"file=@"'.expand(<q-args>).' https://0x0.st')) <bar>
+			\ echo getreg()
 
-	" Utility lua functions
-	lua << EOF
-	_G.rerequire = function(mod)
-		package.loaded[mod] = nil;
-		return require 'mod'
-	end
+" Utility lua functions
+lua << EOF
+_G.rerequire = function(mod)
+package.loaded[mod] = nil;
+return require 'mod'
+end
 
-	vim.reg = setmetatable({
-		set = vim.fn.setreg,
-	}, {
-		__index = function(_, key)
-			return vim.fn.getreg(key)
-		end,
-	})
-	_G.reg = vim.reg
+vim.reg = setmetatable(
+	{ set = vim.fn.setreg },
+	{ __index = function(_, key) return vim.fn.getreg(key) end }
+)
+_G.reg = vim.reg
 EOF
-	" }}}
+" }}}
 
-	" Autocmds
-	" {{{
-	if has('nvim') && (!has('lua') || luaeval('not lvim'))
-		augroup TerminalTweaks
-			au!
-			au TermOpen * setlocal nolist nonumber norelativenumber statusline=%{b:term_title}
-			au TermOpen * let b:term_title=substitute(b:term_title,'.*:','',1) | startinsert
-			au BufEnter,BufWinEnter,WinEnter term://* if nvim_win_get_cursor(0)[0] > line('$') - nvim_win_get_height(0) | startinsert | endif
-		augroup END
-
-		augroup YankHighlight
-			au!
-			au TextYankPost * silent! lua vim.highlight.on_yank()
-		augroup END
-	endif
-
-	" default behavior: closing tab opens the next one, I want the previous one
-	" instead
-	augroup FixTabClose
+" Autocmds
+" {{{
+if has('nvim') && (!has('lua') || luaeval('not lvim'))
+	augroup TerminalTweaks
 		au!
-		au TabClosed * if str2nr(expand('<afile>')) <= tabpagenr('$') | tabprev | endif
+		au TermOpen * setlocal nolist nonumber norelativenumber statusline=%{b:term_title}
+		au TermOpen * let b:term_title=substitute(b:term_title,'.*:','',1) | startinsert
+		au BufEnter,BufWinEnter,WinEnter term://* if nvim_win_get_cursor(0)[0] > line('$') - nvim_win_get_height(0) | startinsert | endif
 	augroup END
-	" }}}
 
-	let g:markdown_folding = 1
-endfu
+	augroup YankHighlight
+		au!
+		au TextYankPost * silent! lua vim.highlight.on_yank()
+	augroup END
+endif
+
+" default behavior: closing tab opens the next one, I want the previous one
+" instead
+augroup FixTabClose
+	au!
+	au TabClosed * if str2nr(expand('<afile>')) <= tabpagenr('$') | tabprev | endif
+augroup END
+" }}}
+
+let g:markdown_folding = 1
 
 " function definitions {{{
-fu! s:nvimSudoWrite()
+fu s:nvimSudoWrite() abort
 	redir => output
 	silent write !sudo -n tee % > /dev/null
 	redir END
@@ -194,70 +188,12 @@ fu user#general#GotoNextFloat(reverse) abort
 	endfor
 endfunction
 
-fu! s:getIndentOfLength(length)
-	if &expandtab
-		return repeat(' ', a:length)
-	endif
-
-	let tabs = a:length / &tabstop
-	return repeat("\t", tabs)
-endfu
-
-let g:AnsiTermColors = {
-			\ "red":     "\\x1b[31m",
-			\ "green":   "\\x1b[32m",
-			\ "orange":  "\\x1b[33m",
-			\ "blue":    "\\x1b[34m",
-			\ "magenta": "\\x1b[35m",
-			\ "aqua":    "\\x1b[26m",
-			\ "grey":    "\\x1b[27m",
-			\ "reset":   "\\x1b[0m",
-			\ }
-
-fu! s:AnsiColorComp(a, b, c)
-	return keys(g:AnsiTermColors)
-endfu
-
-fu! user#general#InsertAnsiTermColor(color)
-	let line=getline('.')
-	let col=getcurpos()[2]
-	let clr=g:AnsiTermColors[a:color]
-	call setline('.', line[:col-1] . clr . line[col:])
-	call cursor(0, col+len(clr))
-endfu
-
-fu! user#general#AugroupDel(group)
+fu user#general#AugroupDel(group) abort
 	exec 'augroup '.a:group.' | au! | augroup END | augroup! '.a:group
 endfu
 
-fu! Zlua(pattern)
-	let zlua='z.lua'
-	if ! empty($ZLUA_SCRIPT)
-		let zlua=$ZLUA_SCRIPT
-	endif
-	let dir=system([zlua, '-e', a:pattern])
-	if strlen(dir) == 0
-		echoerr 'z.lua: directory not found'
-		return
-	endif
-	if &ft == "netrw"
-		execute "Explore ".dir
-	else
-		execute "cd ".dir
-	endif
-endfun
-
-fu! ZluaComp(ArgLead, CmdLine, CursorPos)
-	let zlua='z.lua'
-	if ! empty($ZLUA_SCRIPT)
-		let zlua=$ZLUA_SCRIPT
-	endif
-
-	return systemlist([zlua, '--complete', a:ArgLead])
-endfun
-
 if has('nvim')
-	fu! user#general#ToggleTerm()
+	fu user#general#ToggleTerm() abort
 		let buf=bufnr('^term://*#toggleterm#')
 		" buffer doesn't exist
 		if buf == -1
@@ -282,12 +218,12 @@ if has('nvim')
 		exec 'buf ' . buf
 	endfu
 else " TODO vim version
-	fu! user#general#ToggleTerm()
+	fu user#general#ToggleTerm() abort
 		term
 	endfu
 endif
 
-fu! user#general#getVisualSelection()
+fu user#general#getVisualSelection() abort
 	let [line_start, column_start] = getpos("'<")[1:2]
 	let [line_end, column_end] = getpos("'>")[1:2]
 	let lines = getline(line_start, line_end)
@@ -299,5 +235,3 @@ fu! user#general#getVisualSelection()
 	return join(lines, "\n")
 endfu
 " }}}
-
-call user#general#resetup()

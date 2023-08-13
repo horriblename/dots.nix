@@ -71,7 +71,7 @@ function! netrw#custom#ClipboardPaste(isLocal)
    call netrw#Modify("netrwmarkfilelist", [])
    call netrw#Modify('netrwmarkfilemtch_{bufnr("%")}',"")
    call netrw#custom#ResetPasteOperation(a:isLocal)
-   
+
    for file in marked
       call system(baseCmd.' "'. file.'" "'.dest.'"')
    endfor
@@ -200,7 +200,7 @@ fu! netrw#custom#NewFileOrDir(islocal)
 	endif
 
 	let path = input({
-				\	'prompt': 'Create ' .. getcwd()->fnamemodify(':~:t') .. '/', 
+				\	'prompt': 'Create ' . getcwd()->fnamemodify(':~:t') . '/',
 				\  'highlight': function('s:inputHL')
 				\})
 	if empty(path)

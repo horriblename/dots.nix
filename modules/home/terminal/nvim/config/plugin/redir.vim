@@ -9,12 +9,12 @@ function! Redir(cmd, rng, start, end)
 			execute win . 'windo close'
 		endif
 	endfor
-	if a:cmd =~ '^!'
-		let cmd = a:cmd =~' %'
+	if a:cmd =~# '^!'
+		let cmd = a:cmd =~# ' %'
 			\ ? matchstr(substitute(a:cmd, ' %', ' ' . shellescape(escape(expand('%:p'), '\')), ''), '^!\zs.*')
 			\ : matchstr(a:cmd, '^!\zs.*')
       botright new
-      execute "term " .. cmd
+      execute 'term ' . cmd
       "if &lines > line('$')
       "   let &lines=line('$')
       "endif

@@ -5,5 +5,5 @@ if luaeval('not lvim') && !get(g:, 'nvide', 0) && !get(g:, 'neovide', 0)
 	augroup END
 endif
 
-fu user#local#setup()
+fu user#local#setup() abort
 endfu

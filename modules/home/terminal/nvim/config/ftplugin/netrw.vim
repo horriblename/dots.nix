@@ -82,4 +82,3 @@ elseif has('windows')
    nnoremap <buffer> <silent> <nowait> g/ :Explore C:/ <cr>
    nnoremap <buffer> <silent> <nowait> gj :Explore J:/ <cr>
 endif
-echo "netrw.vim run"
