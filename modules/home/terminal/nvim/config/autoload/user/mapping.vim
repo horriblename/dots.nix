@@ -148,9 +148,9 @@ fu! user#mapping#resetup()
 	" transparent background, :noau ignores the autocmd (and any other aucmd)
 	nnoremap <leader>zb :set bg=dark<CR>
 	nnoremap <leader>zB :noau set bg=dark<CR>
-	nnoremap <leader>zz :<C-U>let &foldcolumn = &foldcolumn ==# "0"? 
-				\ v:count ==# "0" ? "auto" : "auto:" . v:count
-				\ : "0" <CR>
+	nnoremap <leader>zz :<C-U>let &foldcolumn = v:count == 0 ? 
+				\ &foldcolumn ==# "0"? "auto" : "0"
+				\ : "auto:" . v:count <CR>
 
 	" silent! map <unique> prevents new binds from replacing old ones
 	silent! nnoremap <unique> <leader>e :25Lexplore<CR>
