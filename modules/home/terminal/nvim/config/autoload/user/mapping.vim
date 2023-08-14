@@ -106,28 +106,29 @@ xnoremap <expr> sE <SID>surround('***', '***')
 xnoremap <expr> s<space> <SID>surround(' ', ' ')
 xnoremap <expr> sf <SID>surround(getcharstr())
 
-fu s:surroundTag(name)
-	return s:surround('<'.a:name.'>', '</'.a:name.'>')
+fu s:surroundTag(tag)
+	let name = split(a:tag)[0]
+	return s:surround('<'.a:tag.'>', '</'.name.'>')
 endfu
 
 xnoremap <expr> su <SID>surroundTag('u')
-xnoremap <expr> st <SID>surroundTag(input('Surround with tag: ')) .. '`<f>'
+xnoremap <expr> st <SID>surroundTag(input('Surround with tag (and attributes): '))
 
 " }}}
 " de-surround
 for char in "(){}[]<>bBt"
 	exec printf('nnoremap ds%s di%sva%spgv', char, char, char)
-	for replace in "(){}[]<>bBt"
-		exec printf('nmap <silent> cs%s%s ds%ss%s', char, replace, char, replace)
-	endfor
+	exec printf('nmap <silent><expr> cs%s "di%sva%spgvs" . getcharstr()', char, char, char)
 endfor
 
 " quotes are single-line only, so this can work
 " using a different keymap as `da'` could delete a whitespace
 for char in "\"`'"
-	exec 'nnoremap' 'ds'.char ' di'.char.'vhpgv'
 	exec printf('nnoremap ds%s di%svhpgv', char, char)
 endfor
+nmap <silent><expr> cs" printf('di%svhpgvs%s', '"', getcharstr())
+nmap <silent><expr> cs' printf('di%svhpgvs%s', "'", getcharstr())
+nmap <silent><expr> cs` printf('di%svhpgvs%s', '`', getcharstr())
 " desurrounds anything
 fu s:desurround_f()
 	let c = getcharstr()
