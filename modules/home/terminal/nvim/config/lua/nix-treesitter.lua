@@ -33,7 +33,7 @@ function M.setup(options)
 	vim.api.nvim_create_user_command(
 		"NixAddTSGrammar",
 		function(cmd_args)
-			require("nix-treesitter.lazy").includeGrammar(cmd_args.args[1])
+			require("nix-treesitter.lazy").includeGrammar(cmd_args.args)
 		end,
 		{
 			complete = grammarCompletion,

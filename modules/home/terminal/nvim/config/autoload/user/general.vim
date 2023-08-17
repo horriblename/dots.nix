@@ -98,7 +98,7 @@ command! -nargs=1 -complete=file ShareVia0x0
 lua << EOF
 _G.rerequire = function(mod)
 package.loaded[mod] = nil;
-return require 'mod'
+return require(mod)
 end
 
 vim.reg = setmetatable(
