@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  nix2Lua = import ./lib/nix2Lua.nix;
+  nix2Lua = import ./lib/toLua.nix;
   setup = module: table: "require('${module}').setup ${nix2Lua table}";
 in {
   imports = [
