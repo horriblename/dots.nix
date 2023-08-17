@@ -208,19 +208,16 @@ cmd fzf_grep ${{
 }}
 
 cmd grep_pdf ${{
-   printf "\033[33mregexp: \033[0m"
-   read keyword
+	printf "\033[33mregexp: \033[0m"
+	read keyword
 
 	files="./*.pdf"
 
-	for f in $files ; do
-		#res=$(pdftotext "$f" - 2>/dev/null | grep --color=always -i "$1")
-		#if [ ! -z "$res" ]; then
-		#	printf '\x1b[33;1m  %s:\x1b[0m\n' "$f" 
-		#	echo "$res"
-		#fi
-		pdftotext "$f" - 2>/dev/null | rg --smart-case --color=always "$1" && printf '\x1b[33;1m  %s\x1b[0m\n' "$f" 
-	done
+	{
+		for f in $files ; do
+			pdftotext "$f" - 2>/dev/null | rg --smart-case --color=always "$keyword" && printf '\x1b[33;1m  %s\x1b[0m\n' "$f" || true
+		done
+	} | bat --paging=always
 }}
 
 cmd z_cd %{{
