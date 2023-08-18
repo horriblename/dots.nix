@@ -7,7 +7,7 @@ with builtins; let
       if x
       then "true"
       else "false";
-    string = x: ''"${replaceStrings ["\"" "\\"] [''\"'' ''\\''] x}"'';
+    string = x: ''"${replaceStrings ["\"" "\\" "\n" "\r"] [''\"'' ''\\'' "\\n" "\\r"] x}"'';
     path = x: string (toString x);
     null = _: "nil";
     set = x: "{ ${
