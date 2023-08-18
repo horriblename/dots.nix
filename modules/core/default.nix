@@ -8,6 +8,7 @@
   nix.extraOptions = "experimental-features = nix-command flakes";
   nix.registry = {
     nixpkgs.flake = inputs.nixpkgs;
+    nixgl.flake = inputs.nixgl;
   };
 
   # TODO move out
