@@ -107,10 +107,6 @@ in {
           eolChar = null;
           showCurrContext = true;
         };
-        cursorWordline = {
-          enable = true;
-          lineTimeout = 0;
-        };
       };
 
       vim.statusline = {
