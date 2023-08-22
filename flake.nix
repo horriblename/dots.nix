@@ -28,7 +28,6 @@
     };
     anyrun = {
       url = "github:Kirottu/anyrun";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     md-img-paste-vim = {
       url = "github:ferrine/md-img-paste.vim";
@@ -135,7 +134,7 @@
       wf-osk = final.callPackage ./pkgs/wf-osk.nix {};
       kanagawa-gtk = final.callPackage ./pkgs/kanagawa-gtk.nix {};
       hyprworkspaces = final.callPackage ./pkgs/hyprworkspaces/default.nix {};
-      anyrun = anyrun.packages.${final.system}.anyrun-with-all-plugins;
+      anyrunPackages = anyrun.packages.${final.system};
       md-img-paste-vim = final.vimUtils.buildVimPluginFrom2Nix {
         pname = "md-img-paste-vim";
         version = "master";
