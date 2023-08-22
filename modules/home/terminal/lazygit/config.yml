@@ -6,3 +6,10 @@ customCommands:
       - type: "confirm"
         title: "Assume unchanged"
         body: "Hide changes from index?"
+  - context: "files"
+    description: "Untrack File(git rm --cached)"
+    command: "git rm --cached {{.SelectedFile.Name | quote}}"
+    prompts:
+      - type: "confirm"
+        title: "Untrack file (keep on disk)"
+        body: "Untrack file?"
