@@ -6,6 +6,10 @@
   ...
 }: let
   nix2Lua = import ./lib/toLua.nix;
+  rawLua = str: {
+    _type = "rawLua";
+    lua = str;
+  };
   setup = module: table: "require('${module}').setup ${nix2Lua table}";
 in {
   imports = [
@@ -71,27 +75,31 @@ in {
 
       vim.lsp.lspconfig.sources = let
         lspconfigSetup = server: extraConfig: ''
-          lspconfig.${server}.setup {
-            capabilities = capabilities;
-            on_attach = default_on_attach;
-            ${extraConfig}
+          lspconfig.${server}.setup ${
+            nix2Lua ({
+                capabilities = rawLua "capabilities";
+                on_attach = rawLua "default_on_attach";
+              }
+              // extraConfig)
           }
         '';
         mkLspSources = builtins.mapAttrs lspconfigSetup;
       in
         mkLspSources {
-          yamlls = "";
-          csharp_ls = "";
-          jdtls = ''
-            cmd = {
-              "jdt-language-server",
-              "-configuration",
-              "${config.xdg.cacheHome}/jdtls/config",
-              "-data",
-              "${config.xdg.cacheHome}/jdtls/workspace",
-            },
-          '';
-          lua_ls = ''cmd = { "${lib.getExe pkgs.lua-language-server}" },'';
+          yamlls = {};
+          csharp_ls = {};
+          jdtls = {
+            cmd = [
+              "jdt-language-server"
+              "-configuration"
+              "${config.xdg.cacheHome}/jdtls/config"
+              "-data"
+              "${config.xdg.cacheHome}/jdtls/workspace"
+            ];
+          };
+          lua_ls = {cmd = [(lib.getExe pkgs.lua-language-server)];};
+          elmls = {};
+          clojure_lsp = {};
         };
 
       vim.visuals = {
