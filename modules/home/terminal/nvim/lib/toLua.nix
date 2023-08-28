@@ -10,9 +10,12 @@ with builtins; let
     string = x: ''"${replaceStrings ["\"" "\\" "\n" "\r"] [''\"'' ''\\'' "\\n" "\\r"] x}"'';
     path = x: string (toString x);
     null = _: "nil";
-    set = x: "{ ${
-      concatStringsSep ", " (attrValues (mapAttrs attrItemToLua x))
-    } }";
+    set = x:
+      if x ? "_type" && x._type == "rawLua"
+      then x.lua
+      else "{ ${
+        concatStringsSep ", " (attrValues (mapAttrs attrItemToLua x))
+      } }";
     list = x: "{ ${concatStringsSep ", " (map convertToLua x)} }";
     lambda = x: assert typeOf x != "lambda"; null;
     float = toString;
