@@ -287,6 +287,7 @@ in {
           call user#mapping#setup()
         ]]
         vim.opt.wrap = false
+        vim.g.default_terminal = 1
         vim.filetype.add({
           extension = {
             yuck = 'lisp',
@@ -322,6 +323,7 @@ in {
       vim.maps.normal = {
         # General
         "<leader>zf".action = ":lua vim.g.formatsave = not vim.g.formatsave<CR>";
+        "<leader>zt".action = ":<C-U>let g:default_terminal = v:count1<CR>";
         "<leader>e".action = ":NvimTreeToggle<CR>";
         "<leader>ld".action = ":lua vim.diagnostic.setqflist({open = true})<CR>";
 
@@ -366,6 +368,13 @@ in {
 
         # ssr.nvim
         "<leader>sr".action = ":lua require('ssr').open()<CR>";
+
+        # Toggleterm
+        "<leader>ct" = {
+          # action = ":<C-U>ToggleTermSendVisualLines v:count<CR>";
+          action = "':ToggleTermSendVisualLines ' . v:count == 0 ? g:default_terminal : v:count";
+          expr = true;
+        };
       };
 
       vim.maps.select = {
