@@ -451,6 +451,10 @@ in {
             vim.g.mdip_imgdir = "attachments"
           '';
         };
+        nixrun = {
+          package = pkgs.nixrun-nvim;
+          setup = setup "nixrun" {};
+        };
         nvim-treesitter-textobjects = {
           package = nvim-treesitter-textobjects;
           setup = setup "nvim-treesitter.configs" {

@@ -1240,6 +1240,22 @@
         "type": "github"
       }
     },
+    "nixrun-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1693691492,
+        "narHash": "sha256-jHX6TwJHXTJdZoQdbmt8BskCsPRgyxOqeXmnJ6HydCg=",
+        "owner": "horriblename",
+        "repo": "nixrun-nvim",
+        "rev": "7cfadcd596619d9040f1033b3c3c9921c6699fae",
+        "type": "github"
+      },
+      "original": {
+        "owner": "horriblename",
+        "repo": "nixrun-nvim",
+        "type": "github"
+      }
+    },
     "nmd": {
       "flake": false,
       "locked": {

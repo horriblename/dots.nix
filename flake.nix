@@ -33,6 +33,10 @@
       url = "github:ferrine/md-img-paste.vim";
       flake = false;
     };
+    nixrun-nvim = {
+      url = "github:horriblename/nixrun-nvim";
+      flake = false;
+    };
   };
 
   outputs = {
@@ -44,6 +48,7 @@
     hyprland,
     anyrun,
     md-img-paste-vim,
+    nixrun-nvim,
     ...
   } @ inputs: let
     # inputs = self.inputs;
@@ -139,6 +144,11 @@
         pname = "md-img-paste-vim";
         version = "master";
         src = md-img-paste-vim;
+      };
+      nixrun-nvim = final.vimUtils.buildVimPluginFrom2Nix {
+        pname = "nixrun";
+        version = "master";
+        src = nixrun-nvim;
       };
       lf = final.callPackage ./pkgs/lf-sixel.nix {};
 
