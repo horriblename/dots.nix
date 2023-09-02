@@ -3,9 +3,9 @@ fu user#mapping#setup() abort
 	" dummy function
 endfu
 
-let mapleader=" "
+let mapleader=' '
+let maplocalleader=' b'
 
-" call this function directly to re-setup
 " Editor mappings {{{
 nnoremap > >>
 nnoremap < <<
@@ -142,8 +142,10 @@ nnoremap <leader>zL :set langmap=<cr>
 
 " quick settings
 nnoremap <leader>zn :set number! relativenumber!<cr>
-nnoremap <leader>z<Tab> :set expandtab! <bar> set expandtab?<cr>
 nnoremap <leader>zw :set wrap! <bar> set wrap?<CR>
+nnoremap <expr> <leader>z<Tab> set expandtab! <bar> set expandtab?<cr>
+nnoremap <expr> <leader>z<Tab> v:count == 0 ? ':set expandtab! \| set expandtab?<cr>' 
+			\ : printf(':<C-U>set shiftwidth=%d tabstop=%d<CR>', v:count, v:count)
 " set transparency - I usually have an autocmd on ColorScheme events to set
 " transparent background, :noau ignores the autocmd (and any other aucmd)
 nnoremap <leader>zb :set bg=dark<CR>
@@ -285,9 +287,9 @@ noremap <M-C-O> :<c-u>call user#general#GotoNextFloat(0)<cr>
 " }}}
 
 " Plugins
-nnoremap <leader>mt :make test<CR>
-nnoremap <leader>mr :make run<CR>
-nnoremap <leader>mb :make build<CR>
-nnoremap <leader>mc :make clean<CR>
-nnoremap <leader>mm :make<CR>
+nnoremap <leader>mt :make test <bar> cwindow<CR>
+nnoremap <leader>mr :make run <bar> cwindow<CR>
+nnoremap <leader>mb :make build <bar> cwindow<CR>
+nnoremap <leader>mc :make clean <bar> cwindow<CR>
+nnoremap <leader>mm :make <bar> cwindow<CR>
 nnoremap <silent> <leader>u :UndotreeToggle <bar> UndotreeFocus<CR>
