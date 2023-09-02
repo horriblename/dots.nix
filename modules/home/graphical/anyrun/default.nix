@@ -7,7 +7,7 @@
   home.packages = [
     pkgs.anyrunPackages.anyrun
   ];
-  menu.selector = "env GTK_THEME='${config.gtk.theme.name}' ${lib.getExe pkgs.anyrunPackages.anyrun} --plugins ${pkgs.anyrunPackages.anyrun}/lib/libstdin.so";
+  menu.selector = "env GTK_THEME='${config.gtk.theme.name}' ${lib.getExe pkgs.anyrunPackages.anyrun} --plugins ${pkgs.anyrunPackages.stdin}/lib/libstdin.so";
   menu.launcher = "pkill anyrun || GTK_THEME='${config.gtk.theme.name}' ${lib.getExe pkgs.anyrunPackages.anyrun}";
 
   xdg.configFile."anyrun/config.ron".text = with pkgs.anyrunPackages; ''
