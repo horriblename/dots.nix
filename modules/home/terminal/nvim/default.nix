@@ -399,33 +399,17 @@ in {
         direnv = {package = direnv-vim;};
         nvim-autopairs = {
           package = "nvim-autopairs";
-          setup = ''
-            require('nvim-autopairs').setup({
-              check_ts = true, -- treesitter integration
-              disable_filetype = { "TelescopePrompt", "lisp" },
-              enable_afterquote = false,
-              fast_wrap = {
-                map = "<M-e>",
-                end_key = "l",
-                highlight = "PmenuSel",
-                highlight_grey = "LineNr",
-              },
-            })
-
-            do
-              local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-              require'cmp'.event:on('confirm_done', cmp_autopairs.on_confirm_done({
-                map_char = { text = "" },
-                filetypes = {
-                  haskell = false,
-                  lisp = false,
-                  nix = false,
-                  bash = false,
-                  sh = false,
-                },
-              }))
-            end
-          '';
+          setup = setup "nvim-autopairs" {
+            check_ts = true;
+            disable_filetype = ["TelescopePrompt"];
+            enable_afterquote = false;
+            fast_wrap = {
+              map = "<M-e>";
+              end_key = "l";
+              highlight = "PmenuSel";
+              highlight_grey = "LineNr";
+            };
+          };
         };
         neodev-nvim = {
           package = neodev-nvim;
