@@ -130,7 +130,7 @@
         overlays = [self.overlay];
       };
     in {
-      inherit (pkgs) wf-osk kanagawa-gtk hyprworkspaces;
+      inherit (pkgs) wf-osk kanagawa-gtk hyprworkspaces fennel-ls;
       ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
         buildInputs = with pkgs; [wf-osk kanagawa-gtk hyprworkspaces];
       };
@@ -151,6 +151,7 @@
         src = nixrun-nvim;
       };
       lf = final.callPackage ./pkgs/lf-sixel.nix {};
+      fennel-ls = final.callPackage ./pkgs/fennel-ls.nix {};
 
       mpv = prev.mpv.override {scripts = [prev.mpvScripts.mpris];};
     };
