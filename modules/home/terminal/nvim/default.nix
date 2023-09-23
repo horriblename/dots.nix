@@ -75,6 +75,10 @@ in {
           enable = true;
           lsp.package = ["jdt-language-server" "-configuration" "${config.xdg.cacheHome}/jdtls/config" "-data" "${config.xdg.cacheHome}/jdtls/workspace"];
         };
+        lua = {
+          enable = true;
+          lsp.neodev.enable = true;
+        };
       };
 
       vim.lsp.lspconfig.sources = let
@@ -92,7 +96,6 @@ in {
         mkLspSources {
           yamlls = {};
           csharp_ls = {};
-          lua_ls = {cmd = [(lib.getExe pkgs.lua-language-server)];};
           elmls = {};
           clojure_lsp = {};
         };
@@ -405,10 +408,6 @@ in {
               highlight_grey = "LineNr";
             };
           };
-        };
-        neodev-nvim = {
-          package = neodev-nvim;
-          setup = setup "neodev" {};
         };
         md-img-paste-vim = {
           package = pkgs.md-img-paste-vim;
