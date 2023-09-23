@@ -28,6 +28,7 @@ set undofile
 set autowrite
 set conceallevel=2
 set cedit=\<C-q>
+let &isfname = '@,48-57,/,\,.,-,_,+,,,#,$,%,~,='
 
 " Tab Settings
 set noexpandtab
@@ -49,11 +50,13 @@ set matchpairs+=<:>,*:*,`:`
 set list listchars=tab:\ \ ,trail:·
 set fillchars=diff:╱,foldopen:▼,foldclose:⯈
 
+let g:spacelistchars = 'trail:·,leadmultispace:│ ,tab:│ →'
+let g:tablistchars   = 'trail:·,leadmultispace:│·,tab:│ '
 augroup SetListChars
 	au!
-	au OptionSet expandtab if &expandtab | setl listchars=tab:\ \ →,trail:· | else | set listchars=tab:\ \ ,lead:·,trail:· | endif
+	au OptionSet expandtab let &l:listchars = v:option_new? g:tablistchars : g:spacelistchars
 	" reset listchars after modeline/.editorconfig settings
-	au BufWinEnter * if &expandtab | setl listchars=tab:\ \ →,trail:· | else | set listchars=tab:\ \ ,lead:·,trail:· | endif
+	au BufWinEnter * let &l:listchars = v:option_new? g:tablistchars : g:spacelistchars
 augroup END
 
 set wildcharm=<Tab>
