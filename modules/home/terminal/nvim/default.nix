@@ -71,6 +71,10 @@ in {
         python.enable = true;
         dart.enable = false;
         elixir.enable = false;
+        java = {
+          enable = true;
+          lsp.package = ["jdt-language-server" "-configuration" "${config.xdg.cacheHome}/jdtls/config" "-data" "${config.xdg.cacheHome}/jdtls/workspace"];
+        };
       };
 
       vim.lsp.lspconfig.sources = let
@@ -88,15 +92,6 @@ in {
         mkLspSources {
           yamlls = {};
           csharp_ls = {};
-          jdtls = {
-            cmd = [
-              "jdt-language-server"
-              "-configuration"
-              "${config.xdg.cacheHome}/jdtls/config"
-              "-data"
-              "${config.xdg.cacheHome}/jdtls/workspace"
-            ];
-          };
           lua_ls = {cmd = [(lib.getExe pkgs.lua-language-server)];};
           elmls = {};
           clojure_lsp = {};
