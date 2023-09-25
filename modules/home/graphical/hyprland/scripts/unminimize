@@ -8,4 +8,4 @@ workspace=$(hyprctl monitors -j | jaq '
 	.activeWorkspace
 	.id')
 
-hyprctl dispatch movetoworkspace "$workspace,address:$window"
+hyprctl dispatch movetoworkspacesilent "$workspace,address:$window"
