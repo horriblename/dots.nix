@@ -149,6 +149,8 @@ in {
         nvimTree = {
           enable = true;
           openOnSetup = false;
+          syncRootWithCwd = true;
+          updateFocusedFile.enable = true;
           actions = {
             changeDir.enable = false;
             changeDir.global = false;
@@ -310,6 +312,7 @@ in {
         "<leader>zt".action = ":<C-U>let g:default_terminal = v:count1<CR>";
         "<leader>e".action = ":NvimTreeToggle<CR>";
         "<leader>ld".action = ":lua vim.diagnostic.setqflist({open = true})<CR>";
+        "<leader>lf".action = ":lua vim.lsp.buf.format()<CR>";
 
         # Diffview
         "<leader>gdq".action = ":DiffviewClose<CR>";
