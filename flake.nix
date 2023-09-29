@@ -150,7 +150,6 @@
         version = "master";
         src = nixrun-nvim;
       };
-      lf = final.callPackage ./pkgs/lf-sixel.nix {};
       fennel-ls = final.callPackage ./pkgs/fennel-ls.nix {};
 
       mpv = prev.mpv.override {scripts = [prev.mpvScripts.mpris];};
