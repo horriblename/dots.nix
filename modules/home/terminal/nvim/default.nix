@@ -22,8 +22,8 @@ in {
     enable = true;
     settings = {
       vim = {
-        viAlias = true;
-        vimAlias = true;
+        viAlias = false;
+        vimAlias = false;
         preventJunkFiles = true;
         enableLuaLoader = true;
       };
@@ -313,6 +313,7 @@ in {
         "<leader>e".action = ":NvimTreeToggle<CR>";
         "<leader>ld".action = ":lua vim.diagnostic.setqflist({open = true})<CR>";
         "<leader>lf".action = ":lua vim.lsp.buf.format()<CR>";
+        "<leader>li".action = ":lua vim.lsp.buf.implementation()<CR>";
 
         # Diffview
         "<leader>gdq".action = ":DiffviewClose<CR>";
