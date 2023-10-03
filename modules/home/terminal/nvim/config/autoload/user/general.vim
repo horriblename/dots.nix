@@ -54,9 +54,9 @@ let g:spacelistchars = 'trail:·,leadmultispace:│ ,tab:│ →'
 let g:tablistchars   = 'trail:·,leadmultispace:│·,tab:│ '
 augroup SetListChars
 	au!
-	au OptionSet expandtab let &l:listchars = v:option_new? g:tablistchars : g:spacelistchars
+	au OptionSet expandtab let &l:listchars = v:option_new? g:spacelistchars : g:tablistchars
 	" reset listchars after modeline/.editorconfig settings
-	au BufWinEnter * let &l:listchars = v:option_new? g:tablistchars : g:spacelistchars
+	au BufWinEnter * let &l:listchars = &l:expandtab? g:spacelistchars : g:tablistchars
 augroup END
 
 set wildcharm=<Tab>
