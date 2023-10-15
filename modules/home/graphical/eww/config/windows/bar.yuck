@@ -197,7 +197,8 @@
        (_taskbar :tasks lTasks)))
 
 (defwidget system [?orientation volumeIn volumeOut batteryLvl]
-  (eventbox
+  (button
+    :class "flat"
     :onclick `${EWW_CMD} open quick_settings_win --toggle --anchor "${orientation == 'v' ? 'bottom left' : 'top right'}"`
     (box :class "system-overview boxed-widget-group"
          :orientation {orientation ?: "h"}
@@ -221,6 +222,7 @@
        :spacing 1
        (button :onclick "wf-osk -a bottom -w 500 --height 250 &"
                (label :class "icon" :text "Keyboard"))
+       (box :style "padding: 0.3rem;")
        (system :orientation {orientation ?: "h"}
                :volumeIn volumeIn
                :volumeOut volumeOut
