@@ -3,7 +3,6 @@
 (include "windows/bar.yuck")
 (include "windows/quick-settings.yuck")
 (include "windows/dock.yuck")
-(include "windows/dialog.yuck")
 (include "windows/logout.yuck")
 
 ;; vim: ft=yuck : syn=scheme
