@@ -153,9 +153,9 @@
           :class "circular workspace ${ws.state == 2 ? '' : 'flat'}"
           :style "padding: 0.14rem;"
           (label :class "icon" :text {
-          ws.state == 0 ? "Radio_Button_Unchecked" 
-          :ws.state == 1 ? "Radio_Button_Checked" 
-          : "Radio_Button_Checked"})))
+                 ws.state == 0 ? "Radio_Button_Unchecked" 
+                 :ws.state == 1 ? "Radio_Button_Checked" 
+                 : "Radio_Button_Checked"})))
 
 (defwidget workspaces [ wsState ?orientation ]
   (eventbox :class "workspaces boxed-widget-group"
