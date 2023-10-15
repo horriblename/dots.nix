@@ -9,7 +9,7 @@
 (defvar SPEAKER_ICONS `["Volume_Off", "Volume_Mute", "Volume_Down", "Volume_Up"]`)
 (defvar MIC_ICONS `["Mic_Off","Mic"]`)
 (defvar NET_ICONS `{"wifi": "Wifi", "ethernet": "Lan", "unknown": "Language", "disconnected": "Wifi_Off"}`)
-(defvar BATTERY_ICONS '["Battery_0_Bar","Battery_2_Bar","Battery_4_Bar","Battery_6_Bar",Battery_Full"]')
+(defvar BATTERY_ICONS '["Battery_0_Bar","Battery_2_Bar","Battery_4_Bar","Battery_6_Bar","Battery_Full"]')
 (defvar DAY_OF_WEEK `["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]`)
 (defvar SEPARATOR "|")
 
