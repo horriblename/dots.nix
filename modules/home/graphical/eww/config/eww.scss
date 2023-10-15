@@ -73,4 +73,14 @@ window {
   font-family: Material Symbols Outlined;
 }
 
-/* Quick Settings */
+@keyframes transitionIn {
+  from {
+    margin-left: -50rem;
+    margin-right: 50rem;
+  }
+
+  to {
+    margin-left: 0rem;
+    margin-right: 0rem;
+  }
+}

@@ -4,12 +4,15 @@
 ;; (defvar AnimOpenLogout false)
 
 (defwidget PowerButton [icon onclick style]
-  (button
-    :class "power-btn"
-    :style style
-    :onclick onclick
-    (label :class "icon power-btn-icon"
-           :text icon)))
+  (box :style "padding: 0 3rem;"
+       (button
+         :class "power-btn circular"
+         :style style
+         :onclick onclick
+         (box :style "padding: 1rem;"
+              (label :class "icon power-btn-icon"
+                     :style "font-size: 3rem;"
+                     :text icon)))))
 
 (defwindow logout_win
   :monitor 0
@@ -20,13 +23,13 @@
   :focusable true
   (box 
     :class  "logout-app"
+    :style "background-color: rgba(12, 12, 12, 0.6);"
     (eventbox 
       :onclick "${EWW_CMD} close logout_win"
       (box
         :class "logout-buttons-container"
         :valign "center"
         :halign "center"
-        :spacing 50
         :space-evenly true
         (PowerButton :icon "Lock"
                      :style "animation: transitionIn 405ms ${LOGOUT_CURVE_IN} forwards;"
