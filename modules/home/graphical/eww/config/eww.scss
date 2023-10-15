@@ -44,15 +44,14 @@
 // @import "css/bar";
 // @import "css/quick-settings";
 // @import "css/logout";
-//
-// window {
-//   color: $fg;
-// }
 
-.quick-settings-app {
-  // background-color: $bg_h;
-  border-radius: 15px;
-  // margin: 10px;
+// Make theming the base window easier
+window {
+  background-color: transparent;
+
+  > box {
+    background-color: #1f1f28;
+  }
 }
 
 // .logout-app {
