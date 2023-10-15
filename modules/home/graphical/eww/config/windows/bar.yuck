@@ -4,8 +4,6 @@
 
 ;; Constants
 
-;; (defvar WM "hyprland")
-(defvar WS_ICONS `["","","","","﨧", "", "", "","",""]`)
 (defvar WS_UNKNOWN_ICON "")
 (defvar WS_PERSISTENT 6)
 (defvar SPEAKER_ICONS `["Volume_Off", "Volume_Mute", "Volume_Down", "Volume_Up"]`)
@@ -152,16 +150,19 @@
 (defwidget workspace [ws]
   (button :onclick "hyprctl dispatch workspace ${ws.index + 1}"
           :visible { ws.state != 0 || ws.index < WS_PERSISTENT}
-          :class {
-          ws.state == 0 ? "workspace ws-persistent" :
-          ws.state == 1 ? "workspace" : "workspace ws-focused"}
-          { WS_ICONS[ws.index] ?: WS_UNKNOWN_ICON}))
+          :class "circular workspace ${ws.state == 2 ? '' : 'flat'}"
+          :style "padding: 0.14rem;"
+          (label :class "icon" :text {
+          ws.state == 0 ? "Radio_Button_Unchecked" 
+          :ws.state == 1 ? "Radio_Button_Checked" 
+          : "Radio_Button_Checked"})))
 
 (defwidget workspaces [ wsState ?orientation ]
   (eventbox :class "workspaces boxed-widget-group"
             :halign "start"
             :onscroll "hyprctl dispatch workspace $([ {} = up ] && echo -1 || echo +1)"
             (box :orientation {orientation ?: "h"}
+                 :space-evenly true
                  (for ws in wsState
                       (workspace :ws ws)))))
 
@@ -201,7 +202,6 @@
     (box :class "system-overview boxed-widget-group"
          :orientation {orientation ?: "h"}
          :space-evenly false
-         :halign "end"
          :spacing 5
          (_audio :volumeIn volumeIn
                  :volumeOut volumeOut
