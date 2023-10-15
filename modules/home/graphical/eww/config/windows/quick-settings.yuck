@@ -124,13 +124,17 @@
   :monitor 0
   :geometry (geometry :anchor "top right"
                       :width "400px")
-  (box :class "quick-settings-app"
-       (eventbox
-         :onhoverlost "${EWW_CMD} close quick_settings_win"
-         (_quick_settings_applet
-           :volumeIn lVolumeIn
-           :volumeOut lVolumeOut
-           :batteryLvl { EWW_BATTERY.total_avg }
-           :brightness pollBrightness
-           :netStat pollNetStat))))
+  (eventbox
+    :onhoverlost "${EWW_CMD} close quick_settings_win"
+    (box 
+      :class "quick-settings-app"
+      :style "padding: 1rem; background-color: transparent;"
+      (box
+        :style "border-radius: 2rem; background-color: #1f1f28;"
+        (_quick_settings_applet
+          :volumeIn lVolumeIn
+          :volumeOut lVolumeOut
+          :batteryLvl { EWW_BATTERY.total_avg }
+          :brightness pollBrightness
+          :netStat pollNetStat)))))
 
