@@ -33,93 +33,108 @@
     :class "quick-setting-unit ${class}"
     :space-evenly false
     (label :class "icon"
-           :text icon
-           :style "padding: 0px 5px;")
+           :style "padding: 0 1rem;"
+           :text icon)
     (label :text text
            :limit-width 12)))
 
 (defwidget _quick_setting_btn [icon onclick ?class ?style]
-  (button :class "quick-setting-btn ${class ?: ''}"
+  (button :class "quick-setting-btn circular ${class ?: ''}"
           :timeout '5s'
           :style {style ?: ""}
           :onclick onclick
-    (label :class "icon" :text icon)))
+          (label :class "icon" :text icon)))
 
 ;; TODO don't use _volInSlider & _volOutSlider
 (defwidget _quick_settings_applet [volumeIn volumeOut batteryLvl brightness netStat]
   (box 
     :class "quick-settings"
     :orientation "v" 
+    :spacing 16
+    :space-evenly false
+    :style "padding: 1.5rem; border-radius: 20px;"
     (box :orientation "h"
          :class "qs-power-options"
          :halign "end"
          :hexpand true
          (_quick_setting_btn
            :icon  "Settings_Power"
-           :style "color: crimson;"
+           :style "color: crimson; font-size: 1.3rem;"
            :class ""
            :onclick "${EWW_CMD} open logout_win"))
     (box :orientation "h"
-      (_quick_setting_btn
-        :icon "Screenshot_Monitor"
-        :class ""
-        :onclick "hyprctl dispatch exec '${EWW_CMD} close quick_settings_win; screenshot'")
-      (_quick_setting_btn
-        :icon "Abc"
-        :class ""
-        :onclick "${EWW_CMD} close quick_settings_win; ocr&")
-      (_quick_setting_btn
-        :icon "Keyboard"
-        :class ""
-        :onclick "wf-osk -a bottom &"))
+         :spacing 16
+         (_quick_setting_btn
+           :icon "Screenshot_Monitor"
+           :class ""
+           :onclick "hyprctl dispatch exec '${EWW_CMD} close quick_settings_win; screenshot'")
+         (_quick_setting_btn
+           :icon "Abc"
+           :class ""
+           :onclick "${EWW_CMD} close quick_settings_win; ocr&")
+         (_quick_setting_btn
+           :icon "Keyboard"
+           :class ""
+           :onclick "wf-osk -a bottom &"))
     (box :orientation "h"
-      (box :class "quick-setting-unit qs-volume-in"
-           :space-evenly false
-        (label :class "icon" :text {MIC_ICONS[1]})
-        (_volInSlider :volumeIn volumeIn))
-      (box :class "quick-setting-unit qs-volume-out"
-           :space-evenly false
-        (label :class "icon" :text {SPEAKER_ICONS[3]})
-        (_volOutSlider :volumeOut volumeOut :flipped false)))
+         (box :class "quick-setting-unit qs-volume-in"
+              :space-evenly false
+              (label :class "icon" 
+                     :text {MIC_ICONS[1]}
+                     :style "padding: 0 1rem;")
+              (_volInSlider :volumeIn volumeIn))
+         (box :class "quick-setting-unit qs-volume-out"
+              :space-evenly false
+              (label :class "icon" 
+                     :text {SPEAKER_ICONS[3]}
+                     :style "padding: 0 1rem;")
+              (_volOutSlider :volumeOut volumeOut :flipped false)))
     (box :orientation "h"
-      (box :class "quick-setting-unit qs-brightness"
-           :space-evenly false
-        (label :class "icon" :text BRIGHTNESS_ICON)
-        (_brightnessSlider :brightness brightness)))
+         (box :class "quick-setting-unit qs-brightness"
+              :space-evenly false
+              (label :class "icon" 
+                     :text BRIGHTNESS_ICON
+                     :style "padding: 0 1rem;")
+              (_brightnessSlider :brightness brightness)))
     (box :orientation "h"
-      (_quick_setting_info
-        :icon {NET_ICONS[netStat.type]} 
-        :class "qs-network"
-        :text {netStat.name})
-      (_quick_setting_info
-        :icon {BATTERY_ICONS[4]} 
-        :class "qs-battery"
-        :text "${batteryLvl}%"))
+         (_quick_setting_info
+           :icon {NET_ICONS[netStat.type]} 
+           :class "qs-network"
+           :text {netStat.name})
+         (_quick_setting_info
+           :icon {BATTERY_ICONS[4]} 
+           :class "qs-battery"
+           :text "${batteryLvl}%"))
     (box :orientation "h"
-      (_quick_setting_btn
-        :icon "Rotate_Right"
-        :class ""
-        :onclick "scripts/rotate-screen clockwise ${EWW_CMD}")
-      (_quick_setting_btn
-        :icon "Swap_Vert" 
-        :class ""
-        :onclick "scripts/rotate-screen vertical ${EWW_CMD}")
-      (_quick_setting_btn
-        :icon "Rotate_Left" 
-        :class ""
-        :onclick "scripts/rotate-screen anti-clockwise ${EWW_CMD}"))))
+         :spacing 16
+         (_quick_setting_btn
+           :icon "Rotate_Right"
+           :class ""
+           :onclick "scripts/rotate-screen clockwise ${EWW_CMD}")
+         (_quick_setting_btn
+           :icon "Swap_Vert" 
+           :class ""
+           :onclick "scripts/rotate-screen vertical ${EWW_CMD}")
+         (_quick_setting_btn
+           :icon "Rotate_Left" 
+           :class ""
+           :onclick "scripts/rotate-screen anti-clockwise ${EWW_CMD}"))))
 
 (defwindow quick_settings_win
   :monitor 0
   :geometry (geometry :anchor "top right"
                       :width "400px")
-  (box :class "quick-settings-app"
-       (eventbox
-         :onhoverlost "${EWW_CMD} close quick_settings_win"
-         (_quick_settings_applet
-           :volumeIn lVolumeIn
-           :volumeOut lVolumeOut
-           :batteryLvl { EWW_BATTERY.total_avg }
-           :brightness pollBrightness
-           :netStat pollNetStat))))
+  (eventbox
+    :onhoverlost "${EWW_CMD} close quick_settings_win"
+    (box 
+      :class "quick-settings-app"
+      :style "padding: 1rem; background-color: transparent;"
+      (box
+        :style "border-radius: 2rem; background-color: #1f1f28;"
+        (_quick_settings_applet
+          :volumeIn lVolumeIn
+          :volumeOut lVolumeOut
+          :batteryLvl { EWW_BATTERY.total_avg }
+          :brightness pollBrightness
+          :netStat pollNetStat)))))
 

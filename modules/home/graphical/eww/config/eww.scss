@@ -1,77 +1,24 @@
-$bg_h: #0b0c0d;
-$bg_m: #1d2021;
-$bg: #282828;
-$bg_s: #32302f;
-$bg1: #3c3836;
-$bg2: #504945;
-$bg3: #665c54;
-$bg4: #7c6f64;
-$bg_translucent: rgba(11, 12, 13, 0.6);
-
-$fg: #fbf1c7;
-$fg1: #ebdbb2;
-$fg2: #d5c4a1;
-$fg3: #bdae93;
-$fg4: #a89984;
-
-$red: #fb4934;
-$green: #b8bb26;
-$yellow: #fabd2f;
-$blue: #83a598;
-$purple: #d3869b;
-$aqua: #8ec07c;
-$gray: #928374;
-$orange: #fe8019;
-
-$red-dim: #cc2412;
-$green-dim: #98971a;
-$yellow-dim: #d79921;
-$blue-dim: #458588;
-$purple-dim: #b16286;
-$aqua-dim: #689d6a;
-$gray-dim: #a89984;
-$orange-dim: #d65d0e;
-
-* {
-  all: unset;
-  font-size: 16px;
-  font-family: Google Sans, Sans;
-  font-weight: 600;
-}
-
-@import "css/elements/scale";
-@import "css/elements/calendar";
-@import "css/bar";
-@import "css/quick-settings";
-@import "css/logout";
-
+// Make theming the base window easier
 window {
-  color: $fg;
-}
+  background-color: transparent;
 
-.quick-settings-app {
-  background-color: $bg_h;
-  border-radius: 15px;
-  margin: 10px;
-}
-
-.logout-app {
-  background-color: $bg_translucent;
-}
-
-.dock-app {
-  background-color: $bg_h;
-}
-
-/* Styling */
-/* Calendar */
-.calendar {
-  color: $fg1;
-  border-radius: 5px;
+  > box {
+    background-color: #1f1f28;
+  }
 }
 
 .icon {
   font-family: Material Symbols Outlined;
 }
 
-/* Quick Settings */
+@keyframes transitionIn {
+  from {
+    margin-left: -50rem;
+    margin-right: 50rem;
+  }
+
+  to {
+    margin-left: 0rem;
+    margin-right: 0rem;
+  }
+}

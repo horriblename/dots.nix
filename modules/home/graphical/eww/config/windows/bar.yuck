@@ -4,14 +4,12 @@
 
 ;; Constants
 
-;; (defvar WM "hyprland")
-(defvar WS_ICONS `["","","","","﨧", "", "", "","",""]`)
 (defvar WS_UNKNOWN_ICON "")
 (defvar WS_PERSISTENT 6)
 (defvar SPEAKER_ICONS `["Volume_Off", "Volume_Mute", "Volume_Down", "Volume_Up"]`)
 (defvar MIC_ICONS `["Mic_Off","Mic"]`)
 (defvar NET_ICONS `{"wifi": "Wifi", "ethernet": "Lan", "unknown": "Language", "disconnected": "Wifi_Off"}`)
-(defvar BATTERY_ICONS '["Battery_0_Bar","Battery_2_Bar","Battery_4_Bar","Battery_6_Bar",Battery_Full"]')
+(defvar BATTERY_ICONS '["Battery_0_Bar","Battery_2_Bar","Battery_4_Bar","Battery_6_Bar","Battery_Full"]')
 (defvar DAY_OF_WEEK `["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]`)
 (defvar SEPARATOR "|")
 
@@ -20,14 +18,14 @@
 (defvar VolInScaleShow false)
 
 (defpoll pollDateTime
-  :interval "10s"
-  :initial '{"hour": "00", "minute": "00", "date": "1/1" , "dayOfWeek": "0"}'
-  `date +'{"hour":"%H","minute":"%M","month":"%m","day":"%d","dayOfWeek":%w}'`)
+         :interval "10s"
+         :initial '{"hour": "00", "minute": "00", "date": "1/1" , "dayOfWeek": "0"}'
+         `date +'{"hour":"%H","minute":"%M","month":"%m","day":"%d","dayOfWeek":%w}'`)
 
 (defpoll pollNetStat
-  :interval "100s"
-  :initial '{"type": "disconnected", "name": "checking..."}'
-  `scripts/check-network`)
+         :interval "100s"
+         :initial '{"type": "disconnected", "name": "checking..."}'
+         `scripts/check-network`)
 
 (deflisten lWorkspaceState
   :initial "[]"
@@ -44,31 +42,31 @@
 (defwidget _calendar_applet []
   (eventbox :onhoverlost `${EWW_CMD} close calendar_win`
             :class "calendar"
-    (calendar :show-details true
-              :show-heading true)))
+            (calendar :show-details true
+                      :show-heading true)))
 
 (defwidget _clock [datetime ?orientation]
   (eventbox :class "clock"
             :onclick `${EWW_CMD} open calendar_win --toggle --anchor "center ${orientation == 'v' ? 'left' : 'top'}"`
             :tooltip `${DAY_OF_WEEK[datetime.dayOfWeek]}, ${datetime.day}/${datetime.month}`
-    (box
-      :space-evenly true
-      :orientation {orientation ?: "h"}
-      (box :orientation {orientation ?: "h"}
-        (label :class "clock-hour" :text {datetime.hour})
-        (label :class "clock-separator" :visible {orientation != "v"} :text ":")
-        (label :class "clock-minute" :text {datetime.minute}))
-      (label :class "clock-dayofweek" :visible {orientation != "v"} :text {DAY_OF_WEEK[datetime.dayOfWeek]} )
-      (box
-        (label :class "clock-day" :visible {orientation != "v"} :text {datetime.day})
-        (label :class "clock-separator" :visible {orientation != "v"} :text "/")
-        (label :class "clock-month" :visible {orientation != "v"} :text {datetime.month})))))
+            (box
+              :space-evenly true
+              :orientation {orientation ?: "h"}
+              (box :orientation {orientation ?: "h"}
+                   (label :class "clock-hour" :text {datetime.hour})
+                   (label :class "clock-separator" :visible {orientation != "v"} :text ":")
+                   (label :class "clock-minute" :text {datetime.minute}))
+              (label :class "clock-dayofweek" :visible {orientation != "v"} :text {DAY_OF_WEEK[datetime.dayOfWeek]} )
+              (box
+                (label :class "clock-day" :visible {orientation != "v"} :text {datetime.day})
+                (label :class "clock-separator" :visible {orientation != "v"} :text "/")
+                (label :class "clock-month" :visible {orientation != "v"} :text {datetime.month})))))
 
 (defwidget _network []
   (box :class "sys-item net-box"
-    (label :class "icon"
-           :text {NET_ICONS[pollNetStat.type]}
-           :tooltip {pollNetStat.name})))
+       (label :class "icon"
+              :text {NET_ICONS[pollNetStat.type]}
+              :tooltip {pollNetStat.name})))
 
 (defwidget _volOutSlider [volumeOut ?flipped ?orientation]
   (scale :class "vol-out-bar"
@@ -99,71 +97,74 @@
             :onclick  `pactl set-source-mute @DEFAULT_SOURCE@ toggle`
             :visible { volumeIn > 0 || VolInScaleShow }
             :onscroll `pactl set-source-volume @DEFAULT_SOURCE@ $([ {} = up ] && echo + || echo -)4%`
-    (label :class "icon"
-           :text { volumeIn > 0 ? MIC_ICONS[1] : MIC_ICONS [0]})))
+            (label :class "icon"
+                   :text { volumeIn > 0 ? MIC_ICONS[1] : MIC_ICONS [0]})))
 
 (defwidget _speakerIcon [volumeOut]
   (eventbox :class "speaker-icon"
             :onclick  `pactl set-sink-mute @DEFAULT_SINK@ toggle`
             :onscroll `pactl set-sink-volume @DEFAULT_SINK@ $([ {} = up ] && echo + || echo -)4%`
-    (label :class "icon"
-           :text { volumeOut < 0 ? SPEAKER_ICONS[0] :
-              volumeOut < 30 ? SPEAKER_ICONS[1] :
-              volumeOut < 70 ? SPEAKER_ICONS[2] : SPEAKER_ICONS[3]})))
+            (label :class "icon"
+                   :text { volumeOut < 0 ? SPEAKER_ICONS[0] :
+                   volumeOut < 30 ? SPEAKER_ICONS[1] :
+                   volumeOut < 70 ? SPEAKER_ICONS[2] : SPEAKER_ICONS[3]})))
 
 (defwidget _volumeSliders [volumeIn volumeOut ?orientation]
   (box :class "vol-bar-box"
        :orientation {orientation == "v" ? "h" : "v"}
-    ; (_volOutSlider :volumeOut volumeOut :flipped true :orientation orientation)
-    ; (_volInSlider :volumeIn volumeIn :orientation orientation)
-    ))
+       ; (_volOutSlider :volumeOut volumeOut :flipped true :orientation orientation)
+       ; (_volInSlider :volumeIn volumeIn :orientation orientation)
+       ))
 
 (defwidget _audio [volumeIn volumeOut ?orientation]
   (eventbox :class "sys-item audio-box"
             :onhover `${EWW_CMD} update VolInScaleShow=true`
             :onhoverlost `${EWW_CMD} update VolInScaleShow=false`
             :onrightclick `pavucontrol`
-    (box :orientation {orientation ?: "h"}
-         :space-evenly false
-      (_micIcon :volumeIn volumeIn)
-      (revealer :transition {orientation == "v" ? "slideup" : "slideleft"}
-                :reveal VolInScaleShow
-                :duration "550ms"
-        (_volumeSliders :volumeIn volumeIn
-                        :volumeOut volumeOut
-                        :orientation {orientation ?: "h"}))
-      (_speakerIcon :volumeOut volumeOut))))
+            (box :orientation {orientation ?: "h"}
+                 :space-evenly false
+                 (_micIcon :volumeIn volumeIn)
+                 (revealer :transition {orientation == "v" ? "slideup" : "slideleft"}
+                           :reveal VolInScaleShow
+                           :duration "550ms"
+                           (_volumeSliders :volumeIn volumeIn
+                                           :volumeOut volumeOut
+                                           :orientation {orientation ?: "h"}))
+                 (_speakerIcon :volumeOut volumeOut))))
 
 
 (defwidget _memUsage []
   (box :class "sys-item ram-box" :vexpand "false" :hexpand "false"
-    (circular-progress :value {EWW_RAM.used_mem_perc}
-                       :class "mem-meter"
-                       :start-at 25
-                       :thickness 6)))
+       (circular-progress :value {EWW_RAM.used_mem_perc}
+                          :class "mem-meter"
+                          :start-at 25
+                          :thickness 6)))
 
 (defwidget _cpuUsage []
   (box :class "sys-item cpu-box"
-    (circular-progress :value {EWW_CPU.avg}
-                       :class "cpu-meter"
-                       :start-at 25
-                       :thickness 6)))
+       (circular-progress :value {EWW_CPU.avg}
+                          :class "cpu-meter"
+                          :start-at 25
+                          :thickness 6)))
 
 (defwidget workspace [ws]
   (button :onclick "hyprctl dispatch workspace ${ws.index + 1}"
           :visible { ws.state != 0 || ws.index < WS_PERSISTENT}
-          :class {
-    ws.state == 0 ? "workspace ws-persistent" :
-    ws.state == 1 ? "workspace" : "workspace ws-focused"}
-    { WS_ICONS[ws.index] ?: WS_UNKNOWN_ICON}))
+          :class "circular workspace ${ws.state == 2 ? '' : 'flat'}"
+          :style "padding: 0.14rem;"
+          (label :class "icon" :text {
+                 ws.state == 0 ? "Radio_Button_Unchecked" 
+                 :ws.state == 1 ? "Radio_Button_Checked" 
+                 : "Radio_Button_Checked"})))
 
 (defwidget workspaces [ wsState ?orientation ]
   (eventbox :class "workspaces boxed-widget-group"
             :halign "start"
             :onscroll "hyprctl dispatch workspace $([ {} = up ] && echo -1 || echo +1)"
-    (box :orientation {orientation ?: "h"}
-      (for ws in wsState
-        (workspace :ws ws)))))
+            (box :orientation {orientation ?: "h"}
+                 :space-evenly true
+                 (for ws in wsState
+                      (workspace :ws ws)))))
 
 (defwidget widgetWorkspaces [?orientation]
   (workspaces
@@ -175,14 +176,14 @@
           :onclick 'hyprctl dispatch focuswindow address:${task_data.address}'
           :onmiddleclick 'hyprctl dispatch closewindow address:${task_data.address}'
           :tooltip { task_data.title }
-    (image :class 'task-icon'
-           :path { task_data.icon_path }
-           :image-width 18)))
+          (image :class 'task-icon'
+                 :path { task_data.icon_path }
+                 :image-width 18)))
 
 (defwidget _taskbar [ tasks ]
   (box :class "taskbar"
-    (for app in tasks
-      (_taskbutton :task_data app))))
+       (for app in tasks
+            (_taskbutton :task_data app))))
 
 (defwidget widgetLeftBar [?orientation]
   (box :orientation {orientation ?: "h"}
@@ -190,27 +191,27 @@
        :halign {orientation == "v" ? "center" : "start"}
        :valign {orientation == "v" ? "start" : "center"}
        :spacing 1
-    ;(button :onclick ``
-    ;  " ")
-    (widgetWorkspaces :orientation {orientation ?: "h"})
-    (_taskbar :tasks lTasks)))
+       ;(button :onclick ``
+       ;  " ")
+       (widgetWorkspaces :orientation {orientation ?: "h"})
+       (_taskbar :tasks lTasks)))
 
 (defwidget system [?orientation volumeIn volumeOut batteryLvl]
-  (eventbox
+  (button
+    :class "flat"
     :onclick `${EWW_CMD} open quick_settings_win --toggle --anchor "${orientation == 'v' ? 'bottom left' : 'top right'}"`
     (box :class "system-overview boxed-widget-group"
          :orientation {orientation ?: "h"}
          :space-evenly false
-         :halign "end"
          :spacing 5
-      (_audio :volumeIn volumeIn
-              :volumeOut volumeOut
-              :orientation {orientation ?: "h"})
-      (_network)
-      (_memUsage)
-      (_cpuUsage)
-      (label :class "battery-box"
-             :text {batteryLvl == 100? '': batteryLvl}))))
+         (_audio :volumeIn volumeIn
+                 :volumeOut volumeOut
+                 :orientation {orientation ?: "h"})
+         (_network)
+         (_memUsage)
+         (_cpuUsage)
+         (label :class "battery-box"
+                :text {batteryLvl == 100? '': batteryLvl}))))
 
 
 (defwidget trays [?orientation volumeIn volumeOut batteryLvl]
@@ -219,23 +220,24 @@
        :halign {orientation == "v" ? "center" : "end"}
        :valign {orientation == "v" ? "end" : "center"}
        :spacing 1
-    (button :onclick "wf-osk -a bottom -w 500 --height 250 &"
-      (label :class "icon" :text "Keyboard"))
-    (system :orientation {orientation ?: "h"}
-            :volumeIn volumeIn
-            :volumeOut volumeOut
-            :batteryLvl batteryLvl)))
+       (button :onclick "wf-osk -a bottom -w 500 --height 250 &"
+               (label :class "icon" :text "Keyboard"))
+       (box :style "padding: 0.3rem;")
+       (system :orientation {orientation ?: "h"}
+               :volumeIn volumeIn
+               :volumeOut volumeOut
+               :batteryLvl batteryLvl)))
 
 (defwidget bar [orientation volumeIn volumeOut batteryLvl]
   (centerbox :class "bar bar-${orientation ?: 'h'}"
              :hexpand true
              :orientation {orientation ?: "h"}
-    (widgetLeftBar :orientation {orientation ?: "h"})
-    (_clock :datetime pollDateTime :orientation {orientation ?: "h"})
-    (trays :orientation {orientation ?: "h"}
-           :volumeIn volumeIn
-           :volumeOut volumeOut
-           :batteryLvl batteryLvl)))
+             (widgetLeftBar :orientation {orientation ?: "h"})
+             (_clock :datetime pollDateTime :orientation {orientation ?: "h"})
+             (trays :orientation {orientation ?: "h"}
+                    :volumeIn volumeIn
+                    :volumeOut volumeOut
+                    :batteryLvl batteryLvl)))
 
 ;; ---------------------
 ;; Window definitions
@@ -249,9 +251,9 @@
 (defwindow bar
   :monitor 0
   :geometry (geometry
-  :anchor "top center"
-  :width "100%"
-  :height "30px")
+              :anchor "top center"
+              :width "100%"
+              :height "30px")
   :stacking "fg"
   :exclusive true
   :windowtype "dock"
@@ -261,14 +263,14 @@
        :batteryLvl pollBattery))
 
 (defwindow bar_vert :monitor 0
-                    :exclusive false
-                    :geometry (geometry
-                    :anchor "left center"
-                    :width "40px"
-                    :height "100%")
-                    :stacking "fg"
-                    :exclusive true
-                    :windowtype "dock"
+  :exclusive false
+  :geometry (geometry
+              :anchor "left center"
+              :width "40px"
+              :height "100%")
+  :stacking "fg"
+  :exclusive true
+  :windowtype "dock"
   (bar :orientation "v"
        :volumeIn lVolumeIn
        :volumeOut lVolumeOut

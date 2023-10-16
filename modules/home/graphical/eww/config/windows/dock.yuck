@@ -4,23 +4,23 @@
   `jaq -c '.' scripts/dock.json`)
 
 (defwidget dock []
-    (box
-      (for app in lDock
-        (eventbox :onclick "hyprctl dispatch exec '${app.exec}'; ${EWW_CMD} close dock"
-                  :tooltip {app.name}
-          (image :path {app.icon} 
-                 :width 48
-                 :height 48
-                 :image-width 48)
-          ;; (box :class 'app-icon'
-             ;; 	:style "background-image: url('${app.icon}'); padding: 20px; border: 2px solid white;")
-        ))))
+  (box
+    (for app in lDock
+         (eventbox :onclick "hyprctl dispatch exec '${app.exec}'; ${EWW_CMD} close dock"
+                   :tooltip {app.name}
+                   (image :path {app.icon} 
+                          :width 48
+                          :height 48
+                          :image-width 48)
+                   ;; (box :class 'app-icon'
+                   ;; 	:style "background-image: url('${app.icon}'); padding: 20px; border: 2px solid white;")
+                   ))))
 
 (defwindow dock
   :monitor 0
   :geometry (geometry
-    :anchor "center bottom"
-    :width "80%"
-    :height "50px")
+              :anchor "center bottom"
+              :width "80%"
+              :height "50px")
   (box :class "dock-app"
        (dock)))
