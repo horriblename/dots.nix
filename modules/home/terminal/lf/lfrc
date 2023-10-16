@@ -342,7 +342,7 @@ map sudo $ {{
 }}
 map ee $$EDITOR "$f"
 map es $sudo -e "$f"
-map ei $nvide -- "$f"
+map ei $nvim -- "$f"
 map ed ${{
 	IFS='
 ' 

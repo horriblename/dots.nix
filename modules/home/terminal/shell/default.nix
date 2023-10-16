@@ -9,7 +9,7 @@
   ];
   home.sessionVariables = {
     # XDG_DATA_DIRS = "${config.home.profileDirectory}/share\${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}";
-    EDITOR = "nvim";
+    EDITOR = lib.getExe pkgs.neovim;
     PAGER = "less -FR";
     CARGO_HOME = "${config.xdg.dataHome}/cargo";
     RUSTUP_HOME = "${config.xdg.dataHome}/rustup";
@@ -25,6 +25,7 @@
   home.shellAliases = {
     c = "clear";
     n = lib.getExe pkgs.neovim;
+    vim = lib.getExe pkgs.neovim;
     nn = lib.getExe pkgs.neovim + " ./";
     ls = "ls -A";
     q = "exit";

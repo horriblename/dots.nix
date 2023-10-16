@@ -55,7 +55,7 @@ in {
           enable = true;
           lsp = {
             enable = true;
-            package = pkgs.clang-tools_15;
+            package = pkgs.clang-tools_16;
             server = "clangd";
           };
         };
@@ -70,7 +70,7 @@ in {
         zig.enable = false;
         python.enable = true;
         dart.enable = false;
-        elixir.enable = false;
+        elixir.enable = true;
         java = {
           enable = true;
           lsp.package = ["jdt-language-server" "-configuration" "${config.xdg.cacheHome}/jdtls/config" "-data" "${config.xdg.cacheHome}/jdtls/workspace"];
@@ -98,6 +98,9 @@ in {
           csharp_ls = {};
           elmls = {};
           clojure_lsp = {};
+          nixd = {
+            cmd = [(lib.getExe pkgs.nixd)];
+          };
         };
 
       vim.visuals = {
@@ -142,6 +145,16 @@ in {
           previous = "<C-p>";
           scrollDocsDown = "<C-j>";
           scrollDocsUp = "<C-k>";
+        };
+        sources = builtins.mapAttrs (_key: lib.mkForce) {
+          buffer = "[Buffer]";
+          copilot = "[Copilot]";
+          crates = "[Crates]";
+
+          nvim_lsp = "[LSP]";
+          path = "[Path]";
+          treesitter = "[Treesitter]";
+          vsnip = "[VSnip]";
         };
       };
 
@@ -258,7 +271,7 @@ in {
       };
 
       vim.assistant = {
-        copilot.enable = false;
+        copilot.enable = true;
       };
 
       vim.session = {
@@ -290,9 +303,10 @@ in {
         vim.g.default_terminal = 1
         vim.filetype.add({
           extension = {
-            yuck = 'lisp',
+            -- yuck = 'lisp',
           }
         })
+        vim.g.vsnip_snippet_dir = vim.fn.stdpath("config") .. "/snippets"
 
         require("tokyonight").setup({
           style = "night",
