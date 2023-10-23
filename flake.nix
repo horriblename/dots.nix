@@ -155,5 +155,6 @@
       mpv = prev.mpv.override {scripts = [prev.mpvScripts.mpris];};
     };
     formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
+    templates = import ./templates;
   };
 }
