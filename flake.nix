@@ -37,6 +37,7 @@
       url = "github:horriblename/nixrun-nvim";
       flake = false;
     };
+    impurity.url = "github:outfoxxed/impurity.nix";
   };
 
   outputs = {

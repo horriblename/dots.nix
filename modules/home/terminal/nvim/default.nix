@@ -1,8 +1,10 @@
 {
+  self,
   lib,
   config,
   inputs,
   pkgs,
+  impurity,
   ...
 }: let
   nix2Lua = import ./lib/toLua.nix;
@@ -14,9 +16,12 @@
 in {
   imports = [
     inputs.neovim-flake.homeManagerModules.default
+    inputs.impurity.nixosModules.default
   ];
+  impurity.enable = true;
+  impurity.configRoot = self;
 
-  xdg.configFile."nvim".source = ./config;
+  xdg.configFile."nvim".source = impurity.link ./config;
 
   programs.neovim-flake = {
     enable = true;
