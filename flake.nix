@@ -40,7 +40,6 @@
     impurity.url = "github:outfoxxed/impurity.nix";
     roc = {
       url = "github:roc-lang/roc";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
