@@ -38,6 +38,10 @@
       flake = false;
     };
     impurity.url = "github:outfoxxed/impurity.nix";
+    roc = {
+      url = "github:roc-lang/roc";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -133,7 +137,7 @@
     in {
       inherit (pkgs) wf-osk kanagawa-gtk hyprworkspaces fennel-ls;
       ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
-        buildInputs = with pkgs; [wf-osk kanagawa-gtk hyprworkspaces];
+        buildInputs = with pkgs; [wf-osk kanagawa-gtk hyprworkspaces roc];
       };
     });
     overlay = final: prev: {
@@ -154,6 +158,8 @@
       fennel-ls = final.callPackage ./pkgs/fennel-ls.nix {};
 
       mpv = prev.mpv.override {scripts = [prev.mpvScripts.mpris];};
+
+      roc = inputs.roc.packages.${final.system}.default;
     };
     formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
     templates = import ./templates;
