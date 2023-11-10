@@ -118,6 +118,17 @@
         wayland
       ];
     };
+    nixosConfigurations.linode = lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        { _module.args = {inherit self inputs;}; }
+        ./hosts/linode/configuration.nix
+        ./hosts/linode/hardware-configuration.nix
+
+        core
+        ./modules/nixos
+      ];
+    };
     nixosConfigurations.nixvm = lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
