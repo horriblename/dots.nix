@@ -180,17 +180,17 @@
       kanagawa-gtk = final.callPackage ./pkgs/kanagawa-gtk.nix {};
       hyprworkspaces = final.callPackage ./pkgs/hyprworkspaces/default.nix {};
       anyrunPackages = anyrun.packages.${final.system};
-      md-img-paste-vim = final.vimUtils.buildVimPluginFrom2Nix {
+      md-img-paste-vim = final.vimUtils.buildVimPlugin {
         pname = "md-img-paste-vim";
         version = "master";
         src = md-img-paste-vim;
       };
-      nixrun-nvim = final.vimUtils.buildVimPluginFrom2Nix {
+      nixrun-nvim = final.vimUtils.buildVimPlugin {
         pname = "nixrun";
         version = "master";
         src = nixrun-nvim;
       };
-      libcallex-vim = final.vimUtils.buildVimPluginFrom2Nix {
+      libcallex-vim = final.vimUtils.buildVimPlugin {
         pname = "libcallex-vim";
         version = "git";
         src = final.callPackage ./pkgs/libcallex-vim.nix {};
