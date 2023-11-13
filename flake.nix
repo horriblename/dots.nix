@@ -158,7 +158,19 @@
         overlays = [self.overlay];
       };
     in {
-      inherit (pkgs) wf-osk kanagawa-gtk hyprworkspaces fennel-ls;
+      inherit
+        (pkgs)
+        wf-osk
+        kanagawa-gtk
+        hyprworkspaces
+        anyrunPackages
+        md-img-paste-vim
+        nixrun-nvim
+        fennel-ls
+        mpv
+        roc
+        libcallex-vim
+        ;
       ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
         buildInputs = with pkgs; [wf-osk kanagawa-gtk hyprworkspaces roc];
       };
@@ -177,6 +189,11 @@
         pname = "nixrun";
         version = "master";
         src = nixrun-nvim;
+      };
+      libcallex-vim = final.vimUtils.buildVimPluginFrom2Nix {
+        pname = "libcallex-vim";
+        version = "git";
+        src = final.callPackage ./pkgs/libcallex-vim.nix {};
       };
       fennel-ls = final.callPackage ./pkgs/fennel-ls.nix {};
 
