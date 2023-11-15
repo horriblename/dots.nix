@@ -68,6 +68,7 @@
     nixpkgsConfigs = {
       archbox = {system = "x86_64-linux";};
       surface = {system = "x86_64-linux";};
+      linode = {system = "x86_64-linux";};
       droid = {system = "aarch64-linux";};
     };
     genHomeConfig = {
@@ -99,6 +100,10 @@
     homeConfigurations."py@surface" = genHomeConfig {
       machineName = "surface";
       homeConfigurationMode = "full";
+    };
+    homeConfigurations."py@linode" = genHomeConfig {
+      machineName = "linode";
+      homeConfigurationMode = "terminal";
     };
     homeConfigurations.nix-on-droid = genHomeConfig {
       machineName = "droid";

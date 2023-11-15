@@ -8,6 +8,7 @@ with lib; {
     type = types.enum [
       "archbox"
       "surface"
+      "linode"
       "droid"
     ];
     default = "archbox";
