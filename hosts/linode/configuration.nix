@@ -1,18 +1,19 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
-
-{ config, pkgs, ... }:
-
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  config,
+  pkgs,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
-  boot.kernelParams = [ "console=ttyS0,19200n8" ];
+  boot.kernelParams = ["console=ttyS0,19200n8"];
   boot.loader.grub.extraConfig = ''
     serial --speed=19200 --unit=0 --word=8 --parity=no --stop=1;
     terminal_input serial;
@@ -49,9 +50,6 @@
 
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
-
-
-  
 
   # Configure keymap in X11
   # services.xserver.layout = "us";
@@ -95,7 +93,7 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh = { 
+  services.openssh = {
     enable = true;
     settings = {
       PermitRootLogin = "yes";
@@ -116,9 +114,8 @@
   users.users.py = {
     isNormalUser = true;
     home = "/home/py";
-    extraGroups = [ "wheel" "networkmanager" ];
-    openssh.authorizedKeys.keys = [ ];
-
+    extraGroups = ["wheel" "networkmanager"];
+    openssh.authorizedKeys.keys = [];
   };
 
   # Open ports in the firewall.
@@ -139,6 +136,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
-
 }
-
