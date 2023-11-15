@@ -10,4 +10,7 @@
       customRC = builtins.readFile ./config.vim;
     };
   };
+  environment.systemPackages = with pkgs; [
+    git
+  ];
 }
