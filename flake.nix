@@ -109,7 +109,7 @@
       extraModules = [
         {
           impurity.enable = lib.mkForce false;
-          programs.neovim.enable = lib.mkForce true;
+          programs.neovim-flake.enable = lib.mkForce false;
         }
       ];
     };
