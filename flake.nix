@@ -74,6 +74,7 @@
     genHomeConfig = {
       machineName,
       homeConfigurationMode, # can be "terminal" or "full"
+      extraModules ? [],
     }:
       assert lib.assertOneOf "homeConfigurationMode" homeConfigurationMode ["terminal" "full"];
         home-manager.lib.homeManagerConfiguration {
@@ -89,7 +90,8 @@
             ++ lib.optionals (homeConfigurationMode == "full") [
               hyprland.homeManagerModules.default
               ./modules/home/graphical
-            ];
+            ]
+            ++ extraModules;
           extraSpecialArgs = {inherit self inputs;};
         };
   in {
@@ -104,6 +106,12 @@
     homeConfigurations."py@linode" = genHomeConfig {
       machineName = "linode";
       homeConfigurationMode = "terminal";
+      extraModules = [
+        {
+          impurity.enable = lib.mkForce false;
+          programs.neovim.enable = lib.mkForce true;
+        }
+      ];
     };
     homeConfigurations.nix-on-droid = genHomeConfig {
       machineName = "droid";
@@ -126,7 +134,7 @@
     nixosConfigurations.linode = lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
-        { _module.args = {inherit self inputs;}; }
+        {_module.args = {inherit self inputs;};}
         ./hosts/linode/configuration.nix
         ./hosts/linode/hardware-configuration.nix
 
