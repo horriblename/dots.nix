@@ -33,16 +33,16 @@
         :space-evenly true
         (PowerButton :icon "Lock"
                      :style "animation: transitionIn 405ms ${LOGOUT_CURVE_IN} forwards;"
-                     :onclick "swaylock")
+                     :onclick " ${EWW_CMD} close logout_win; swaylock ")
         (PowerButton :icon "Bedtime"
                      :style "animation: transitionIn 345ms ${LOGOUT_CURVE_IN} forwards;"
-                     :onclick "systemctl suspend")
+                     :onclick " ${EWW_CMD} close logout_win; systemctl suspend ")
         (PowerButton :icon "Logout"
                      :style "animation: transitionIn 305ms ${LOGOUT_CURVE_IN} forwards;"
-                     :onclick "hyprctl dispatch exit")
+                     :onclick " ${EWW_CMD} close logout_win; hyprctl dispatch exit ")
         (PowerButton :icon "Restart_Alt"
                      :style "animation: transitionIn 265ms ${LOGOUT_CURVE_IN} forwards;"
-                     :onclick "systemctl restart")
+                     :onclick " ${EWW_CMD} close logout_win; systemctl restart ")
         (PowerButton :icon "Power_Rounded"
                      :style "animation: transitionIn 225ms ${LOGOUT_CURVE_IN} forwards;"
-                     :onclick "systemctl poweroff")))))
+                     :onclick " ${EWW_CMD} close logout_win; systemctl poweroff ")))))
