@@ -158,6 +158,7 @@ nnoremap <leader>zi :IndentHintsToggle<CR>
 " silent! map <unique> prevents new binds from replacing old ones
 silent! nnoremap <unique> <leader>e :25Lexplore<CR>
 silent! nnoremap <unique> <leader>ff :find 
+silent! nnoremap <unique> <leader>fb :buffer 
 silent! nnoremap <unique> <leader>f/ :vimgrep // **<Left><Left><Left><Left>
 
 " quickfix
@@ -170,7 +171,7 @@ nnoremap <leader>xx :copen<CR>
 " toggleterm
 noremap <M-x> :call user#general#ToggleTerm()<cr>
 inoremap <M-x> <Esc>:call user#general#ToggleTerm()<cr>
-tnoremap <M-x> <Cmd>q<cr>
+tnoremap <M-x> <Cmd>close<cr>
 " }}}
 " {{{ Cmdline/HUD
 " Cursor movement

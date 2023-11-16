@@ -10,10 +10,12 @@ endif
 augroup ColorTweaks
 	au!
 	au ColorScheme badwolf hi Comment guifg=#aaa6a1
-	au ColorScheme gruvbox hi Comment guifg=#a5998d | hi Visual gui=NONE
-	au ColorScheme habamax hi MatchParen guifg=orange gui=bold
+	au ColorScheme slate hi Comment guifg=#a5998d | hi Visual gui=NONE
+	au ColorScheme slate hi clear MatchParen
+	au ColorScheme slate hi MatchParen guifg=orange
+	au ColorScheme slate hi WinSeparator guibg=bg guifg=smokewhite
 	au ColorScheme * hi Normal guibg=NONE
+	au ColorScheme * hi Cursor gui=NONE guibg=white guifg=black
 augroup END
 
-" habamax colorscheme is available since vim 9.0.133 or nvim 0.8.3 (or earlier idk)
-silent! colorscheme habamax
+colorscheme slate

@@ -18,6 +18,7 @@ set mousemodel=extend
 syntax on
 set ignorecase
 set smartcase
+set wildignorecase
 set incsearch
 set encoding=utf-8
 set autoindent
@@ -28,6 +29,7 @@ set undofile
 set autowrite
 set conceallevel=2
 set cedit=\<C-q>
+set jumpoptions=stack
 let &isfname = '@,48-57,/,\,.,-,_,+,,,#,$,%,~,='
 
 " Tab Settings
