@@ -50,14 +50,24 @@ set matchpairs+=<:>,*:*,`:`
 set list listchars=tab:\ \ ,trail:·
 set fillchars=diff:╱,foldopen:▼,foldclose:⯈
 
-let g:spacelistchars = 'trail:·,leadmultispace:│ ,tab:│ →'
-let g:tablistchars   = 'trail:·,leadmultispace:│·,tab:│ '
+fu g:Listchars(expandtab, tabstop)
+	let head = get(b:, 'enable_indent_hints', 1) ? '│' : ' '
+
+	let tail_space = a:expandtab ? ' ' : '·'
+	let tail_tab   = a:expandtab ? '→' : ' '
+	let body_space = repeat(tail_space, a:tabstop - 2)
+	return printf('trail:·,tab:%s %s,leadmultispace:%s%s%s', head, tail_tab, head, body_space, tail_space)
+endfu
+
 augroup SetListChars
 	au!
-	au OptionSet expandtab let &l:listchars = v:option_new? g:spacelistchars : g:tablistchars
+	au OptionSet expandtab let &l:listchars = g:Listchars(v:option_new, shiftwidth())
+	au OptionSet shiftwidth,tabstop let &l:listchars = g:Listchars(&l:expandtab, shiftwidth())
 	" reset listchars after modeline/.editorconfig settings
-	au BufWinEnter * let &l:listchars = &l:expandtab? g:spacelistchars : g:tablistchars
+	au BufWinEnter * let &l:listchars = g:Listchars(&l:expandtab, shiftwidth())
 augroup END
+
+command -bar IndentHintsToggle let b:enable_indent_hints = !get(b:, 'enable_indent_hints', v:true) | let &l:listchars = g:Listchars(&l:expandtab, shiftwidth())
 
 set wildcharm=<Tab>
 set wildmode=longest:full

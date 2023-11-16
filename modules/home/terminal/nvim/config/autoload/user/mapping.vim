@@ -153,6 +153,7 @@ nnoremap <leader>zB :noau set bg=dark<CR>
 nnoremap <leader>zz :<C-U>let &foldcolumn = v:count == 0 ? 
 			\ &foldcolumn ==# "0"? "auto" : "0"
 			\ : "auto:" . v:count <CR>
+nnoremap <leader>zi :IndentHintsToggle<CR>
 
 " silent! map <unique> prevents new binds from replacing old ones
 silent! nnoremap <unique> <leader>e :25Lexplore<CR>
