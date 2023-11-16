@@ -83,7 +83,7 @@ def setupNewPlayground(template: str, id: int) -> str:
     permAppendWrite(dest)
     for dir, subdirs, files in os.walk(dest):
         for subdir in subdirs:
-            permAppendWrite(subdir)
+            permAppendWrite(os.path.join(dir, subdir))
 
         for f in files:
             permAppendWrite(os.path.join(dir, f))
