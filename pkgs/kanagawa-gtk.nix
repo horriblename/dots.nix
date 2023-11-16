@@ -34,6 +34,7 @@ stdenvNoCC.mkDerivation rec {
     # TODO install, set perm
     mkdir -p $out/share/themes
     cp -r "./themes/Kanagawa-${theme-suffix}" $out/share/themes
+    cp -r "./icons" $out/share/icons
 
     runHook postInstall
   '';

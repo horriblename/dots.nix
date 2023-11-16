@@ -13,6 +13,10 @@
       name = "Kanagawa-BL";
       package = pkgs.kanagawa-gtk;
     };
+    iconTheme = {
+      name = "Kanagawa";
+      package = pkgs.kanagawa-gtk;
+    };
     gtk3.extraConfig = {
       gtk-xft-antialias = 1;
       gtk-xft-hinting = 1;
