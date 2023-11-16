@@ -8,7 +8,6 @@
     ./gtk
     ./menu
     ./hyprland
-    ./lisgd
     ./sway
     ./swayidle
     ./input
