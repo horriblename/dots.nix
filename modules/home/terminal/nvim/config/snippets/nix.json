@@ -1,0 +1,60 @@
+{
+  "each system": {
+    "prefix": ["eachSystem"],
+    "body": [
+      "let",
+      "  inherit (nixpkgs) lib;",
+      "  eachSystem = lib.genAttrs [\"x86_64-linux\"];",
+      "  pkgsFor = eachSystem (system:",
+      "    import nixpkgs ./",
+      "  localSystem = system;",
+      "  )",
+      "in {",
+      "  packages = eachSystem (system: {",
+      "    default = pkgsFor.\\${system}.callPackage ./default.nix {};",
+      "  });",
+      "};"
+    ]
+  },
+
+  "flake": {
+    "prefix": ["flake"],
+    "body": [
+      "{",
+      "  description = \"A very basic flake\";",
+      "  outputs = {",
+      "    self,",
+      "    nixpkgs,",
+      "  }: let",
+      "    inherit (nixpkgs) lib;",
+      "    eachSystem = lib.genAttrs [\"x86_64-linux\"];",
+      "    pkgsFor = eachSystem (",
+      "      system:",
+      "        import nixpkgs {",
+      "          localSystem = system;",
+      "          overlays = [self.overlays.default];",
+      "        }",
+      "    );",
+      "  in {",
+      "    overlays = {",
+      "      default = final: prev: {",
+      "        ${1:packageName} = final.callPackage ./default.nix {};",
+      "      };",
+      "    };",
+      "",
+      "    packages = eachSystem (system: {",
+      "      default = self.packages.\\${system}.${1:packageName};",
+      "      inherit (pkgsFor.\\${system}) ${1:packageName};",
+      "    });",
+      "    devShells = eachSystem (system: let",
+      "      pkgs = pkgsFor.\\${system};",
+      "    in {",
+      "      default = pkgs.mkShell {",
+      "        nativeBuildInputs = with pkgs; [];",
+      "      };",
+      "    });",
+      "  };",
+      "}"
+    ]
+  }
+}
