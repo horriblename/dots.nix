@@ -1,0 +1,4 @@
+[*.lua]
+ident_style = tab
+root = true
+indent_size = 4
