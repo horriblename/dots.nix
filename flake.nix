@@ -170,6 +170,7 @@
         mpv
         roc
         libcallex-vim
+        godot4-mono
         ;
       ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
         buildInputs = with pkgs; [wf-osk kanagawa-gtk hyprworkspaces roc];
@@ -196,6 +197,7 @@
         src = final.callPackage ./pkgs/libcallex-vim.nix {};
       };
       fennel-ls = final.callPackage ./pkgs/fennel-ls.nix {};
+      godot4-mono = final.callPackage ./pkgs/godot4-mono.nix {};
 
       mpv = prev.mpv.override {scripts = [prev.mpvScripts.mpris];};
 
