@@ -9,6 +9,7 @@
   nix.registry = {
     nixpkgs.flake = inputs.nixpkgs;
     nixgl.flake = inputs.nixgl;
+    dots.flake = self;
   };
 
   # TODO move out
