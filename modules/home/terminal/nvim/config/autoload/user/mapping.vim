@@ -49,6 +49,9 @@ nnoremap gV ^v$
 xnoremap ga gg0oG$
 onoremap ga :<c-u>normal! ggVG<CR>
 
+nmap <M-o> v<M-o>
+xnoremap <M-o> <Plug>(MatchitVisualTextObject)
+
 " \x16 is <c-v>
 xnoremap <expr> I mode() ==# "\x16"? "I" : "\<Esc>`<i"
 xnoremap <expr> A mode() ==# "\x16"? "A" : "\<Esc>`>a"
