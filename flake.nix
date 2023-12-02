@@ -84,6 +84,8 @@
               core
               nix-index-database.hmModules.nix-index
               {inherit machineName;}
+              # enable impurity if $IMPURITY_PATH was set in impure mode
+              {impurity.enable = builtins ? getEnv && builtins.getEnv "IMPURITY_PATH" != "";}
               ./modules/home/home.nix
               ./modules/home/terminal
             ]

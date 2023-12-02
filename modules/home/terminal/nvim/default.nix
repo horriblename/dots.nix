@@ -18,7 +18,6 @@ in {
     inputs.neovim-flake.homeManagerModules.default
     inputs.impurity.nixosModules.default
   ];
-  impurity.enable = true;
   impurity.configRoot = self;
 
   xdg.configFile."nvim".source = impurity.link ./config;
