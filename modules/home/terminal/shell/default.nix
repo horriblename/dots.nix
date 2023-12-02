@@ -83,6 +83,10 @@
           };
         }
       ];
+      signing = {
+        signByDefault = true;
+        key = null;
+      };
       extraConfig = {
         core = {
           editor = "nvim";
@@ -104,9 +108,9 @@
         git_commit.commit_hash_length = 4;
         line_break.disabled = false;
         #hostname = {
-        #	ssh_only = true;
-        #	format = "[$hostname](bold blue) ";
-        #	disabled = false
+        # ssh_only = true;
+        # format = "[$hostname](bold blue) ";
+        # disabled = false
         #}
       };
     };
