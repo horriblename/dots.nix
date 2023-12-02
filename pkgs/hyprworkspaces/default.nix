@@ -8,7 +8,7 @@ buildGoModule {
   version = "0.1";
   src = ./.;
 
-  vendorSha256 = null;
+  vendorHash = null;
 
   meta = with lib; {
     description = "Simple script that listens to hyprland IPC events and shows active workspaces";
