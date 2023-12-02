@@ -38,6 +38,8 @@
       flake = false;
     };
     impurity.url = "github:outfoxxed/impurity.nix";
+    rss-aggre.url = "github:horriblename/rss-aggregator";
+    rss-aggre.inputs.nixpkgs.follows = "nixpkgs";
     roc = {
       url = "github:roc-lang/roc";
     };
@@ -135,17 +137,27 @@
         wayland
       ];
     };
-    nixosConfigurations.linode = lib.nixosSystem {
+    nixosConfigurations.linode = let
       system = "x86_64-linux";
-      modules = [
-        {_module.args = {inherit self inputs;};}
-        ./hosts/linode/configuration.nix
-        ./hosts/linode/hardware-configuration.nix
+    in
+      lib.nixosSystem {
+        inherit system;
+        pkgs = import nixpkgs {inherit system; overlays = [self.overlay];};
+        modules = [
+          {_module.args = {inherit self inputs;};}
+          inputs.rss-aggre.nixosModules.default
+          {
+            services.rss-aggre.enable = true;
+            services.rss-aggre.package = inputs.rss-aggre.packages.${system}.rss-aggre;
+            # services.postgresql.package = nixpkgs.legacyPackages.${system}.postgresql_15;
+          }
+          ./hosts/linode/configuration.nix
+          ./hosts/linode/hardware-configuration.nix
 
-        core
-        ./modules/nixos
-      ];
-    };
+          core
+          ./modules/nixos
+        ];
+      };
     nixosConfigurations.nixvm = lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
@@ -205,6 +217,8 @@
       godot4-mono = final.callPackage ./pkgs/godot4-mono.nix {};
 
       mpv = prev.mpv.override {scripts = [prev.mpvScripts.mpris];};
+
+      rssAggrePackages = inputs.rss-aggre.packages.${final.system};
 
       roc = inputs.roc.packages.${final.system}.default;
       treesitter-roc = inputs.tree-sitter-roc.packages.${final.system}.default;

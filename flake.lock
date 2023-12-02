@@ -2034,7 +2034,28 @@
         "nixpkgs": "nixpkgs_6",
         "nixrun-nvim": "nixrun-nvim",
         "roc": "roc",
+        "rss-aggre": "rss-aggre",
         "tree-sitter-roc": "tree-sitter-roc"
+      }
+    },
+    "rss-aggre": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1700839307,
+        "narHash": "sha256-Pc+DhhmxjOuERI97Ax+gQ9g11iy7awD6mBMqnAwKRYQ=",
+        "owner": "horriblename",
+        "repo": "rss-aggregator",
+        "rev": "bbe2e401d7290c0009844628d9de1dbeec52ca3b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "horriblename",
+        "repo": "rss-aggregator",
+        "type": "github"
       }
     },
     "rust-overlay": {

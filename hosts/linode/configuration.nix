@@ -105,6 +105,27 @@
   networking.useDHCP = false;
   networking.interfaces.eth0.useDHCP = true;
 
+  services.caddy = {
+    enable = true;
+    extraConfig = ''
+      horriblename.site {
+        tls badnam3o.0${"@"}gmail.com
+
+        respond /health-check 200
+        reverse_proxy /v1/* 127.0.0.1:${toString config.services.rss-aggre.port}
+      }
+
+      rss-aggre.horriblename.site {
+        tls badnam3o.0${"@"}gmail.com
+
+        reverse_proxy /v1/* 127.0.0.1:${toString config.services.rss-aggre.port}
+        file_server {
+          root ${pkgs.rssAggrePackages.rss-aggre-webclient}
+        }
+      }
+    '';
+  };
+
   environment.systemPackages = with pkgs; [
     inetutils
     mtr
@@ -118,8 +139,10 @@
     openssh.authorizedKeys.keys = [];
   };
 
+  security.sudo.wheelNeedsPassword = false;
+
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [80 443];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
