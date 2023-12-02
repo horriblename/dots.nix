@@ -2005,11 +2005,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1700959881,
-        "narHash": "sha256-zzv0qCeaSSMa2tgE4Dv8oEoPE9a8Np+RkCJMAGsfU5A=",
+        "lastModified": 1701459007,
+        "narHash": "sha256-spl7HA9/DLWaT9oDkrodXtFKiHpJtLdCQQZi3e2ts5c=",
         "owner": "roc-lang",
         "repo": "roc",
-        "rev": "69b72866dbd7686ddd3b091516c683304328f292",
+        "rev": "14cc1544e848cd8486e6745c06e19aea1360ae2a",
         "type": "github"
       },
       "original": {
