@@ -41,6 +41,8 @@
     roc = {
       url = "github:roc-lang/roc";
     };
+    tree-sitter-roc.url = "github:horriblename/tree-sitter-roc";
+    tree-sitter-roc.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
@@ -173,6 +175,7 @@
         roc
         libcallex-vim
         godot4-mono
+        treesitter-roc
         ;
       ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
         buildInputs = with pkgs; [wf-osk kanagawa-gtk hyprworkspaces roc];
@@ -204,6 +207,7 @@
       mpv = prev.mpv.override {scripts = [prev.mpvScripts.mpris];};
 
       roc = inputs.roc.packages.${final.system}.default;
+      treesitter-roc = inputs.tree-sitter-roc.packages.${final.system}.default;
     };
     formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
     templates = import ./templates;

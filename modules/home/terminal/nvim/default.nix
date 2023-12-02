@@ -295,6 +295,7 @@ in {
         markdown
         markdown-inline
         regex
+        pkgs.treesitter-roc
       ];
 
       # HACK
