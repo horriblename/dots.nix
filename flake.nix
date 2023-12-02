@@ -9,6 +9,10 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixgl.url = "github:guibou/nixGL";
     nixgl.inputs.nixpkgs.follows = "nixpkgs";
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -142,14 +146,19 @@
     in
       lib.nixosSystem {
         inherit system;
-        pkgs = import nixpkgs {inherit system; overlays = [self.overlay];};
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [self.overlay inputs.agenix.overlays.default];
+        };
         modules = [
           {_module.args = {inherit self inputs;};}
+          inputs.agenix.nixosModules.default
           inputs.rss-aggre.nixosModules.default
           {
             services.rss-aggre.enable = true;
             services.rss-aggre.package = inputs.rss-aggre.packages.${system}.rss-aggre;
             # services.postgresql.package = nixpkgs.legacyPackages.${system}.postgresql_15;
+            age.secrets.rssAggreJwtSecret.file = ./secrets/rssAggreJwtSecret.age;
           }
           ./hosts/linode/configuration.nix
           ./hosts/linode/hardware-configuration.nix
