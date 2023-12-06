@@ -194,12 +194,13 @@
         fennel-ls
         mpv
         roc
+        roc-ls
         libcallex-vim
         godot4-mono
         treesitter-roc
         ;
       ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
-        buildInputs = with pkgs; [wf-osk kanagawa-gtk hyprworkspaces roc];
+        buildInputs = with pkgs; [wf-osk kanagawa-gtk hyprworkspaces roc roc-ls];
       };
     });
     overlay = final: prev: {
@@ -230,6 +231,7 @@
       rssAggrePackages = inputs.rss-aggre.packages.${final.system};
 
       roc = inputs.roc.packages.${final.system}.default;
+      roc-ls = inputs.roc.packages.${final.system}.lang-server;
       treesitter-roc = inputs.tree-sitter-roc.packages.${final.system}.default;
     };
     formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
