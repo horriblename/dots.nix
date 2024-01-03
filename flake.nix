@@ -232,7 +232,7 @@
 
       roc = inputs.roc.packages.${final.system}.default;
       roc-ls = inputs.roc.packages.${final.system}.lang-server;
-      treesitter-roc = inputs.tree-sitter-roc.packages.${final.system}.default;
+      treesitter-roc = inputs.tree-sitter-roc.defaultPackage.${final.system};
     };
     formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
     templates = import ./templates;
