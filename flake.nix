@@ -4,6 +4,11 @@
   inputs = {
     # attribute sets listing all dependency used within the flake?
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.05";
+    nix-on-droid = {
+      url = "github:nix-community/nix-on-droid/release-23.05";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
     nix-index-database.url = "github:Mic92/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -167,6 +172,7 @@
           ./modules/nixos
         ];
       };
+
     nixosConfigurations.nixvm = lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
@@ -177,6 +183,19 @@
         wayland
       ];
     };
+
+    nixOnDroidConfigurations.default = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+      modules = [
+        ./hosts/nix-on-droid
+        {
+          home-manager = {
+            config = import ./modules/home/home.nix;
+            extraSpecialArgs = {inherit self inputs;};
+          };
+        }
+      ];
+    };
+
     packages = forEachSystem (system: let
       pkgs = import nixpkgs {
         inherit system;
