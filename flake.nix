@@ -215,6 +215,7 @@
         roc
         roc-ls
         libcallex-vim
+        termux-auth
         godot4-mono
         treesitter-roc
         ;
@@ -248,6 +249,7 @@
       mpv = prev.mpv.override {scripts = [prev.mpvScripts.mpris];};
 
       rssAggrePackages = inputs.rss-aggre.packages.${final.system};
+      termux-auth = final.callPackage ./pkgs/termux-auth.nix {};
 
       roc = inputs.roc.packages.${final.system}.default;
       roc-ls = inputs.roc.packages.${final.system}.lang-server;
