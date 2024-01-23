@@ -216,6 +216,7 @@
         roc-ls
         libcallex-vim
         termux-auth
+        termux-dropbear
         godot4-mono
         treesitter-roc
         ;
@@ -250,6 +251,42 @@
 
       rssAggrePackages = inputs.rss-aggre.packages.${final.system};
       termux-auth = final.callPackage ./pkgs/termux-auth.nix {};
+
+      termux-dropbear = (prev.dropbear.override {enableStatic = false;}).overrideAttrs (finalAttrs: prevAttrs: let
+        patchesRepo = final.fetchgit {
+          url = "https://github.com/termux/termux-packages";
+          rev = "bootstrap-2024.01.21-r1+apt-android-7";
+          sparseCheckout = ["packages/dropbear"];
+          hash = "sha256-JWCrlt+TWFvOd2RwUtr1NP7uD4KEZp5Oa1GhiuncvBQ=";
+        };
+        patches = "${patchesRepo}/packages/dropbear";
+      in {
+        buildInputs = prevAttrs.buildInputs ++ [final.termux-auth];
+
+        NIX_CFLAGS_COMPILE = [
+          "-D__ANDROID__=1"
+          "-I${final.termux-auth}/include"
+          "-L${final.termux-auth}/lib"
+          "-ltermux-auth"
+        ];
+
+        patches =
+          prevAttrs.patches
+          ++ [
+            "${patches}/Makefile.in.patch"
+            "${patches}/common-session.c.patch"
+            "${patches}/compat.c.patch"
+            "${patches}/default_options.h.patch"
+            "${patches}/gensignkey.c.patch"
+            "${patches}/loginrec.c.patch"
+            "${patches}/sshpty.c.patch"
+            "${patches}/svr-agentfwd.c.patch"
+            "${patches}/svr-auth.c.patch"
+            "${patches}/svr-authpasswd.c.patch"
+            "${patches}/svr-chansession.c.patch"
+            "${patches}/sysoptions.h.patch"
+          ];
+      });
 
       roc = inputs.roc.packages.${final.system}.default;
       roc-ls = inputs.roc.packages.${final.system}.lang-server;
