@@ -7,6 +7,7 @@
     nix-index-database.url = "github:Mic92/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nix-wsl.url = "github:nix-community/NixOS-wsl";
     nixgl.url = "github:guibou/nixGL";
     nixgl.inputs.nixpkgs.follows = "nixpkgs";
     agenix = {
@@ -126,6 +127,18 @@
     homeConfigurations.nix-on-droid = genHomeConfig {
       machineName = "droid";
       homeConfigurationMode = "terminal";
+    };
+    nixosConfigurations.wsl = lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        {_module.args = {inherit self inputs;};}
+        inputs.nix-wsl.nixosModules.default
+        ./hosts/wsl/configuration.nix
+        {wsl.enable = true;}
+
+        core
+        ./modules/nixos
+      ];
     };
     nixosConfigurations.surface = lib.nixosSystem {
       system = "x86_64-linux";
