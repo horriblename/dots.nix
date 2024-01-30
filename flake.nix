@@ -124,6 +124,17 @@
         }
       ];
     };
+    homeConfigurations.wslUser = genHomeConfig {
+      machineName = "linode";
+      homeConfigurationMode = "terminal";
+      extraModules = [
+        {
+          impurity.enable = lib.mkForce false;
+          home.username = lib.mkForce "nixos";
+          home.homeDirectory = lib.mkForce "/home/nixos";
+        }
+      ];
+    };
     homeConfigurations.nix-on-droid = genHomeConfig {
       machineName = "droid";
       homeConfigurationMode = "terminal";
