@@ -86,7 +86,21 @@ in {
       };
 
       vim.lsp.lspconfig.sources = let
-        lspconfigSetup = server: extraConfig: ''
+        lspconfigSetup = server: {
+          custom ? false,
+          extraConfig ? {},
+        }: ''
+          ${lib.optionalString custom ''
+            require'lspconfig.configs'.${server} = ${nix2Lua {
+              default_config = {
+                name = server;
+                inherit (extraConfig) cmd filetypes;
+                root_dir = extraConfig.root_dir or rawLua "function(fname) return lspconfig.util.find_git_ancestor(fname) end";
+                settings = extraConfig.settings or {};
+              };
+            }}
+          ''}
+
           lspconfig.${server}.setup ${
             nix2Lua ({
                 capabilities = rawLua "capabilities";
@@ -102,8 +116,16 @@ in {
           csharp_ls = {};
           elmls = {};
           clojure_lsp = {};
-          nixd = {
+          nixd.extraConfig = {
             cmd = [(lib.getExe pkgs.nixd)];
+          };
+          roc_ls = {
+            custom = true;
+            extraConfig = {
+              name = "roc_ls";
+              cmd = ["roc_ls"];
+              filetypes = ["roc"];
+            };
           };
         };
 
