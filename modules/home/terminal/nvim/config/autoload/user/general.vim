@@ -79,12 +79,7 @@ set cmdwinheight=4
 
 set path-=/usr/include
 set path+=**
-" Use system clipboard, change to unnamed for vim
-if has('nvim')
-	set clipboard=unnamedplus
-else
-	set clipboard=unnamed
-endif
+set clipboard=
 
 " auto load ft plugins (vim compatibility) 
 filetype plugin on

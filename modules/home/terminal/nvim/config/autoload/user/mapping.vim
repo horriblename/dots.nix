@@ -23,6 +23,20 @@ tnoremap <C-BS> <C-w>
 tnoremap <M-C-V> <cmd>put "<CR>
 tnoremap <C-BS> <C-w>
 
+nnoremap <leader>y "+y
+nnoremap <leader>Y "+y$
+nnoremap <leader>p "+p
+nnoremap <leader>P "+P
+nnoremap <leader>d "+d
+nnoremap <leader>D "+D
+
+xnoremap <leader>y "+y
+xnoremap <leader>Y "+y$
+xnoremap <leader>p "+p
+xnoremap <leader>P "+P
+xnoremap <leader>d "+d
+xnoremap <leader>D "+D
+
 xnoremap x "_x
 nnoremap ' `
 nnoremap ` '
