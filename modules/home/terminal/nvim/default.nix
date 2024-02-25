@@ -122,8 +122,7 @@ in {
           roc_ls = {
             custom = true;
             extraConfig = {
-              name = "roc_ls";
-              cmd = ["roc_ls"];
+              cmd = ["roc_language_server"];
               filetypes = ["roc"];
             };
           };
@@ -317,7 +316,6 @@ in {
         markdown
         markdown-inline
         regex
-        pkgs.treesitter-roc
       ];
 
       # HACK
@@ -423,6 +421,7 @@ in {
       };
 
       vim.extraPlugins = with pkgs.vimPlugins; {
+        treesitter-roc = {package = pkgs.neovim-treesitter-roc;};
         aerial = {
           package = aerial-nvim;
           setup = setup "aerial" {};

@@ -222,6 +222,7 @@
         libcallex-vim
         godot4-mono
         treesitter-roc
+        neovim-treesitter-roc
         ;
       ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
         buildInputs = with pkgs; [wf-osk kanagawa-gtk hyprworkspaces roc roc-ls];
@@ -257,6 +258,7 @@
       roc = inputs.roc.packages.${final.system}.default;
       roc-ls = inputs.roc.packages.${final.system}.lang-server;
       treesitter-roc = inputs.tree-sitter-roc.defaultPackage.${final.system};
+      neovim-treesitter-roc = final.callPackage ./pkgs/neovim-treesitter-roc.nix {treesitter-roc-src = inputs.tree-sitter-roc;};
     };
     formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
     templates = import ./templates;
