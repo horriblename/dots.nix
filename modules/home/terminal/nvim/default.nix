@@ -20,7 +20,7 @@ in {
   ];
   impurity.configRoot = self;
 
-  xdg.configFile."nvim".source = impurity.link ./config;
+  xdg.configFile."nvim".source = ./config;
 
   programs.neovim-flake = {
     enable = true;

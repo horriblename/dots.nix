@@ -78,51 +78,40 @@
 
     core = ./modules/core;
     wayland = ./modules/wayland;
-    nixpkgsConfigs = {
-      archbox = {system = "x86_64-linux";};
-      surface = {system = "x86_64-linux";};
-      linode = {system = "x86_64-linux";};
-      droid = {system = "aarch64-linux";};
-      macos = {system = "x86_64-darwin";};
-    };
     pkgsFor = {system} @ args: import nixpkgs ({overlays = [self.overlay];} // args);
+
     genHomeConfig = {
-      machineName,
-      homeConfigurationMode, # can be "terminal" or "full"
+      preset ? "minimal",
+      system,
       extraModules ? [],
-    }:
-      assert lib.assertOneOf "homeConfigurationMode" homeConfigurationMode ["terminal" "full"];
-        home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs ({overlays = [self.overlay];} // nixpkgsConfigs.${machineName});
-          modules =
-            [
-              core
-              nix-index-database.hmModules.nix-index
-              {inherit machineName;}
-              # enable impurity if $IMPURITY_PATH was set in impure mode
-              {impurity.enable = builtins ? getEnv && builtins.getEnv "IMPURITY_PATH" != "";}
-              ./modules/home/home.nix
-              ./modules/home/terminal
-            ]
-            ++ lib.optionals (homeConfigurationMode == "full") [
-              hyprland.homeManagerModules.default
-              ./modules/home/graphical
-            ]
-            ++ extraModules;
-          extraSpecialArgs = {inherit self inputs;};
-        };
-  in {
-    homeConfigurations."py@archbox" = genHomeConfig {
-      machineName = "archbox";
-      homeConfigurationMode = "full";
+    }: home-manager.lib.homeManagerConfiguration {
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [self.overlay];
+      };
+      modules = [
+        core
+        ./modules/home/home.nix
+        nix-index-database.hmModules.nix-index
+        {dots = {inherit preset;};}
+        {impurity.enable = builtins ? getEnv && builtins.getEnv "IMPURITY_PATH" != ""; }
+      ] ++ extraModules;
+      extraSpecialArgs = {inherit self inputs;};
     };
-    homeConfigurations."py@surface" = genHomeConfig {
-      machineName = "surface";
-      homeConfigurationMode = "full";
+
+  in {
+    homeConfigurations."py@archbox" = genHomeConfig { preset = "archbox"; system = "x86_64-linux";};
+    homeConfigurations."py@surface" = genHomeConfig { preset = "surface"; system = "x86_64-linux";};
+    homeConfigurations."pei.ching" =  genHomeConfig {
+      preset = "darwin-work";
+      system = "x86_64-darwin";
+      extraModules = [{
+        home.username = "pei.ching";
+        home.homeDirectory = "/Users/pei.ching";
+      }];
     };
     homeConfigurations."py@linode" = genHomeConfig {
-      machineName = "linode";
-      homeConfigurationMode = "terminal";
+      preset = "linode";
       extraModules = [
         {
           impurity.enable = lib.mkForce false;
@@ -131,8 +120,7 @@
       ];
     };
     homeConfigurations.wslUser = genHomeConfig {
-      machineName = "linode";
-      homeConfigurationMode = "terminal";
+      preset = "minimal";
       extraModules = [
         {
           impurity.enable = lib.mkForce false;
@@ -141,10 +129,7 @@
         }
       ];
     };
-    homeConfigurations.nix-on-droid = genHomeConfig {
-      machineName = "droid";
-      homeConfigurationMode = "terminal";
-    };
+    homeConfigurations.nix-on-droid = genHomeConfig { preset = "droid"; };
     nixosConfigurations.wsl = lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
@@ -171,6 +156,7 @@
         wayland
       ];
     };
+
     nixosConfigurations.linode = let
       system = "x86_64-linux";
     in
@@ -212,7 +198,7 @@
           system = "x86_64-darwin";
           pkgs = pkgsFor {inherit system;};
         in inputs.darwin.lib.darwinSystem {
-          system = "x86_64-darwin";
+          inherit system;
           modules = [
           {_module = {args = { inherit self inputs; };};}
 # ./configuration.nix
@@ -222,18 +208,19 @@
               environment.systemPackages = with pkgs; [nix];
               services.nix-daemon.enable = true;
               services.yabai.enable = true;
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users."pei.ching" = lib.mkMerge [
-              {
-                imports = [./modules/home/home.nix];
-                home.username = lib.mkForce "pei.ching";
-                home.homeDirectory = lib.mkForce "/Users/pei.ching";
-              }
-              ];
+              # home-manager.useGlobalPkgs = true;
+              # home-manager.useUserPackages = true;
+              # home-manager.users."pei.ching" = import ./modules/home/home.nix;
 
-              home-manager.extraSpecialArgs = {inherit self inputs; };
+              # home-manager.extraSpecialArgs = {inherit self inputs; };
             }
+
+            # {
+            #   home-manager.users."pei.ching" = {
+            #     home.username = lib.mkForce "pei.ching";
+            #     home.homeDirectory = lib.mkForce "/Users/pei.ching";
+            #   };
+            # }
           ];
         };
     };

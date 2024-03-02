@@ -1,6 +1,6 @@
-{...}: {
-  home.username = "py";
-  home.homeDirectory = "/home/py";
+{lib, ...}: {
+  home.username = lib.mkDefault "py";
+  home.homeDirectory = lib.mkDefault "/home/py";
   xdg.enable = true;
   imports = [
     ./module.nix

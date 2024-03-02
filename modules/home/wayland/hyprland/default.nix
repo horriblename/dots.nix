@@ -72,7 +72,7 @@ in {
 
       bind=ALT,SPACE,exec,${config.menu.launcher}
 
-      ${lib.optionalString config.enableTouchScreen ''
+      ${lib.optionalString config.dots.wayland.touchScreen ''
         bindr=SUPER,SUPER_L,exec, eww open dock --toggle
         source = ${./touch-gestures.conf}
       ''}
