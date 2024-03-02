@@ -10,6 +10,10 @@
     nix-wsl.url = "github:nix-community/NixOS-wsl";
     nixgl.url = "github:guibou/nixGL";
     nixgl.inputs.nixpkgs.follows = "nixpkgs";
+    darwin = {
+      url = "github:lnl7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -79,7 +83,9 @@
       surface = {system = "x86_64-linux";};
       linode = {system = "x86_64-linux";};
       droid = {system = "aarch64-linux";};
+      macos = {system = "x86_64-darwin";};
     };
+    pkgsFor = {system} @ args: import nixpkgs ({overlays = [self.overlay];} // args);
     genHomeConfig = {
       machineName,
       homeConfigurationMode, # can be "terminal" or "full"
@@ -201,6 +207,37 @@
         wayland
       ];
     };
+    darwinConfigurations = {
+      work = let
+          system = "x86_64-darwin";
+          pkgs = pkgsFor {inherit system;};
+        in inputs.darwin.lib.darwinSystem {
+          system = "x86_64-darwin";
+          modules = [
+          {_module = {args = { inherit self inputs; };};}
+# ./configuration.nix
+          core
+            home-manager.darwinModules.home-manager
+            {
+              environment.systemPackages = with pkgs; [nix];
+              services.nix-daemon.enable = true;
+              services.yabai.enable = true;
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users."pei.ching" = lib.mkMerge [
+              {
+                imports = [./modules/home/home.nix];
+                home.username = lib.mkForce "pei.ching";
+                home.homeDirectory = lib.mkForce "/Users/pei.ching";
+              }
+              ];
+
+              home-manager.extraSpecialArgs = {inherit self inputs; };
+            }
+          ];
+        };
+    };
+
     packages = forEachSystem (system: let
       pkgs = import nixpkgs {
         inherit system;
