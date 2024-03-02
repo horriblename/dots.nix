@@ -3,18 +3,17 @@
   config,
   ...
 }: let 
-  presets = {
-    minimal = {};
-    archbox = { wayland.enable = true; };
-    surface = {
-      wayland = {
+  inherit (lib) mkMerge mkIf;
+  cfgPreset = config.dots.preset;
+in {
+  config = mkMerge [
+    (mkIf (cfgPreset == "archbox") {dots.wayland.enable = true;})
+    (mkIf (cfgPreset == "surface") {
+      dots.wayland = {
         enable = true;
         touchScreen = true;
       };
-    };
-    linode = {};
-    darwin-work = {darwin.enable = true;};
-  };
-in {
-  # config = presets.${config.dots.preset};
+    })
+    (mkIf (cfgPreset == "darwin-work") {dots.darwin.enable = true;})
+  ];
 }

@@ -28,6 +28,6 @@
         graphviz
       ]
 
-      (lib.mkIf (/*config.dots.darwin.enable*/false) [powertop])
+      (lib.mkIf (!config.dots.darwin.enable) [powertop])
     ];
 }
