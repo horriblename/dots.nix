@@ -195,19 +195,27 @@
     };
     darwinConfigurations = {
       work = let
-          system = "x86_64-darwin";
-          pkgs = pkgsFor {inherit system;};
-        in inputs.darwin.lib.darwinSystem {
+        system = "x86_64-darwin";
+        pkgs = pkgsFor {inherit system;};
+      in
+        inputs.darwin.lib.darwinSystem {
           inherit system;
           modules = [
-          {_module = {args = { inherit self inputs; };};}
-# ./configuration.nix
-          core
-            home-manager.darwinModules.home-manager
+            {_module = {args = {inherit self inputs;};};}
+            # ./configuration.nix
+            core
+            # home-manager.darwinModules.home-manager
             {
               environment.systemPackages = with pkgs; [nix];
               services.nix-daemon.enable = true;
-              services.yabai.enable = true;
+              fonts = {
+                fontDir.enable = true;
+                fonts = with pkgs; [
+                  (nerdfonts.override {fonts = ["FiraCode"];})
+                ];
+              };
+              # services.karabiner-elements.enable = true;
+              #services.yabai.enable = true;
               # home-manager.useGlobalPkgs = true;
               # home-manager.useUserPackages = true;
               # home-manager.users."pei.ching" = import ./modules/home/home.nix;
