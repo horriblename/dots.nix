@@ -48,6 +48,7 @@ set lazyredraw
 set cmdheight=1
 set noshowmode
 set splitbelow splitright
+set colorcolumn=+1
 set matchpairs+=<:>,*:*,`:`
 set list listchars=tab:\ \ ,trail:·
 set fillchars=diff:╱,foldopen:▼,foldclose:⯈

@@ -3,8 +3,7 @@ setl tabstop=4     " liteal tab size
 setl softtabstop=4
 setl expandtab
 
-setl textwidth=100
-setl colorcolumn=100
+setl textwidth=80
 setl formatoptions=jtoqnr
 setl autoindent
 setl comments=bn:>,bn:-,bn:+,b:*
