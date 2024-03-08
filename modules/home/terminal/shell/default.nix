@@ -42,9 +42,20 @@
   programs = {
     git = {
       enable = true;
-      userEmail = "badnam3o.0@gmail.com";
+      userEmail =
+        if (config.dots.preset == "darwin-work")
+        then "pei.ching@check24.de"
+        else "badnam3o.0@gmail.com";
       userName = "Ching Pei Yang";
       extraConfig = {
+        includeIf."gitdir:~/privrepo".path = toString (pkgs.writeTextFile {
+          name = "gitconfig-private";
+          text = ''
+            [user]
+            email = 59727193+horriblename@users.noreply.github.com
+            name = Ching Pei Yang
+          '';
+        });
         core = {
           editor = "nvim";
         };
