@@ -52,7 +52,7 @@ in {
       };
     };
 
-    sql.enable = false;
+    sql.enable = true;
     rust = {
       enable = false;
       crates.enable = true;
