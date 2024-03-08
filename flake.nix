@@ -105,10 +105,13 @@
     homeConfigurations."pei.ching" =  genHomeConfig {
       preset = "darwin-work";
       system = "x86_64-darwin";
-      extraModules = [{
-        home.username = "pei.ching";
-        home.homeDirectory = "/Users/pei.ching";
-      }];
+      extraModules = [
+        {
+          home.username = "pei.ching";
+          home.homeDirectory = "/Users/pei.ching";
+          nix.settings.nix-path = ["nixpkgs=${inputs.nixpkgs}" "dots=${self}"];
+        }
+      ];
     };
     homeConfigurations."py@linode" = genHomeConfig {
       preset = "linode";
