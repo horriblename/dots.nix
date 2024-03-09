@@ -79,7 +79,7 @@ in {
           default_config = {
             name = server;
             inherit (extraConfig) cmd filetypes;
-            root_dir = extraConfig.root_dir or rawLua "function(fname) return lspconfig.util.find_git_ancestor(fname) end";
+            root_dir = extraConfig.root_dir or (rawLua "function(fname) return lspconfig.util.find_git_ancestor(fname) end");
             settings = extraConfig.settings or {};
           };
         }}
@@ -108,6 +108,7 @@ in {
         extraConfig = {
           cmd = ["roc_language_server"];
           filetypes = ["roc"];
+          root_pattern = rawLua "require'lspconfig.util'.root_pattern('main.roc', '.git')";
         };
       };
     };
