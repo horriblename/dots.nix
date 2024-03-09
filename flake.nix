@@ -124,6 +124,7 @@
     };
     homeConfigurations.wslUser = genHomeConfig {
       preset = "minimal";
+      system = "x86_64-linux";
       extraModules = [
         {
           impurity.enable = lib.mkForce false;
