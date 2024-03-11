@@ -37,6 +37,7 @@
     std = "env PATH=/sbin:/bin"; # sometimes I need to use system native apps on arch
     flake = "nix flake";
     nix-jq = "nix eval --impure --expr 'builtins.fromJSON (builtins.readFile /dev/fd/0)' --apply";
+    m = ''DIR=$PWD; while ! [ -f "$DIR/Makefile" ]; do DIR=$(dirname "$DIR") done; make -C "$DIR"'';
   };
 
   programs = {
