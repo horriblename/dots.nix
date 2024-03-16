@@ -84,25 +84,33 @@
       preset ? "minimal",
       system,
       extraModules ? [],
-    }: home-manager.lib.homeManagerConfiguration {
-      pkgs = import nixpkgs {
-        inherit system;
-        overlays = [self.overlay];
+    }:
+      home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [self.overlay];
+        };
+        modules =
+          [
+            core
+            ./modules/home/home.nix
+            nix-index-database.hmModules.nix-index
+            {dots = {inherit preset;};}
+            {impurity.enable = builtins ? getEnv && builtins.getEnv "IMPURITY_PATH" != "";}
+          ]
+          ++ extraModules;
+        extraSpecialArgs = {inherit self inputs;};
       };
-      modules = [
-        core
-        ./modules/home/home.nix
-        nix-index-database.hmModules.nix-index
-        {dots = {inherit preset;};}
-        {impurity.enable = builtins ? getEnv && builtins.getEnv "IMPURITY_PATH" != ""; }
-      ] ++ extraModules;
-      extraSpecialArgs = {inherit self inputs;};
-    };
-
   in {
-    homeConfigurations."py@archbox" = genHomeConfig { preset = "archbox"; system = "x86_64-linux";};
-    homeConfigurations."py@surface" = genHomeConfig { preset = "surface"; system = "x86_64-linux";};
-    homeConfigurations."pei.ching" =  genHomeConfig {
+    homeConfigurations."py@archbox" = genHomeConfig {
+      preset = "archbox";
+      system = "x86_64-linux";
+    };
+    homeConfigurations."py@surface" = genHomeConfig {
+      preset = "surface";
+      system = "x86_64-linux";
+    };
+    homeConfigurations."pei.ching" = genHomeConfig {
       preset = "darwin-work";
       system = "x86_64-darwin";
       extraModules = [
@@ -133,7 +141,7 @@
         }
       ];
     };
-    homeConfigurations.nix-on-droid = genHomeConfig { preset = "droid"; };
+    homeConfigurations.nix-on-droid = genHomeConfig {preset = "droid";};
     nixosConfigurations.wsl = lib.nixosSystem {
       system = "x86_64-linux";
       modules = [

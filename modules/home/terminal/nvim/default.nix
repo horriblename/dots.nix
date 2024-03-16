@@ -6,7 +6,7 @@
   pkgs,
   impurity,
   ...
-}@args: let
+} @ args: let
   nix2Lua = import ./lib/toLua.nix;
   rawLua = str: {
     _type = "rawLua";

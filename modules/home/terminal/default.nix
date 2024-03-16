@@ -1,4 +1,8 @@
-{pkgs, config, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   imports = [
     ./nvim
     ./shell
@@ -7,7 +11,8 @@
     ./lazygit
   ];
 
-  home.packages = with pkgs; lib.mkMerge
+  home.packages = with pkgs;
+    lib.mkMerge
     [
       [
         # cli tools

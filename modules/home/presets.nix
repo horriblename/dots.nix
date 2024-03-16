@@ -2,7 +2,7 @@
   lib,
   config,
   ...
-}: let 
+}: let
   inherit (lib) mkMerge mkIf;
   cfgPreset = config.dots.preset;
 in {
