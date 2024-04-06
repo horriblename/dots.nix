@@ -54,7 +54,7 @@ in {
 
     sql.enable = true;
     rust = {
-      enable = false;
+      enable = true;
       crates.enable = true;
     };
     ts.enable = true;
