@@ -102,6 +102,16 @@
         extraSpecialArgs = {inherit self inputs;};
       };
   in {
+    homeConfigurations."deck" = genHomeConfig {
+      system = "x86_64-linux";
+      extraModules = [
+        {
+	  home.username = "deck";
+          home.homeDirectory = "/home/deck";
+          # nix.settings.nix-path = ["nixpkgs=${inputs.nixpkgs}" "dots=${self}"];
+	}
+      ];
+    };
     homeConfigurations."py@archbox" = genHomeConfig {
       preset = "archbox";
       system = "x86_64-linux";
