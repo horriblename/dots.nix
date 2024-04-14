@@ -26,6 +26,7 @@
         lua
         zip
         unzip
+        gnumake
 
         # utilities
         btop
