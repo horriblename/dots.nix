@@ -272,7 +272,7 @@
         neovim-treesitter-roc
         ;
       ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
-        buildInputs = with pkgs; [wf-osk kanagawa-gtk hyprworkspaces roc roc-ls];
+        buildInputs = with pkgs; [wf-osk kanagawa-gtk hyprworkspaces roc roc-ls anyrun];
       };
     });
     overlay = final: prev: {
