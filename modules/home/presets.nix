@@ -8,6 +8,16 @@
 in {
   config = mkMerge [
     (mkIf (cfgPreset == "archbox") {dots.wayland.enable = true;})
+    (mkIf (cfgPreset == "deck") {
+      home = {
+        username = "deck";
+        homeDirectory = "/home/deck";
+      };
+      dots.wayland = {
+        enable = true;
+        touchScreen = true;
+      };
+    })
     (mkIf (cfgPreset == "surface") {
       dots.wayland = {
         enable = true;

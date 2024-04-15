@@ -103,14 +103,8 @@
       };
   in {
     homeConfigurations."deck" = genHomeConfig {
+      preset = "deck";
       system = "x86_64-linux";
-      extraModules = [
-        {
-	  home.username = "deck";
-          home.homeDirectory = "/home/deck";
-          # nix.settings.nix-path = ["nixpkgs=${inputs.nixpkgs}" "dots=${self}"];
-	}
-      ];
     };
     homeConfigurations."py@archbox" = genHomeConfig {
       preset = "archbox";

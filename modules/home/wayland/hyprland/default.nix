@@ -13,7 +13,7 @@ with lib; let
   };
   hlDebugMonitor = ''
     monitor=WL-1,${
-      if config.machineName == "surface"
+      if config.dots.preset == "surface"
       then "1228x847"
       else "1878x1080"
     },auto,1
@@ -38,74 +38,77 @@ with lib; let
     hyprctl keyword animation "fadeOut,1,5,default"
   '';
 in {
-  home.packages = with pkgs; [
-    libnotify
-    catppuccin-cursors.mochaRosewater
-    #wf-recorder
-    brightnessctl
-    slurp
-    tesseract5
-    swappy
-    ocr
-    grim
-    screenshot
-    wl-clipboard
-    #pngquant
-    cliphist
-    swaybg
-    swayidle
-  ];
-
-  wayland.windowManager.hyprland = {
-    enable = true;
-    package = inputs.hyprland.packages.${pkgs.system}.default;
-    # package = inputs.hyprland.packages.${pkgs.system}.default.override {
-    #   nvidiaPatches = true;
-    # };
-    extraConfig = ''
-      source = ${./options.conf}
-      source = ${./hardware.conf}
-      source = ${./theme.conf}
-      source = ${./winrules.conf}
-      source = ${./keybinds.conf}
-      source = ${./autostart.conf}
-
-      bind=ALT,SPACE,exec,${config.menu.launcher}
-
-      ${lib.optionalString config.dots.wayland.touchScreen ''
-        bindr=SUPER,SUPER_L,exec, eww open dock --toggle
-        source = ${./touch-gestures.conf}
-      ''}
-    '';
-    plugins = [
-      "${inputs.hyprland-border-actions.packages.${pkgs.system}.default}/lib/libborder-actions.so"
-      inputs.hyprgrass.packages.${pkgs.system}.default
+  config = lib.mkIf config.dots.wayland.enable {
+    home.packages = with pkgs; [
+      libnotify
+      catppuccin-cursors.mochaRosewater
+      #wf-recorder
+      brightnessctl
+      slurp
+      tesseract5
+      swappy
+      ocr
+      grim
+      screenshot
+      wl-clipboard
+      #pngquant
+      cliphist
+      swaybg
+      swayidle
     ];
-  };
 
-  xdg.configFile."hypr/hyprlandd.conf".text = hlDebugMonitor + builtins.readFile ./hyprlandd.conf;
-  xdg.configFile."hypr/scripts".source = ./scripts;
+    wayland.windowManager.hyprland = {
+      enable = true;
+      package = inputs.hyprland.packages.${pkgs.system}.default;
+      # package = inputs.hyprland.packages.${pkgs.system}.default.override {
+      #   nvidiaPatches = true;
+      # };
+      extraConfig = ''
+        source = ${./options.conf}
+        source = ${./hardware.conf}
+        source = ${./theme.conf}
+        source = ${./winrules.conf}
+        source = ${./keybinds.conf}
+        source = ${./autostart.conf}
 
-  systemd.user.services = {
-    swaybg = mkHyprlandService {
-      Unit.Description = "Wallpaper chooser";
-      Service = {
-        ExecStart = "${lib.getExe pkgs.swaybg} -i %h/Pictures/wallpapers/wallpaper.png";
-        Restart = "always";
-      };
+        bind=ALT,SPACE,exec,${config.menu.launcher}
+
+        ${lib.optionalString config.dots.wayland.touchScreen ''
+          bindr=SUPER,SUPER_L,exec, eww open dock --toggle
+          source = ${./touch-gestures.conf}
+        ''}
+      '';
+      plugins =
+        [
+          # "${inputs.hyprland-border-actions.packages.${pkgs.system}.default}/lib/libborder-actions.so"
+        ]
+        ++ lib.optional config.dots.wayland.touchScreen inputs.hyprgrass.packages.${pkgs.system}.default;
     };
-    swayidle = mkHyprlandService {
-      Unit.Description = "Idle handler";
-      Service = {
-        ExecStart = "${lib.getExe pkgs.swayidle}";
-        Restart = "always";
+
+    xdg.configFile."hypr/hyprlandd.conf".text = hlDebugMonitor + builtins.readFile ./hyprlandd.conf;
+    xdg.configFile."hypr/scripts".source = ./scripts;
+
+    systemd.user.services = {
+      swaybg = mkHyprlandService {
+        Unit.Description = "Wallpaper chooser";
+        Service = {
+          ExecStart = "${lib.getExe pkgs.swaybg} -i %h/Pictures/wallpapers/wallpaper.png";
+          Restart = "always";
+        };
       };
-    };
-    cliphist = mkHyprlandService {
-      Unit.Description = "Clipboard history";
-      Service = {
-        ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste --watch ${lib.getExe pkgs.cliphist} store";
-        Restart = "always";
+      swayidle = mkHyprlandService {
+        Unit.Description = "Idle handler";
+        Service = {
+          ExecStart = "${lib.getExe pkgs.swayidle}";
+          Restart = "always";
+        };
+      };
+      cliphist = mkHyprlandService {
+        Unit.Description = "Clipboard history";
+        Service = {
+          ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste --watch ${lib.getExe pkgs.cliphist} store";
+          Restart = "always";
+        };
       };
     };
   };

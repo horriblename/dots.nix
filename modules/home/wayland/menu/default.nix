@@ -23,5 +23,5 @@ in {
     };
   };
 
-  config.home.packages = [selectorScript clipboardSelector];
+  config.home.packages = mkIf config.dots.wayland.enable [selectorScript clipboardSelector];
 }

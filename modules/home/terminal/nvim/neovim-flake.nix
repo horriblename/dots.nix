@@ -40,10 +40,10 @@ in {
     nix.enable = true;
     html.enable = true;
     clang = {
-      enable = false;
+      enable = true;
       lsp = {
-        enable = false;
-        package = pkgs.clang-tools_16;
+        enable = true;
+        package = pkgs.clang-tools_17;
         server = "clangd";
       };
     };
@@ -55,7 +55,7 @@ in {
     };
     ts.enable = true;
     go.enable = true;
-    zig.enable = false;
+    zig.enable = true;
     python.enable = true;
     dart.enable = false;
     elixir.enable = false;

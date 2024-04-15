@@ -1,10 +1,13 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }: {
-  services.dunst = {
-    enable = true;
-    configFile = ./dunstrc;
+  config = lib.mkIf config.dots.wayland.enable {
+    services.dunst = {
+      enable = true;
+      configFile = ./dunstrc;
+    };
   };
 }

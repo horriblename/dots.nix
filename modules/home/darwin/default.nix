@@ -1,7 +1,10 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }: {
-  xdg.configFile."karabiner/karabiner.json".source = ./karabiner.json;
+  config = lib.mkIf config.dots.wayland.enable {
+    xdg.configFile."karabiner/karabiner.json".source = ./karabiner.json;
+  };
 }
