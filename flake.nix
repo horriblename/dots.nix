@@ -167,9 +167,6 @@
 
         core
         ./modules/nixos
-        hyprland.nixosModules.default
-        {programs.hyprland.enable = true;}
-        wayland
       ];
     };
 

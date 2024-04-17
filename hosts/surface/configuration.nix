@@ -49,12 +49,6 @@
     ];
   };
 
-  environment.systemPackages = with pkgs; [
-    git
-    wget
-    keyd
-  ];
-
   environment.etc."keyd/default.conf".text = ''
     [ids]
     *
