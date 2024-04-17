@@ -276,7 +276,7 @@
           hyprworkspaces
           roc
           roc-ls
-          anyPackages.anyrun
+          anyrunPackages.anyrun
           self.nixosConfigurations.surface.config.system.build.toplevel
         ];
       };
