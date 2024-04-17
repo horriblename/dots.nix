@@ -49,6 +49,8 @@
     ];
   };
 
+  programs.zsh.enable = true;
+
   environment.etc."keyd/default.conf".text = ''
     [ids]
     *
@@ -73,9 +75,6 @@
 
   programs.neovim = {
     enable = true;
-    configure = {
-      customRC = builtins.readFile ../../pkgs/config.vim;
-    };
   };
 
   services.openssh = {
