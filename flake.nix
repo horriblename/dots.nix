@@ -161,6 +161,7 @@
     nixosConfigurations.surface = lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
+        {_module.args = {inherit self inputs;};}
         ./hosts/surface/configuration.nix
         ./hosts/surface/hardware-configuration.nix
         nixos-hardware.nixosModules.microsoft-surface-pro-3
