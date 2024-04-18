@@ -6,7 +6,7 @@
   ...
 }: let
   nix2Lua = neovim-flake.lib.nvim.lua.toLuaObject;
-  rawLua = str: {__raw = str;};
+  inherit (lib.generators) mkLuaInline;
   setup = module: table: "require('${module}').setup(${nix2Lua table})";
 in {
   vim = {
@@ -79,7 +79,7 @@ in {
           default_config = {
             name = server;
             inherit (extraConfig) cmd filetypes;
-            root_dir = extraConfig.root_dir or (rawLua "function(fname) return lspconfig.util.find_git_ancestor(fname) end");
+            root_dir = extraConfig.root_dir or (mkLuaInline "function(fname) return lspconfig.util.find_git_ancestor(fname) end");
             settings = extraConfig.settings or {};
           };
         }}
@@ -87,8 +87,8 @@ in {
 
       lspconfig.${server}.setup ${
         nix2Lua ({
-            capabilities = rawLua "capabilities";
-            on_attach = rawLua "default_on_attach";
+            capabilities = mkLuaInline "capabilities";
+            on_attach = mkLuaInline "default_on_attach";
           }
           // extraConfig)
       }
@@ -108,7 +108,7 @@ in {
         extraConfig = {
           cmd = ["roc_language_server"];
           filetypes = ["roc"];
-          root_pattern = rawLua "require'lspconfig.util'.root_pattern('main.roc', '.git')";
+          root_pattern = mkLuaInline "require'lspconfig.util'.root_pattern('main.roc', '.git')";
         };
       };
     };
@@ -172,18 +172,20 @@ in {
     nvimTree = {
       enable = true;
       openOnSetup = false;
-      syncRootWithCwd = true;
-      updateFocusedFile.enable = true;
-      actions = {
-        changeDir.enable = false;
-        changeDir.global = false;
-        openFile.windowPicker.enable = true;
-      };
-      renderer = {
-        icons.show.git = true;
-      };
-      view = {
-        width = 25;
+      setupOpts = {
+        sync_root_with_cwd = true;
+        update_focused_file.enable = true;
+        actions = {
+          change_dir.enable = false;
+          change_dir.global = false;
+          open_file.window_picker.enable = true;
+        };
+        renderer = {
+          icons.show.git = true;
+        };
+        view = {
+          width = 25;
+        };
       };
     };
   };
@@ -213,7 +215,7 @@ in {
   vim.git = {
     enable = true;
     gitsigns.enable = true;
-    gitsigns.codeActions = false;
+    gitsigns.codeActions.enable = false;
   };
 
   vim.minimap = {
@@ -233,23 +235,25 @@ in {
   vim.projects = {
     project-nvim = {
       enable = true;
-      manualMode = false;
-      detectionMethods = ["lsp" "pattern"]; # NOTE: lsp detection will get annoying with multiple langs in one project
-      patterns = [
-        ".git"
-        "_darcs"
-        ".hg"
-        ".bzr"
-        ".svn"
-        "Makefile"
-        "package.json"
-        "flake.nix"
-        "index.*"
-        ".anchor"
-        ">.config"
-        ">repo"
-        ">/nix/store"
-      ];
+      setupOpts = {
+        manual_mode = false;
+        detection_methods = ["lsp" "pattern"]; # NOTE: lsp detection will get annoying with multiple langs in one project
+        patterns = [
+          ".git"
+          "_darcs"
+          ".hg"
+          ".bzr"
+          ".svn"
+          "Makefile"
+          "package.json"
+          "flake.nix"
+          "index.*"
+          ".anchor"
+          ">.config"
+          ">repo"
+          ">/nix/store"
+        ];
+      };
     };
   };
 
@@ -267,7 +271,9 @@ in {
     toggleterm = {
       mappings.open = "<M-x>";
       enable = true;
-      direction = "tab";
+      setupOpts = {
+        direction = "tab";
+      };
       lazygit = {
         enable = true;
         direction = "tab";
@@ -287,7 +293,9 @@ in {
   vim.session = {
     nvim-session-manager = {
       enable = true;
-      autoloadMode = "Disabled";
+      setupOpts = {
+        autoload_mode = "Disabled";
+      };
     };
   };
 
