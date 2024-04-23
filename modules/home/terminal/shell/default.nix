@@ -47,7 +47,10 @@
         if (config.dots.preset == "darwin-work")
         then "pei.ching@check24.de"
         else "badnam3o.0@gmail.com";
-      userName = "Ching Pei Yang";
+      userName =
+        if (config.dots.preset == "darwin-work")
+        then "Pei Yang Ching"
+        else "Ching Pei Yang";
       extraConfig = {
         includeIf."gitdir:~/privrepo".path = toString (pkgs.writeTextFile {
           name = "gitconfig-private";
