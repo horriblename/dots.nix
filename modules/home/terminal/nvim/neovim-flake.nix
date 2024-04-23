@@ -56,6 +56,7 @@ in {
     ts.enable = true;
     go.enable = true;
     zig.enable = true;
+    go.dap.enable = false;
     python.enable = true;
     dart.enable = false;
     elixir.enable = false;
@@ -451,6 +452,14 @@ in {
       setup = ''
         vim.g.mdip_imgdir = "attachments"
       '';
+    };
+    dap-go = {
+      package = nvim-dap-go;
+      setup = setup "dap-go" {
+        delve = {
+          path = lib.getExe pkgs.delve;
+        };
+      };
     };
     nixrun = {
       package = pkgs.nixrun-nvim;
