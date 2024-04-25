@@ -447,6 +447,10 @@ in {
         };
       };
     };
+    scope-nvim = {
+      package = scope-nvim;
+      setup = setup "scope" {};
+    };
     md-img-paste-vim = {
       package = pkgs.md-img-paste-vim;
       setup = ''
