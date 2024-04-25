@@ -8,6 +8,10 @@
   nix2Lua = neovim-flake.lib.nvim.lua.toLuaObject;
   inherit (lib.generators) mkLuaInline;
   setup = module: table: "require('${module}').setup(${nix2Lua table})";
+  luaKeymap = action: {
+    inherit action;
+    lua = true;
+  };
 in {
   vim = {
     viAlias = false;
@@ -270,7 +274,7 @@ in {
 
   vim.terminal = {
     toggleterm = {
-      mappings.open = "<M-x>";
+      mappings.open = null;
       enable = true;
       setupOpts = {
         direction = "tab";
@@ -342,7 +346,6 @@ in {
   vim.maps.normal = {
     # General
     "<leader>zf".action = ":lua vim.g.formatsave = not vim.g.formatsave<CR>";
-    "<leader>zt".action = ":<C-U>let g:default_terminal = v:count1<CR>";
     "<leader>e".action = ":NvimTreeToggle<CR>";
     "<leader>ld".action = ":lua vim.diagnostic.setqflist({open = true})<CR>";
     "<leader>lf".action = ":lua vim.lsp.buf.format()<CR>";
@@ -380,6 +383,26 @@ in {
     # vsnip
     "<C-;>".action = "<Plug>(vsnip-jump-next)";
     "<C-,>".action = "<Plug>(vsnip-jump-prev)";
+
+    # Toggleterm
+    "<M-x>" = luaKeymap "function() require'toggleterm'.toggle(vim.v.count > 0 and vim.v.count or vim.w.default_terminal or vim.t.default_terminal or vim.g.default_terminal or 1) end";
+    "<D-x>" = luaKeymap "function() require'toggleterm'.toggle(vim.v.count > 0 and vim.v.count or vim.w.default_terminal or vim.t.default_terminal or vim.g.default_terminal or 1) end";
+    "<leader>zt" = {
+      desc = ''["scope]Set default ToggleTerm'';
+      lua = true;
+      action = ''
+        function()
+          local scope
+          if vim.v.register == 'w' or vim.v.register == 't' or vim.v.register == 'g' then
+            scope = vim[vim.v.register]
+          else
+            scope = vim.t
+          end
+
+          scope.default_terminal = vim.v.count1
+        end
+      '';
+    };
   };
 
   vim.maps.normalVisualOp = {
@@ -390,7 +413,7 @@ in {
     # ssr.nvim
     "<leader>sr".action = ":lua require('ssr').open()<CR>";
 
-    # Toggleterm
+    # ToggleTerm
     "<leader>ct" = {
       # action = ":<C-U>ToggleTermSendVisualLines v:count<CR>";
       action = "':ToggleTermSendVisualLines ' . v:count == 0 ? g:default_terminal : v:count";
@@ -411,7 +434,8 @@ in {
   };
 
   vim.maps.terminal = {
-    "<M-x>".action = "<cmd>q<CR>";
+    "<M-x>".action = "<cmd>ToggleTerm<cr>";
+    "<D-x>".action = "<cmd>ToggleTerm<cr>";
   };
 
   vim.extraPlugins = with pkgs.vimPlugins; {
