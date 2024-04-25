@@ -126,7 +126,7 @@ in {
     cellularAutomaton.enable = false;
     fidget-nvim.enable = true;
     indentBlankline = {
-      enable = true;
+      enable = false;
       fillChar = null;
       eolChar = null;
       scope.enabled = true;
