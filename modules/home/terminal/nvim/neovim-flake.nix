@@ -59,8 +59,8 @@ in {
     };
     ts.enable = true;
     go.enable = true;
-    zig.enable = true;
     go.dap.enable = false;
+    zig.enable = false;
     python.enable = true;
     dart.enable = false;
     elixir.enable = false;
