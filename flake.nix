@@ -277,7 +277,7 @@
           roc
           roc-ls
           anyrunPackages.anyrun
-          self.nixosConfigurations.surface.config.system.build.toplevel
+          # self.nixosConfigurations.surface.config.system.build.toplevel
         ];
       };
     });
