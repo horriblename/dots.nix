@@ -3,12 +3,23 @@ if !exists("g:neovide")
 	finish
 endif
 
+" Animations
+
 let g:neovide_cursor_animation_length=0.01
 let g:neovide_cursor_trail_length=0.8
 
 let g:neovide_scroll_animation_length = 0.2
 
+" Keys
+
 let g:neovide_input_macos_alt_is_meta = v:true
+
+" Appearance
+
+let g:neovide_transparency = 0.75
+let g:neovide_window_blurred = v:true
+let g:neovide_floating_blur_amount_x = 2.0
+let g:neovide_floating_blur_amount_y = 2.0
 
 let g:terminal_color_0 = '#000000'  " black
 let g:terminal_color_1 = '#cc0403'  " red
