@@ -184,6 +184,7 @@ nnoremap <leader>xp :cprev<CR>
 nnoremap <leader>x, :cnewer<CR>
 nnoremap <leader>x; :colder<CR>
 nnoremap <leader>xx :copen<CR>
+nnoremap <leader>xq :cclose<CR>
 
 " toggleterm
 noremap <M-x> :call user#general#ToggleTerm()<cr>
