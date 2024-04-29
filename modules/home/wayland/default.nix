@@ -7,7 +7,6 @@
   imports = [
     ./fonts.nix
     ./anyrun
-    ./dunst
     ./eww
     ./foot
     ./gtk

@@ -110,6 +110,16 @@ in {
           Restart = "always";
         };
       };
+
+      dunst = mkHyprlandService {
+        Unit.Description = "Dunst notification daemon";
+
+        Service = {
+          Type = "dbus";
+          BusName = "org.freedesktop.Notifications";
+          ExecStart = "${pkgs.dunst}/bin/dunst -config ${./dunstrc}";
+        };
+      };
     };
   };
 }
