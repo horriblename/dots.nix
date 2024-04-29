@@ -5,7 +5,7 @@
 }: {
   config = lib.mkIf config.dots.wayland.enable {
     wayland.windowManager.sway = {
-      enable = true;
+      enable = false;
       extraConfig =
         ''
           set $menu ${config.menu.launcher}
