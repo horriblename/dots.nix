@@ -9,10 +9,10 @@ setl autoindent
 setl comments=bn:>,bn:-,bn:+,b:*
 
 " move line to beginning of next/prev section
-nmap <buffer> <leader>md dd]]p
-nmap <buffer> <leader>mu dd[[p
-xmap <buffer> <leader>md d]]p
-xmap <buffer> <leader>mu d[[p
+nmap <buffer> <localleader>md dd]]p
+nmap <buffer> <localleader>mu dd[[p
+xmap <buffer> <localleader>md d]]p
+xmap <buffer> <localleader>mu d[[p
 
 inoremap <buffer> ``` ```<cr>```<up><End>
 inoremap <buffer> $$<cr> $$<cr>$$<Esc>O
