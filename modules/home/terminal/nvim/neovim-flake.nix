@@ -278,7 +278,7 @@ in {
       };
       lazygit = {
         enable = true;
-        direction = "tab";
+        direction = "float";
       };
     };
   };
