@@ -268,6 +268,7 @@
         libcallex-vim
         treesitter-roc
         neovim-treesitter-roc
+        nixGLIntel
         ;
       ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
         buildInputs = with pkgs; [
@@ -276,6 +277,7 @@
           hyprworkspaces
           roc
           roc-ls
+          nixGLIntel
           anyrunPackages.anyrun
           # self.nixosConfigurations.surface.config.system.build.toplevel
         ];
@@ -311,6 +313,7 @@
       roc-ls = inputs.roc.packages.${final.system}.lang-server;
       treesitter-roc = inputs.tree-sitter-roc.defaultPackage.${final.system};
       neovim-treesitter-roc = final.callPackage ./pkgs/neovim-treesitter-roc.nix {treesitter-roc-src = inputs.tree-sitter-roc;};
+      inherit (inputs.nixgl.packages.${final.system}) nixGLIntel;
     };
     formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
     templates = import ./templates;
