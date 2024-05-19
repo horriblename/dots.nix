@@ -4,8 +4,7 @@
   config,
   inputs,
   ...
-}:
-with lib; let
+}: let
   mkHyprlandService = lib.recursiveUpdate {
     Unit.PartOf = ["hyprland-session.target"];
     Unit.After = ["hyprland-session.target"];
@@ -39,22 +38,22 @@ with lib; let
   '';
 in {
   config = lib.mkIf config.dots.wayland.enable {
-    home.packages = with pkgs; [
-      libnotify
-      catppuccin-cursors.mochaRosewater
+    home.packages = [
+      pkgs.libnotify
+      pkgs.catppuccin-cursors.mochaRosewater
       #wf-recorder
-      brightnessctl
-      slurp
-      tesseract5
-      swappy
+      pkgs.brightnessctl
+      pkgs.slurp
+      pkgs.tesseract5
+      pkgs.swappy
       ocr
-      grim
+      pkgs.grim
       screenshot
-      wl-clipboard
+      pkgs.wl-clipboard
       #pngquant
-      cliphist
-      swaybg
-      swayidle
+      pkgs.cliphist
+      pkgs.swaybg
+      pkgs.swayidle
     ];
 
     wayland.windowManager.hyprland = {
