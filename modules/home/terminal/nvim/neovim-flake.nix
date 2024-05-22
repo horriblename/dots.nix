@@ -338,6 +338,15 @@ in {
     vim.fn.sign_define("DapBreakpointCondition", { text = "⊜", texthl = "ErrorMsg", linehl = "", numhl = "" })
     vim.fn.sign_define("DapBreakpointRejected", { text = "󰜺", texthl = "ErrorMsg", linehl = "", numhl = "" })
     vim.fn.sign_define("DapLogPoint", { text = "", texthl = "ErrorMsg", linehl = "", numhl = "" })
+
+    -- auto ToggleTerm scoping
+    do
+      local gid = vim.api.nvim_create_augroup("auto_toggleterm_number", {clear = true})
+      vim.api.nvim_create_autocmd("TabNew", {
+        group = gid,
+        callback = function(ev) vim.t.default_terminal = vim.fn.tabpagenr() end,
+      })
+    end
   '';
 
   vim.maps.normal = {
