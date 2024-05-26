@@ -126,7 +126,7 @@ if has('nvim') && (!has('lua') || luaeval('not lvim'))
 	augroup TerminalTweaks
 		au!
 		au TermOpen * setlocal nolist nonumber norelativenumber statusline=%{b:term_title}
-		au TermOpen * let b:term_title=substitute(b:term_title,'.*:','',1) | startinsert
+		au TermOpen * let b:term_title=substitute(get(b:, 'term_title', ''),'.*:','',1) | startinsert
 		au BufEnter,BufWinEnter,WinEnter term://* if nvim_win_get_cursor(0)[0] > line('$') - nvim_win_get_height(0) | startinsert | endif
 	augroup END
 
