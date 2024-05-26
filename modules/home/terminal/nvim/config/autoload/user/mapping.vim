@@ -183,7 +183,7 @@ nnoremap <leader>xn :cnext<CR>
 nnoremap <leader>xp :cprev<CR>
 nnoremap <leader>x, :cnewer<CR>
 nnoremap <leader>x; :colder<CR>
-nnoremap <leader>xx :copen<CR>
+nnoremap <leader>xx :botright copen<CR>
 nnoremap <leader>xq :cclose<CR>
 
 " toggleterm
