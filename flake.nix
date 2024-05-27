@@ -301,7 +301,7 @@
           pkgs.roc
           pkgs.roc-ls
           pkgs.anyrunPackages.anyrun
-          self.nixosConfigurations.surface.config.system.build.toplevel
+          self.nixosConfigurations.surface-iso.config.system.build.isoImage
         ];
       };
     });
