@@ -270,14 +270,14 @@
         neovim-treesitter-roc
         ;
       ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
-        buildInputs = with pkgs; [
-          wf-osk
-          kanagawa-gtk
-          hyprworkspaces
-          roc
-          roc-ls
-          anyrunPackages.anyrun
-          # self.nixosConfigurations.surface.config.system.build.toplevel
+        buildInputs = [
+          pkgs.wf-osk
+          pkgs.kanagawa-gtk
+          pkgs.hyprworkspaces
+          pkgs.roc
+          pkgs.roc-ls
+          pkgs.anyrunPackages.anyrun
+          self.nixosConfigurations.surface.config.system.build.toplevel
         ];
       };
     });
