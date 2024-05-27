@@ -61,6 +61,7 @@ in {
     go.enable = true;
     go.dap.enable = false;
     zig.enable = false;
+    php.enable = true;
     python.enable = true;
     dart.enable = false;
     elixir.enable = false;
@@ -242,7 +243,7 @@ in {
       enable = true;
       setupOpts = {
         manual_mode = false;
-        detection_methods = ["lsp" "pattern"]; # NOTE: lsp detection will get annoying with multiple langs in one project
+        detection_methods = ["pattern"]; # NOTE: lsp detection will get annoying with multiple langs in one project
         patterns = [
           ".git"
           "_darcs"
@@ -311,11 +312,13 @@ in {
     markdown
     markdown-inline
     regex
+    yaml
   ];
 
   # HACK
   vim.theme.extraConfig = ''
     vim.cmd [[
+      set runtimepath^=~/.config/nvim
       call user#general#setup()
       call user#mapping#setup()
     ]]
