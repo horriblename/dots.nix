@@ -146,66 +146,77 @@
       ];
     };
     homeConfigurations.nix-on-droid = genHomeConfig {preset = "droid";};
-    nixosConfigurations.wsl = lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        {_module.args = {inherit self inputs;};}
-        inputs.nix-wsl.nixosModules.default
-        ./hosts/wsl/configuration.nix
-        {wsl.enable = true;}
 
-        core
-        ./modules/nixos
-      ];
-    };
-    nixosConfigurations.surface = lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        {_module.args = {inherit self inputs;};}
-        ./hosts/surface/configuration.nix
-        ./hosts/surface/hardware-configuration.nix
-        nixos-hardware.nixosModules.microsoft-surface-pro-3
+    nixosConfigurations = {
+      iso = lib.nixosSystem {
+        modules = [
+          "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix"
+          "${nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
+        ];
+      };
 
-        core
-        ./modules/nixos
-      ];
-    };
-
-    nixosConfigurations.linode = let
-      system = "x86_64-linux";
-    in
-      lib.nixosSystem {
-        inherit system;
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [self.overlay inputs.agenix.overlays.default];
-        };
+      wsl = lib.nixosSystem {
+        system = "x86_64-linux";
         modules = [
           {_module.args = {inherit self inputs;};}
-          inputs.agenix.nixosModules.default
-          inputs.rss-aggre.nixosModules.default
-          {
-            services.rss-aggre.enable = true;
-            services.rss-aggre.package = inputs.rss-aggre.packages.${system}.rss-aggre;
-            # services.postgresql.package = nixpkgs.legacyPackages.${system}.postgresql_15;
-            age.secrets.rssAggreJwtSecret.file = ./secrets/rssAggreJwtSecret.age;
-          }
-          ./hosts/linode/configuration.nix
-          ./hosts/linode/hardware-configuration.nix
+          inputs.nix-wsl.nixosModules.default
+          ./hosts/wsl/configuration.nix
+          {wsl.enable = true;}
 
           core
           ./modules/nixos
         ];
       };
-    nixosConfigurations.nixvm = lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        ./hosts/nixvm/configuration.nix
-        ./hosts/nixvm/hardware-configuration.nix
 
-        ./modules/nixos
-        wayland
-      ];
+      surface = lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          {_module.args = {inherit self inputs;};}
+          ./hosts/surface/configuration.nix
+          ./hosts/surface/hardware-configuration.nix
+          nixos-hardware.nixosModules.microsoft-surface-pro-3
+
+          core
+          ./modules/nixos
+        ];
+      };
+
+      linode = let
+        system = "x86_64-linux";
+      in
+        lib.nixosSystem {
+          inherit system;
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = [self.overlay inputs.agenix.overlays.default];
+          };
+          modules = [
+            {_module.args = {inherit self inputs;};}
+            inputs.agenix.nixosModules.default
+            inputs.rss-aggre.nixosModules.default
+            {
+              services.rss-aggre.enable = true;
+              services.rss-aggre.package = inputs.rss-aggre.packages.${system}.rss-aggre;
+              # services.postgresql.package = nixpkgs.legacyPackages.${system}.postgresql_15;
+              age.secrets.rssAggreJwtSecret.file = ./secrets/rssAggreJwtSecret.age;
+            }
+            ./hosts/linode/configuration.nix
+            ./hosts/linode/hardware-configuration.nix
+
+            core
+            ./modules/nixos
+          ];
+        };
+      nixvm = lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./hosts/nixvm/configuration.nix
+          ./hosts/nixvm/hardware-configuration.nix
+
+          ./modules/nixos
+          wayland
+        ];
+      };
     };
     darwinConfigurations = {
       work = let
