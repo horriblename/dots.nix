@@ -147,14 +147,17 @@
     };
     homeConfigurations.nix-on-droid = genHomeConfig {preset = "droid";};
 
-    nixosConfigurations = {
-      iso = lib.nixosSystem {
-        modules = [
-          "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix"
-          "${nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
-        ];
-      };
+    nixosConfigurations = let
+      surfaceModules = [
+        {_module.args = {inherit self inputs;};}
+        ./hosts/surface/configuration.nix
+        ./hosts/surface/hardware-configuration.nix
+        nixos-hardware.nixosModules.microsoft-surface-pro-3
 
+        core
+        ./modules/nixos
+      ];
+    in {
       wsl = lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
@@ -170,15 +173,25 @@
 
       surface = lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [
-          {_module.args = {inherit self inputs;};}
-          ./hosts/surface/configuration.nix
-          ./hosts/surface/hardware-configuration.nix
-          nixos-hardware.nixosModules.microsoft-surface-pro-3
+        modules = surfaceModules;
+      };
 
-          core
-          ./modules/nixos
-        ];
+      surface-iso = lib.nixosSystem {
+        system = "x86_64-linux";
+        modules =
+          surfaceModules
+          ++ [
+            "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix"
+            "${nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
+            ({pkgs, ...}: {
+              environment.systemPackages = [
+                (pkgs.runCommandLocal "dots" {} ''
+                  mkdir -p $out/share
+                  ln -s ${self} $out/share
+                '')
+              ];
+            })
+          ];
       };
 
       linode = let
