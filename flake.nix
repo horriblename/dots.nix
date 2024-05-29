@@ -152,16 +152,6 @@
     homeConfigurations.nix-on-droid = genHomeConfig {preset = "droid";};
 
     nixosConfigurations = let
-      surfaceModules = [
-        {_module.args = {inherit self inputs;};}
-        ./hosts/surface/configuration.nix
-        ./hosts/surface/hardware-configuration.nix
-        nixos-hardware.nixosModules.microsoft-surface-pro-3
-
-        core
-        ./modules/nixos
-      ];
-
       mkIsoModule = {
         pkgs,
         extraPackages,
@@ -202,7 +192,15 @@
 
       surface = lib.nixosSystem {
         system = "x86_64-linux";
-        modules = surfaceModules;
+        modules = [
+          {_module.args = {inherit self inputs;};}
+          ./hosts/surface/configuration.nix
+          ./hosts/surface/hardware-configuration.nix
+          nixos-hardware.nixosModules.microsoft-surface-pro-3
+
+          core
+          ./modules/nixos
+        ];
       };
 
       surface-iso = let
