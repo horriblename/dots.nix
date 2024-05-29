@@ -161,6 +161,31 @@
         core
         ./modules/nixos
       ];
+
+      mkIsoModule = {
+        pkgs,
+        extraPackages,
+      }: {
+        imports = ["${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"];
+
+        boot.kernelPackages = pkgs.linuxPackages_latest;
+
+        # Needed for https://github.com/NixOS/nixpkgs/issues/58959
+        boot.supportedFilesystems = lib.mkForce ["btrfs" "reisefs" "vfat" "f2fs" "xfs" "ntfs" "cifs"];
+
+        isoImage.squashfsCompression = "gzip -Xcompression-level 1"; # faster compression
+
+        environment.systemPackages =
+          extraPackages
+          ++ [
+            pkgs.neovim
+            pkgs.git
+            (pkgs.runCommandLocal "dots" {} ''
+              mkdir -p $out/share
+              ln -s ${self} $out/share
+            '')
+          ];
+      };
     in {
       wsl = lib.nixosSystem {
         system = "x86_64-linux";
@@ -180,23 +205,19 @@
         modules = surfaceModules;
       };
 
-      surface-iso = lib.nixosSystem {
+      surface-iso = let
         system = "x86_64-linux";
-        modules =
-          surfaceModules
-          ++ [
-            "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix"
-            "${nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
-            ({pkgs, ...}: {
-              environment.systemPackages = [
-                (pkgs.runCommandLocal "dots" {} ''
-                  mkdir -p $out/share
-                  ln -s ${self} $out/share
-                '')
-              ];
+        pkgs = pkgsFor {inherit system;};
+      in
+        lib.nixosSystem {
+          inherit system;
+          modules = [
+            (mkIsoModule {
+              inherit pkgs;
+              extraPackages = [self.nixosConfigurations.surface.config.system.build.toplevel];
             })
           ];
-      };
+        };
 
       linode = let
         system = "x86_64-linux";
