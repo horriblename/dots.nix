@@ -18,11 +18,11 @@
   boot.extraModulePackages = [];
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/6d56c01a-f88e-4757-b73c-7a60ac33d162";
+    device = "/dev/disk/by-label/NIXROOT";
     fsType = "ext4";
   };
 
-  boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-uuid/bd1e6603-e735-43bd-8d78-24e962cb308d";
+  #boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-uuid/bd1e6603-e735-43bd-8d78-24e962cb308d";
 
   # fileSystems."/home" =
   #   {
@@ -34,7 +34,7 @@
   # boot.initrd.luks.devices."crypthome".device = "/dev/disk/by-uuid/3b3599cf-1783-4891-a4c6-15c50de09646";
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/E490-0A19";
+    device = "/dev/disk/by-label/NIXBOOT";
     fsType = "vfat";
   };
 
