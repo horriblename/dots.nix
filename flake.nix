@@ -78,7 +78,11 @@
 
     core = ./modules/core;
     wayland = ./modules/wayland;
-    pkgsFor = {system} @ args: import nixpkgs ({overlays = [self.overlay];} // args);
+    pkgsFor = {system}:
+      import nixpkgs {
+        inherit system;
+        overlays = [self.overlay];
+      };
 
     genHomeConfig = {
       preset ? "minimal",
