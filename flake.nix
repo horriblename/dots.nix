@@ -324,7 +324,11 @@
           pkgs.roc
           pkgs.roc-ls
           pkgs.anyrunPackages.anyrun
-          self.nixosConfigurations.surface-iso.config.system.build.isoImage
+          pkgs.anyrunPackages.applications
+          pkgs.anyrunPackages.symbols
+          pkgs.anyrunPackages.rink
+          self.homeConfigurations."py@surface".activationPackage
+          # self.nixosConfigurations.surface-iso.config.system.build.isoImage
         ];
       };
     });
