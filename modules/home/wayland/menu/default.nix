@@ -3,8 +3,8 @@
   pkgs,
   config,
   ...
-}:
-with lib; let
+}: let
+  inherit (lib) mkOption types mkIf;
   selectorScript = pkgs.writeShellScriptBin "selectorMenu" ''
     exec ${config.menu.selector}
   '';
