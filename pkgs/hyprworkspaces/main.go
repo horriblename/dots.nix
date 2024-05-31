@@ -235,6 +235,13 @@ func startServer() {
 	handleHyprEvents(conn, &hs)
 }
 
+func assertStr(s string) string {
+    if s == "" {
+        panic("assertion failed: empty string")
+    }
+    return s
+}
+
 func main() {
 	hyprSig := os.Getenv("HYPRLAND_INSTANCE_SIGNATURE")
 	if hyprSig == "" {
@@ -243,6 +250,11 @@ func main() {
 	}
 
 	gHyprlandSockPath = "/tmp/hypr/" + hyprSig + "/.socket2.sock"
+    gHyprlandSockPath = fmt.Sprintf(
+        "%s/hypr/%s/.socket.sock",
+        assertStr(os.Getenv("XDG_RUNTIME_DIR")),
+        hyprSig,
+    )
 	gLogPath = "/tmp/hypr/" + hyprSig + "/hyprcmd.log"
 
 	// f, err := os.OpenFile(gLogPath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0600)
