@@ -22,17 +22,13 @@
     fsType = "ext4";
   };
 
-  #boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-uuid/bd1e6603-e735-43bd-8d78-24e962cb308d";
-
-  # fileSystems."/home" =
-  #   {
-  #     device = "/dev/disk/by-uuid/4bad5d11-8134-4f24-850d-02950a7f71d4";
-  #     fsType = "btrfs";
-  #      options = [ "subvol=@home" ];
-  #    };
-  #
-  # boot.initrd.luks.devices."crypthome".device = "/dev/disk/by-uuid/3b3599cf-1783-4891-a4c6-15c50de09646";
-
+  fileSystems."/home/py" =
+    {
+      device = "/dev/disk/by-uuid/3b3599cf-1783-4891-a4c6-15c50de09646";
+      fsType = "crypt";
+       options = [ "fstype=btrfs" "subvol=py" "rw" "noauto" "suid=${builtins.toString config.users.users.py.uid}"];
+     };
+  
   fileSystems."/boot" = {
     device = "/dev/disk/by-label/NIXBOOT";
     fsType = "vfat";

@@ -32,18 +32,17 @@
   security.pam.mount.extraVolumes = [
     ''
       <volume user="py"
-                fstype="crypt"
-                path="/dev/disk/by-uuid/3b3599cf-1783-4891-a4c6-15c50de09646"
-                mountpoint="/home"
-                options="fstype=btrfs" />
+              path="/dev/disk/by-uuid/3b3599cf-1783-4891-a4c6-15c50de09646"
+              />
     ''
     # maybe add option "crypto_name" (see https://man.archlinux.org/man/mount.crypt.8#Mount_options)
   ];
 
   users.users.py = {
+    uid = 1000;
     isNormalUser = true;
     shell = pkgs.zsh;
-    extraGroups = ["wheel" "input"];
+    extraGroups = ["wheel" "input" "disk"];
     packages = with pkgs; [
       firefox
     ];
@@ -114,6 +113,8 @@
       builders-use-substitutes = true
     '';
   };
+
+  services.thermald.enable = true;
 
   # system.copySystemConfiguration = true;
 
