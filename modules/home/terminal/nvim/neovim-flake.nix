@@ -315,10 +315,10 @@ in {
 
   # HACK
   vim.theme.extraConfig = ''
-    vim.cmd [[
+    pcall(vim.cmd, [[
       call user#general#setup()
       call user#mapping#setup()
-    ]]
+    ]])
     vim.opt.wrap = false
     vim.g.default_terminal = 1
     vim.filetype.add({
