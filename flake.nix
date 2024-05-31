@@ -190,18 +190,27 @@
         ];
       };
 
-      surface = lib.nixosSystem {
+      surface = let
         system = "x86_64-linux";
-        modules = [
-          {_module.args = {inherit self inputs;};}
-          ./hosts/surface/configuration.nix
-          ./hosts/surface/hardware-configuration.nix
-          nixos-hardware.nixosModules.microsoft-surface-pro-3
+      in
+        lib.nixosSystem {
+          inherit system;
+          modules = [
+            {_module.args = {inherit self inputs;};}
+            ./hosts/surface/configuration.nix
+            ./hosts/surface/hardware-configuration.nix
+            nixos-hardware.nixosModules.microsoft-surface-pro-3
 
-          core
-          ./modules/nixos
-        ];
-      };
+            core
+            ./modules/nixos
+            {
+              programs.hyprland = {
+                enable = true;
+                package = inputs.hyprland.packages.${system}.hyprland;
+              };
+            }
+          ];
+        };
 
       surface-iso = let
         system = "x86_64-linux";
