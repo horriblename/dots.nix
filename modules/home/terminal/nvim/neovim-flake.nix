@@ -315,6 +315,7 @@ in {
 
   # HACK
   vim.theme.extraConfig = ''
+    vim.opt.runtimepath:prepend("~/.config/nvim")
     pcall(vim.cmd, [[
       call user#general#setup()
       call user#mapping#setup()
