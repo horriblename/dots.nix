@@ -336,8 +336,7 @@
           pkgs.anyrunPackages.applications
           pkgs.anyrunPackages.symbols
           pkgs.anyrunPackages.rink
-          self.homeConfigurations."py@surface".activationPackage
-          # self.nixosConfigurations.surface-iso.config.system.build.isoImage
+          self.nixosConfigurations.surface.config.system.build.toplevel
         ];
       };
     });
