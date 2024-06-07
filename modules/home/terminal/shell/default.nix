@@ -6,6 +6,7 @@
 }: {
   imports = [
     ./bash.nix
+    ./zellij.nix
   ];
   home.sessionVariables = {
     # XDG_DATA_DIRS = "${config.home.profileDirectory}/share\${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}";
@@ -46,20 +47,35 @@
       userEmail =
         if (config.dots.preset == "darwin-work")
         then "pei.ching@check24.de"
-        else "badnam3o.0@gmail.com";
+        else "59727193+horriblename@users.noreply.github.com";
       userName =
         if (config.dots.preset == "darwin-work")
         then "Pei Yang Ching"
         else "Ching Pei Yang";
+      lfs.enable = config.dots.preset == "darwin-work";
+      includes = [
+        {
+          condition = "gitdir:~/privrepo";
+          contents = {
+            user.email = "59727193+horriblename@users.noreply.github.com";
+            user.name = "Ching Pei Yang";
+          };
+        }
+        {
+          condition = "gitdir:~/repo";
+          contents = {
+            user.email =
+              if (config.dots.preset == "darwin-work")
+              then "pei.ching@check24.de"
+              else "59727193+horriblename@users.noreply.github.com";
+            user.name =
+              if (config.dots.preset == "darwin-work")
+              then "Pei Yang Ching"
+              else "Ching Pei Yang";
+          };
+        }
+      ];
       extraConfig = {
-        includeIf."gitdir:~/privrepo".path = toString (pkgs.writeTextFile {
-          name = "gitconfig-private";
-          text = ''
-            [user]
-            email = 59727193+horriblename@users.noreply.github.com
-            name = Ching Pei Yang
-          '';
-        });
         core = {
           editor = "nvim";
         };
