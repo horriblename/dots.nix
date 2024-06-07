@@ -34,7 +34,7 @@ let &isfname = '@,48-57,/,\,.,-,_,+,,,#,$,%,~,='
 
 " Tab Settings
 set noexpandtab
-set tabstop=3
+set tabstop=4
 set shiftwidth=0   " 0 = follow tabstop
 "set softtabstop=3
 
