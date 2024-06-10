@@ -2591,6 +2591,7 @@
         "nixrun-nvim": "nixrun-nvim",
         "roc": "roc",
         "rss-aggre": "rss-aggre",
+        "ssr-nvim": "ssr-nvim",
         "tree-sitter-roc": "tree-sitter-roc"
       }
     },
@@ -2663,6 +2664,40 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "ssr-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1716601768,
+        "narHash": "sha256-efZHFue2AO62gIZozanefqVIgdZK/PBPGbB5H8XHgP4=",
+        "owner": "horriblename",
+        "repo": "ssr.nvim",
+        "rev": "1b8e29de937a9eb4b101578b2f41cb8e49a03d88",
+        "type": "github"
+      },
+      "original": {
+        "owner": "horriblename",
+        "ref": "feature/escape",
+        "repo": "ssr.nvim",
+        "type": "github"
+      }
+    },
+    "superdirt-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1611740180,
+        "narHash": "sha256-GtnqZeMFqFkVhgx2Exu0wY687cHa7mNnVCgjQd6fiIA=",
+        "owner": "musikinformatik",
+        "repo": "superdirt",
+        "rev": "7abb62e89649daa1232b9cbd6427241868abd30e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "musikinformatik",
+        "ref": "master",
+        "repo": "superdirt",
         "type": "github"
       }
     },

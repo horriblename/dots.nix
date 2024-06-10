@@ -1,4 +1,5 @@
 {
+  inputs,
   lib,
   config,
   pkgs,
@@ -459,7 +460,11 @@ in {
       '';
     };
     ssr-nvim = {
-      package = ssr-nvim;
+      package = pkgs.vimUtils.buildVimPlugin {
+        pname = "ssr-nvim";
+        version = "fork";
+        src = inputs.ssr-nvim;
+      };
       setup = "require('ssr').setup {}";
     };
     friendly-snippets = {package = friendly-snippets;};

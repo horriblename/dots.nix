@@ -52,6 +52,8 @@
     roc = {
       url = "github:roc-lang/roc";
     };
+    ssr-nvim.url = "github:horriblename/ssr.nvim/feature/escape";
+    ssr-nvim.flake = false;
     tree-sitter-roc.url = "github:horriblename/tree-sitter-roc";
     tree-sitter-roc.inputs.nixpkgs.follows = "nixpkgs";
   };
