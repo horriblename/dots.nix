@@ -336,7 +336,7 @@
           pkgs.anyrunPackages.applications
           pkgs.anyrunPackages.symbols
           pkgs.anyrunPackages.rink
-          self.nixosConfigurations.surface.config.system.build.toplevel
+          self.nixosConfigurations.surface.config.system.build.kernel
         ];
       };
     });
