@@ -8,6 +8,7 @@
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nix-wsl.url = "github:nix-community/NixOS-wsl";
+    nix-wsl.inputs.nixpkgs.follows = "nixpkgs";
     nixgl.url = "github:guibou/nixGL";
     nixgl.inputs.nixpkgs.follows = "nixpkgs";
     darwin = {
