@@ -281,8 +281,7 @@
               environment.systemPackages = with pkgs; [nix];
               services.nix-daemon.enable = true;
               fonts = {
-                fontDir.enable = true;
-                fonts = with pkgs; [
+                packages = with pkgs; [
                   (nerdfonts.override {fonts = ["FiraCode"];})
                 ];
               };
