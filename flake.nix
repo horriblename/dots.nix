@@ -64,14 +64,12 @@
     nix-index-database,
     nixos-hardware,
     home-manager,
-    hyprland,
     anyrun,
     md-img-paste-vim,
     nixrun-nvim,
     ...
   } @ inputs: let
-    # inputs = self.inputs;
-    lib = nixpkgs.lib;
+    inherit (nixpkgs) lib;
     defaultSystems = [
       "x86_64-linux"
       "aarch64-linux"
@@ -108,50 +106,52 @@
         extraSpecialArgs = {inherit self inputs;};
       };
   in {
-    homeConfigurations."deck" = genHomeConfig {
-      preset = "deck";
-      system = "x86_64-linux";
+    homeConfigurations = {
+      "deck" = genHomeConfig {
+        preset = "deck";
+        system = "x86_64-linux";
+      };
+      "py@archbox" = genHomeConfig {
+        preset = "archbox";
+        system = "x86_64-linux";
+      };
+      "py@surface" = genHomeConfig {
+        preset = "surface";
+        system = "x86_64-linux";
+      };
+      "pei.ching" = genHomeConfig {
+        preset = "darwin-work";
+        system = "x86_64-darwin";
+        extraModules = [
+          {
+            home.username = "pei.ching";
+            home.homeDirectory = "/Users/pei.ching";
+            nix.settings.nix-path = ["nixpkgs=${inputs.nixpkgs}" "dots=${self}"];
+          }
+        ];
+      };
+      "py@linode" = genHomeConfig {
+        preset = "linode";
+        extraModules = [
+          {
+            impurity.enable = lib.mkForce false;
+            programs.neovim-flake.enable = lib.mkForce false;
+          }
+        ];
+      };
+      wslUser = genHomeConfig {
+        preset = "minimal";
+        system = "x86_64-linux";
+        extraModules = [
+          {
+            impurity.enable = lib.mkForce false;
+            home.username = lib.mkForce "nixos";
+            home.homeDirectory = lib.mkForce "/home/nixos";
+          }
+        ];
+      };
+      nix-on-droid = genHomeConfig {preset = "droid";};
     };
-    homeConfigurations."py@archbox" = genHomeConfig {
-      preset = "archbox";
-      system = "x86_64-linux";
-    };
-    homeConfigurations."py@surface" = genHomeConfig {
-      preset = "surface";
-      system = "x86_64-linux";
-    };
-    homeConfigurations."pei.ching" = genHomeConfig {
-      preset = "darwin-work";
-      system = "x86_64-darwin";
-      extraModules = [
-        {
-          home.username = "pei.ching";
-          home.homeDirectory = "/Users/pei.ching";
-          nix.settings.nix-path = ["nixpkgs=${inputs.nixpkgs}" "dots=${self}"];
-        }
-      ];
-    };
-    homeConfigurations."py@linode" = genHomeConfig {
-      preset = "linode";
-      extraModules = [
-        {
-          impurity.enable = lib.mkForce false;
-          programs.neovim-flake.enable = lib.mkForce false;
-        }
-      ];
-    };
-    homeConfigurations.wslUser = genHomeConfig {
-      preset = "minimal";
-      system = "x86_64-linux";
-      extraModules = [
-        {
-          impurity.enable = lib.mkForce false;
-          home.username = lib.mkForce "nixos";
-          home.homeDirectory = lib.mkForce "/home/nixos";
-        }
-      ];
-    };
-    homeConfigurations.nix-on-droid = genHomeConfig {preset = "droid";};
 
     nixosConfigurations = let
       mkIsoModule = {
