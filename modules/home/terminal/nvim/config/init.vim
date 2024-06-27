@@ -17,5 +17,3 @@ augroup ColorTweaks
 	au ColorScheme * hi Normal guibg=NONE
 	au ColorScheme * hi Cursor gui=NONE guibg=white guifg=black
 augroup END
-
-colorscheme slate
