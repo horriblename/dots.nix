@@ -29,6 +29,8 @@ in {
     ./lazygit
   ];
 
+  nix.extraOptions = "!include secrets.conf";
+
   home.packages = with pkgs;
     lib.mkMerge
     [
