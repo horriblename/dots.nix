@@ -53,6 +53,7 @@ in {
         nix-du
         graphviz
         nixFunctionCalls
+        lazyjj
       ]
 
       (lib.mkIf (!config.dots.darwin.enable) [powertop])
