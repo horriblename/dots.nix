@@ -90,7 +90,7 @@
       };
     };
     starship = {
-      enable = true;
+      enable = false;
       settings = {
         add_newline = true;
         scan_timeout = 5;
@@ -124,6 +124,11 @@
       };
 
       initExtra = ''
+        ## Alien prompt
+
+        export ALIEN_THEME=soft
+        source ${pkgs.alien-zsh}/alien.zsh
+
         # Didn't work in home.sessionVariables; got overriden by flatpak??
         export XDG_DATA_DIRS="${config.home.profileDirectory}/share''${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}"
         eval "$(z.lua --init zsh enhanced)"
