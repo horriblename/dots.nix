@@ -403,6 +403,8 @@ in {
     # vsnip
     "<C-;>".action = "<Plug>(vsnip-jump-next)";
     "<C-,>".action = "<Plug>(vsnip-jump-prev)";
+    "<c-x>;".action = "<Plug>(vsnip-jump-next)";
+    "<C-x>,".action = "<Plug>(vsnip-jump-prev)";
 
     # Toggleterm
     "<M-x>" = luaKeymap "function() require'toggleterm'.toggle(vim.v.count > 0 and vim.v.count or vim.w.default_terminal or vim.t.default_terminal or vim.g.default_terminal or 1) end";
