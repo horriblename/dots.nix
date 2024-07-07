@@ -23,6 +23,24 @@
         "type": "github"
       }
     },
+    "alien-prompt": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1719984193,
+        "narHash": "sha256-/dqfj8XGpbc0AcOqp9r5WnW6W2zDQvf64kneAcHLHIs=",
+        "ref": "refs/heads/master",
+        "rev": "1bfb7a954ab8ad2b7d3b4ebbddfccfa5b81efbb3",
+        "revCount": 211,
+        "submodules": false,
+        "type": "git",
+        "url": "https://github.com/eendroroy/alien"
+      },
+      "original": {
+        "submodules": false,
+        "type": "git",
+        "url": "https://github.com/eendroroy/alien"
+      }
+    },
     "anyrun": {
       "inputs": {
         "flake-parts": "flake-parts",
@@ -2594,6 +2612,7 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "alien-prompt": "alien-prompt",
         "anyrun": "anyrun",
         "darwin": "darwin_2",
         "home-manager": "home-manager_2",
