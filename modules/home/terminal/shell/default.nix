@@ -196,10 +196,13 @@
         zle -N zle-keymap-select
 
         echo -ne '\e[5 q' # Use beam shape cursor on startup.
-        precmd() {
+        function set_beam_cursor() {
            echo -ne '\e[5 q' # Use beam shape cursor for each new prompt.
            echo -ne "\e]133;A\e\\"
         }
+
+        typeset -a precmd_functions # initialize the array
+        precmd_functions+=(set_beam_cursor)
       '';
 
       plugins = with pkgs; [
