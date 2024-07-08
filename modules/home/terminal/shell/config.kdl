@@ -1,9 +1,9 @@
 // If you'd like to override the default keybindings completely, be sure to change "keybinds" to "keybinds clear-defaults=true"
-keybinds {
+keybinds clear-defaults=true {
     normal clear-defaults=true {
         // uncomment this and adjust key if using copy_on_select=false
         // bind "Alt c" { Copy; }
-        bind "Ctrl a" {SwitchToMode "pane";}
+        bind "Ctrl q" {SwitchToMode "pane";}
     }
     locked {
         bind "Ctrl g" { SwitchToMode "Normal"; }
@@ -26,13 +26,19 @@ keybinds {
         bind "Ctrl r" {SwitchToMode "resize";}
         bind "Ctrl m" {SwitchToMode "move";}
         bind "Ctrl t" {SwitchToMode "tab";}
-        bind "s" {SwitchToMode "scroll";}
-        bind "/" {SwitchToMode "search";}
-        bind "Ctrl s"  {SwitchToMode "session";}
+        bind "Ctrl s" {SwitchToMode "scroll";}
+        bind "Ctrl u" {SwitchToMode "scroll"; HalfPageScrollUp;}
+        bind "Ctrl d" {SwitchToMode "scroll"; HalfPageScrollDown;}
+        bind "/" {SwitchToMode "search"; SearchInput 0;}
+        bind "Ctrl o"  {SwitchToMode "session";}
         bind "h" "Left" { MoveFocus "Left"; }
         bind "l" "Right" { MoveFocus "Right"; }
         bind "j" "Down" { MoveFocus "Down"; }
         bind "k" "Up" { MoveFocus "Up"; }
+        bind "H" "Left" { MovePane "Left"; }
+        bind "J" "Down" { MovePane "Down"; }
+        bind "K" "Up" { MovePane "Up"; }
+        bind "L" "Right" { MovePane "Right"; }
         bind "p" { SwitchFocus; }
         bind "n" { NewPane; SwitchToMode "Normal"; }
         bind "d" { NewPane "Down"; SwitchToMode "Normal"; }
@@ -45,6 +51,7 @@ keybinds {
         bind "c" { SwitchToMode "RenamePane"; PaneNameInput 0;}
         bind ";" { GoToNextTab; }
         bind "," { GoToPreviousTab; }
+		bind "Space" { NextSwapLayout; }
     }
     move {
         bind "Ctrl h" { SwitchToMode "Normal"; }
@@ -76,18 +83,20 @@ keybinds {
         bind "8" { GoToTab 8; SwitchToMode "Normal"; }
         bind "9" { GoToTab 9; SwitchToMode "Normal"; }
         bind "Tab" { ToggleTab; }
+        bind "H" { MoveTab "Left"; }
+        bind "L" { MoveTab "Right"; }
     }
     scroll {
         bind "Ctrl s" { SwitchToMode "Normal"; }
         bind "e" { EditScrollback; SwitchToMode "Normal"; }
-        bind "s" { SwitchToMode "EnterSearch"; SearchInput 0; }
+        bind "s" "/" { SwitchToMode "EnterSearch"; SearchInput 0; }
         bind "Ctrl c" { ScrollToBottom; SwitchToMode "Normal"; }
         bind "j" "Down" { ScrollDown; }
         bind "k" "Up" { ScrollUp; }
         bind "Ctrl f" "PageDown" "Right" "l" { PageScrollDown; }
         bind "Ctrl b" "PageUp" "Left" "h" { PageScrollUp; }
-        bind "d" { HalfPageScrollDown; }
-        bind "u" { HalfPageScrollUp; }
+        bind "d" "Ctrl d" { HalfPageScrollDown; }
+        bind "u" "Ctrl u" { HalfPageScrollUp; }
         // uncomment this and adjust key if using copy_on_select=false
         // bind "Alt c" { Copy; }
     }
@@ -155,7 +164,7 @@ keybinds {
     }
     shared_except "locked" {
         bind "Ctrl g" { SwitchToMode "Locked"; }
-        bind "Ctrl q" { Quit; }
+        bind "Alt q" { Quit; }
         bind "Alt n" { NewPane; }
         bind "Alt i" { MoveTab "Left"; }
         bind "Alt o" { MoveTab "Right"; }
@@ -172,7 +181,7 @@ keybinds {
         bind "Enter" "Esc" { SwitchToMode "Normal"; }
     }
     shared_except "pane" "locked" {
-        bind "Ctrl p" { SwitchToMode "Pane"; }
+        bind "Ctrl q" { SwitchToMode "Pane"; }
     }
     shared_except "resize" "locked" {
         bind "Ctrl n" { SwitchToMode "Resize"; }
@@ -237,7 +246,7 @@ plugins {
 //   - true (default)
 //   - false
 //
-// pane_frames true
+pane_frames false
 
 // Toggle between having Zellij lay out panes according to a predefined set of layouts whenever possible
 // Options:
@@ -293,7 +302,7 @@ plugins {
 // The name of the default layout to load on startup
 // Default: "default"
 //
-// default_layout "compact"
+default_layout "compact"
 
 // Choose the mode that zellij uses when starting up.
 // Default: normal
