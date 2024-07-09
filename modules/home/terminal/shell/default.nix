@@ -124,10 +124,11 @@
       };
 
       initExtra = ''
-        ## Alien prompt
+        ## Pure prompt
 
-        export ALIEN_THEME=soft
-        source ${pkgs.alien-zsh}/alien.zsh
+        fpath+=("${pkgs.pure-prompt}/share/zsh/site-functions")
+        autoload -U promptinit; promptinit
+        prompt pure
 
         # Didn't work in home.sessionVariables; got overriden by flatpak??
         export XDG_DATA_DIRS="${config.home.profileDirectory}/share''${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}"
