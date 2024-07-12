@@ -58,13 +58,17 @@ in {
       enable = false;
       crates.enable = true;
     };
-    ts.enable = true;
+    ts.enable = false;
     go.enable = true;
     go.dap.enable = false;
     zig.enable = false;
     python.enable = true;
     dart.enable = false;
     elixir.enable = false;
+    php.enable = false;
+    php.lsp.package = pkgs.phpactor.override {
+      php = pkgs.php.buildEnv {extraConfig = "memory_limit = 8G";};
+    };
     java = {
       enable = false;
       lsp.package = ["jdt-language-server" "-configuration" "${config.xdg.cacheHome}/jdtls/config" "-data" "${config.xdg.cacheHome}/jdtls/workspace"];

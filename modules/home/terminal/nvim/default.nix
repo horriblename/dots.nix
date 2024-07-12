@@ -24,6 +24,6 @@ in {
 
   programs.neovim-flake = {
     enable = true;
-    settings = import ./neovim-flake.nix (args // {inherit (inputs) neovim-flake;});
+    settings = import ./neovim-flake.nix (args // {inherit (inputs) nvf;});
   };
 }
