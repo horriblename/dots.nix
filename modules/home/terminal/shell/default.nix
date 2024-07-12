@@ -54,6 +54,11 @@
         then "Pei Yang Ching"
         else "Ching Pei Yang";
       lfs.enable = config.dots.preset == "darwin-work";
+      aliases = {
+        ignore-changes-to-file = "update-index --assume-unchanged";
+        ls-ignored-changes = "! echo 'Hint: showing files marked by alias ignore-changes-to-file' >&2; git ls-files -v | grep '^h' | cut -c3-";
+        unignore-changes-to-file = "update-index --no-assume-unchanged";
+      };
       includes = [
         {
           condition = "gitdir:~/privrepo";
