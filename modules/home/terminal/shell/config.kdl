@@ -29,7 +29,7 @@ keybinds clear-defaults=true {
         bind "Ctrl s" {SwitchToMode "scroll";}
         bind "Ctrl u" {SwitchToMode "scroll"; HalfPageScrollUp;}
         bind "Ctrl d" {SwitchToMode "scroll"; HalfPageScrollDown;}
-        bind "/" {SwitchToMode "search"; SearchInput 0;}
+        bind "/" {SwitchToMode "EnterSearch"; SearchInput 0;}
         bind "Ctrl o"  {SwitchToMode "session";}
         bind "h" "Left" { MoveFocus "Left"; }
         bind "l" "Right" { MoveFocus "Right"; }
@@ -41,8 +41,8 @@ keybinds clear-defaults=true {
         bind "L" "Right" { MovePane "Right"; }
         bind "p" { SwitchFocus; }
         bind "n" { NewPane; SwitchToMode "Normal"; }
-        bind "d" { NewPane "Down"; SwitchToMode "Normal"; }
-        bind "r" { NewPane "Right"; SwitchToMode "Normal"; }
+        bind "s" { NewPane "Down"; SwitchToMode "Normal"; }
+        bind "v" { NewPane "Right"; SwitchToMode "Normal"; }
         bind "x" { CloseFocus; SwitchToMode "Normal"; }
         bind "f" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
         bind "z" { TogglePaneFrames; SwitchToMode "Normal"; }
@@ -51,7 +51,10 @@ keybinds clear-defaults=true {
         bind "c" { SwitchToMode "RenamePane"; PaneNameInput 0;}
         bind ";" { GoToNextTab; }
         bind "," { GoToPreviousTab; }
-		bind "Space" { NextSwapLayout; }
+        bind "T" { BreakPane; }
+        bind "J" { BreakPaneRight; SwitchToMode "Normal"; }
+        bind "K" { BreakPaneLeft; SwitchToMode "Normal"; }
+        bind "Space" { NextSwapLayout; }
     }
     move {
         bind "Ctrl h" { SwitchToMode "Normal"; }
