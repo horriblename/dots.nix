@@ -4,7 +4,7 @@ fu user#mapping#setup() abort
 endfu
 
 let mapleader=' '
-let maplocalleader=' b'
+let mplocalleader=' a'
 
 " Editor mappings {{{
 nnoremap > >>
@@ -185,6 +185,7 @@ nnoremap <leader>x, :cnewer<CR>
 nnoremap <leader>x; :colder<CR>
 nnoremap <leader>xx :botright copen<CR>
 nnoremap <leader>xq :cclose<CR>
+nnoremap <leader>xc :cclose<CR>
 
 " toggleterm
 noremap <M-x> :call user#general#ToggleTerm()<cr>
