@@ -209,6 +209,14 @@
 
         typeset -a precmd_functions # initialize the array
         precmd_functions+=(set_beam_cursor)
+
+        function zellij_set_tab_name() {
+            command nohup zellij action rename-tab "$${PWD##*/}" >/dev/null 2>&1
+        }
+
+        if [[ -n "$ZELLIJ" ]]; then
+          add-zsh-hook precmd zellij_set_tab_name
+        fi
       '';
 
       plugins = with pkgs; [
