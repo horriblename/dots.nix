@@ -211,7 +211,7 @@
         precmd_functions+=(set_beam_cursor)
 
         function zellij_set_tab_name() {
-            command nohup zellij action rename-tab "$${PWD##*/}" >/dev/null 2>&1
+            command nohup zellij action rename-tab "''${PWD##*/}" >/dev/null 2>&1
         }
 
         if [[ -n "$ZELLIJ" ]]; then
