@@ -52,8 +52,6 @@ keybinds clear-defaults=true {
         bind ";" { GoToNextTab; }
         bind "," { GoToPreviousTab; }
         bind "T" { BreakPane; }
-        bind "J" { BreakPaneRight; SwitchToMode "Normal"; }
-        bind "K" { BreakPaneLeft; SwitchToMode "Normal"; }
         bind "Space" { NextSwapLayout; }
     }
     move {
