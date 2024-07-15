@@ -362,6 +362,15 @@ in {
         callback = function(ev) vim.t.default_terminal = vim.fn.tabpagenr() end,
       })
     end
+
+    -- LSP help window border
+    local border = {"", "", "", "│", "", "", "", "█"}
+    local orig = vim.lsp.util.open_floating_preview
+    vim.lsp.util.open_floating_preview = function(contexts, syntax, opts, ...)
+      opts = opts or {}
+      opts.border = opts.border or border
+      return orig(contexts, syntax, opts, ...)
+    end
   '';
 
   vim.maps.normal = {
