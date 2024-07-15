@@ -32,7 +32,7 @@
       url = "github:horriblename/hyprland-border-actions";
       inputs.hyprland.follows = "hyprland";
     };
-    neovim-flake = {
+    nvf = {
       url = "github:NotAShelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -139,7 +139,7 @@
         extraModules = [
           {
             impurity.enable = lib.mkForce false;
-            programs.neovim-flake.enable = lib.mkForce false;
+            programs.nvf.enable = lib.mkForce false;
           }
         ];
       };

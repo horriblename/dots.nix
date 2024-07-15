@@ -15,15 +15,15 @@
   setup = module: table: "require('${module}').setup ${nix2Lua table}";
 in {
   imports = [
-    inputs.neovim-flake.homeManagerModules.default
+    inputs.nvf.homeManagerModules.default
     inputs.impurity.nixosModules.default
   ];
   impurity.configRoot = self;
 
   xdg.configFile."nvim".source = ./config;
 
-  programs.neovim-flake = {
+  programs.nvf = {
     enable = true;
-    settings = import ./neovim-flake.nix (args // {inherit (inputs) nvf;});
+    settings = import ./nvf.nix (args // {inherit (inputs) nvf;});
   };
 }

@@ -3,10 +3,10 @@
   lib,
   config,
   pkgs,
-  neovim-flake,
+  nvf,
   ...
 }: let
-  nix2Lua = neovim-flake.lib.nvim.lua.toLuaObject;
+  nix2Lua = nvf.lib.nvim.lua.toLuaObject;
   inherit (lib.generators) mkLuaInline;
   setup = module: table: "require('${module}').setup(${nix2Lua table})";
   luaKeymap = action: {
@@ -132,9 +132,6 @@ in {
     fidget-nvim.enable = true;
     indentBlankline = {
       enable = false;
-      fillChar = null;
-      eolChar = null;
-      scope.enabled = true;
     };
   };
 
