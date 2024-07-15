@@ -64,7 +64,7 @@ in {
     python.enable = true;
     dart.enable = false;
     elixir.enable = false;
-    php.enable = false;
+    php.enable = true;
     php.lsp.package = pkgs.phpactor.override {
       php = pkgs.php.buildEnv {extraConfig = "memory_limit = 8G";};
     };
