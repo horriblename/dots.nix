@@ -13,9 +13,9 @@
   ((fenced_code_block_delimiter) @tag
    (#set! conceal "-")))
 
-(fenced_code_block
-  . (fenced_code_block_delimiter) @tag
-  (#set! conceal "▌"))
+; (fenced_code_block
+;   . (fenced_code_block_delimiter) @tag
+;   (#set! conceal "▌"))
 
 (fenced_code_block
   (info_string) @devicon

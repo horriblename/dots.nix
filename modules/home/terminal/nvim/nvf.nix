@@ -298,6 +298,12 @@ in {
   };
 
   vim.ui = {
+    borders = {
+      enable = false;
+      plugins = {
+        nvim-cmp.style = "none";
+      };
+    };
     breadcrumbs.enable = false;
     illuminate.enable = true;
   };
