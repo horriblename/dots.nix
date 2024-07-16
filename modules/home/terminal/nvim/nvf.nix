@@ -332,7 +332,7 @@ in {
     comment-nvim.enable = true;
   };
 
-  vim.mapTimeout = 100;
+  vim.mapTimeout = 200;
 
   vim.treesitter.grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
     markdown
