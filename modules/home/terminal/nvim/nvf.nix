@@ -68,6 +68,10 @@ in {
     php.lsp.package = pkgs.phpactor.override {
       php = pkgs.php.buildEnv {extraConfig = "memory_limit = 8G";};
     };
+
+    # "saying java is good because it runs on all systems is like saying
+    # anal sex is good because it works on all species"
+    # - sun tzu; translated by raf, probably
     java = {
       enable = false;
       lsp.package = ["jdt-language-server" "-configuration" "${config.xdg.cacheHome}/jdtls/config" "-data" "${config.xdg.cacheHome}/jdtls/workspace"];
