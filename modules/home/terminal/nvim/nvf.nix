@@ -224,7 +224,7 @@ in {
     whichKey.enable = true;
   };
 
-  vim.telescope.enable = true;
+  vim.telescope.enable = false;
   vim.telescope.setupOpts = {
     defaults.vimgrep_arguments = [
       "${pkgs.ripgrep}/bin/rg"
@@ -412,10 +412,14 @@ in {
     "<leader>gD".action = "<cmd>Gitsigns diffthis HEAD<CR>";
     "<leader>gw".action = "<cmd>Gitsigns toggle_word_diff<CR>";
 
-    # Telescope
-    "<M-f>".action = ":Telescope resume<CR>";
-    "<leader>fq".action = ":Telescope quickfix<CR>";
-    "<leader>f/".action = ":Telescope live_grep<cr>";
+    # fzf-lua
+    "<M-f>".action = ":FzfLua resume<CR>";
+    "<leader>fq".action = ":FzfLua quickfix<CR>";
+    "<leader>f/".action = ":FzfLua live_grep_native<CR>";
+    "<leader>ff".action = ":FzfLua files<CR>";
+    "<leader>fb".action = ":FzfLua buffers<CR>";
+    "<leader>fh".action = ":FzfLua oldfiles<CR>";
+    "<leader>f:".action = ":FzfLua command_history<CR>";
 
     # Aerial
     "gO".action = ":AerialToggle<CR>";
@@ -527,6 +531,10 @@ in {
       setup = ''
         vim.g.mdip_imgdir = "attachments"
       '';
+    };
+    fzf-lua = {
+      package = fzf-lua;
+      setup = setup "fzf-lua" ["max-perf"];
     };
     dap-go = {
       package = nvim-dap-go;
