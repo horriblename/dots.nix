@@ -29,6 +29,8 @@ in {
     ./lazygit
   ];
 
+  nix.extraOptions = "!include secrets.conf";
+
   home.packages = with pkgs;
     lib.mkMerge
     [
@@ -51,6 +53,7 @@ in {
         nix-du
         graphviz
         nixFunctionCalls
+        lazyjj
       ]
 
       (lib.mkIf (!config.dots.darwin.enable) [powertop])

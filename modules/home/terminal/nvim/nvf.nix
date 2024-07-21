@@ -364,7 +364,7 @@ in {
     end
 
     -- LSP help window border
-    local border = {"", "", "", "│", "", "", "", "█"}
+    local border = {"", "", "", "▕", "", "", "", "▌"}
     local orig = vim.lsp.util.open_floating_preview
     vim.lsp.util.open_floating_preview = function(contexts, syntax, opts, ...)
       opts = opts or {}
