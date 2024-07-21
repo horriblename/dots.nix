@@ -343,8 +343,10 @@
           pkgs.anyrunPackages.applications
           pkgs.anyrunPackages.symbols
           pkgs.anyrunPackages.rink
-          self.nixosConfigurations.surface.config.system.build.kernel
         ];
+        ghActionsBuilder2 = pkgs.callPackage ./pkgs/dummy.nix {
+          buildInputs = [self.nixosConfigurations.surface.config.system.build.kernel];
+        };
       };
     });
     overlay = final: prev: {

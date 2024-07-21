@@ -25,3 +25,6 @@ jobs:
           name: horriblename
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
       - run: "nix build .#ghActionsBuilder"
+      - run: "cachix push"
+      - run: "nix-collect-garbage --delete-old"
+      - run: "nix build .#ghActionsBuilder2"
