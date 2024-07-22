@@ -134,7 +134,7 @@
         fpath+=("${pkgs.pure-prompt}/share/zsh/site-functions")
         autoload -U promptinit; promptinit
         prompt pure
-        zstyle :prompt:pure:prompt:success green
+        zstyle :prompt:pure:prompt:success color green
 
         # Didn't work in home.sessionVariables; got overriden by flatpak??
         export XDG_DATA_DIRS="${config.home.profileDirectory}/share''${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}"
