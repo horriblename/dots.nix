@@ -1,4 +1,4 @@
-# vim: syntax=sh foldmethod=marker foldmarker={{,}}
+# vim: expandtab tabstop=3 syntax=sh foldmethod=marker foldmarker={{,}}
 # uses zsh for shell scripting
 # Basic Settings {{
 set preview true
