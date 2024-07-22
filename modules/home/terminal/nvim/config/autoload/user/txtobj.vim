@@ -21,6 +21,7 @@ function! user#txtobj#FindIndentBegin(inner)
 endfunction
 
 function! user#txtobj#FindIndentEnd(inner)
+	let i = indent(line(".")) - &shiftwidth * (v:count1 - 1)
 	let lastline = line("$")
 	let p = line(".") + 1
 	let nextblank = getline(p) =~ "^\\s*$"
@@ -37,9 +38,9 @@ endfunction
 
 function! user#txtobj#IndentTextObj(inner)
 	let curline = line(".")
-	call user#txtobj#FindIndentBegin(inner)
+	call user#txtobj#FindIndentBegin(a:inner)
 	normal! 0V
 	call cursor(curline, 0)
-	call user#txtobj#FindIndentEnd(inner)
+	call user#txtobj#FindIndentEnd(a:inner)
 	normal! $
 endfunction
