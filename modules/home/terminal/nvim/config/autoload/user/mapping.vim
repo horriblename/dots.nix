@@ -72,6 +72,15 @@ xnoremap <expr> A mode() ==# "\x16"? "A" : "\<Esc>`>a"
 
 vnoremap <C-n> :m '>+1<CR>gv-gv
 vnoremap <C-p> :m '<-2<CR>gv-gv
+
+" Indent text object
+nnoremap <silent>[i :<C-U>call user#txtobj#FindIndentBegin(0)<CR>
+nnoremap <silent>]i :<C-U>call user#txtobj#FindIndentEnd(0)<CR>
+
+onoremap <silent>ai :<C-U>call user#txtobj#IndentTextObj(0)<CR>
+onoremap <silent>ii :<C-U>call user#txtobj#IndentTextObj(1)<CR>
+vnoremap <silent>ai :<C-U>call user#txtobj#IndentTextObj(0)<CR><Esc>gv
+vnoremap <silent>ii :<C-U>call user#txtobj#IndentTextObj(1)<CR><Esc>gv
 " }}}
 
 " Autoclose
