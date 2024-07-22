@@ -36,6 +36,7 @@ in {
         # cli tools
         file # lf config dependency
         bat
+        delta
         trash-cli
         fzf
         ripgrep
