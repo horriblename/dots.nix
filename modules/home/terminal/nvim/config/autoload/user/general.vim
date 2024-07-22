@@ -42,6 +42,8 @@ set shiftwidth=0   " 0 = follow tabstop
 set number relativenumber
 set termguicolors
 set scrolloff=5
+set nowrap
+set sidescroll=5
 set sidescrolloff=2
 set cursorline
 set lazyredraw
@@ -105,19 +107,6 @@ command! -nargs=1 -complete=file ShareVia0x0
 			\ call setreg(v:register, system('curl --silent -F"file=@"'.expand(<q-args>).' https://0x0.st')) <bar>
 			\ echo getreg()
 
-" Utility lua functions
-lua << EOF
-_G.rerequire = function(mod)
-package.loaded[mod] = nil;
-return require(mod)
-end
-
-vim.reg = setmetatable(
-	{ set = vim.fn.setreg },
-	{ __index = function(_, key) return vim.fn.getreg(key) end }
-)
-_G.reg = vim.reg
-EOF
 " }}}
 
 " Autocmds

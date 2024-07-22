@@ -3,18 +3,20 @@ if os.getenv("ZELLIJ") == nil then
 end
 
 local function renameTab()
-	vim.system({ 'zellij', 'action', 'rename-tab', vim.fn.getcwd() })
+	vim.system({ 'zellij', 'action', 'rename-tab', vim.fs.basename(vim.fn.getcwd()) })
 end
 
-if vim.v.vim_did_enter then
-	renameTab()
-	return
-end
+local group = vim.api.nvim_create_augroup("ZellijIntegration", { clear = true })
 
-local group = vim.api.nvim_create_augroup("ZellijRenameTab", { clear = true })
-
-vim.api.nvim_create_autocmd("VimEnter", {
+vim.api.nvim_create_autocmd("DirChanged", {
 	group = group,
 	once = true,
 	callback = renameTab,
 })
+
+if vim.v.vim_did_enter then
+	renameTab()
+else
+	vim.api.nvim_create_autocmd("VimEnter",
+		{ group = group, once = true, callback = renameTab })
+end
