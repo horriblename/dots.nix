@@ -108,6 +108,10 @@ cmd chmod %{{
    lf -remote "send $id :unselect; reload"
 }}
 
+cmd cd_git_root %{{
+   lf -remote "send $id :cd $(git rev-parse --show-toplevel)"
+}}
+
 # NOTE: for some reason, wl-copy blocks after being called using '!'-commands
 cmd copy_location %{{
    if [ -n "$WAYLAND_DISPLAY" ]; then
@@ -456,6 +460,8 @@ map gbd cd /mnt/BUP/Documents_
 map gba cd /mnt/BUP/apps
 
 map gee cd /mnt/ext
+
+map g0 cd_git_root
 # }}
 
 # funny mouse stuff {{
