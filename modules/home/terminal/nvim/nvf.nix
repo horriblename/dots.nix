@@ -3,10 +3,9 @@
   lib,
   config,
   pkgs,
-  nvf,
   ...
 }: let
-  nix2Lua = nvf.lib.nvim.lua.toLuaObject;
+  nix2Lua = inputs.nvf.lib.nvim.lua.toLuaObject;
   inherit (lib.generators) mkLuaInline;
   setup = module: table: "require('${module}').setup(${nix2Lua table})";
   luaKeymap = action: {

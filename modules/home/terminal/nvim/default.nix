@@ -1,6 +1,9 @@
 {
   self,
+  lib,
   inputs,
+  pkgs,
+  config,
   ...
 } @ args: {
   imports = [
@@ -13,6 +16,6 @@
 
   programs.nvf = {
     enable = true;
-    settings = import ./nvf.nix (args // {inherit (inputs) nvf;});
+    settings = import ./nvf.nix args;
   };
 }
