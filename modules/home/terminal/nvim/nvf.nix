@@ -179,23 +179,10 @@ in {
   };
 
   vim.filetree = {
-    nvimTree = {
+    neo-tree = {
       enable = true;
-      openOnSetup = false;
       setupOpts = {
-        sync_root_with_cwd = true;
-        update_focused_file.enable = true;
-        actions = {
-          change_dir.enable = false;
-          change_dir.global = false;
-          open_file.window_picker.enable = true;
-        };
-        renderer = {
-          icons.show.git = true;
-        };
-        view = {
-          width = 25;
-        };
+        git_status_async = true;
       };
     };
   };
