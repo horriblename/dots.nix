@@ -76,11 +76,15 @@ vnoremap <C-p> :m '<-2<CR>gv-gv
 " Indent text object
 nnoremap <silent>[i :<C-U>call user#txtobj#FindIndentBegin(0)<CR>
 nnoremap <silent>]i :<C-U>call user#txtobj#FindIndentEnd(0)<CR>
+xnoremap <silent>[i :<C-U>call user#txtobj#FindIndentBegin(0)<CR>m<lt>gvo
+xnoremap <silent>]i :<C-U>call user#txtobj#FindIndentEnd(0)<CR>m<lt>gv
+onoremap <silent>[i V:<C-U>call user#txtobj#FindIndentBegin(1)<CR>
+onoremap <silent>]i V:<C-U>call user#txtobj#FindIndentEnd(1)<CR>
 
 onoremap <silent>ai :<C-U>call user#txtobj#IndentTextObj(0)<CR>
 onoremap <silent>ii :<C-U>call user#txtobj#IndentTextObj(1)<CR>
-vnoremap <silent>ai :<C-U>call user#txtobj#IndentTextObj(0)<CR><Esc>gv
-vnoremap <silent>ii :<C-U>call user#txtobj#IndentTextObj(1)<CR><Esc>gv
+xnoremap <silent>ai :<C-U>call user#txtobj#IndentTextObj(0)<CR>
+xnoremap <silent>ii :<C-U>call user#txtobj#IndentTextObj(1)<CR>
 " }}}
 
 " Autoclose
