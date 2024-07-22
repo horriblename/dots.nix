@@ -183,6 +183,18 @@ in {
       enable = true;
       setupOpts = {
         git_status_async = true;
+        window = {
+          mapping_options = {nowait = false;};
+          mappings = {
+            "<space>" = "none";
+            "l" = "open";
+            # "h" = {"@1" = "navigate_up";};
+            "z" = "none";
+            "zc" = "close_node";
+            "zC" = "close_all_nodes";
+            "v" = "open_vsplit";
+          };
+        };
       };
     };
   };
@@ -193,7 +205,12 @@ in {
 
   vim.treesitter = {
     fold = true;
-    context.enable = true;
+    context = {
+      enable = true;
+      setupOpts = {
+        multiline_threshold = 5;
+      };
+    };
     mappings = {
       incrementalSelection = {
         init = "<M-o>";
@@ -315,7 +332,7 @@ in {
     comment-nvim.enable = true;
   };
 
-  vim.mapTimeout = 0;
+  vim.mapTimeout = 100;
 
   vim.treesitter.grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
     markdown
@@ -325,7 +342,7 @@ in {
 
   # HACK
   vim.theme.extraConfig = ''
-    vim.opt.runtimepath:prepend("~/.config/nvim")
+    vim.opt.runtimepath:prepend({"~/.config/nvim"})
     pcall(vim.cmd, [[
       call user#general#setup()
       call user#mapping#setup()
@@ -372,7 +389,7 @@ in {
   vim.maps.normal = {
     # General
     "<leader>zf".action = ":lua vim.g.formatsave = not vim.g.formatsave<CR>";
-    "<leader>e".action = ":NvimTreeToggle<CR>";
+    "<leader>e".action = ":Neotree toggle reveal<CR>";
     "<leader>ld".action = ":lua vim.diagnostic.setqflist({open = true})<CR>";
     "<leader>lf".action = ":lua vim.lsp.buf.format()<CR>";
     "<leader>li".action = ":lua vim.lsp.buf.implementation()<CR>";
