@@ -216,7 +216,7 @@
         }
 
         if [[ -n "$ZELLIJ" ]]; then
-          add-zsh-hook precmd zellij_set_tab_name
+          add-zsh-hook chpwd zellij_set_tab_name
         fi
       '';
 
