@@ -208,7 +208,7 @@ in {
     context = {
       enable = true;
       setupOpts = {
-        multiline_threshold = 5;
+        max_lines = 5;
       };
     };
     mappings = {
