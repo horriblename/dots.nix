@@ -28,6 +28,13 @@ in {
             vim.g.undotree_TreeVertShape = '│'
           '';
         };
+
+        fzf-lua = {
+          package = pkgs.vimPlugins.fzf-lua;
+          setupModule = "fzf-lua";
+          setupOpts = {"@1" = "max-perf";};
+          cmd = "FzfLua";
+        };
       };
     };
   };
@@ -536,10 +543,6 @@ in {
       setup = ''
         vim.g.mdip_imgdir = "attachments"
       '';
-    };
-    fzf-lua = {
-      package = fzf-lua;
-      setup = setup "fzf-lua" ["max-perf"];
     };
     dap-go = {
       package = nvim-dap-go;
