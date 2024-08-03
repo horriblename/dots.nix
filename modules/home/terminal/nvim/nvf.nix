@@ -18,6 +18,18 @@ in {
     vimAlias = false;
     preventJunkFiles = true;
     enableLuaLoader = true;
+    lazy = {
+      enable = true;
+      plugins = {
+        undotree = {
+          package = pkgs.vimPlugins.undotree;
+          before = ''
+            vim.g.undotree_ShortIndicators = true
+            vim.g.undotree_TreeVertShape = '│'
+          '';
+        };
+      };
+    };
   };
 
   vim.snippets.vsnip.enable = true;
@@ -494,13 +506,6 @@ in {
     aerial = {
       package = aerial-nvim;
       setup = setup "aerial" {};
-    };
-    undotree = {
-      package = undotree;
-      setup = ''
-        vim.g.undotree_ShortIndicators = true
-        vim.g.undotree_TreeVertShape = '│'
-      '';
     };
     ssr-nvim = {
       package = pkgs.vimUtils.buildVimPlugin {
