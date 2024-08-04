@@ -45,7 +45,9 @@ in {
     formatOnSave = true;
     lspkind.enable = false;
     lspsaga.enable = false;
-    nvimCodeActionMenu.enable = true;
+    code-actions = {
+      fastaction-nvim.enable = true;
+    };
     lspSignature.enable = true;
   };
 
