@@ -33,7 +33,7 @@
       inputs.hyprland.follows = "hyprland";
     };
     nvf = {
-      url = "github:NotAShelf/nvf";
+      url = "github:horriblename/neovim-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     anyrun = {
