@@ -84,6 +84,11 @@ set path-=/usr/include
 set path+=**
 set clipboard=
 
+" vim 'exrc' is not very secure
+if has('nvim')
+	set exrc
+endif
+
 " auto load ft plugins (vim compatibility) 
 filetype plugin on
 " }}}
