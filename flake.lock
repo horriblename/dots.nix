@@ -955,6 +955,7 @@
         "plugin-dracula": "plugin-dracula",
         "plugin-dressing-nvim": "plugin-dressing-nvim",
         "plugin-elixir-tools": "plugin-elixir-tools",
+        "plugin-fastaction-nvim": "plugin-fastaction-nvim",
         "plugin-fidget-nvim": "plugin-fidget-nvim",
         "plugin-flutter-tools": "plugin-flutter-tools",
         "plugin-gesture-nvim": "plugin-gesture-nvim",
@@ -972,6 +973,8 @@
         "plugin-lspkind": "plugin-lspkind",
         "plugin-lspsaga": "plugin-lspsaga",
         "plugin-lualine": "plugin-lualine",
+        "plugin-lz-n": "plugin-lz-n",
+        "plugin-lzn-auto-require": "plugin-lzn-auto-require",
         "plugin-mind-nvim": "plugin-mind-nvim",
         "plugin-minimap-vim": "plugin-minimap-vim",
         "plugin-modes-nvim": "plugin-modes-nvim",
@@ -1036,16 +1039,16 @@
         "zig": "zig"
       },
       "locked": {
-        "lastModified": 1722276410,
-        "narHash": "sha256-Utl+RgGXW1KhtcvGOIec60Lr8oBt/fTVhU0h+HfTr+I=",
-        "owner": "NotAShelf",
-        "repo": "nvf",
-        "rev": "773186d93df33160036fab5938a09fb6ee1afb87",
+        "lastModified": 1722807998,
+        "narHash": "sha256-Sc1wU0nP8b5zfevBtXCOSMMI+QvaS6J6iEVVkjLp7D8=",
+        "owner": "horriblename",
+        "repo": "neovim-flake",
+        "rev": "f460a3a0accd5c45930655bee0b8b690fec6387d",
         "type": "github"
       },
       "original": {
-        "owner": "NotAShelf",
-        "repo": "nvf",
+        "owner": "horriblename",
+        "repo": "neovim-flake",
         "type": "github"
       }
     },
@@ -1417,6 +1420,22 @@
         "type": "github"
       }
     },
+    "plugin-fastaction-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1721501256,
+        "narHash": "sha256-75UNzDeLz4Z6/TpsQCHncJSeRhqQu/YYyJUJSuy18A8=",
+        "owner": "Chaitanyabsprip",
+        "repo": "fastaction.nvim",
+        "rev": "37bf8866aaadb6efefabac6dbfc63dc6ad1d562e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Chaitanyabsprip",
+        "repo": "fastaction.nvim",
+        "type": "github"
+      }
+    },
     "plugin-fidget-nvim": {
       "flake": false,
       "locked": {
@@ -1686,6 +1705,38 @@
       "original": {
         "owner": "hoob3rt",
         "repo": "lualine.nvim",
+        "type": "github"
+      }
+    },
+    "plugin-lz-n": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1722765410,
+        "narHash": "sha256-V/56oO9vp19KPfOKiFcNelccgp427WHr3op4N7en0dE=",
+        "owner": "nvim-neorocks",
+        "repo": "lz.n",
+        "rev": "aa2afa404c9f59d17c6be295b8bd185736a0566c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvim-neorocks",
+        "repo": "lz.n",
+        "type": "github"
+      }
+    },
+    "plugin-lzn-auto-require": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1722727896,
+        "narHash": "sha256-h7Dx3zBkUYamQY6lcuQrwAMgBpPqskLnA6WsbefHzMU=",
+        "owner": "horriblename",
+        "repo": "lzn-auto-require",
+        "rev": "c6b47e148a1ff9709e802f68c2c8b558a9a8de9b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "horriblename",
+        "repo": "lzn-auto-require",
         "type": "github"
       }
     },
