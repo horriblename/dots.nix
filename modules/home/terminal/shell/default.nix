@@ -40,6 +40,8 @@
     nix-jq = "nix eval --impure --expr 'builtins.fromJSON (builtins.readFile /dev/fd/0)' --apply";
     m = ''dirVar=$PWD; while ! [ -f "$dirVar/Makefile" ] && [ "$dirVar" != /  ]; do dirVar=$(dirname "$dirVar") done; make -C "$dirVar"'';
     gg = "cd `git rev-parse --show-toplevel`";
+    status = "echo $?";
+    lastproc = "echo $!";
   };
 
   programs = {
