@@ -63,6 +63,17 @@ nnoremap gV ^v$
 xnoremap ga gg0oG$
 onoremap ga :<c-u>normal! ggVG<CR>
 
+function s:subword(reverse = v:false)
+	let l:pattern = '\v(\<|\u|\W\w)'
+	call search(l:pattern, 'We' . (a:reverse? 'b' : ''))
+endfunction
+
+" sub-word
+noremap <M-w> <cmd>call <SID>subword()<CR>
+noremap <M-b> <cmd>call <SID>subword(v:true)<CR>
+noremap <M-w> <cmd>call <SID>subword()<CR>
+noremap <M-b> <cmd>call <SID>subword(v:true)<CR>
+
 nmap <M-o> v<M-o>
 xnoremap <M-o> <Plug>(MatchitVisualTextObject)
 
