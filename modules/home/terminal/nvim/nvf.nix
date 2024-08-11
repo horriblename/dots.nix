@@ -161,16 +161,13 @@ in {
   vim.statusline = {
     lualine = {
       enable = true;
-      theme = "tokyonight";
+      setupOpts = {
+        options.theme = "night-owl";
+      };
     };
   };
 
-  vim.theme = {
-    enable = true;
-    name = "tokyonight";
-    style = "night";
-    transparent = true;
-  };
+  vim.theme.enable = false;
 
   # custom setup at the bottom
   vim.autopairs.enable = false;
@@ -510,6 +507,10 @@ in {
   };
 
   vim.extraPlugins = with pkgs.vimPlugins; {
+    night-owl-nvim = {
+      package = night-owl-nvim;
+      setup = "vim.cmd.colorscheme 'night-owl'";
+    };
     treesitter-roc = {package = pkgs.neovim-treesitter-roc;};
     aerial = {
       package = aerial-nvim;
