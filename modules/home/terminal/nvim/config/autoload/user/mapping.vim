@@ -52,10 +52,17 @@ noremap gl g_
 noremap gL g$
 noremap gH g^
 
-noremap! <C-h> <Left>
-noremap! <C-l> <Right>
-inoremap <C-k> <Up>
-inoremap <C-j> <Down>
+" Sub-mode mapping {{{
+noremap gj gjg
+noremap gk gjk
+noremap zL zLz
+noremap zH zHz
+
+noremap <C-w>- <C-w>-<C-w>
+noremap <C-w>+ <C-w>+<C-w>
+noremap <C-w>< <C-w><lt><C-w>
+noremap <C-w>> <C-w>><C-w>
+" }}}
 
 inoremap <C-r><C-k> <C-k>
 
