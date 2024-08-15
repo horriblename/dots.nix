@@ -357,8 +357,7 @@ in {
     regex
   ];
 
-  # HACK
-  vim.theme.extraConfig = ''
+  vim.luaConfigPost = ''
     vim.opt.runtimepath:prepend({"~/.config/nvim"})
     pcall(vim.cmd, [[
       call user#general#setup()
@@ -372,13 +371,6 @@ in {
       }
     })
     vim.g.vsnip_snippet_dir = vim.fn.stdpath("config") .. "/snippets"
-
-    require("tokyonight").setup({
-      style = "night",
-      on_highlights = function(hl, _)
-        hl.WinSeparator = { fg = '#727ca7' }
-      end,
-    })
 
     vim.fn.sign_define("DapBreakpointCondition", { text = "⊜", texthl = "ErrorMsg", linehl = "", numhl = "" })
     vim.fn.sign_define("DapBreakpointRejected", { text = "󰜺", texthl = "ErrorMsg", linehl = "", numhl = "" })
