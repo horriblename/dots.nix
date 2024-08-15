@@ -358,11 +358,6 @@ in {
   ];
 
   vim.luaConfigPost = ''
-    vim.opt.runtimepath:prepend({"~/.config/nvim"})
-    pcall(vim.cmd, [[
-      call user#general#setup()
-      call user#mapping#setup()
-    ]])
     vim.opt.wrap = false
     vim.g.default_terminal = 1
     vim.filetype.add({
@@ -499,6 +494,19 @@ in {
   };
 
   vim.extraPlugins = with pkgs.vimPlugins; {
+    user = {
+      package = pkgs.vimUtils.buildVimPlugin {
+        pname = "user-dots";
+        version = "git";
+        src = ./config;
+      };
+      setup = ''
+        pcall(vim.cmd, [[
+          call user#general#setup()
+          call user#mapping#setup()
+        ]])
+      '';
+    };
     night-owl-nvim = {
       package = night-owl-nvim;
       setup = "vim.cmd.colorscheme 'night-owl'";
