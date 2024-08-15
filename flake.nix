@@ -33,7 +33,7 @@
       inputs.hyprland.follows = "hyprland";
     };
     nvf = {
-      url = "github:horriblename/neovim-flake";
+      url = "github:horriblename/neovim-flake/dev";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     anyrun = {
@@ -96,6 +96,10 @@
       home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs {
           inherit system;
+          config.allowUnfreePredicate = pkg:
+            builtins.elem (lib.getName pkg) [
+              "codeium"
+            ];
           overlays = [self.overlay];
         };
         modules =
