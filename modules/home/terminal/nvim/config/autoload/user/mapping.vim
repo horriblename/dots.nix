@@ -132,7 +132,7 @@ fu s:surround(left, right = '')
 	else
 		let offset_left = "h"->repeat(len(right) - 1)
 		let offset_right = "l"->repeat(len(right) - 1)
-		return '"zs' . a:left . right . "\<Esc>" . offset_left . "\"zgP" . offset_right . "m>"
+		return '"zs' . a:left . right . "\<Esc>" . offset_left . "\"zzP`>" . offset_right . "m>"
 	endif
 	return
 endfu
