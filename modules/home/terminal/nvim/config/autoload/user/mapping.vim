@@ -53,15 +53,15 @@ noremap gL g$
 noremap gH g^
 
 " Sub-mode mapping {{{
-noremap gj gjg
-noremap gk gjk
-noremap zL zLz
-noremap zH zHz
+map gj gjg
+map gk gjk
+map zL zLz
+map zH zHz
 
-noremap <C-w>- <C-w>-<C-w>
-noremap <C-w>+ <C-w>+<C-w>
-noremap <C-w>< <C-w><lt><C-w>
-noremap <C-w>> <C-w>><C-w>
+map <C-w>- <C-w>-<C-w>
+map <C-w>+ <C-w>+<C-w>
+map <C-w>< <C-w><lt><C-w>
+map <C-w>> <C-w>><C-w>
 " }}}
 
 inoremap <C-r><C-k> <C-k>
