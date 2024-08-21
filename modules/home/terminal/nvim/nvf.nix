@@ -364,7 +364,7 @@ in {
         -- yuck = 'lisp',
       }
     })
-    vim.g.vsnip_snippet_dir = vim.fn.stdpath("config") .. "/snippets"
+    vim.g.vsnip_snippet_dir = "${./config}/snippets"
 
     vim.fn.sign_define("DapBreakpointCondition", { text = "⊜", texthl = "ErrorMsg", linehl = "", numhl = "" })
     vim.fn.sign_define("DapBreakpointRejected", { text = "󰜺", texthl = "ErrorMsg", linehl = "", numhl = "" })
