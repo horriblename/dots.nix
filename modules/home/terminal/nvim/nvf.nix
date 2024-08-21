@@ -20,22 +20,21 @@ in {
     enableLuaLoader = true;
     lazy = {
       enable = true;
-      plugins = {
-        undotree = {
+      plugins = [
+        {
           package = pkgs.vimPlugins.undotree;
           before = ''
             vim.g.undotree_ShortIndicators = true
             vim.g.undotree_TreeVertShape = '│'
           '';
-        };
-
-        fzf-lua = {
+        }
+        {
           package = pkgs.vimPlugins.fzf-lua;
           setupModule = "fzf-lua";
           setupOpts = {"@1" = "max-perf";};
           cmd = "FzfLua";
-        };
-      };
+        }
+      ];
     };
   };
 
