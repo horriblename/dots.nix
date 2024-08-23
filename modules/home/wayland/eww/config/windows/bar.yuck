@@ -220,7 +220,7 @@
        :halign {orientation == "v" ? "center" : "end"}
        :valign {orientation == "v" ? "end" : "center"}
        :spacing 1
-       (button :onclick "wf-osk -a bottom -w 500 --height 250 &"
+       (button :onclick "wvkbd-mobintl -a bottom -w 500 --height 250 &"
                (label :class "icon" :text "Keyboard"))
        (box :style "padding: 0.3rem;")
        (system :orientation {orientation ?: "h"}

@@ -75,7 +75,7 @@
          (_quick_setting_btn
            :icon "Keyboard"
            :class ""
-           :onclick "wf-osk -a bottom &"))
+           :onclick "wvkbd-mobintl -a bottom &"))
     (box :orientation "h"
          (box :class "quick-setting-unit qs-volume-in"
               :space-evenly false
