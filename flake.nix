@@ -338,7 +338,6 @@
         ;
       ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
         buildInputs = [
-          pkgs.wf-osk
           pkgs.kanagawa-gtk
           pkgs.hyprworkspaces
           pkgs.roc

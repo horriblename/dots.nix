@@ -24,7 +24,7 @@
       brightnessctl
       pulseaudio # TODO migrate to pipewire fully (with pw-cli)
       pavucontrol
-      wf-osk
+      wvkbd
       libsForQt5.index
 
       # general user apps
