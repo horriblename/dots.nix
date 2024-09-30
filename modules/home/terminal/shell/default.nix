@@ -85,7 +85,7 @@
       ];
       signing = {
         signByDefault = true;
-        key = null;
+        key = "4F3F3CE607F8F251B7F61873062FBBCE1D0C5DD9";
       };
       extraConfig = {
         core = {
