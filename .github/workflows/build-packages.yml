@@ -8,13 +8,13 @@ jobs:
   build_packages:
     runs-on: ubuntu-latest
     steps:
-      - name: Maximize build space
-        uses: easimon/maximize-build-space@master
-        with:
-          root-reserve-mb: 31744
-          temp-reserve-mb: 20480
-          remove-dotnet: "true"
-          remove-android: "true"
+      # - name: Maximize build space
+      #   uses: easimon/maximize-build-space@master
+      #   with:
+      #     root-reserve-mb: 31744
+      #     temp-reserve-mb: 20480
+      #     remove-dotnet: "true"
+      #     remove-android: "true"
       - uses: actions/checkout@v3
       - uses: cachix/install-nix-action@v26
         with:
