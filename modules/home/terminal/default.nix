@@ -46,6 +46,7 @@ in {
         zip
         unzip
         gnumake
+        jujutsu
 
         # utilities
         btop
