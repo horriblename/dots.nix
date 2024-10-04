@@ -16,6 +16,15 @@ set sixel
 #set cleaner ~/.config/lf/cleaner
 # }}
 
+# Hooks {{
+cmd on-cd ${{
+   if [ -n "$ZELLIJ" ]; then
+      command nohup zellij action rename-tab "${PWD##*/}" >/dev/null 2>&1
+   fi
+}}
+
+# }}
+
 # Custom Functions {{
 cmd open ${{
 	# check for empty file
