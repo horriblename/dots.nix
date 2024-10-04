@@ -42,6 +42,9 @@
     gg = "cd `git rev-parse --show-toplevel`";
     status = "echo $?";
     lastproc = "echo $!";
+    j = "jj";
+    jl = "jj log";
+    jc = "jj commit";
   };
 
   programs = {
