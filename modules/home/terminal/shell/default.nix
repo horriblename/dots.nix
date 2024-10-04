@@ -47,42 +47,14 @@
   programs = {
     git = {
       enable = true;
-      userEmail =
-        if (config.dots.preset == "darwin-work")
-        then "pei.ching@check24.de"
-        else "59727193+horriblename@users.noreply.github.com";
-      userName =
-        if (config.dots.preset == "darwin-work")
-        then "Pei Yang Ching"
-        else "Ching Pei Yang";
+      userEmail = "badnam3o.0@gmail.com";
+      userName = "Ching Pei Yang";
       lfs.enable = config.dots.preset == "darwin-work";
       aliases = {
         ignore-changes-to-file = "update-index --assume-unchanged";
         ls-ignored-changes = "! echo 'Hint: showing files marked by alias ignore-changes-to-file' >&2; git ls-files -v | grep '^h' | cut -c3-";
         unignore-changes-to-file = "update-index --no-assume-unchanged";
       };
-      includes = [
-        {
-          condition = "gitdir:~/privrepo";
-          contents = {
-            user.email = "59727193+horriblename@users.noreply.github.com";
-            user.name = "Ching Pei Yang";
-          };
-        }
-        {
-          condition = "gitdir:~/repo";
-          contents = {
-            user.email =
-              if (config.dots.preset == "darwin-work")
-              then "pei.ching@check24.de"
-              else "59727193+horriblename@users.noreply.github.com";
-            user.name =
-              if (config.dots.preset == "darwin-work")
-              then "Pei Yang Ching"
-              else "Ching Pei Yang";
-          };
-        }
-      ];
       signing = {
         signByDefault = true;
         key = "4F3F3CE607F8F251B7F61873062FBBCE1D0C5DD9";
