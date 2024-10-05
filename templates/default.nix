@@ -11,4 +11,10 @@
     path = ./perMachinePkgs;
     description = "Quick and dirty per-machine environment";
   };
+  c = {path = ./c;};
+  elm = {path = ./elm;};
+  go = {path = ./go;};
+  rust = {path = ./rust;};
+  vala = {path = ./vala;};
+  python = {path = ./python;};
 }
