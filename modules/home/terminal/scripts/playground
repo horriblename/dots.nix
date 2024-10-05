@@ -119,7 +119,11 @@ def listTemplates():
 def openPlayground(path: str):
     os.chdir(path)
     editor = EDITOR.split(" ")
-    command = ["nix", "develop", path, "--command"] + editor
+    command = editor + [path]
+    if os.path.exists("flake.nix"):
+        command = ["nix", "develop", path, "--command"] + editor
+    elif os.path.exists("shell.nix"):
+        command = ["nix-shell", "--command"] + editor
     os.execvp(command[0], command)
 
 
