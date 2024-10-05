@@ -872,15 +872,16 @@
     "nixrun-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1724368431,
-        "narHash": "sha256-RhlqQNOL0wL5lYEnw4E0Ax4DKyleBohX89i2paTtt14=",
+        "lastModified": 1728163301,
+        "narHash": "sha256-R8glgFUhwZQIrJkD7riE4tWntNp/kuU8BbWpyfNF4SA=",
         "owner": "horriblename",
         "repo": "nixrun-nvim",
-        "rev": "b83a0b7d66aa641140e82d264e412fe315e1e1cb",
+        "rev": "2cab12f8df1f7c0b65b64cb9a0de1bc5b00087b8",
         "type": "github"
       },
       "original": {
         "owner": "horriblename",
+        "ref": "lspp",
         "repo": "nixrun-nvim",
         "type": "github"
       }

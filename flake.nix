@@ -44,7 +44,7 @@
       flake = false;
     };
     nixrun-nvim = {
-      url = "github:horriblename/nixrun-nvim";
+      url = "github:horriblename/nixrun-nvim/lspp";
       flake = false;
     };
     impurity.url = "github:outfoxxed/impurity.nix";
