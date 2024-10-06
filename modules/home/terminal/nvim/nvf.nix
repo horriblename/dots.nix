@@ -397,7 +397,10 @@ in {
 
     # Diffview
     "<leader>gdq".action = ":DiffviewClose<CR>";
-    "<leader>gdd".action = ":DiffviewOpen ";
+    "<leader>gdd" = {
+      action = ":DiffviewOpen ";
+      silent = false;
+    };
     "<leader>gdm".action = ":DiffviewOpen<CR>";
     "<leader>gdh".action = ":DiffviewFileHistory %<CR>";
     "<leader>gde".action = ":DiffviewToggleFiles<CR>";
