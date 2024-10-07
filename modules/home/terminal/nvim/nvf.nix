@@ -29,6 +29,7 @@ in {
             vim.g.undotree_ShortIndicators = true
             vim.g.undotree_TreeVertShape = '│'
           '';
+          cmd = ["UndotreeFocus" "UndotreeHide" "UndotreePersistUndo" "UndotreeShow" "UndotreeToggle"];
         }
         {
           package = pkgs.vimPlugins.fzf-lua;
