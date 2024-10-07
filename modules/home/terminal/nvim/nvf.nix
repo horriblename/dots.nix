@@ -7,6 +7,8 @@
 }: let
   nix2Lua = inputs.nvf.lib.nvim.lua.toLuaObject;
   inherit (lib.generators) mkLuaInline;
+  inherit (lib.lists) flatten;
+  inherit (lib.attrsets) mapAttrsToList;
   setup = module: table: "require('${module}').setup(${nix2Lua table})";
   luaKeymap = action: {
     inherit action;
@@ -34,6 +36,88 @@ in {
           setupOpts = {"@1" = "max-perf";};
           cmd = "FzfLua";
         }
+        (let
+          keymaps = {
+            select = {
+              "af" = "@function.outer";
+              "if" = "@function.inner";
+              "ac" = "@class.outer";
+              "ic" = "@class.inner";
+            };
+            swap = {
+              swap_next = {
+                "cx;" = "@parameter.inner";
+              };
+              swap_previous = {
+                "cx," = "@parameter.inner";
+              };
+            };
+            move = {
+              goto_next_start = {
+                "]f" = "@function.outer";
+                "]c" = "@class.outer";
+                "]s" = "@scope";
+              };
+              goto_previous_start = {
+                "[f" = "@function.outer";
+                "[c" = "@class.outer";
+                "[s" = "@scope";
+              };
+              goto_next_end = {
+                "]F" = "@function.outer";
+                "]C" = "@class.outer";
+              };
+              goto_previous_end = {
+                "[F" = "@function.outer";
+                "[C" = "@class.outer";
+              };
+            };
+          };
+
+          categoryToLznKeys = category: mode:
+            flatten (mapAttrsToList (sectionName: section:
+              mapAttrsToList (key: textObject: {
+                inherit key mode;
+                desc = "${sectionName} ${textObject}";
+              })
+              section)
+            keymaps.${category});
+        in {
+          package = pkgs.vimPlugins.nvim-treesitter-textobjects;
+          keys =
+            categoryToLznKeys "swap" ["n"]
+            ++ categoryToLznKeys "move" ["n" "o" "x"]
+            ++ (mapAttrsToList (key: textObject: {
+                inherit key;
+                mode = ["x" "o"];
+                desc = "Select ${textObject}";
+              })
+              keymaps.select);
+          setupModule = "nvim-treesitter.configs";
+          setupOpts = {
+            textobjects = {
+              select = {
+                enable = true;
+                lookahed = true;
+                keymaps = keymaps.select;
+
+                selection_modes = {
+                  "@parameter.outer" = "v";
+                  "@function.outer" = "V";
+                  "@class.outer" = "V";
+                };
+              };
+              swap = {enable = true;} // keymaps.swap;
+
+              move =
+                {
+                  enable = true;
+                  set_jumps = true;
+                }
+                // keymaps.move;
+            };
+          };
+        })
       ];
     };
   };
@@ -549,61 +633,6 @@ in {
     nixrun = {
       package = pkgs.nixrun-nvim;
       setup = setup "nixrun" {};
-    };
-    nvim-treesitter-textobjects = {
-      package = nvim-treesitter-textobjects;
-      setup = setup "nvim-treesitter.configs" {
-        textobjects = {
-          select = {
-            enable = true;
-            lookahed = true;
-            keymaps = {
-              "af" = "@function.outer";
-              "if" = "@function.inner";
-              "ac" = "@class.outer";
-              "ic" = "@class.inner";
-            };
-
-            selection_modes = {
-              "@parameter.outer" = "v";
-              "@function.outer" = "V";
-              "@class.outer" = "V";
-            };
-          };
-          swap = {
-            enable = true;
-            swap_next = {
-              "cx;" = "@parameter.inner";
-            };
-            swap_previous = {
-              "cx," = "@parameter.inner";
-            };
-          };
-
-          move = {
-            enable = true;
-            set_jumps = true;
-            goto_next_start = {
-              "]f" = "@function.outer";
-              "]c" = "@class.outer";
-              "]s" = "@scope";
-            };
-            goto_previous_start = {
-              "[f" = "@function.outer";
-              "[c" = "@class.outer";
-              "[s" = "@scope";
-            };
-            goto_next_end = {
-              "]F" = "@function.outer";
-              "]C" = "@class.outer";
-            };
-            goto_previous_end = {
-              "[F" = "@function.outer";
-              "[C" = "@class.outer";
-            };
-          };
-        };
-      };
     };
   };
 }
