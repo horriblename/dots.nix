@@ -71,7 +71,7 @@ xnoremap ga gg0oG$
 onoremap ga :<c-u>normal! ggVG<CR>
 
 function s:subword(reverse = v:false)
-	let l:pattern = '\v(\<|\U\u|\W\w)'
+	let l:pattern = '\v(\<|\U\u|\A\a)'
 	call search(l:pattern, 'We' . (a:reverse? 'b' : ''))
 endfunction
 
