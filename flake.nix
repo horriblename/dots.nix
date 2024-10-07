@@ -11,6 +11,7 @@
     nix-wsl.inputs.nixpkgs.follows = "nixpkgs";
     nixgl.url = "github:guibou/nixGL";
     nixgl.inputs.nixpkgs.follows = "nixpkgs";
+    lix.url = "git+https://git.lix.systems/lix-project/lix?ref=refs/tags/2.91.0";
     darwin = {
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
