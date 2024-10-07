@@ -427,9 +427,7 @@ in {
     };
   };
 
-  vim.comments = {
-    comment-nvim.enable = true;
-  };
+  vim.comments.comment-nvim.enable = false;
 
   vim.mapTimeout = 200;
 
