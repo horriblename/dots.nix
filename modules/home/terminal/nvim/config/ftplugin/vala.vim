@@ -1,1 +1,1 @@
-set expandtab tabstop=4 commentstring=//\ %s
+setlocal expandtab tabstop=4 commentstring=//\ %s
