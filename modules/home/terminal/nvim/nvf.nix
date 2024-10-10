@@ -629,9 +629,6 @@ in {
         vim.g.mdip_imgdir = "attachments"
       '';
     };
-    nixrun = {
-      package = pkgs.nixrun-nvim;
-      setup = setup "nixrun" {};
-    };
+    nixrun = {package = pkgs.nixrun-nvim;};
   };
 }
