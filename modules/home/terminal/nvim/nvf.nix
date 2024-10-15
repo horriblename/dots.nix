@@ -14,6 +14,7 @@
     inherit action;
     lua = true;
   };
+  mkKeymap = mode: key: action: opts: opts // {inherit mode key action;};
 in {
   vim = {
     viAlias = false;
@@ -123,7 +124,7 @@ in {
     };
   };
 
-  vim.snippets.vsnip.enable = true;
+  vim.snippets.luasnip.enable = true;
 
   vim.lsp = {
     formatOnSave = true;
@@ -251,11 +252,10 @@ in {
   vim.theme.enable = false;
 
   # custom setup at the bottom
-  vim.autopairs.enable = false;
+  vim.autopairs.nvim-autopairs.enable = false;
 
-  vim.autocomplete = {
+  vim.autocomplete.nvim-cmp = {
     enable = true;
-    type = "nvim-cmp";
     mappings = {
       # close = "<C-e>";
       confirm = "<C-y>";
@@ -263,16 +263,6 @@ in {
       previous = "<C-p>";
       scrollDocsDown = "<C-j>";
       scrollDocsUp = "<C-k>";
-    };
-    sources = builtins.mapAttrs (_key: lib.mkForce) {
-      buffer = "[Buffer]";
-      copilot = "[Copilot]";
-      crates = "[Crates]";
-
-      nvim_lsp = "[LSP]";
-      path = "[Path]";
-      treesitter = "[Treesitter]";
-      vsnip = "[VSnip]";
     };
   };
 
@@ -445,7 +435,6 @@ in {
         -- yuck = 'lisp',
       }
     })
-    vim.g.vsnip_snippet_dir = "${./config}/snippets"
 
     vim.fn.sign_define("DapBreakpointCondition", { text = "⊜", texthl = "ErrorMsg", linehl = "", numhl = "" })
     vim.fn.sign_define("DapBreakpointRejected", { text = "󰜺", texthl = "ErrorMsg", linehl = "", numhl = "" })
@@ -514,10 +503,6 @@ in {
     # Image pasre
     "<leader>P".action = ":call mdip#MarkdownClipboardImage()<CR>";
 
-    # vsnip
-    "<C-;>".action = "<Plug>(vsnip-jump-next)";
-    "<C-,>".action = "<Plug>(vsnip-jump-prev)";
-
     # Toggleterm
     "<M-x>" = luaKeymap "function() require'toggleterm'.toggle(vim.v.count > 0 and vim.v.count or vim.w.default_terminal or vim.t.default_terminal or vim.g.default_terminal or 1) end";
     "<D-x>" = luaKeymap "function() require'toggleterm'.toggle(vim.v.count > 0 and vim.v.count or vim.w.default_terminal or vim.t.default_terminal or vim.g.default_terminal or 1) end";
@@ -555,26 +540,16 @@ in {
     };
   };
 
-  vim.maps.select = {
-    # vsnip
-    "<C-;>".action = "<Plug>(vsnip-jump-next)";
-    "<C-,>".action = "<Plug>(vsnip-jump-prev)";
-    "<c-x>;".action = "<Plug>(vsnip-jump-next)";
-    "<C-x>,".action = "<Plug>(vsnip-jump-prev)";
-  };
-
-  vim.maps.insert = {
-    # vsnip
-    "<C-;>".action = "<Plug>(vsnip-jump-next)";
-    "<C-,>".action = "<Plug>(vsnip-jump-prev)";
-    "<c-x>;".action = "<Plug>(vsnip-jump-next)";
-    "<C-x>,".action = "<Plug>(vsnip-jump-prev)";
-  };
-
   vim.maps.terminal = {
     "<M-x>".action = "<cmd>ToggleTerm<cr>";
     "<D-x>".action = "<cmd>ToggleTerm<cr>";
   };
+
+  vim.keymaps = [
+    # luasnip
+    (mkKeymap ["n" "i" "s"] "<C-;>" "<Plug>luasnip-jump-next" {silent = true;})
+    (mkKeymap ["n" "i" "s"] "<C-,>" "<Plug>luasnip-jump-prev" {silent = true;})
+  ];
 
   vim.extraPlugins = with pkgs.vimPlugins; {
     user = {
