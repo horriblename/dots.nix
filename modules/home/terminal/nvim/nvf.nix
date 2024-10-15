@@ -268,7 +268,7 @@ in {
 
   vim.filetree = {
     neo-tree = {
-      enable = false;
+      enable = true;
       setupOpts = {
         git_status_async = true;
         window = {
@@ -462,7 +462,7 @@ in {
   vim.maps.normal = {
     # General
     "<leader>zf".action = ":lua vim.g.formatsave = not vim.g.formatsave<CR>";
-    # "<leader>e".action = ":Neotree toggle reveal<CR>";
+    "<leader>e".action = ":Neotree toggle reveal<CR>";
     "<leader>ld".action = ":lua vim.diagnostic.setqflist({open = true})<CR>";
     "<leader>lf".action = ":lua vim.lsp.buf.format()<CR>";
     "<leader>li".action = ":lua vim.lsp.buf.implementation()<CR>";
