@@ -215,6 +215,11 @@
             core
             ./modules/nixos
             {
+              nix = {
+                settings = {
+                  trusted-users = ["py"];
+                };
+              };
               programs.hyprland = {
                 enable = true;
                 package = inputs.hyprland.packages.${system}.hyprland;
