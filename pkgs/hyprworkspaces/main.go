@@ -27,6 +27,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net"
 	"os"
@@ -159,6 +160,10 @@ func handleHyprEvents(conn net.Conn, hs *hyprState) {
 		n, err := conn.Read(buf[:])
 
 		if err != nil {
+			if err == io.EOF {
+				log.Printf("reading from socket: %s", err)
+				return
+			}
 			log.Printf("reading from socket: %s", err)
 		}
 
@@ -236,10 +241,10 @@ func startServer() {
 }
 
 func assertStr(s string) string {
-    if s == "" {
-        panic("assertion failed: empty string")
-    }
-    return s
+	if s == "" {
+		panic("assertion failed: empty string")
+	}
+	return s
 }
 
 func main() {
@@ -250,11 +255,11 @@ func main() {
 	}
 
 	gHyprlandSockPath = "/tmp/hypr/" + hyprSig + "/.socket2.sock"
-    gHyprlandSockPath = fmt.Sprintf(
-        "%s/hypr/%s/.socket.sock",
-        assertStr(os.Getenv("XDG_RUNTIME_DIR")),
-        hyprSig,
-    )
+	gHyprlandSockPath = fmt.Sprintf(
+		"%s/hypr/%s/.socket.sock",
+		assertStr(os.Getenv("XDG_RUNTIME_DIR")),
+		hyprSig,
+	)
 	gLogPath = "/tmp/hypr/" + hyprSig + "/hyprcmd.log"
 
 	// f, err := os.OpenFile(gLogPath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0600)
