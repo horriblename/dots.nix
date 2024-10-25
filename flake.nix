@@ -357,6 +357,15 @@
       ghActionsBuilder2 = pkgs.callPackage ./pkgs/dummy.nix {
         buildInputs = [self.nixosConfigurations.surface.config.system.build.kernel];
       };
+      nixWithSubstituters = let
+        coreSettings = import ./modules/core {inherit self inputs pkgs;};
+      in
+        pkgs.writeShellScriptBin "nixWithSubstituters" ''
+          nix \
+            --option extra-substituters '${builtins.concatStringsSep " " coreSettings.nix.settings.substituters}' \
+            --option extra-trusted-public-keys '${builtins.concatStringsSep " " coreSettings.nix.settings.trusted-public-keys}' \
+            $@
+        '';
     });
     overlay = final: prev: {
       wf-osk = final.callPackage ./pkgs/wf-osk.nix {};
