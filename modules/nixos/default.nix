@@ -1,4 +1,8 @@
 {pkgs, ...}: {
+  imports = [
+    ./options.nix
+    ./desktop
+  ];
   programs.neovim = {
     enable = true;
     defaultEditor = true;
