@@ -130,6 +130,7 @@
         extraSpecialArgs = {inherit self inputs;};
       };
   in {
+    inherit inputs;
     homeConfigurations = {
       "deck" = genHomeConfig {
         preset = "deck";
