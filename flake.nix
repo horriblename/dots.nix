@@ -64,6 +64,8 @@
     gruvbox-kvantum.flake = false;
     fcitx-virtual-keyboard-adapter.url = "/home/py/repo/fcitx-virtualkeyboard-adapter";
     fcitx-virtual-keyboard-adapter.inputs.nixpkgs.follows = "nixpkgs";
+    nixdroidpkgs.url = "github:horriblename/nixdroidpkgs";
+    nixdroidpkgs.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {

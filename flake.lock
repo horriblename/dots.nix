@@ -815,6 +815,28 @@
         "type": "github"
       }
     },
+    "nixdroidpkgs": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "termux-auth": "termux-auth",
+        "termux-packages": "termux-packages"
+      },
+      "locked": {
+        "lastModified": 1730136277,
+        "narHash": "sha256-gPZGEDeFbC3ewiAOcV4n6W1uWhjha1vTjDJCddB0bTQ=",
+        "owner": "horriblename",
+        "repo": "nixdroidpkgs",
+        "rev": "b50de0e710128efa02081be1352afe328340fca7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "horriblename",
+        "repo": "nixdroidpkgs",
+        "type": "github"
+      }
+    },
     "nixgl": {
       "inputs": {
         "flake-utils": "flake-utils_2",
@@ -2981,6 +3003,7 @@
         "md-img-paste-vim": "md-img-paste-vim",
         "nix-index-database": "nix-index-database",
         "nix-wsl": "nix-wsl",
+        "nixdroidpkgs": "nixdroidpkgs",
         "nixgl": "nixgl",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_4",
@@ -3194,6 +3217,38 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "termux-auth": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1727351185,
+        "narHash": "sha256-GbAzu7PPvFZY9zPZBq9XxmNEsbvA4jwvw79pmQ4vAuw=",
+        "owner": "termux",
+        "repo": "termux-auth",
+        "rev": "0bb85b4faa24f4259cfd217ac1865c1b9c4ffc2a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "termux",
+        "repo": "termux-auth",
+        "type": "github"
+      }
+    },
+    "termux-packages": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1730118209,
+        "narHash": "sha256-NHOyEMSi0Oht/PwwspSZAy8rpDxU4nC6rw/OgULlQ0A=",
+        "owner": "termux",
+        "repo": "termux-packages",
+        "rev": "ad5a441bd5624b88582a2de715b8428d68413db3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "termux",
+        "repo": "termux-packages",
         "type": "github"
       }
     },
