@@ -6,7 +6,6 @@
 }: {
   imports = [
     ./bash.nix
-    ./zellij.nix
   ];
   home.sessionVariables = {
     # XDG_DATA_DIRS = "${config.home.profileDirectory}/share\${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}";
