@@ -1,4 +1,10 @@
-{inputs, ...}: {
+{
+  inputs,
+  lib,
+  config,
+  ...
+}:
+lib.mkIf config.dots.wayland.enable {
   qt = {
     enable = true;
     platformTheme.name = "qtct";

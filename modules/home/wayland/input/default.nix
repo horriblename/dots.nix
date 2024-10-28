@@ -1,4 +1,5 @@
 {
+  inputs,
   pkgs,
   config,
   lib,
@@ -10,6 +11,7 @@
       fcitx5.addons = with pkgs; [
         fcitx5-chinese-addons
         fcitx5-configtool
+        inputs.fcitx-virtual-keyboard-adapter.packages.${pkgs.system}.default
       ];
     };
   };
