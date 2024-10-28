@@ -4,14 +4,15 @@
   config,
   ...
 }: let
-  inherit (lib) mkMerge mkIf;
-  playgroundScript =
-    pkgs.writeScriptBin "playground" (builtins.readFile ./playground);
+  inherit (lib.lists) optional;
+  playgroundScript = pkgs.writeScriptBin "playground" ''
+    #!${pkgs.python3}/bin/python
+    ${builtins.readFile ./playground}
+  '';
   macos-notify-send =
     pkgs.writeShellScriptBin "notify-send" (builtins.readFile ./notify-send-macos.sh);
 in {
-  home.packages = mkMerge [
+  home.packages =
     [playgroundScript]
-    (mkIf (config.dots.preset == "darwin-work") [macos-notify-send])
-  ];
+    ++ (optional (config.dots.preset == "darwin-work") macos-notify-send);
 }
