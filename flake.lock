@@ -364,6 +364,22 @@
         "type": "github"
       }
     },
+    "gruvbox-kvantum": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1696096968,
+        "narHash": "sha256-u2J4Zf9HuMjNCt3qVpgEffkytl/t277FzOvWL8Nm8os=",
+        "owner": "sachnr",
+        "repo": "gruvbox-kvantum-themes",
+        "rev": "f47670be407c1f07c64890ad53884ee9977a7db1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "sachnr",
+        "repo": "gruvbox-kvantum-themes",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -2935,6 +2951,7 @@
         "alien-zsh": "alien-zsh",
         "anyrun": "anyrun",
         "darwin": "darwin_2",
+        "gruvbox-kvantum": "gruvbox-kvantum",
         "home-manager": "home-manager_2",
         "hyprgrass": "hyprgrass",
         "hyprland": "hyprland",

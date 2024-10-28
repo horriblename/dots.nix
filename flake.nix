@@ -60,6 +60,8 @@
     tree-sitter-roc.inputs.nixpkgs.follows = "nixpkgs";
     alien-zsh.url = "git+https://github.com/eendroroy/alien?submodules=1";
     alien-zsh.flake = false;
+    gruvbox-kvantum.url = "github:sachnr/gruvbox-kvantum-themes";
+    gruvbox-kvantum.flake = false;
   };
 
   outputs = {
