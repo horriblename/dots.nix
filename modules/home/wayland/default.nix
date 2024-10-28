@@ -10,6 +10,7 @@
     ./eww
     ./foot
     ./gtk
+    ./qt
     ./menu
     ./hyprland
     ./sway

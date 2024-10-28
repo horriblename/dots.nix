@@ -41,34 +41,6 @@
         gtk.enable = true;
         x11.enable = true;
       };
-
-      # credits: yavko
-      # catppuccin theme for qt-apps
-      packages = with pkgs; [libsForQt5.qtstyleplugin-kvantum];
-      sessionVariables = {
-        # this is "not recommended" but I'm too lazy to care anymore
-        QT_STYLE_OVERRIDE = "kvantum";
-      };
     };
-
-    # xdg.configFile = {
-    #   "Kvantum/catppuccin/catppuccin.kvconfig".source = builtins.fetchurl {
-    #     url = "https://raw.githubusercontent.com/catppuccin/Kvantum/main/src/Catppuccin-Mocha-Rosewater/Catppuccin-Mocha-Rosewater.kvconfig";
-    #     sha256 = "sha256:0rzlg03wf57js1kaf1hhrl44nrawy48nx7d21bacyq0ai1r8mvwk";
-    #   };
-
-    #   "Kvantum/catppuccin/catppuccin.svg".source = builtins.fetchurl {
-    #     url = "https://raw.githubusercontent.com/catppuccin/Kvantum/main/src/Catppuccin-Mocha-Rosewater/Catppuccin-Mocha-Rosewater.svg";
-    #     sha256 = "sha256:08ankdfcnic4374d3kiqllqyzryn07iahxp72wk9f5q5zxy76gdq";
-    #   };
-
-    #   "Kvantum/kvantum.kvconfig".text = ''
-    #     [General]
-    #     theme=catppuccin
-
-    #     [Applications]
-    #     catppuccin=Dolphin, dolphin, Nextcloud, nextcloud, qt5ct, org.kde.dolphin, org.kde.kalendar, kalendar, Kalendar
-    #   '';
-    # };
   };
 }
