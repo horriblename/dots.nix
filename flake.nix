@@ -66,6 +66,10 @@
     fcitx-virtual-keyboard-adapter.inputs.nixpkgs.follows = "nixpkgs";
     nixdroidpkgs.url = "github:horriblename/nixdroidpkgs";
     nixdroidpkgs.inputs.nixpkgs.follows = "nixpkgs";
+    nix-on-droid = {
+      url = "github:nix-community/nix-on-droid/release-24.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -285,6 +289,14 @@
         ];
       };
     };
+
+    nixOnDroidConfigurations.kirin = let
+      pkgs = pkgsFor "aarch64-linux";
+    in
+      inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+        modules = [{user.shell = lib.getExe pkgs.zsh;}];
+      };
+
     darwinConfigurations = {
       work = let
         system = "x86_64-darwin";
