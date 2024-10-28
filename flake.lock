@@ -136,6 +136,25 @@
         "type": "github"
       }
     },
+    "fcitx-virtual-keyboard-adapter": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "dirtyRev": "052d99ff79004be3f442f3597fea2a1eb97a411e-dirty",
+        "dirtyShortRev": "052d99f-dirty",
+        "lastModified": 1730115960,
+        "narHash": "sha256-SLUNrdWImSsyoEaoRxKav+jSPYnFEBD0tevpSnY/4h8=",
+        "type": "git",
+        "url": "file:///home/py/repo/fcitx-virtualkeyboard-adapter"
+      },
+      "original": {
+        "type": "git",
+        "url": "file:///home/py/repo/fcitx-virtualkeyboard-adapter"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -2951,6 +2970,7 @@
         "alien-zsh": "alien-zsh",
         "anyrun": "anyrun",
         "darwin": "darwin_2",
+        "fcitx-virtual-keyboard-adapter": "fcitx-virtual-keyboard-adapter",
         "gruvbox-kvantum": "gruvbox-kvantum",
         "home-manager": "home-manager_2",
         "hyprgrass": "hyprgrass",

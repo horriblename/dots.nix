@@ -62,6 +62,8 @@
     alien-zsh.flake = false;
     gruvbox-kvantum.url = "github:sachnr/gruvbox-kvantum-themes";
     gruvbox-kvantum.flake = false;
+    fcitx-virtual-keyboard-adapter.url = "/home/py/repo/fcitx-virtualkeyboard-adapter";
+    fcitx-virtual-keyboard-adapter.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
