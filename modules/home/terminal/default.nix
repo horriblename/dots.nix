@@ -26,7 +26,7 @@ in {
     ./shell
     ./lf
     ./scripts
-    ./lazygit
+    ./git
   ];
 
   home.packages = with pkgs;
