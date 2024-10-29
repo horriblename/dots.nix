@@ -136,6 +136,26 @@
         "type": "github"
       }
     },
+    "fcitx-virtual-keyboard-adapter": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1730205051,
+        "narHash": "sha256-5ea6zv1Czd5F4TGN/a3/lxRwnwtpObBtZI5CF4pcwPs=",
+        "owner": "horriblename",
+        "repo": "fcitx-virtualkeyboard-adapter",
+        "rev": "4c048e11b7de359e59d021e9c97d8eadcf43827d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "horriblename",
+        "repo": "fcitx-virtualkeyboard-adapter",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -3129,6 +3149,7 @@
         "alien-zsh": "alien-zsh",
         "anyrun": "anyrun",
         "darwin": "darwin_2",
+        "fcitx-virtual-keyboard-adapter": "fcitx-virtual-keyboard-adapter",
         "gruvbox-kvantum": "gruvbox-kvantum",
         "home-manager": "home-manager_2",
         "hyprgrass": "hyprgrass",

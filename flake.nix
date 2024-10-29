@@ -62,6 +62,8 @@
     alien-zsh.flake = false;
     gruvbox-kvantum.url = "github:sachnr/gruvbox-kvantum-themes";
     gruvbox-kvantum.flake = false;
+    fcitx-virtual-keyboard-adapter.url = "github:horriblename/fcitx-virtualkeyboard-adapter";
+    fcitx-virtual-keyboard-adapter.inputs.nixpkgs.follows = "nixpkgs";
     nixdroidpkgs.url = "github:horriblename/nixdroidpkgs";
     nixdroidpkgs.inputs.nixpkgs.follows = "nixpkgs";
     nix-on-droid = {
@@ -287,14 +289,6 @@
         ];
       };
     };
-
-    nixOnDroidConfigurations.kirin = let
-      pkgs = pkgsFor "aarch64-linux";
-    in
-      inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-        modules = [{user.shell = lib.getExe pkgs.zsh;}];
-      };
-
     darwinConfigurations = {
       work = let
         system = "x86_64-darwin";
