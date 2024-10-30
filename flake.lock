@@ -612,6 +612,30 @@
         "type": "github"
       }
     },
+    "hyprspace": {
+      "inputs": {
+        "hyprland": [
+          "hyprland"
+        ],
+        "systems": [
+          "hyprland",
+          "systems"
+        ]
+      },
+      "locked": {
+        "lastModified": 1730241811,
+        "narHash": "sha256-CR9KHj9arsjyddcZTuoU4rxF39QOwCeYrRa+y46e1Tw=",
+        "owner": "KZDKM",
+        "repo": "Hyprspace",
+        "rev": "db7d2e223a741c0c2e17254b061c5c7660084263",
+        "type": "github"
+      },
+      "original": {
+        "owner": "KZDKM",
+        "repo": "Hyprspace",
+        "type": "github"
+      }
+    },
     "hyprutils": {
       "inputs": {
         "nixpkgs": [
@@ -3155,6 +3179,7 @@
         "hyprgrass": "hyprgrass",
         "hyprland": "hyprland",
         "hyprland-border-actions": "hyprland-border-actions",
+        "hyprspace": "hyprspace",
         "impurity": "impurity",
         "lix": "lix",
         "md-img-paste-vim": "md-img-paste-vim",
