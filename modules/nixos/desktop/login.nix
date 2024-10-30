@@ -1,6 +1,8 @@
 _: {
-  services.displayManager.sddm = {
+  services.greetd = {
     enable = true;
-    wayland.enable = true;
+  };
+  programs.regreet = {
+    enable = true;
   };
 }
