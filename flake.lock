@@ -143,11 +143,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1730205051,
-        "narHash": "sha256-5ea6zv1Czd5F4TGN/a3/lxRwnwtpObBtZI5CF4pcwPs=",
+        "lastModified": 1730252133,
+        "narHash": "sha256-KHh336UXviHBcq6Po/vdld4TNVwHLtp+LywwirbetFg=",
         "owner": "horriblename",
         "repo": "fcitx-virtualkeyboard-adapter",
-        "rev": "4c048e11b7de359e59d021e9c97d8eadcf43827d",
+        "rev": "eeceef7bf40e342c3ac77302d30b4b8f5d0aad6a",
         "type": "github"
       },
       "original": {
