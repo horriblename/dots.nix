@@ -76,6 +76,7 @@ in {
       '';
       plugins =
         [
+          inputs.hyprspace.packages.${pkgs.system}.default
           # "${inputs.hyprland-border-actions.packages.${pkgs.system}.default}/lib/libborder-actions.so"
         ]
         ++ lib.optional config.dots.wayland.touchScreen inputs.hyprgrass.packages.${pkgs.system}.default;
