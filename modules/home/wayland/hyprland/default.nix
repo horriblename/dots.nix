@@ -54,6 +54,7 @@ in {
       pkgs.cliphist
       pkgs.swaybg
       pkgs.swayidle
+      pkgs.nwg-drawer
     ];
 
     wayland.windowManager.hyprland = {
