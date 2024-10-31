@@ -109,6 +109,14 @@ in {
         };
       };
 
+      nwg-drawer = mkHyprlandService {
+        Unit.Description = "nwg-drawer Daemon";
+        Service = {
+          ExecStart = "${pkgs.nwg-drawer}/bin/nwg-drawer -r";
+          Restart = "always";
+        };
+      };
+
       dunst = mkHyprlandService {
         Unit.Description = "Dunst notification daemon";
 
