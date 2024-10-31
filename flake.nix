@@ -97,7 +97,6 @@
     forEachSystem = lib.genAttrs defaultSystems;
 
     core = ./modules/core;
-    wayland = ./modules/wayland;
     pkgsFor = {system}:
       import nixpkgs {
         inherit system;
@@ -292,7 +291,6 @@
           ./hosts/nixvm/hardware-configuration.nix
 
           ./modules/nixos
-          wayland
         ];
       };
     };
