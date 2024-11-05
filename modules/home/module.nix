@@ -1,4 +1,8 @@
-{lib, ...}:
+{
+  lib,
+  config,
+  ...
+}:
 with lib; {
   options = {
     # namespace for my dots
@@ -18,12 +22,14 @@ with lib; {
       };
 
       wayland = {
-        enable = mkEnableOption "graphical environment";
+        enable = mkEnableOption "wayland WM environment";
+        graphicalApps = mkEnableOption "GUI apps" // {default = config.dots.wayland.enable;};
         touchScreen = mkEnableOption "touch screen features";
       };
+
       darwin.enable = mkEnableOption "MacOS features";
     };
   };
 
-  imports = [./terminal ./presets.nix ./darwin ./wayland];
+  imports = [./terminal ./presets.nix ./darwin ./wayland ./apps];
 }
