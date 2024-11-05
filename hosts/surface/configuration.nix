@@ -1,11 +1,7 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -48,33 +44,7 @@
     ];
   };
 
-  programs.zsh.enable = true;
-
-  environment.etc."keyd/default.conf".text = ''
-    [ids]
-    *
-
-    [main]
-    capslock = overload(control, esc)
-  '';
-
-  systemd.services.keyd = {
-    enable = true;
-    description = "key remapping daemon";
-    requires = ["local-fs.target"];
-    after = ["local-fs.target"];
-    serviceConfig = {
-      Type = "simple";
-      ExecStart = "${pkgs.keyd}/bin/keyd";
-    };
-    wantedBy = ["sysinit.target"];
-  };
-
   systemd.sleep.extraConfig = "HibernateDelaySec=900";
-
-  programs.neovim = {
-    enable = true;
-  };
 
   services.openssh = {
     enable = true;
@@ -82,17 +52,6 @@
   };
 
   nix = {
-    settings = {
-      substituters = [
-        https://cache.nixos.org
-        https://horriblename.cachix.org
-      ];
-      trusted-public-keys = [
-        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-        "horriblename.cachix.org-1:FdI7l8gJJNhehkdW66BGcRrwn+14Iy+oC033gyONcs0="
-      ];
-    };
-
     buildMachines = [
       {
         hostName = "archbox";
