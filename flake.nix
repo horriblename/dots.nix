@@ -135,7 +135,7 @@
         preset = "deck";
         system = "x86_64-linux";
       };
-      "py@archbox" = genHomeConfig {
+      "py@ragnarok" = genHomeConfig {
         preset = "archbox";
         system = "x86_64-linux";
       };
