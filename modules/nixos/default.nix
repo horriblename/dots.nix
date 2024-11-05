@@ -11,6 +11,8 @@
     git
   ];
 
+  programs.zsh.enable = true;
+
   nix = {
     gc = {
       automatic = true;
