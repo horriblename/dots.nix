@@ -253,6 +253,7 @@
             {_module.args = {inherit self inputs;};}
 
             core
+            ./hosts/ragnarok/configuration.nix
             ./modules/nixos
             {
               dots.preset = "desktop";
