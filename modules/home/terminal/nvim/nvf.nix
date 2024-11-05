@@ -276,10 +276,17 @@ in {
           mappings = {
             "<space>" = "none";
             "l" = "open";
+            "/" = "none";
             # "h" = {"@1" = "navigate_up";};
+            "h" = mkLuaInline ''
+              function()
+                vim.cmd.normal "zcl";
+              end
+            '';
             "z" = "none";
             "zc" = "close_node";
             "zC" = "close_all_nodes";
+            "s" = "open_split";
             "v" = "open_vsplit";
           };
         };
