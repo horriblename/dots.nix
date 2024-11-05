@@ -231,15 +231,7 @@
             ./modules/nixos
             {
               dots.preset = "desktop";
-              nix = {
-                settings = {
-                  trusted-users = ["py"];
-                };
-              };
-              programs.hyprland = {
-                enable = true;
-                package = inputs.hyprland.packages.${system}.hyprland;
-              };
+              nix.settings.trusted-users = ["py"];
             }
           ];
         };
@@ -257,15 +249,7 @@
             ./modules/nixos
             {
               dots.preset = "desktop";
-              nix = {
-                settings = {
-                  trusted-users = ["py"];
-                };
-              };
-              programs.hyprland = {
-                enable = true;
-                package = inputs.hyprland.packages.${system}.hyprland;
-              };
+              nix.settings.trusted-users = ["py"];
             }
           ];
         };
