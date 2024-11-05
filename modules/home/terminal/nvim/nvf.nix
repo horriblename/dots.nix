@@ -412,7 +412,18 @@ in {
   };
 
   vim.assistant = {
-    copilot.enable = true;
+    copilot = {
+      enable = true;
+      mappings = {
+        panel = {
+          jumpPrev = "<leader>ap";
+          jumpNext = "<leader>an";
+          accept = "<leader>ay";
+          refresh = "<leader>ar";
+          open = "<leader>ao";
+        };
+      };
+    };
   };
 
   vim.session = {
