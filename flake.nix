@@ -244,6 +244,31 @@
           ];
         };
 
+      ragnarok = let
+        system = "x86_64-linux";
+      in
+        lib.nixosSystem {
+          inherit system;
+          modules = [
+            {_module.args = {inherit self inputs;};}
+
+            core
+            ./modules/nixos
+            {
+              dots.preset = "desktop";
+              nix = {
+                settings = {
+                  trusted-users = ["py"];
+                };
+              };
+              programs.hyprland = {
+                enable = true;
+                package = inputs.hyprland.packages.${system}.hyprland;
+              };
+            }
+          ];
+        };
+
       surface-iso = let
         system = "x86_64-linux";
         pkgs = pkgsFor {inherit system;};
