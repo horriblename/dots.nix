@@ -7,6 +7,7 @@
     enable = true;
     defaultEditor = true;
   };
+  time.timeZone = "Europe/Berlin";
   environment.systemPackages = with pkgs; [
     git
   ];
