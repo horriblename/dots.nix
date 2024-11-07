@@ -1282,6 +1282,7 @@
         "plugin-copilot-cmp": "plugin-copilot-cmp",
         "plugin-copilot-lua": "plugin-copilot-lua",
         "plugin-crates-nvim": "plugin-crates-nvim",
+        "plugin-csharpls-extended": "plugin-csharpls-extended",
         "plugin-dashboard-nvim": "plugin-dashboard-nvim",
         "plugin-diffview-nvim": "plugin-diffview-nvim",
         "plugin-dracula": "plugin-dracula",
@@ -1305,6 +1306,7 @@
         "plugin-lsp-signature": "plugin-lsp-signature",
         "plugin-lspkind": "plugin-lspkind",
         "plugin-lspsaga": "plugin-lspsaga",
+        "plugin-lua-utils-nvim": "plugin-lua-utils-nvim",
         "plugin-lualine": "plugin-lualine",
         "plugin-luasnip": "plugin-luasnip",
         "plugin-lz-n": "plugin-lz-n",
@@ -1315,6 +1317,8 @@
         "plugin-neo-tree-nvim": "plugin-neo-tree-nvim",
         "plugin-neocord": "plugin-neocord",
         "plugin-neodev-nvim": "plugin-neodev-nvim",
+        "plugin-neorg": "plugin-neorg",
+        "plugin-neorg-telescope": "plugin-neorg-telescope",
         "plugin-new-file-template-nvim": "plugin-new-file-template-nvim",
         "plugin-noice-nvim": "plugin-noice-nvim",
         "plugin-none-ls": "plugin-none-ls",
@@ -1343,14 +1347,17 @@
         "plugin-nvim-ts-autotag": "plugin-nvim-ts-autotag",
         "plugin-nvim-web-devicons": "plugin-nvim-web-devicons",
         "plugin-obsidian-nvim": "plugin-obsidian-nvim",
+        "plugin-omnisharp-extended": "plugin-omnisharp-extended",
         "plugin-onedark": "plugin-onedark",
         "plugin-orgmode-nvim": "plugin-orgmode-nvim",
         "plugin-otter-nvim": "plugin-otter-nvim",
         "plugin-oxocarbon": "plugin-oxocarbon",
+        "plugin-pathlib-nvim": "plugin-pathlib-nvim",
         "plugin-plenary-nvim": "plugin-plenary-nvim",
         "plugin-project-nvim": "plugin-project-nvim",
         "plugin-registers": "plugin-registers",
         "plugin-rose-pine": "plugin-rose-pine",
+        "plugin-rtp-nvim": "plugin-rtp-nvim",
         "plugin-rustaceanvim": "plugin-rustaceanvim",
         "plugin-scrollbar-nvim": "plugin-scrollbar-nvim",
         "plugin-smartcolumn": "plugin-smartcolumn",
@@ -1373,17 +1380,17 @@
         "systems": "systems_6"
       },
       "locked": {
-        "lastModified": 1729035133,
-        "narHash": "sha256-DBJnCsIwdRsFv3NfDW5Aa7bTC8YvlrWJTVem06D8VOY=",
-        "owner": "horriblename",
-        "repo": "neovim-flake",
-        "rev": "5f45d57ba690a1c0c60c4bbfbcb1288c70093305",
+        "lastModified": 1730967158,
+        "narHash": "sha256-/JB1O1+bMxwBcb3uUw7WyN5K+7tku05J9LXrsjo3lwk=",
+        "owner": "NotAShelf",
+        "repo": "nvf",
+        "rev": "383924d2251a8d500d505d08710783a61e313260",
         "type": "github"
       },
       "original": {
-        "owner": "horriblename",
-        "ref": "personal",
-        "repo": "neovim-flake",
+        "owner": "NotAShelf",
+        "ref": "v0.7",
+        "repo": "nvf",
         "type": "github"
       }
     },
@@ -1688,6 +1695,22 @@
       "original": {
         "owner": "Saecki",
         "repo": "crates.nvim",
+        "type": "github"
+      }
+    },
+    "plugin-csharpls-extended": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1730857197,
+        "narHash": "sha256-eKkFpEB7ZXNttXz62y3GaKptt4n0xRY+iuTI8RU5z0Q=",
+        "owner": "Decodetalkers",
+        "repo": "csharpls-extended-lsp.nvim",
+        "rev": "ef02017d80b1cd914d61285b1fb063cb7fe0aa8f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Decodetalkers",
+        "repo": "csharpls-extended-lsp.nvim",
         "type": "github"
       }
     },
@@ -2059,6 +2082,22 @@
         "type": "github"
       }
     },
+    "plugin-lua-utils-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1708177208,
+        "narHash": "sha256-9ildzQEMkXKZ3LHq+khGFgRQFxlIXQclQ7QU3fcU1C4=",
+        "owner": "nvim-neorg",
+        "repo": "lua-utils.nvim",
+        "rev": "e565749421f4bbb5d2e85e37c3cef9d56553d8bd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvim-neorg",
+        "repo": "lua-utils.nvim",
+        "type": "github"
+      }
+    },
     "plugin-lualine": {
       "flake": false,
       "locked": {
@@ -2217,6 +2256,38 @@
       "original": {
         "owner": "folke",
         "repo": "neodev.nvim",
+        "type": "github"
+      }
+    },
+    "plugin-neorg": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1730333767,
+        "narHash": "sha256-qTo8rxwvANrgP8UccFhzsNsH+Jbmqv2iOlw0ccLNYm4=",
+        "owner": "nvim-neorg",
+        "repo": "neorg",
+        "rev": "488507bb996f75ee29073f50dec32fa220867ca5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvim-neorg",
+        "repo": "neorg",
+        "type": "github"
+      }
+    },
+    "plugin-neorg-telescope": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1722358034,
+        "narHash": "sha256-ei4uUqpIQjGKzu5ryu0Hlmis9TS9FJsYnjt4J4QdWlw=",
+        "owner": "nvim-neorg",
+        "repo": "neorg-telescope",
+        "rev": "ddb2556644cae922699a239bbb0fe16e25b084b7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvim-neorg",
+        "repo": "neorg-telescope",
         "type": "github"
       }
     },
@@ -2669,6 +2740,22 @@
         "type": "github"
       }
     },
+    "plugin-omnisharp-extended": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1719701797,
+        "narHash": "sha256-P1ZCaW8w+e3H3oBhbEjDc7vuR+XuxJmb/7IbPL3KWi4=",
+        "owner": "Hoffs",
+        "repo": "omnisharp-extended-lsp.nvim",
+        "rev": "aad7bf06b4ca0de816b919d475a75b30f5f62b61",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Hoffs",
+        "repo": "omnisharp-extended-lsp.nvim",
+        "type": "github"
+      }
+    },
     "plugin-onedark": {
       "flake": false,
       "locked": {
@@ -2733,6 +2820,22 @@
         "type": "github"
       }
     },
+    "plugin-pathlib-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1724943804,
+        "narHash": "sha256-YhCJeNKlcjgg3q51UWFhuIEPzNueC8YTpeuPPJDndvw=",
+        "owner": "pysan3",
+        "repo": "pathlib.nvim",
+        "rev": "57e5598af6fe253761c1b48e0b59b7cd6699e2c1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pysan3",
+        "repo": "pathlib.nvim",
+        "type": "github"
+      }
+    },
     "plugin-plenary-nvim": {
       "flake": false,
       "locked": {
@@ -2794,6 +2897,22 @@
       "original": {
         "owner": "rose-pine",
         "repo": "neovim",
+        "type": "github"
+      }
+    },
+    "plugin-rtp-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1724409589,
+        "narHash": "sha256-lmJbiD7I7MTEEpukESs67uAmLyn+p66hrUKLbEHp0Kw=",
+        "owner": "nvim-neorocks",
+        "repo": "rtp.nvim",
+        "rev": "494ddfc888bb466555d90ace731856de1320fe45",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvim-neorocks",
+        "repo": "rtp.nvim",
         "type": "github"
       }
     },
