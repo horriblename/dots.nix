@@ -41,6 +41,7 @@
     nvf = {
       url = "github:NotAShelf/nvf/v0.7";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.plugin-lz-n.follows = "lz-n";
     };
     anyrun = {
       url = "github:Kirottu/anyrun";
@@ -75,6 +76,8 @@
       url = "github:nix-community/nix-on-droid/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    lz-n.url = "github:nvim-neorocks/lz.n";
+    lz-n.flake = false;
   };
 
   outputs = {

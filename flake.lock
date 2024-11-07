@@ -724,6 +724,22 @@
         "url": "https://git.lix.systems/lix-project/lix"
       }
     },
+    "lz-n": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1730598851,
+        "narHash": "sha256-L7og7ZTo5Soyn6pvBHkJcgGuON96eV0V5QC3J1uz/ko=",
+        "owner": "nvim-neorocks",
+        "repo": "lz.n",
+        "rev": "c8675c983e0682c49a13f17fc7ff9353bcb32120",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvim-neorocks",
+        "repo": "lz.n",
+        "type": "github"
+      }
+    },
     "md-img-paste-vim": {
       "flake": false,
       "locked": {
@@ -1309,7 +1325,9 @@
         "plugin-lua-utils-nvim": "plugin-lua-utils-nvim",
         "plugin-lualine": "plugin-lualine",
         "plugin-luasnip": "plugin-luasnip",
-        "plugin-lz-n": "plugin-lz-n",
+        "plugin-lz-n": [
+          "lz-n"
+        ],
         "plugin-lzn-auto-require": "plugin-lzn-auto-require",
         "plugin-mind-nvim": "plugin-mind-nvim",
         "plugin-minimap-vim": "plugin-minimap-vim",
@@ -2127,22 +2145,6 @@
       "original": {
         "owner": "L3MON4D3",
         "repo": "LuaSnip",
-        "type": "github"
-      }
-    },
-    "plugin-lz-n": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1727574854,
-        "narHash": "sha256-qDWNleR2NHFkiEKE/+LNVOBRwEeskMC4dWTl5BTyZuE=",
-        "owner": "nvim-neorocks",
-        "repo": "lz.n",
-        "rev": "470173e3cbef763c6d1b918f3f129b67db75e1f8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nvim-neorocks",
-        "repo": "lz.n",
         "type": "github"
       }
     },
@@ -3301,6 +3303,7 @@
         "hyprspace": "hyprspace",
         "impurity": "impurity",
         "lix": "lix",
+        "lz-n": "lz-n",
         "md-img-paste-vim": "md-img-paste-vim",
         "nix-index-database": "nix-index-database",
         "nix-on-droid": "nix-on-droid",
