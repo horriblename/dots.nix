@@ -4,7 +4,7 @@ build-nixos: ## Build NixOS config
 	nix build .#nixosConfigurations.ragnarok.config.system.build.toplevel
 
 nixos: ## nixos-rebuild switch
-	nix run nixpkgs#nixos-rebuild -- switch --flake . -L
+	sudo nix run nixpkgs#nixos-rebuild -- switch --flake . -L
 
 build-hm: ## Build HM config
 	nix build nixpkgs#homeConfigurations."py@archbox".activationPackage -L
