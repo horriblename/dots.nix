@@ -23,22 +23,22 @@ in {
     enableLuaLoader = true;
     lazy = {
       enable = true;
-      plugins = [
-        {
+      plugins = {
+        undotree = {
           package = pkgs.vimPlugins.undotree;
           before = ''
             vim.g.undotree_ShortIndicators = true
             vim.g.undotree_TreeVertShape = '│'
           '';
           cmd = ["UndotreeFocus" "UndotreeHide" "UndotreePersistUndo" "UndotreeShow" "UndotreeToggle"];
-        }
-        {
+        };
+        fzf-lua = {
           package = pkgs.vimPlugins.fzf-lua;
           setupModule = "fzf-lua";
           setupOpts = {"@1" = "max-perf";};
           cmd = "FzfLua";
-        }
-        (let
+        };
+        nvim-treesitter-textobjects = let
           keymaps = {
             select = {
               "af" = "@function.outer";
@@ -119,8 +119,8 @@ in {
                 // keymaps.move;
             };
           };
-        })
-      ];
+        };
+      };
     };
   };
 
