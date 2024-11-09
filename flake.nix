@@ -250,6 +250,7 @@
             {
               dots.preset = "desktop";
               nix.settings.trusted-users = ["py"];
+              dots.wayland.gaming = true;
             }
           ];
         };

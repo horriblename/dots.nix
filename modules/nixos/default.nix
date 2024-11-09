@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   imports = [
     ./options.nix
     ./desktop
@@ -19,6 +23,18 @@
       automatic = true;
       randomizedDelaySec = "14m";
       options = "--delete-older-than 14d";
+    };
+  };
+
+  nixpkgs = {
+    config = {
+      allowUnfreePredicate = pkg:
+        builtins.elem (lib.getName pkg) [
+          "steam"
+          "steam-original"
+          "steam-unwrapped"
+          "steam-run"
+        ];
     };
   };
 }

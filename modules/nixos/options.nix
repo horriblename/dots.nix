@@ -14,7 +14,10 @@ in {
         default = "base";
       };
 
-      wayland.enable = mkEnableOption "Wayland session" // {default = config.dots.preset == "desktop";};
+      wayland = {
+        enable = mkEnableOption "Wayland session" // {default = config.dots.preset == "desktop";};
+        gaming = mkEnableOption "gaming stuff";
+      };
     };
   };
 }
