@@ -23,24 +23,6 @@
         "type": "github"
       }
     },
-    "alien-zsh": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1719984193,
-        "narHash": "sha256-mV2h9BFibIFUIK9LSl05zasTKB0FUtKDgT0obCnik1U=",
-        "ref": "refs/heads/master",
-        "rev": "1bfb7a954ab8ad2b7d3b4ebbddfccfa5b81efbb3",
-        "revCount": 211,
-        "submodules": true,
-        "type": "git",
-        "url": "https://github.com/eendroroy/alien"
-      },
-      "original": {
-        "submodules": true,
-        "type": "git",
-        "url": "https://github.com/eendroroy/alien"
-      }
-    },
     "anyrun": {
       "inputs": {
         "flake-parts": "flake-parts",
@@ -3291,7 +3273,6 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
-        "alien-zsh": "alien-zsh",
         "anyrun": "anyrun",
         "darwin": "darwin_2",
         "fcitx-virtual-keyboard-adapter": "fcitx-virtual-keyboard-adapter",

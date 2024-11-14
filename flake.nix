@@ -64,8 +64,6 @@
     ssr-nvim.flake = false;
     tree-sitter-roc.url = "github:faldor20/tree-sitter-roc";
     tree-sitter-roc.inputs.nixpkgs.follows = "nixpkgs";
-    alien-zsh.url = "git+https://github.com/eendroroy/alien?submodules=1";
-    alien-zsh.flake = false;
     gruvbox-kvantum.url = "github:sachnr/gruvbox-kvantum-themes";
     gruvbox-kvantum.flake = false;
     fcitx-virtual-keyboard-adapter.url = "github:horriblename/fcitx-virtualkeyboard-adapter";
@@ -369,7 +367,6 @@
         treesitter-roc
         neovim-treesitter-roc
         lazyjj
-        alien-zsh
         ;
       ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
         buildInputs = [
@@ -428,7 +425,6 @@
       neovim-treesitter-roc = final.callPackage ./pkgs/neovim-treesitter-roc.nix {treesitter-roc-src = inputs.tree-sitter-roc;};
 
       lazyjj = final.callPackage ./pkgs/lazyjj.nix {};
-      alien-zsh = final.callPackage ./pkgs/alient-zsh.nix {source = inputs.alien-zsh;};
     };
     formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
     templates = import ./templates;
