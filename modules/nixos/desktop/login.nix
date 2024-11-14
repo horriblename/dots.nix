@@ -1,7 +1,7 @@
 {
   lib,
-  config,
   pkgs,
+  config,
   ...
 }: let
   inherit (lib.modules) mkIf;
@@ -10,16 +10,21 @@ in {
     environment.systemPackages = [pkgs.onboard];
     services.xserver = {
       enable = true;
-      displayManager.lightdm = {
+      displayManager.gdm = {
         enable = true;
-        greeters.gtk = {
-          enable = true;
-          indicators = ["~language" "~a11y" "~session" "~clock" "~power"];
-          extraConfig = ''
-            keyboard=onboard
-          '';
-        };
       };
+    };
+
+    programs.dconf = {
+      enable = true;
+      profiles.user.databases = [
+        {
+          settings = {
+            "org/gnome/desktop/interface".scaling-factor = 2.0;
+            "org/gnome/desktop/a11y/applications".screen-keyboard-enabled = true;
+          };
+        }
+      ];
     };
   };
 }
