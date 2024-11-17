@@ -4,7 +4,6 @@
 {
   config,
   lib,
-  pkgs,
   modulesPath,
   ...
 }: {
@@ -45,6 +44,21 @@
     device = "/dev/disk/by-uuid/9AD859C6D859A0F5";
     fsType = "ntfs";
     options = ["rw" "nosuid" "nodev" "uid=0" "gid=0" "allow_other" "blksize=4096" "noauto"];
+  };
+
+  services.xserver.videoDrivers = ["nvidia"];
+  hardware = {
+    opengl.enable = true;
+
+    nvidia = {
+      modesetting.enable = true;
+      powerManagement.enable = true;
+      powerManagement.finegrained = false;
+
+      open = false;
+      nvidiaSettings = true;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+    };
   };
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
