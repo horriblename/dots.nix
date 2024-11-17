@@ -30,6 +30,7 @@ set autowrite
 set conceallevel=2
 set cedit=\<C-q>
 set jumpoptions=stack
+set formatoptions+=ro/
 let &isfname = '@,48-57,/,\,.,-,_,+,,,#,$,%,~,='
 
 " Tab Settings
