@@ -1,7 +1,7 @@
 .PHONY: nixos build-hm hm nix-on-droid
 
 build-nixos: ## Build NixOS config
-	nix build .#nixosConfigurations.ragnarok.config.system.build.toplevel
+	nix build .#nixosConfigurations.$$(hostname).config.system.build.toplevel
 
 nixos: ## nixos-rebuild switch
 	sudo nix run nixpkgs#nixos-rebuild -- switch --flake . -L
