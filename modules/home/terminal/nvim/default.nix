@@ -4,15 +4,14 @@
   inputs,
   pkgs,
   config,
+  impurity,
   ...
 } @ args: {
   imports = [
     inputs.nvf.homeManagerModules.default
     inputs.impurity.nixosModules.default
   ];
-  impurity.configRoot = self;
-
-  xdg.configFile."nvim".source = ./config;
+  xdg.configFile."nvim".source = impurity.link ./config;
 
   programs.nvf = {
     enable = true;

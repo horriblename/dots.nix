@@ -3,6 +3,7 @@
   lib,
   config,
   pkgs,
+  impurity,
   ...
 }: let
   nix2Lua = inputs.nvf.lib.nvim.lua.toLuaObject;
@@ -617,7 +618,7 @@ in {
       package = pkgs.vimUtils.buildVimPlugin {
         pname = "user-dots";
         version = "git";
-        src = ./config;
+        src = impurity.link ./config;
       };
       setup = ''
         pcall(vim.cmd, [[

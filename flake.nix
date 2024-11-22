@@ -124,7 +124,6 @@
             ./modules/home/home.nix
             nix-index-database.hmModules.nix-index
             {dots = {inherit preset;};}
-            {impurity.enable = builtins ? getEnv && builtins.getEnv "IMPURITY_PATH" != "";}
           ]
           ++ extraModules;
         extraSpecialArgs = {inherit self inputs;};
@@ -159,7 +158,6 @@
         preset = "linode";
         extraModules = [
           {
-            impurity.enable = lib.mkForce false;
             programs.nvf.enable = lib.mkForce false;
           }
         ];
@@ -169,7 +167,6 @@
         system = "x86_64-linux";
         extraModules = [
           {
-            impurity.enable = lib.mkForce false;
             home.username = lib.mkForce "nixos";
             home.homeDirectory = lib.mkForce "/home/nixos";
           }
