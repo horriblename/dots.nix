@@ -275,15 +275,9 @@ in {
     };
 
   vim.visuals = {
-    enable = true;
-    nvimWebDevicons.enable = true;
-    scrollBar.enable = true;
-    smoothScroll.enable = false;
-    cellularAutomaton.enable = false;
+    nvim-web-devicons.enable = true;
+    nvim-scrollbar.enable = true;
     fidget-nvim.enable = true;
-    indentBlankline = {
-      enable = false;
-    };
   };
 
   vim.statusline = {
