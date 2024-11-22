@@ -382,3 +382,5 @@ default_layout "compact"
 // Default: false
 //
 // disable_session_metadata true
+
+support_kitty_keyboard_protocol false
