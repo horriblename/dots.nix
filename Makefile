@@ -10,7 +10,7 @@ build-hm: ## Build HM config
 	nix build nixpkgs#homeConfigurations."py@archbox".activationPackage -L
 
 hm: ## Switch HM config
-	nix run nixpkgs#home-manager -- switch --impure --flake . -L --show-trace
+	IMPURITY_PATH=$(PWD) nix run nixpkgs#nh -- home switch . -- --impure -L --show-trace
 
 nix-on-droid: ## nix-on-droid switch
 	nix-on-droid switch --flake .
