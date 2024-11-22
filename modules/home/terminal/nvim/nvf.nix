@@ -360,7 +360,10 @@ in {
   };
 
   vim.binds = {
-    whichKey.enable = true;
+    whichKey = {
+      enable = true;
+      register."s" = "+Surround";
+    };
   };
 
   vim.telescope.enable = false;
