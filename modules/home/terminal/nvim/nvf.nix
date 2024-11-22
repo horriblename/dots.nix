@@ -199,7 +199,7 @@ in {
       enable = true;
       lsp = {
         enable = true;
-        package = pkgs.clang-tools_17;
+        package = pkgs.clang-tools_19;
         server = "clangd";
       };
     };
