@@ -31,6 +31,9 @@ in {
             vim.g.undotree_TreeVertShape = '│'
           '';
           cmd = ["UndotreeFocus" "UndotreeHide" "UndotreePersistUndo" "UndotreeShow" "UndotreeToggle"];
+          keys = [
+            (mkKeymap "n" "<leader>u" ":UndotreeToggle<CR>" {})
+          ];
         };
         fzf-lua = {
           package = pkgs.vimPlugins.fzf-lua;
