@@ -11,10 +11,6 @@
   inherit (lib.lists) flatten;
   inherit (lib.attrsets) mapAttrsToList;
   setup = module: table: "require('${module}').setup(${nix2Lua table})";
-  luaKeymap = action: {
-    inherit action;
-    lua = true;
-  };
   mkKeymap = mode: key: action: opts: opts // {inherit mode key action;};
 in {
   vim = {
@@ -532,57 +528,52 @@ in {
     end
   '';
 
-  vim.maps.normal = {
+  vim.keymaps = [
     # General
-    "<leader>zf".action = ":lua vim.g.formatsave = not vim.g.formatsave<CR>";
-    "<leader>e".action = ":Neotree toggle reveal<CR>";
-    "<leader>ld".action = ":lua vim.diagnostic.setqflist({open = true})<CR>";
-    "<leader>lf".action = ":lua vim.lsp.buf.format()<CR>";
-    "<leader>li".action = ":lua vim.lsp.buf.implementation()<CR>";
+    (mkKeymap "n" "<leader>zf" ":lua vim.g.formatsave = not vim.g.formatsave<CR>" {})
+    (mkKeymap "n" "<leader>e" ":Neotree toggle reveal<CR>" {})
+    (mkKeymap "n" "<leader>ld" ":lua vim.diagnostic.setqflist({open = true})<CR>" {})
+    (mkKeymap "n" "<leader>lf" ":lua vim.lsp.buf.format()<CR>" {})
+    (mkKeymap "n" "<leader>li" ":lua vim.lsp.buf.implementation()<CR>" {})
 
     # Diffview
-    "<leader>gdq".action = ":DiffviewClose<CR>";
-    "<leader>gdd" = {
-      action = ":DiffviewOpen ";
-      silent = false;
-    };
-    "<leader>gdm".action = ":DiffviewOpen<CR>";
-    "<leader>gdh".action = ":DiffviewFileHistory %<CR>";
-    "<leader>gde".action = ":DiffviewToggleFiles<CR>";
+    (mkKeymap "n" "<leader>gdq" ":DiffviewClose<CR>" {})
+    (mkKeymap "n" "<leader>gdd" ":DiffviewOpen" {silent = false;})
+    (mkKeymap "n" "<leader>gdm" ":DiffviewOpen<CR>" {})
+    (mkKeymap "n" "<leader>gdh" ":DiffviewFileHistory %<CR>" {})
+    (mkKeymap "n" "<leader>gde" ":DiffviewToggleFiles<CR>" {})
 
     # Git
-    "<leader>gu".action = "<cmd>Gitsigns undo_stage_hunk<CR>";
-    "<leader>g<C-w>".action = "<cmd>Gitsigns preview_hunk<CR>";
-    "<leader>gp".action = "<cmd>Gitsigns prev_hunk<CR>";
-    "<leader>gn".action = "<cmd>Gitsigns next_hunk<CR>";
-    "<leader>gP".action = "<cmd>Gitsigns preview_hunk_inline<CR>";
-    "<leader>gR".action = "<cmd>Gitsigns reset_buffer<CR>";
-    "<leader>gb".action = "<cmd>Gitsigns blame_line<CR>";
-    "<leader>gD".action = "<cmd>Gitsigns diffthis HEAD<CR>";
-    "<leader>gw".action = "<cmd>Gitsigns toggle_word_diff<CR>";
+    (mkKeymap "n" "<leader>gu" "<cmd>Gitsigns undo_stage_hunk<CR>" {})
+    (mkKeymap "n" "<leader>g<C-w>" "<cmd>Gitsigns preview_hunk<CR>" {})
+    (mkKeymap "n" "<leader>gp" "<cmd>Gitsigns prev_hunk<CR>" {})
+    (mkKeymap "n" "<leader>gn" "<cmd>Gitsigns next_hunk<CR>" {})
+    (mkKeymap "n" "<leader>gP" "<cmd>Gitsigns preview_hunk_inline<CR>" {})
+    (mkKeymap "n" "<leader>gR" "<cmd>Gitsigns reset_buffer<CR>" {})
+    (mkKeymap "n" "<leader>gb" "<cmd>Gitsigns blame_line<CR>" {})
+    (mkKeymap "n" "<leader>gD" "<cmd>Gitsigns diffthis HEAD<CR>" {})
+    (mkKeymap "n" "<leader>gw" "<cmd>Gitsigns toggle_word_diff<CR>" {})
 
     # fzf-lua
-    "<M-f>".action = ":FzfLua resume<CR>";
-    "<leader>fq".action = ":FzfLua quickfix<CR>";
-    "<leader>f/".action = ":FzfLua live_grep_native<CR>";
-    "<leader>ff".action = ":FzfLua files<CR>";
-    "<leader>fb".action = ":FzfLua buffers<CR>";
-    "<leader>fh".action = ":FzfLua oldfiles<CR>";
-    "<leader>f:".action = ":FzfLua command_history<CR>";
+    (mkKeymap "n" "<M-f>" ":FzfLua resume<CR>" {})
+    (mkKeymap "n" "<leader>fq" ":FzfLua quickfix<CR>" {})
+    (mkKeymap "n" "<leader>f/" ":FzfLua live_grep_native<CR>" {})
+    (mkKeymap "n" "<leader>ff" ":FzfLua files<CR>" {})
+    (mkKeymap "n" "<leader>fb" ":FzfLua buffers<CR>" {})
+    (mkKeymap "n" "<leader>fh" ":FzfLua oldfiles<CR>" {})
+    (mkKeymap "n" "<leader>f:" ":FzfLua command_history<CR>" {})
 
     # Aerial
-    "gO".action = ":AerialToggle<CR>";
+    (mkKeymap "n" "gO" ":AerialToggle<CR>" {})
 
     # Image pasre
-    "<leader>P".action = ":call mdip#MarkdownClipboardImage()<CR>";
+    (mkKeymap "n" "<leader>P" ":call mdip#MarkdownClipboardImage()<CR>" {})
 
     # Toggleterm
-    "<M-x>" = luaKeymap "function() require'toggleterm'.toggle(vim.v.count > 0 and vim.v.count or vim.w.default_terminal or vim.t.default_terminal or vim.g.default_terminal or 1) end";
-    "<D-x>" = luaKeymap "function() require'toggleterm'.toggle(vim.v.count > 0 and vim.v.count or vim.w.default_terminal or vim.t.default_terminal or vim.g.default_terminal or 1) end";
-    "<leader>zt" = {
-      desc = ''["scope]Set default ToggleTerm'';
-      lua = true;
-      action = ''
+    (mkKeymap "n" "<M-x>" "function() require'toggleterm'.toggle(vim.v.count > 0 and vim.v.count or vim.w.default_terminal or vim.t.default_terminal or vim.g.default_terminal or 1) end" {lua = true;})
+    (mkKeymap "n" "<D-x>" "function() require'toggleterm'.toggle(vim.v.count > 0 and vim.v.count or vim.w.default_terminal or vim.t.default_terminal or vim.g.default_terminal or 1) end" {lua = true;})
+    (
+      mkKeymap "n" "<leader>zt" ''
         function()
           local scope
           if vim.v.register == 'w' or vim.v.register == 't' or vim.v.register == 'g' then
@@ -593,35 +584,26 @@ in {
 
           scope.default_terminal = vim.v.count1
         end
-      '';
-    };
-  };
-
-  vim.maps.normalVisualOp = {
-    "<leader>gs".action = ":Gitsigns stage_hunk<CR>";
-    "<leader>gr".action = ":Gitsigns reset_hunk<CR>";
-    "<leader>lr".action = "<cmd>lua vim.lsp.buf.references()<CR>";
-
-    # ssr.nvim
-    "<leader>sr".action = ":lua require('ssr').open()<CR>";
-
-    # ToggleTerm
-    "<leader>ct" = {
-      # action = ":<C-U>ToggleTermSendVisualLines v:count<CR>";
-      action = "':ToggleTermSendVisualLines ' . v:count == 0 ? g:default_terminal : v:count";
-      expr = true;
-    };
-  };
-
-  vim.maps.terminal = {
-    "<M-x>".action = "<cmd>ToggleTerm<cr>";
-    "<D-x>".action = "<cmd>ToggleTerm<cr>";
-  };
-
-  vim.keymaps = [
+      '' {
+        desc = ''["scope]Set default ToggleTerm'';
+        lua = true;
+      }
+    )
     # luasnip
     (mkKeymap ["n" "i" "s"] "<C-;>" "<Plug>luasnip-jump-next" {silent = true;})
     (mkKeymap ["n" "i" "s"] "<C-,>" "<Plug>luasnip-jump-prev" {silent = true;})
+
+    (mkKeymap ["n" "x" "o"] "<leader>gs" ":Gitsigns stage_hunk<CR>" {})
+    (mkKeymap ["n" "x" "o"] "<leader>gr" ":Gitsigns reset_hunk<CR>" {})
+    (mkKeymap ["n" "x" "o"] "<leader>lr" "<cmd>lua vim.lsp.buf.references()<CR>" {})
+
+    # ssr.nvim
+    (mkKeymap ["n" "x" "o"] "<leader>sr" ":lua require('ssr').open()<CR>" {})
+
+    # ToggleTerm
+    (mkKeymap ["n" "x" "o"] "<leader>ct" "':ToggleTermSendVisualLines ' . v:count == 0 ? g:default_terminal : v:count" {expr = true;})
+    (mkKeymap "t" "<M-x>" "<cmd>ToggleTerm<cr>" {})
+    (mkKeymap "t" "<D-x>" "<cmd>ToggleTerm<cr>" {})
   ];
 
   vim.extraPlugins = with pkgs.vimPlugins; {
