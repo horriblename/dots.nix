@@ -492,6 +492,14 @@ in {
     regex
   ];
 
+  vim.luaConfigPre = ''
+    vim.opt.runtimepath:prepend("${impurity.link ./config}");
+    pcall(vim.cmd, [[
+      call user#general#setup()
+      call user#mapping#setup()
+    ]])
+  '';
+
   vim.luaConfigPost = ''
     vim.opt.wrap = false
     vim.g.default_terminal = 1
@@ -617,19 +625,6 @@ in {
   ];
 
   vim.extraPlugins = with pkgs.vimPlugins; {
-    user = {
-      package = pkgs.vimUtils.buildVimPlugin {
-        pname = "user-dots";
-        version = "git";
-        src = impurity.link ./config;
-      };
-      setup = ''
-        pcall(vim.cmd, [[
-          call user#general#setup()
-          call user#mapping#setup()
-        ]])
-      '';
-    };
     night-owl-nvim = {
       package = night-owl-nvim;
       setup = "vim.cmd.colorscheme 'night-owl'";
