@@ -203,8 +203,8 @@
     in {
       wsl = lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = {inherit self inputs;};
         modules = [
-          {_module.args = {inherit self inputs;};}
           inputs.nix-wsl.nixosModules.default
           ./hosts/wsl/configuration.nix
           {wsl.enable = true;}
@@ -219,8 +219,8 @@
       in
         lib.nixosSystem {
           inherit system;
+          specialArgs = {inherit self inputs;};
           modules = [
-            {_module.args = {inherit self inputs;};}
             ./hosts/surface/configuration.nix
             ./hosts/surface/hardware-configuration.nix
             nixos-hardware.nixosModules.microsoft-surface-pro-3
@@ -239,9 +239,8 @@
       in
         lib.nixosSystem {
           inherit system;
+          specialArgs = {inherit self inputs;};
           modules = [
-            {_module.args = {inherit self inputs;};}
-
             core
             ./hosts/ragnarok/configuration.nix
             ./modules/nixos
@@ -276,8 +275,8 @@
             inherit system;
             overlays = [self.overlay inputs.agenix.overlays.default];
           };
+          specialArgs = {inherit self inputs;};
           modules = [
-            {_module.args = {inherit self inputs;};}
             inputs.agenix.nixosModules.default
             inputs.rss-aggre.nixosModules.default
             {
