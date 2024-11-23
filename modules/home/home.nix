@@ -12,7 +12,7 @@
   ];
 
   impurity = {
-    enable = builtins ? currentSystem && builtins.getEnv != "";
+    enable = builtins ? currentSystem && builtins.getEnv "IMPURITY_PATH" != "";
 
     configRoot = self;
   };
