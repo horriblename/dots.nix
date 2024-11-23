@@ -1,9 +1,13 @@
 {
+  self,
   pkgs,
+  inputs,
   lib,
   ...
 }: {
   imports = [
+    inputs.impurity.nixosModules.default
+
     ./options.nix
     ./desktop
   ];
@@ -24,6 +28,12 @@
       randomizedDelaySec = "14m";
       options = "--delete-older-than 14d";
     };
+  };
+
+  impurity = {
+    enable = builtins ? currentSystem && builtins.getEnv "IMPURITY_PATH" != "";
+
+    configRoot = self;
   };
 
   nixpkgs = {

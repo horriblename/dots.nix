@@ -1,11 +1,9 @@
-{pkgs, ...}: {
-  environment.etc."keyd/default.conf".text = ''
-    [ids]
-    *
-
-    [main]
-    capslock = overload(control, esc)
-  '';
+{
+  pkgs,
+  impurity,
+  ...
+}: {
+  environment.etc."keyd/default.conf".source = impurity.link ./keyd.conf;
 
   systemd.services.keyd = {
     enable = true;
