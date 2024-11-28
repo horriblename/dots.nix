@@ -13,7 +13,7 @@
   setup = module: table: "require('${module}').setup(${nix2Lua table})";
   mkKeymap = mode: key: action: opts: opts // {inherit mode key action;};
 in {
-  vim = {
+  programs.nvf.settings.vim = {
     viAlias = false;
     vimAlias = false;
     preventJunkFiles = true;
