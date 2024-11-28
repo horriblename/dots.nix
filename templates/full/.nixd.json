@@ -1,8 +1,0 @@
-{
-  "eval": {
-    "target": {
-      "args": ["-f", "default.nix"],
-      "installable": "default"
-    }
-  }
-}
