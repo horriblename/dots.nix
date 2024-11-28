@@ -46,6 +46,7 @@ in {
       pkgs.slurp
       pkgs.tesseract5
       pkgs.swappy
+      pkgs.playerctl
       ocr
       pkgs.grim
       screenshot
