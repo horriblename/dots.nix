@@ -4,7 +4,7 @@ build-nixos: ## Build NixOS config
 	nix build .#nixosConfigurations.$$(hostname).config.system.build.toplevel
 
 nixos: ## nixos-rebuild switch
-	sudo nix run nixpkgs#nixos-rebuild -- switch --flake . -L
+	IMPURITY_PATH='$(PWD)' nix run nixpkgs#nh -- os switch . -- --impure -L --show-trace
 
 build-hm: ## Build HM config
 	nix build nixpkgs#homeConfigurations."py@archbox".activationPackage -L
