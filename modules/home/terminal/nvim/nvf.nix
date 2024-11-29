@@ -32,58 +32,6 @@ in {
             (mkKeymap "n" "<leader>u" ":UndotreeToggle<CR>" {})
           ];
         };
-        fzf-lua = {
-          package = pkgs.vimPlugins.fzf-lua;
-          setupModule = "fzf-lua";
-          setupOpts = {"@1" = "max-perf";};
-          keys = [
-            (mkKeymap "n" "<leader>fj" "<cmd>FzfLua jumps<CR>" {})
-            (mkKeymap "n" "<leader>fh" "<cmd>FzfLua oldfiles<CR>" {})
-            (mkKeymap "n" "<leader>fm" "<cmd>FzfLua marks<CR>" {})
-            (mkKeymap "n" "<leader>f\"" "<cmd>FzfLua registers<CR>" {})
-
-            # LSP
-            (mkKeymap "n" "<leader>fla" "<cmd>FzfLua lsp_code_actions<CR>" {})
-            (mkKeymap "n" "<leader>flD" "<cmd>FzfLua lsp_declarations<CR>" {})
-            (mkKeymap "n" "<leader>fld" "<cmd>FzfLua lsp_definitions<CR>" {})
-            (mkKeymap "n" "<leader>flr" "<cmd>FzfLua lsp_references<CR>" {})
-            (mkKeymap "n" "<leader>flt" "<cmd>FzfLua lsp_typedefs<CR>" {})
-            (mkKeymap "n" "<leader>flf" "<cmd>FzfLua lsp_finder<CR>" {})
-            (mkKeymap "n" "<leader>fli" "<cmd>FzfLua lsp_implementations<CR>" {})
-            (mkKeymap "n" "<leader>flci" "<cmd>FzfLua lsp_incoming_calls<CR>" {})
-            (mkKeymap "n" "<leader>flco" "<cmd>FzfLua lsp_outgoing_calls<CR>" {})
-            (mkKeymap "n" "<leader>flsd" "<cmd>FzfLua lsp_document_symbols<CR>" {})
-            (mkKeymap "n" "<leader>flsl" "<cmd>FzfLua lsp_live_workspace_symbols<CR>" {})
-            (mkKeymap "n" "<leader>flsw" "<cmd>FzfLua lsp_workspace_symbols<CR>" {})
-            (mkKeymap "n" "<leader>flxd" "<cmd>FzfLua lsp_document_diagnostics<CR>" {})
-            (mkKeymap "n" "<leader>flxw" "<cmd>FzfLua lsp_workspace_diagnostics<CR>" {})
-            (mkKeymap "n" "<leader>flxx" "<cmd>FzfLua lsp_workspace_diagnostics<CR>" {})
-
-            # DAP
-            (mkKeymap "n" "<leader>fdb" "<cmd>FzfLua dap_breakpoints<CR>" {})
-            (mkKeymap "n" "<leader>fdc" "<cmd>FzfLua dap_commands<CR>" {})
-            (mkKeymap "n" "<leader>fdC" "<cmd>FzfLua dap_configurations<CR>" {})
-            (mkKeymap "n" "<leader>fdf" "<cmd>FzfLua dap_frames<CR>" {})
-            (mkKeymap "n" "<leader>fdv" "<cmd>FzfLua dap_variables<CR>" {})
-
-            # QuickFix
-            (mkKeymap "n" "<leader>fxx" "<cmd>FzfLua quickfix<CR>" {})
-            (mkKeymap "n" "<leader>fxh" "<cmd>FzfLua quickfix_stack<CR>" {})
-            (mkKeymap "n" "<leader>fxlx" "<cmd>FzfLua loclist<CR>" {})
-            (mkKeymap "n" "<leader>fxlh" "<cmd>FzfLua loclist_stack<CR>" {})
-
-            # Git
-            (mkKeymap "n" "<leader>fgB" "<cmd>FzfLua git_blame<CR>" {})
-            (mkKeymap "n" "<leader>fgb" "<cmd>FzfLua git_brances<CR>" {})
-            (mkKeymap "n" "<leader>fgc" "<cmd>FzfLua git_commits<CR>" {})
-            (mkKeymap "n" "<leader>fgC" "<cmd>FzfLua git_bcommits<CR>" {})
-            (mkKeymap "n" "<leader>fgf" "<cmd>FzfLua git_files<CR>" {})
-            (mkKeymap "n" "<leader>fgS" "<cmd>FzfLua git_stash<CR>" {})
-            (mkKeymap "n" "<leader>fgs" "<cmd>FzfLua git_status<CR>" {})
-            (mkKeymap "n" "<leader>fgt" "<cmd>FzfLua git_tags<CR>" {})
-          ];
-          cmd = "FzfLua";
-        };
         nvim-treesitter-textobjects = let
           keymaps = {
             select = {
@@ -604,6 +552,52 @@ in {
       (mkKeymap ["n" "x" "o"] "<leader>ct" "':ToggleTermSendVisualLines ' . v:count == 0 ? g:default_terminal : v:count" {expr = true;})
       (mkKeymap "t" "<M-x>" "<cmd>ToggleTerm<cr>" {})
       (mkKeymap "t" "<D-x>" "<cmd>ToggleTerm<cr>" {})
+
+      # FzfLua
+      (mkKeymap "n" "<leader>fj" "<cmd>FzfLua jumps<CR>" {})
+      (mkKeymap "n" "<leader>fh" "<cmd>FzfLua oldfiles<CR>" {})
+      (mkKeymap "n" "<leader>fm" "<cmd>FzfLua marks<CR>" {})
+      (mkKeymap "n" "<leader>f\"" "<cmd>FzfLua registers<CR>" {})
+
+      # LSP
+      (mkKeymap "n" "<leader>fla" "<cmd>FzfLua lsp_code_actions<CR>" {})
+      (mkKeymap "n" "<leader>flD" "<cmd>FzfLua lsp_declarations<CR>" {})
+      (mkKeymap "n" "<leader>fld" "<cmd>FzfLua lsp_definitions<CR>" {})
+      (mkKeymap "n" "<leader>flr" "<cmd>FzfLua lsp_references<CR>" {})
+      (mkKeymap "n" "<leader>flt" "<cmd>FzfLua lsp_typedefs<CR>" {})
+      (mkKeymap "n" "<leader>flf" "<cmd>FzfLua lsp_finder<CR>" {})
+      (mkKeymap "n" "<leader>fli" "<cmd>FzfLua lsp_implementations<CR>" {})
+      (mkKeymap "n" "<leader>flci" "<cmd>FzfLua lsp_incoming_calls<CR>" {})
+      (mkKeymap "n" "<leader>flco" "<cmd>FzfLua lsp_outgoing_calls<CR>" {})
+      (mkKeymap "n" "<leader>flsd" "<cmd>FzfLua lsp_document_symbols<CR>" {})
+      (mkKeymap "n" "<leader>flsl" "<cmd>FzfLua lsp_live_workspace_symbols<CR>" {})
+      (mkKeymap "n" "<leader>flsw" "<cmd>FzfLua lsp_workspace_symbols<CR>" {})
+      (mkKeymap "n" "<leader>flxd" "<cmd>FzfLua lsp_document_diagnostics<CR>" {})
+      (mkKeymap "n" "<leader>flxw" "<cmd>FzfLua lsp_workspace_diagnostics<CR>" {})
+      (mkKeymap "n" "<leader>flxx" "<cmd>FzfLua lsp_workspace_diagnostics<CR>" {})
+
+      # DAP
+      (mkKeymap "n" "<leader>fdb" "<cmd>FzfLua dap_breakpoints<CR>" {})
+      (mkKeymap "n" "<leader>fdc" "<cmd>FzfLua dap_commands<CR>" {})
+      (mkKeymap "n" "<leader>fdC" "<cmd>FzfLua dap_configurations<CR>" {})
+      (mkKeymap "n" "<leader>fdf" "<cmd>FzfLua dap_frames<CR>" {})
+      (mkKeymap "n" "<leader>fdv" "<cmd>FzfLua dap_variables<CR>" {})
+
+      # QuickFix
+      (mkKeymap "n" "<leader>fxx" "<cmd>FzfLua quickfix<CR>" {})
+      (mkKeymap "n" "<leader>fxh" "<cmd>FzfLua quickfix_stack<CR>" {})
+      (mkKeymap "n" "<leader>fxlx" "<cmd>FzfLua loclist<CR>" {})
+      (mkKeymap "n" "<leader>fxlh" "<cmd>FzfLua loclist_stack<CR>" {})
+
+      # Git
+      (mkKeymap "n" "<leader>fgB" "<cmd>FzfLua git_blame<CR>" {})
+      (mkKeymap "n" "<leader>fgb" "<cmd>FzfLua git_brances<CR>" {})
+      (mkKeymap "n" "<leader>fgc" "<cmd>FzfLua git_commits<CR>" {})
+      (mkKeymap "n" "<leader>fgC" "<cmd>FzfLua git_bcommits<CR>" {})
+      (mkKeymap "n" "<leader>fgf" "<cmd>FzfLua git_files<CR>" {})
+      (mkKeymap "n" "<leader>fgS" "<cmd>FzfLua git_stash<CR>" {})
+      (mkKeymap "n" "<leader>fgs" "<cmd>FzfLua git_status<CR>" {})
+      (mkKeymap "n" "<leader>fgt" "<cmd>FzfLua git_tags<CR>" {})
     ];
 
     extraPlugins = with pkgs.vimPlugins; {
@@ -615,6 +609,10 @@ in {
       aerial = {
         package = aerial-nvim;
         setup = setup "aerial" {};
+      };
+      fzf-lua = {
+        package = pkgs.vimPlugins.fzf-lua;
+        setup = setup "fzf-lua" ["max-perf"];
       };
       ssr-nvim = {
         package = pkgs.vimUtils.buildVimPlugin {
