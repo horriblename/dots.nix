@@ -7,7 +7,7 @@ nixos: ## nixos-rebuild switch
 	IMPURITY_PATH='$(PWD)' nix run nixpkgs#nh -- os switch . -- --impure -L --show-trace
 
 build-hm: ## Build HM config
-	nix build nixpkgs#homeConfigurations."py@archbox".activationPackage -L
+	nix build .#homeConfigurations."$$(whoami)@$$(hostname)".activationPackage -L
 
 hm: ## Switch HM config
 	IMPURITY_PATH=$(PWD) nix run nixpkgs#nh -- home switch . -- --impure -L --show-trace
