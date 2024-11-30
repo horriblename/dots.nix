@@ -612,7 +612,19 @@ in {
       };
       fzf-lua = {
         package = pkgs.vimPlugins.fzf-lua;
-        setup = setup "fzf-lua" ["max-perf"];
+        setup = setup "fzf-lua" {
+          "@1" = "max-perf";
+          keymap = {
+            builtin = {
+              "ctrl-j" = "preview-page-down";
+              "ctrl-k" = "preview-page-up";
+            };
+            fzf = {
+              "ctrl-j" = "preview-page-down";
+              "ctrl-k" = "preview-page-up";
+            };
+          };
+        };
       };
       ssr-nvim = {
         package = pkgs.vimUtils.buildVimPlugin {
