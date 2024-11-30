@@ -7,6 +7,7 @@
   ...
 }: let
   nix2Lua = inputs.nvf.lib.nvim.lua.toLuaObject;
+  inherit (inputs.nvf.lib.nvim.dag) entriesBetween;
   inherit (lib.generators) mkLuaInline;
   inherit (lib.lists) flatten;
   inherit (lib.attrsets) mapAttrsToList;
@@ -436,7 +437,7 @@ in {
       regex
     ];
 
-    luaConfigPre = ''
+    vim.luaConfigRC.userDots = entriesBetween "userDots" ["optionsScript"] ["pluginConfigs"] ''
       vim.opt.runtimepath:prepend("${impurity.link ./config}");
       pcall(vim.cmd, [[
         call user#general#setup()
