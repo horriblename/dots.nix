@@ -319,7 +319,7 @@
               services.nix-daemon.enable = true;
               fonts = {
                 packages = with pkgs; [
-                  (nerdfonts.override {fonts = ["FiraCode"];})
+                  nerd-fonts.fira-code
                 ];
               };
               # services.karabiner-elements.enable = true;
