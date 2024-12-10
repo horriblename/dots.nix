@@ -15,7 +15,7 @@ hm: ## Switch HM config
 nix-on-droid: ## nix-on-droid switch
 	nix-on-droid switch --flake .
 
-surface-kernel:
+surface-kernel: ## surface kernel
 	nix build .\#ghActionsBuilder2 --print-out-paths --option cores "$$(($$(nproc) - 2))" | cachix push horriblename
 
 # Hint: suppress override warnings by prepending "-" to the rule
