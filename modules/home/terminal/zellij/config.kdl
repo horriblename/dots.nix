@@ -3,7 +3,7 @@ keybinds clear-defaults=true {
     normal clear-defaults=true {
         // uncomment this and adjust key if using copy_on_select=false
         // bind "Alt c" { Copy; }
-        bind "Ctrl q" {SwitchToMode "pane";}
+        bind "Alt m" {SwitchToMode "pane";}
     }
     locked {
         bind "Ctrl g" { SwitchToMode "Normal"; }
@@ -182,7 +182,7 @@ keybinds clear-defaults=true {
         bind "Enter" "Esc" { SwitchToMode "Normal"; }
     }
     shared_except "pane" "locked" {
-        bind "Ctrl q" { SwitchToMode "Pane"; }
+        bind "Alt m" { SwitchToMode "Pane"; }
     }
     shared_except "resize" "locked" {
         bind "Ctrl n" { SwitchToMode "Resize"; }

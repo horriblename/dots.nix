@@ -4,7 +4,7 @@ fu user#mapping#setup() abort
 endfu
 
 let mapleader=' '
-let maplocalleader=' a'
+let maplocalleader='  '
 
 " Editor mappings {{{
 nnoremap > >>
