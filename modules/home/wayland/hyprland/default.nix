@@ -40,7 +40,6 @@ in {
   config = lib.mkIf config.dots.wayland.enable {
     home.packages = [
       pkgs.libnotify
-      pkgs.catppuccin-cursors.mochaRosewater
       #wf-recorder
       pkgs.brightnessctl
       pkgs.slurp
