@@ -22,6 +22,11 @@ in {
     lazy = {
       enable = true;
       plugins = {
+        cfilter = {
+          package = null;
+          cmd = ["Cfilter"];
+          load = "vim.cmd.packadd(name)";
+        };
         undotree = {
           package = pkgs.vimPlugins.undotree;
           before = ''
@@ -336,8 +341,26 @@ in {
     };
 
     dashboard = {
-      dashboard-nvim.enable = false;
-      alpha.enable = true;
+      dashboard-nvim = {
+        enable = true;
+        setupOpts = {
+          config.header = [
+            "   🭇🭄🭏🬼          🬿    "
+            "  🭊🭁██🭌🬿         █🭏🬼  "
+            "  🭥🭒████🭏🬼       ██🭌🬿 "
+            "λ  🭢🭕████🭌🬿      ████🭏"
+            "VλV  🭥🭒████🭏🬼    █████"
+            "λVλVλ 🭢🭕████🭌🬿   █████"
+            "VλV󱄅    🭥🭒████🭏🬼 🭕████"
+            "λVλVλ    🭢🭕████🭌🬿 🭥🭒██"
+            "V󱄅 λV      🭥🭒████🭏🬼🭢🭕🭠"
+            "λVλVλ       🭢🭕████🭌🬿  "
+            "  VλV         🭥🭒██🭝🭚  "
+            "    λ          🭢🭕🭠🭗   "
+            ""
+          ];
+        };
+      };
     };
 
     notify = {
@@ -457,6 +480,7 @@ in {
       vim.fn.sign_define("DapBreakpointCondition", { text = "⊜", texthl = "ErrorMsg", linehl = "", numhl = "" })
       vim.fn.sign_define("DapBreakpointRejected", { text = "󰜺", texthl = "ErrorMsg", linehl = "", numhl = "" })
       vim.fn.sign_define("DapLogPoint", { text = "", texthl = "ErrorMsg", linehl = "", numhl = "" })
+      vim.cmd.highlight("default", "link", "DashboardHeader", "DevIconNix")
 
       -- auto ToggleTerm scoping
       do
