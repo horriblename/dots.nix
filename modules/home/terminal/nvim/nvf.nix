@@ -7,7 +7,7 @@
   ...
 }: let
   nix2Lua = inputs.nvf.lib.nvim.lua.toLuaObject;
-  inherit (inputs.nvf.lib.nvim.dag) entryBetween;
+  inherit (inputs.nvf.lib.nvim.dag) entryBetween entryAfter;
   inherit (lib.generators) mkLuaInline;
   inherit (lib.lists) flatten;
   inherit (lib.attrsets) mapAttrsToList;
@@ -346,7 +346,6 @@ in {
     binds = {
       whichKey = {
         enable = true;
-        register."s" = "+Surround";
       };
     };
 
@@ -487,8 +486,6 @@ in {
 
     comments.comment-nvim.enable = false;
 
-    mapTimeout = 200;
-
     treesitter.grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
       markdown
       markdown-inline
@@ -501,6 +498,13 @@ in {
         call user#general#setup()
         call user#mapping#setup()
       ]])
+    '';
+    luaConfigRC.whichKeyExtra = entryAfter ["pluginConfigs" "userDots"] ''
+      require("which-key").add({
+        {"s", mode = "x", group = "Surround"},
+        {"ds", mode = "n", group = "Delete surround"},
+        {"cs", mode = "n", group = "Change surround"},
+      })
     '';
 
     luaConfigPost = ''

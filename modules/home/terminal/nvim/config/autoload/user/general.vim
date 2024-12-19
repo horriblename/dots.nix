@@ -31,6 +31,7 @@ set conceallevel=2
 set cedit=\<C-q>
 set jumpoptions=stack
 set formatoptions+=ro/
+set timeoutlen=400
 let &isfname = '@,48-57,/,\,.,-,_,+,,,#,$,%,~,='
 
 " Tab Settings
