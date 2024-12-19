@@ -155,6 +155,53 @@ in {
             '';
           };
         };
+        perfanno-nvim = {
+          package = pkgs.vimUtils.buildVimPlugin {
+            pname = "perfanno-nvim";
+            version = "git";
+            src = inputs.perfanno-nvim;
+          };
+          setupModule = "perfanno";
+          setupOpts = {};
+          cmd = [
+            "PerfAnnotate"
+            "PerfAnnotateFunction"
+            "PerfAnnotateSelection"
+            "PerfCacheDelete"
+            "PerfCacheLoad"
+            "PerfCacheSave"
+            "PerfCycleFormat"
+            "PerfHottestCallersFunction"
+            "PerfHottestCallersSelection"
+            "PerfHottestLines"
+            "PerfHottestSymbols"
+            "PerfLoadCallGraph"
+            "PerfLoadFlameGraph"
+            "PerfLoadFlat"
+            "PerfLuaProfileStart"
+            "PerfLuaProfileStop"
+            "PerfPickEvent"
+            "PerfToggleAnnotations"
+          ];
+          keys = [
+            (mkKeymap "n" "<leader>plf" ":PerfLoadFlat<CR>" {desc = "Load Flat";})
+            (mkKeymap "n" "<leader>plg" ":PerfLoadCallGraph<CR>" {desc = "Load Call Graph";})
+            (mkKeymap "n" "<leader>plo" ":PerfLoadFlameGraph<CR>" {desc = "Load Flame Graph";})
+
+            (mkKeymap "n" "<leader>pe" ":PerfPickEvent<CR>" {desc = "Pick Event";})
+
+            (mkKeymap "n" "<leader>pa" ":PerfAnnotate<CR>" {desc = "Annotate";})
+            (mkKeymap "n" "<leader>pf" ":PerfAnnotateFunction<CR>" {desc = "Annotate Function";})
+            (mkKeymap "x" "<leader>pa" ":PerfAnnotateSelection<CR>" {desc = "Annotate Selection";})
+
+            (mkKeymap "n" "<leader>pt" ":PerfToggleAnnotations<CR>" {desc = "Toggle Annotations";})
+
+            (mkKeymap "n" "<leader>ph" ":PerfHottestLines<CR>" {desc = "Hottest Lines";})
+            (mkKeymap "n" "<leader>ps" ":PerfHottestSymbols<CR>" {desc = "Hottest Symbols";})
+            (mkKeymap "n" "<leader>pc" ":PerfHottestCallersFunction<CR>" {desc = "Hottest Callers Function";})
+            (mkKeymap "x" "<leader>pc" ":PerfHottestCallersSelection<CR>" {desc = "Hottest Callers Selection";})
+          ];
+        };
       };
     };
 

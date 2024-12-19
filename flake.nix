@@ -73,6 +73,10 @@
       url = "github:nix-community/nix-on-droid/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    perfanno-nvim = {
+      url = "github:t-troebst/perfanno.nvim";
+      flake = false;
+    };
   };
 
   outputs = {

@@ -1439,6 +1439,22 @@
         "type": "github"
       }
     },
+    "perfanno-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1732495596,
+        "narHash": "sha256-XVNpB/I0i9RlSFtDlJIIeWjjz1o1oNyv8nvFlsVQC5k=",
+        "owner": "t-troebst",
+        "repo": "perfanno.nvim",
+        "rev": "d569f4977b68c6daf810bfc41cd06e24af834dc6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "t-troebst",
+        "repo": "perfanno.nvim",
+        "type": "github"
+      }
+    },
     "plugin-alpha-nvim": {
       "flake": false,
       "locked": {
@@ -3419,6 +3435,7 @@
         "nixpkgs": "nixpkgs_4",
         "nixrun-nvim": "nixrun-nvim",
         "nvf": "nvf",
+        "perfanno-nvim": "perfanno-nvim",
         "roc": "roc",
         "rss-aggre": "rss-aggre",
         "ssr-nvim": "ssr-nvim",
