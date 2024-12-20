@@ -14,7 +14,7 @@ vim.api.nvim_create_autocmd("DirChanged", {
 	callback = renameTab,
 })
 
-if vim.v.vim_did_enter then
+if vim.v.vim_did_enter == 1 then
 	renameTab()
 else
 	vim.api.nvim_create_autocmd("VimEnter",
