@@ -47,16 +47,26 @@ nnoremap zV :let &foldlevel = foldlevel('.')<CR>
 
 " Movement {{{
 
-noremap gh ^
-noremap gl g_
-noremap gL g$
-noremap gH g^
+nnoremap gh ^
+nnoremap gl g_
+nnoremap gL g$
+nnoremap gH g^
+
+xnoremap gh ^
+xnoremap gl g_
+xnoremap gL g$
+xnoremap gH g^
 
 " Sub-mode mapping {{{
-map gj gjg
-map gk gjk
-map zL zLz
-map zH zHz
+nmap gj gjg
+nmap gk gjk
+nmap zL zLz
+nmap zH zHz
+
+xmap gj gjg
+xmap gk gjk
+xmap zL zLz
+xmap zH zHz
 
 map <C-w>- <C-w>-<C-w>
 map <C-w>+ <C-w>+<C-w>
