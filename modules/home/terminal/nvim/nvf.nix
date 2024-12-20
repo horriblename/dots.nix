@@ -727,10 +727,12 @@ in {
           "@1" = "max-perf";
           keymap = {
             builtin = {
+              "@1" = true;
               "ctrl-j" = "preview-page-down";
               "ctrl-k" = "preview-page-up";
             };
             fzf = {
+              "@1" = true;
               "ctrl-j" = "preview-page-down";
               "ctrl-k" = "preview-page-up";
             };
