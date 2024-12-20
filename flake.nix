@@ -123,6 +123,8 @@
           [
             core
             ./modules/home/home.nix
+            inputs.impurity.nixosModules.default
+
             nix-index-database.hmModules.nix-index
             {dots = {inherit preset;};}
           ]

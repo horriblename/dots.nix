@@ -7,7 +7,6 @@
 }: {
   imports = [
     inputs.nvf.homeManagerModules.default
-    inputs.impurity.nixosModules.default
     ./nvf.nix
   ];
   xdg.configFile."nvim".source = impurity.link ./config;
