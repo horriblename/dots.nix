@@ -244,6 +244,10 @@ in {
       ts.enable = false;
       go.enable = true;
       zig.enable = false;
+      markdown = {
+        enable = true;
+        extensions.render-markdown-nvim.enable = true;
+      };
       python.enable = true;
       dart.enable = false;
       elixir.enable = false;
@@ -693,7 +697,7 @@ in {
 
       # Git
       (mkKeymap "n" "<leader>fgB" "<cmd>FzfLua git_blame<CR>" {})
-      (mkKeymap "n" "<leader>fgb" "<cmd>FzfLua git_brances<CR>" {})
+      (mkKeymap "n" "<leader>fgb" "<cmd>FzfLua git_branches<CR>" {})
       (mkKeymap "n" "<leader>fgc" "<cmd>FzfLua git_commits<CR>" {})
       (mkKeymap "n" "<leader>fgC" "<cmd>FzfLua git_bcommits<CR>" {})
       (mkKeymap "n" "<leader>fgf" "<cmd>FzfLua git_files<CR>" {})
