@@ -38,6 +38,10 @@
       url = "github:horriblename/hyprland-border-actions";
       inputs.hyprland.follows = "hyprland";
     };
+    hyprland-xdg-toplevel-move = {
+      url = "github:horriblename/hyprland-xdg-toplevel-move";
+      inputs.hyprland.follows = "hyprland";
+    };
     nvf = {
       url = "github:NotAShelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";

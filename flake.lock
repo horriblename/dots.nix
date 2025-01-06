@@ -625,6 +625,26 @@
         "type": "github"
       }
     },
+    "hyprland-xdg-toplevel-move": {
+      "inputs": {
+        "hyprland": [
+          "hyprland"
+        ]
+      },
+      "locked": {
+        "lastModified": 1736160704,
+        "narHash": "sha256-YGvyr1WbUyVR/odzuaeXpQ4LB1U0ef7NTryeINWk3C8=",
+        "owner": "horriblename",
+        "repo": "hyprland-xdg-toplevel-move",
+        "rev": "1b843791f554138aad1164b9ef164d3d5d6b9017",
+        "type": "github"
+      },
+      "original": {
+        "owner": "horriblename",
+        "repo": "hyprland-xdg-toplevel-move",
+        "type": "github"
+      }
+    },
     "hyprlang": {
       "inputs": {
         "hyprutils": [
@@ -3456,6 +3476,7 @@
         "hyprgrass": "hyprgrass",
         "hyprland": "hyprland",
         "hyprland-border-actions": "hyprland-border-actions",
+        "hyprland-xdg-toplevel-move": "hyprland-xdg-toplevel-move",
         "hyprspace": "hyprspace",
         "impurity": "impurity",
         "lix": "lix",
