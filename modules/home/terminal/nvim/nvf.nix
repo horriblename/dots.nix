@@ -315,15 +315,6 @@ in {
       fidget-nvim.enable = true;
     };
 
-    statusline = {
-      lualine = {
-        enable = true;
-        setupOpts = {
-          options.theme = "night-owl";
-        };
-      };
-    };
-
     theme.enable = false;
 
     # custom setup at the bottom
