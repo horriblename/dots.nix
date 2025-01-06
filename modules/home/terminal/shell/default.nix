@@ -7,43 +7,46 @@
   imports = [
     ./bash.nix
   ];
-  home.sessionVariables = {
-    # XDG_DATA_DIRS = "${config.home.profileDirectory}/share\${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}";
-    EDITOR = lib.getExe pkgs.neovim;
-    PAGER = "less -FR";
-    CARGO_HOME = "${config.xdg.dataHome}/cargo";
-    RUSTUP_HOME = "${config.xdg.dataHome}/rustup";
-    GOPATH = "${config.xdg.dataHome}/go";
-    _ZL_DATA = "${config.xdg.dataHome}/zlua";
-  };
-  home.sessionPath = [
-    "$HOME/.local/bin"
-    "$XDG_DATA_HOME/go/bin"
-    "$XDG_DATA_HOME/cargo/bin"
-    "$XDG_DATA_HOME/npm/bin"
-  ];
-  home.shellAliases = {
-    c = "clear";
-    n = lib.getExe pkgs.neovim;
-    vim = lib.getExe pkgs.neovim;
-    nn = lib.getExe pkgs.neovim + " ./";
-    ls = "ls -A";
-    q = "exit";
-    lg = "lazygit";
-    rebuild = "sudo nixos-rebuild switch --flake ~/dots.nix#";
-    hm = "home-manager";
-    path = ''sed -e 's/:/\n/g' <<< "$PATH"'';
-    o = "xdg-open";
-    std = "env PATH=/sbin:/bin"; # sometimes I need to use system native apps on arch
-    flake = "nix flake";
-    nix-jq = "nix eval --impure --expr 'builtins.fromJSON (builtins.readFile /dev/fd/0)' --apply";
-    m = ''dirVar=$PWD; while ! [ -f "$dirVar/Makefile" ] && [ "$dirVar" != /  ]; do dirVar=$(dirname "$dirVar") done; make -C "$dirVar"'';
-    gg = "cd `git rev-parse --show-toplevel`";
-    status = "echo $?";
-    lastproc = "echo $!";
-    j = "jj";
-    jl = "jj log";
-    jc = "jj commit";
+  home = {
+    sessionVariables = {
+      # XDG_DATA_DIRS = "${config.home.profileDirectory}/share\${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}";
+      EDITOR = lib.getExe pkgs.neovim;
+      PAGER = "less -FR";
+      CARGO_HOME = "${config.xdg.dataHome}/cargo";
+      RUSTUP_HOME = "${config.xdg.dataHome}/rustup";
+      GOPATH = "${config.xdg.dataHome}/go";
+      _ZL_DATA = "${config.xdg.dataHome}/zlua";
+    };
+    sessionPath = [
+      "$HOME/.local/bin"
+      "$XDG_DATA_HOME/go/bin"
+      "$XDG_DATA_HOME/cargo/bin"
+      "$XDG_DATA_HOME/npm/bin"
+    ];
+    shellAliases = {
+      c = "clear";
+      n = lib.getExe pkgs.neovim;
+      nr = "nix run";
+      vim = lib.getExe pkgs.neovim;
+      nn = lib.getExe pkgs.neovim + " ./";
+      ls = "ls -A";
+      q = "exit";
+      lg = "lazygit";
+      rebuild = "sudo nixos-rebuild switch --flake ~/dots.nix#";
+      hm = "home-manager";
+      path = ''sed -e 's/:/\n/g' <<< "$PATH"'';
+      o = "xdg-open";
+      std = "env PATH=/sbin:/bin"; # sometimes I need to use system native apps on arch
+      flake = "nix flake";
+      nix-jq = "nix eval --impure --expr 'builtins.fromJSON (builtins.readFile /dev/fd/0)' --apply";
+      m = ''dirVar=$PWD; while ! [ -f "$dirVar/Makefile" ] && [ "$dirVar" != /  ]; do dirVar=$(dirname "$dirVar") done; make -C "$dirVar"'';
+      gg = "cd `git rev-parse --show-toplevel`";
+      status = "echo $?";
+      lastproc = "echo $!";
+      j = "jj";
+      jl = "jj log";
+      jc = "jj commit";
+    };
   };
 
   programs = {
