@@ -7,6 +7,7 @@
   nix.package = inputs.lix.packages.${pkgs.system}.nix;
   nix.extraOptions = "experimental-features = nix-command flakes";
   nix.registry = {
+    n.flake = inputs.nixpkgs;
     nixpkgs.flake = inputs.nixpkgs;
     nixgl.flake = inputs.nixgl;
     dots.flake = self;
