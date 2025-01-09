@@ -420,6 +420,8 @@ in {
       dashboard-nvim = {
         enable = true;
         setupOpts = {
+          # adapted from nvf logo (https://github.com/NotAShelf/nvf)
+          # under CC-BY (https://creativecommons.org/licenses/by/4.0/)
           config.header = [
             "   🭇🭄🭏🬼          🬿    "
             "  🭊🭁██🭌🬿         █🭏🬼  "
