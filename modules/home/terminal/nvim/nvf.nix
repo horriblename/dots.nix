@@ -714,6 +714,13 @@ in {
         package = aerial-nvim;
         setup = setup "aerial" {};
       };
+      luee = {
+        package = pkgs.vimUtils.buildVimPlugin {
+          pname = "luee";
+          version = "git";
+          src = inputs.luee;
+        };
+      };
       fzf-lua = {
         package = pkgs.vimPlugins.fzf-lua;
         setup = setup "fzf-lua" {

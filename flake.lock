@@ -768,6 +768,22 @@
         "url": "https://git.lix.systems/lix-project/lix"
       }
     },
+    "luee": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1736327272,
+        "narHash": "sha256-rftYlpHZBKNSPKos7YqYIdf/f1W0SmF/PGKfFxFQ5Io=",
+        "owner": "horriblename",
+        "repo": "luee",
+        "rev": "5de6cfcf766a843e1bfd84456a96c8a8a03e092c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "horriblename",
+        "repo": "luee",
+        "type": "github"
+      }
+    },
     "md-img-paste-vim": {
       "flake": false,
       "locked": {
@@ -3436,6 +3452,7 @@
         "hyprspace": "hyprspace",
         "impurity": "impurity",
         "lix": "lix",
+        "luee": "luee",
         "md-img-paste-vim": "md-img-paste-vim",
         "nix-index-database": "nix-index-database",
         "nix-on-droid": "nix-on-droid",
