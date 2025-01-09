@@ -441,10 +441,6 @@ in {
       };
     };
 
-    notify = {
-      nvim-notify.enable = true;
-    };
-
     projects = {
       project-nvim = {
         enable = true;
