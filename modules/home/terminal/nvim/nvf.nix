@@ -473,6 +473,16 @@ in {
       todo-comments.enable = true;
     };
 
+    runner = {
+      run-nvim = {
+        enable = true;
+        mappings = {
+          runCommand = "<leader>mm";
+          runOverride = "<leader>mo";
+        };
+      };
+    };
+
     terminal = {
       toggleterm = {
         mappings.open = null;
