@@ -380,12 +380,10 @@ in {
     };
 
     utility = {
-      icon-picker.enable = true;
       diffview-nvim.enable = true;
     };
 
     notes = {
-      mind-nvim.enable = true;
       todo-comments.enable = true;
     };
 
@@ -443,7 +441,7 @@ in {
 
     session = {
       nvim-session-manager = {
-        enable = true;
+        enable = false;
         setupOpts = {
           autoload_mode = "Disabled";
         };
