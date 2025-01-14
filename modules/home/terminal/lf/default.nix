@@ -1,5 +1,11 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  impurity,
+  ...
+}: {
   home.packages = with pkgs; [
+    lf
+
     xdg-utils
     # preview tools
     bat
@@ -31,11 +37,12 @@
     # others
     #pdfgrep
   ];
-  programs.lf = {
-    enable = true;
-    extraConfig = builtins.readFile ./lfrc;
-    previewer.source = ./preview;
-  };
 
-  xdg.configFile."lf/icons".text = builtins.readFile ./icons;
+  xdg.configFile = {
+    "lf/lfrc".text = ''
+      set previewer ${impurity.link ./preview}
+      source ${impurity.link ./lfrc}
+    '';
+    "lf/icons".text = builtins.readFile ./icons;
+  };
 }
