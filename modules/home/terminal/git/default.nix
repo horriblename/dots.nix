@@ -1,4 +1,8 @@
-{config, ...}: {
+{
+  config,
+  impurity,
+  ...
+}: {
   programs.git = {
     enable = true;
     userEmail = "badnam3o.0@gmail.com";
@@ -16,6 +20,7 @@
     extraConfig = {
       core = {
         editor = "nvim";
+        excludesfile = "${impurity.link ./global.excludes}";
       };
 
       diff = {
