@@ -14,8 +14,7 @@ in {
         homeDirectory = "/home/deck";
       };
       dots.wayland = {
-        enable = true;
-        touchScreen = true;
+        graphicalApps = true;
       };
     })
     (mkIf (cfgPreset == "surface") {
