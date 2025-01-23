@@ -15,7 +15,6 @@ endfu
 " {{{
 set mouse=a
 set mousemodel=extend
-syntax on
 set ignorecase
 set smartcase
 set wildignorecase
@@ -90,10 +89,6 @@ set clipboard=
 if has('nvim')
 	set exrc
 endif
-
-" auto load ft plugins (vim compatibility) 
-filetype plugin on
-" }}}
 
 " User Commands
 " {{{
