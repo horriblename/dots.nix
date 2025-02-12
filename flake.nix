@@ -76,7 +76,7 @@
     nixdroidpkgs.url = "github:horriblename/nixdroidpkgs";
     nixdroidpkgs.inputs.nixpkgs.follows = "nixpkgs";
     nix-on-droid = {
-      url = "github:nix-community/nix-on-droid/release-24.05";
+      url = "github:nix-community/nix-on-droid";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     perfanno-nvim = {
@@ -181,7 +181,6 @@
           }
         ];
       };
-      nix-on-droid = genHomeConfig {preset = "droid";};
     };
 
     nixosConfigurations = let
@@ -346,6 +345,38 @@
             #     home.homeDirectory = lib.mkForce "/Users/pei.ching";
             #   };
             # }
+          ];
+        };
+    };
+
+    nixOnDroidConfigurations = {
+      kirin = let
+        pkgs = pkgsFor {system = "aarch64-linux";};
+      in
+        inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+          inherit pkgs;
+          modules = [
+            {
+              nix.package = lib.mkForce pkgs.nix;
+              user.shell = lib.getExe pkgs.zsh;
+              environment.packages = with pkgs; [
+                busybox
+                neovim
+                zsh
+                git
+              ];
+              # TODO: extract along with genHomeConfig
+              home-manager = {
+                useGlobalPkgs = true;
+                config = ./modules/home/home.nix;
+                sharedModules = [
+                  {dots.preset = "droid";}
+                ];
+                extraSpecialArgs = {inherit self inputs;};
+              };
+
+              system.stateVersion = "24.05";
+            }
           ];
         };
     };
