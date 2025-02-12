@@ -694,57 +694,57 @@ in {
         '';
       };
       nixrun = {package = pkgs.nixrun-nvim;};
-    };
-    nvim-treesitter-textobjects = {
-      package = pkgs.vimPlugins.nvim-treesitter-textobjects;
-      setup = setup "nvim-treesitter.configs" {
-        textobjects = {
-          select = {
-            enable = true;
-            lookahed = true;
-            keymaps = {
-              "af" = "@function.outer";
-              "if" = "@function.inner";
-              "ac" = "@class.outer";
-              "ic" = "@class.inner";
+      nvim-treesitter-textobjects = {
+        package = pkgs.vimPlugins.nvim-treesitter-textobjects;
+        setup = setup "nvim-treesitter.configs" {
+          textobjects = {
+            select = {
+              enable = true;
+              lookahed = true;
+              keymaps = {
+                "af" = "@function.outer";
+                "if" = "@function.inner";
+                "ac" = "@class.outer";
+                "ic" = "@class.inner";
+              };
+
+              selection_modes = {
+                "@parameter.outer" = "v";
+                "@function.outer" = "V";
+                "@class.outer" = "V";
+              };
+            };
+            swap = {
+              enable = true;
+              swap_next = {
+                "cx;" = "@parameter.inner";
+              };
+              swap_previous = {
+                "cx," = "@parameter.inner";
+              };
             };
 
-            selection_modes = {
-              "@parameter.outer" = "v";
-              "@function.outer" = "V";
-              "@class.outer" = "V";
-            };
-          };
-          swap = {
-            enable = true;
-            swap_next = {
-              "cx;" = "@parameter.inner";
-            };
-            swap_previous = {
-              "cx," = "@parameter.inner";
-            };
-          };
-
-          move = {
-            enable = true;
-            set_jumps = true;
-            goto_next_start = {
-              "]f" = "@function.outer";
-              "]c" = "@class.outer";
-              "]s" = "@scope";
-            };
-            goto_previous_start = {
-              "[f" = "@function.outer";
-              "[c" = "@class.outer";
-              "[s" = "@scope";
-            };
-            goto_next_end = {
-              "]F" = "@function.outer";
-              "]C" = "@class.outer";
-            };
-            goto_previous_end = {
-              "[F" = "@function.outer";
-              "[C" = "@class.outer";
+            move = {
+              enable = true;
+              set_jumps = true;
+              goto_next_start = {
+                "]f" = "@function.outer";
+                "]c" = "@class.outer";
+                "]s" = "@scope";
+              };
+              goto_previous_start = {
+                "[f" = "@function.outer";
+                "[c" = "@class.outer";
+                "[s" = "@scope";
+              };
+              goto_next_end = {
+                "]F" = "@function.outer";
+                "]C" = "@class.outer";
+              };
+              goto_previous_end = {
+                "[F" = "@function.outer";
+                "[C" = "@class.outer";
+              };
             };
           };
         };
