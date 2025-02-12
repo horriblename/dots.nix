@@ -8,6 +8,12 @@
   nix.extraOptions = "!include nix.local.conf";
   xdg.enable = true;
   imports = [
+    # external modules
+    ../core
+    inputs.impurity.nixosModules.default
+    inputs.nix-index-database.hmModules.nix-index
+
+    # custom options
     ./module.nix
   ];
 

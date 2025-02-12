@@ -88,7 +88,6 @@
   outputs = {
     self,
     nixpkgs,
-    nix-index-database,
     nixos-hardware,
     home-manager,
     anyrun,
@@ -127,11 +126,7 @@
         };
         modules =
           [
-            core
             ./modules/home/home.nix
-            inputs.impurity.nixosModules.default
-
-            nix-index-database.hmModules.nix-index
             {dots = {inherit preset;};}
           ]
           ++ extraModules;
