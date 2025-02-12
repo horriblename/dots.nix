@@ -78,6 +78,7 @@
     nix-on-droid = {
       url = "github:nix-community/nix-on-droid";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
     };
     perfanno-nvim = {
       url = "github:t-troebst/perfanno.nvim";
