@@ -352,8 +352,7 @@
         inputs.nix-on-droid.lib.nixOnDroidConfiguration {
           inherit pkgs;
           modules = [
-            {
-              nix.package = lib.mkForce pkgs.nix;
+            ({config, ...}: {
               user.shell = lib.getExe pkgs.zsh;
               environment.packages = with pkgs; [
                 busybox
@@ -366,13 +365,16 @@
                 useGlobalPkgs = true;
                 config = ./modules/home/home.nix;
                 sharedModules = [
-                  {dots.preset = "droid";}
+                  {
+                    nix.package = lib.mkForce config.nix.package;
+                    dots.preset = "droid";
+                  }
                 ];
                 extraSpecialArgs = {inherit self inputs;};
               };
 
               system.stateVersion = "24.05";
-            }
+            })
           ];
         };
     };
