@@ -181,7 +181,6 @@ in {
       };
       lua = {
         enable = true;
-        lsp.neodev.enable = true;
       };
     };
 
