@@ -95,9 +95,9 @@ in {
 
     lsp = {
       formatOnSave = true;
-      lspkind.enable = false;
+      lspkind.enable = true;
       lspsaga.enable = false;
-      lspSignature.enable = true;
+      lspSignature.enable = false;
     };
 
     debugger.nvim-dap = {
@@ -209,10 +209,16 @@ in {
     # custom setup at the bottom
     autopairs.nvim-autopairs.enable = false;
 
-    autocomplete.nvim-cmp = {
+    autocomplete.blink-cmp = {
       enable = true;
+      setupOpts = {
+        signature.enabled = true;
+        completion.documentation = {
+          window.border = ["" "" "" "▕" "" "" "" "▌"];
+        };
+      };
       mappings = {
-        # close = "<C-e>";
+        close = "<C-e>";
         confirm = "<C-y>";
         next = "<C-n>";
         previous = "<C-p>";
