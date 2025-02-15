@@ -32,13 +32,31 @@
 
   programs.zsh.enable = true;
 
-  services.btrfs = {
-    autoScrub = {
-      enable = true;
-      interval = "weekly";
+  services = {
+    btrfs = {
+      autoScrub = {
+        enable = true;
+        interval = "weekly";
+      };
+    };
+
+    snapper = {
+      cleanupInterval = "1w";
+      configs = {
+        home = {
+          SUBVOLUME = "/home";
+          TIMELINE_CREATE = true;
+          TIMELINE_CLEANUP = true;
+          TIMELINE_LIMIT_HOURLY = 10;
+          TIMELINE_LIMIT_WEEKLY = 3;
+          TIMELINE_LIMIT_MONTHLY = 6;
+          TIMELINE_LIMIT_QUARTERLY = 0;
+          TIMELINE_LIMIT_YEARLY = 3;
+          ALLOW_USERS = ["py"];
+        };
+      };
     };
   };
-
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
