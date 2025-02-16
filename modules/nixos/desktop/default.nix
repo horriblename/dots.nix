@@ -6,8 +6,4 @@
     ./wayland.nix
     ./gaming.nix
   ];
-
-  programs.hyprland = {
-    enable = true;
-  };
 }
