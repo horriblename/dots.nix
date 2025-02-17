@@ -192,6 +192,9 @@ in {
         csharp_ls = {};
         elmls = {};
         clojure_lsp = {};
+        jsonls.extraConfig = {
+          cmd = ["${pkgs.nodePackages.vscode-langservers-extracted}/bin/vscode-json-language-server"];
+        };
         nixd.extraConfig = {
           cmd = [(lib.getExe pkgs.nixd)];
         };
