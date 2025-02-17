@@ -616,6 +616,9 @@ in {
         package = night-owl-nvim;
         setup = "vim.cmd.colorscheme 'night-owl'";
       };
+      nlsp-settings = {
+        package = nlsp-settings-nvim;
+      };
       treesitter-roc = {package = pkgs.neovim-treesitter-roc;};
       aerial = {
         package = aerial-nvim;
@@ -735,4 +738,3 @@ in {
     };
   };
 }
-
