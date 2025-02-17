@@ -225,6 +225,7 @@ in {
         };
       };
       mappings = {
+        complete = "<C-x><C-a>";
         close = "<C-e>";
         confirm = "<C-y>";
         next = "<C-n>";
