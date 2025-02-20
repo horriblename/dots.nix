@@ -57,6 +57,16 @@ xnoremap gl g_
 xnoremap gL g$
 xnoremap gH g^
 
+function s:gdCaseSensitive()
+	let is_ic = &ic
+	set noic
+	normal! gd
+	let @/ = @/ .. '\C'
+	let &ic = is_ic
+	unlet is_ic
+endfu
+nnoremap <silent> gd <cmd>call <SID>gdCaseSensitive()<CR>
+
 " Sub-mode mapping {{{
 nmap gj gjg
 nmap gk gjk
