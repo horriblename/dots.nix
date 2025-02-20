@@ -77,6 +77,7 @@ command -bar IndentHintsToggle let b:enable_indent_hints = !get(b:, 'enable_inde
 
 set wildcharm=<Tab>
 set wildmode=longest:full
+set wildoptions=fuzzy,pum
 set wildmenu
 
 set cmdwinheight=4
