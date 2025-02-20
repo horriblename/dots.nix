@@ -134,6 +134,15 @@ augroup FixTabClose
 	au!
 	au TabClosed * if str2nr(expand('<afile>')) <= tabpagenr('$') | tabprev | endif
 augroup END
+
+augroup DotsColorTweaks
+	au!
+	au ColorScheme night-owl hi NonText gui=nocombine
+	au ColorScheme night-owl hi DiffAdd guifg=NONE guibg=#2e3b1f
+	au ColorScheme night-owl hi DiffDelete guifg=NONE guibg=#5a2625
+	au ColorScheme night-owl hi DiffChange guifg=NONE gui=NONE guibg=#4a3e1a
+	au ColorScheme night-owl hi DiffText guifg=NONE guibg=#7d6213
+augroup END
 " }}}
 
 let g:markdown_folding = 1
