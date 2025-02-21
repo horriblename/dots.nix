@@ -488,6 +488,13 @@ in {
         opts.border = opts.border or border
         return orig(contexts, syntax, opts, ...)
       end
+
+      local lspconfig = require("lspconfig")
+      lspconfig.util.on_setup = lspconfig.util.add_hook_before(lspconfig.util.on_setup, function(config)
+        if config.on_attach == nil then
+          config.on_attach = default_on_attach
+        end
+      end)
     '';
 
     keymaps = [
