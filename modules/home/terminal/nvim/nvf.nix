@@ -18,10 +18,6 @@ in {
     preventJunkFiles = true;
     enableLuaLoader = true;
 
-    options = {
-      foldtext = "";
-    };
-
     lazy = {
       enable = true;
       plugins = {
@@ -134,6 +130,7 @@ in {
         enable = false;
         crates.enable = true;
       };
+      haskell.enable = true;
       ts.enable = false;
       go.enable = true;
       zig.enable = false;
@@ -222,7 +219,10 @@ in {
     autocomplete.blink-cmp = {
       enable = true;
       setupOpts = {
-        signature.enabled = true;
+        signature = {
+          enabled = true;
+          window.border = ["" "" "" "▕" "" "" "" "▌"];
+        };
         completion.documentation = {
           window.border = ["" "" "" "▕" "" "" "" "▌"];
         };

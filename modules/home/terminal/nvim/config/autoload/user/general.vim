@@ -75,6 +75,12 @@ augroup END
 
 command -bar IndentHintsToggle let b:enable_indent_hints = !get(b:, 'enable_indent_hints', v:true) | let &l:listchars = g:Listchars(&l:expandtab, shiftwidth())
 
+fu user#general#foldtext()
+	let text = getline(v:foldstart)->substitute('\t', repeat(' ', &tabstop), 'g')
+    return text . '  󰁂 ' . (v:foldend - v:foldstart + 1) . ' lines'
+endfu
+set foldtext=user#general#foldtext()
+
 set wildcharm=<Tab>
 set wildmode=longest:full
 set wildoptions=fuzzy,pum
