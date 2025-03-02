@@ -91,6 +91,19 @@ in {
             vim.g["conjure#mapping#doc_word"] = "<localleader>h"
           '';
         };
+        "grug-far.nvim" = {
+          package = pkgs.vimPlugins.grug-far-nvim;
+          cmd = ["GrugFar"];
+          setupModule = "grug-far";
+          setupOpts = {
+            engines = {
+              astgrep = {
+                path = "${pkgs.ast-grep}/bin/ast-grep";
+              };
+            };
+            engine = "astgrep";
+          };
+        };
       };
     };
 
