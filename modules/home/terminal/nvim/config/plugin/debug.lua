@@ -1,7 +1,8 @@
 function _G.unload(patt)
 	for key, _ in pairs(package.loaded) do
-		if string.find(key, patt) then
+		if string.find(key, '^' .. patt) then
 			package.loaded[patt] = nil
+			vim.notify('unloaded ' .. key)
 		end
 	end
 end
