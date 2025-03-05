@@ -10,7 +10,6 @@ local group = vim.api.nvim_create_augroup("ZellijIntegration", { clear = true })
 
 vim.api.nvim_create_autocmd("DirChanged", {
 	group = group,
-	once = true,
 	callback = renameTab,
 })
 
