@@ -15,6 +15,8 @@ in {
       };
     };
 
+    security.pam.services.gdm.enableGnomeKeyring = true;
+
     programs.dconf = {
       enable = true;
       profiles.user.databases = [

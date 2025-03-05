@@ -9,6 +9,8 @@ in {
   services = mkIf config.dots.wayland.enable {
     udev.packages = [pkgs.yubikey-personalization];
     pcscd.enable = true;
+
+    gnome.gnome-keyring.enable = true;
   };
 
   programs.gnupg.agent = {
