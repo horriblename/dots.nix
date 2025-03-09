@@ -25,8 +25,12 @@
     ];
     shellAliases = {
       c = "clear";
-      n = lib.getExe pkgs.neovim;
+      v = lib.getExe pkgs.neovim;
+      n = "nix";
+      nb = "nix build";
       nr = "nix run";
+      ns = "nix shell";
+      nd = "nix develop";
       vim = lib.getExe pkgs.neovim;
       nn = lib.getExe pkgs.neovim + " ./";
       ls = "ls -A";
@@ -45,7 +49,14 @@
       lastproc = "echo $!";
       j = "jj";
       jl = "jj log";
+      jn = "jj new";
+      jb = "jj bookmark";
+      jd = "jj diff";
+      jg = "jj git";
       jc = "jj commit";
+      g = "git";
+      gs = "git status";
+      gc = "git commit";
     };
   };
 
