@@ -17,3 +17,13 @@ vim.reg = setmetatable(
 	{ __index = function(_, key) return vim.fn.getreg(key) end }
 )
 _G.reg = vim.reg
+
+_G.F = function(...) return require('F')(...) end
+_G.E = setmetatable({}, {
+	__index = function(_, env)
+		return os.getenv(env)
+	end,
+	__newindex = function(_, k, v)
+		vim.fn.setenv(k, v)
+	end
+})
