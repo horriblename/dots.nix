@@ -3,6 +3,7 @@
   lib,
   config,
   inputs,
+  impurity,
   ...
 }: let
   mkHyprlandService = lib.recursiveUpdate {
@@ -61,12 +62,12 @@ in {
       enable = true;
       package = null;
       extraConfig = ''
-        source = ${./options.conf}
-        source = ${./hardware.conf}
-        source = ${./theme.conf}
-        source = ${./winrules.conf}
-        source = ${./keybinds.conf}
-        source = ${./autostart.conf}
+        source = ${impurity.link ./options.conf}
+        source = ${impurity.link ./hardware.conf}
+        source = ${impurity.link ./theme.conf}
+        source = ${impurity.link ./winrules.conf}
+        source = ${impurity.link ./keybinds.conf}
+        source = ${impurity.link ./autostart.conf}
 
         bind=ALT,SPACE,exec,${config.menu.launcher}
 
