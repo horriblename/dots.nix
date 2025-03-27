@@ -104,6 +104,12 @@ in {
             engine = "astgrep";
           };
         };
+        lsp-lines = {
+          package = "lsp-lines";
+          keys = [
+            (mkKeymap "n" "<leader>le" "<cmd>lua require('lsp_lines').toggle()<CR>" {desc = "Toggle line diagnostics";})
+          ];
+        };
       };
     };
 
@@ -114,6 +120,7 @@ in {
       lspkind.enable = true;
       lspsaga.enable = false;
       lspSignature.enable = false;
+      mappings.openDiagnosticFloat = null;
     };
 
     debugger.nvim-dap = {
