@@ -85,8 +85,11 @@ in {
         ++ lib.optional config.dots.wayland.touchScreen inputs.hyprgrass.packages.${pkgs.system}.default;
     };
 
-    xdg.configFile."hypr/hyprlandd.conf".text = hlDebugMonitor + builtins.readFile ./hyprlandd.conf;
-    xdg.configFile."hypr/scripts".source = ./scripts;
+    xdg.configFile = {
+      "hypr/hyprlandd.conf".text = hlDebugMonitor + builtins.readFile ./hyprlandd.conf;
+      "hypr/scripts".source = ./scripts;
+      "xdg-desktop-portal/hyprland-portals.conf".source = ./hyprland-portals.conf;
+    };
 
     systemd.user.services = {
       swaybg = mkHyprlandService {
