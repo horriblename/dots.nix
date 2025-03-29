@@ -14,7 +14,11 @@ end
 
 vim.reg = setmetatable(
 	{ set = vim.fn.setreg },
-	{ __index = function(_, key) return vim.fn.getreg(key) end }
+	{
+		__call = function(_, key) return vim.fn.getreg(key) end,
+		__index = function(_, key) return vim.fn.getreg(key) end,
+		__newindex = function(_, key, value) vim.fn.setreg(key, value) end,
+	}
 )
 _G.reg = vim.reg
 
