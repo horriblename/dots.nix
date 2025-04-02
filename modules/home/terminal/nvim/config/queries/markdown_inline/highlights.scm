@@ -1,3 +1,4 @@
 ; extends
+
 (emphasis
-	(strong_emphasis) @text.stronger)
+  (strong_emphasis) @text.stronger)
