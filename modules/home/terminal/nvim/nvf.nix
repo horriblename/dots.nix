@@ -104,11 +104,6 @@ in {
             engine = "astgrep";
           };
         };
-        lsp-lines = {
-          package = "lsp-lines";
-          keys = [
-            (mkKeymap "n" "<leader>le" "<cmd>lua require('lsp_lines').toggle()<CR>" {desc = "Toggle line diagnostics";})
-          ];
         };
       };
     };
@@ -524,6 +519,9 @@ in {
       (mkKeymap "n" "<leader>ld" ":lua vim.diagnostic.setqflist({open = true})<CR>" {})
       (mkKeymap "n" "<leader>lf" ":lua vim.lsp.buf.format()<CR>" {})
       (mkKeymap "n" "<leader>li" ":lua vim.lsp.buf.implementation()<CR>" {})
+      (mkKeymap "n" "<leader>le"
+        "<cmd>lua vim.diagnostic.config({virtual_lines = vim.diagnostic.config().virtual_lines})<CR>"
+        {desc = "Toggle line diagnostics";})
 
       # Diffview
       (mkKeymap "n" "<leader>gdq" ":DiffviewClose<CR>" {})
