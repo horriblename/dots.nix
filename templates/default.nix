@@ -11,6 +11,7 @@
     path = ./perMachinePkgs;
     description = "Quick and dirty per-machine environment";
   };
+  dap = {path = ./dap;};
   c = {path = ./c;};
   elm = {path = ./elm;};
   go = {path = ./go;};

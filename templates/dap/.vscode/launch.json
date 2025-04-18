@@ -1,0 +1,30 @@
+{
+  "version": "0.2.0",
+  "description": "Temmplate for DAP configs",
+  "configurations": [
+    {
+      "name": "Launch program (via go debugger)",
+      "type": "go",
+      "request": "launch",
+      "mode": "debug",
+      "program": "${workspaceFolder}/src/cli",
+      "args": [
+        "--args",
+        "passed",
+        "to",
+        "debugee"
+      ],
+      "environment": [{"name": "MY_NAME", "value": "John"}]
+    },
+    {
+      "name": "Run tests",
+      "type": "go",
+      "request": "launch",
+      "mode": "test",
+      "program": "./${relativeFileDirname}",
+      "args": [
+        "-test.run=TestTypeProgram/class_definition"
+      ]
+    }
+  ]
+}
