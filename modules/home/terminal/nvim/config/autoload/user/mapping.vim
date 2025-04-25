@@ -4,7 +4,7 @@ fu user#mapping#setup() abort
 endfu
 
 let mapleader=' '
-let maplocalleader='  '
+let maplocalleader=' h'
 
 " Editor mappings {{{
 nnoremap > >>
@@ -311,7 +311,7 @@ tnoremap <M-C-,>  <C-\><C-n><C-W>3<
 tnoremap <M-C-=>  <C-\><C-n><C-W>3+
 tnoremap <M-C-->  <C-\><C-n><C-W>3-
 
-nnoremap <leader>r :n#<CR>
+nnoremap <leader><Tab> :n#<CR>
 
 nnoremap <C-/> :nohlsearch<cr>
 nnoremap <C-_> :nohlsearch<cr>
