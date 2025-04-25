@@ -1,0 +1,18 @@
+{
+	"defer enter": {
+		"prefix": ["defer-enter", "vim-enter"],
+		"body": [
+			"local function enter_callback()",
+			"	$0",
+			"end",
+			"if vim.v.vim_did_enter then",
+			"	enter_callback()",
+			"else",
+			"	vim.api.nvim_create_autocmd(\"VimEnter\", {",
+			"		callback = enter_callback,",
+			"		once = true",
+			"	})",
+			"end"
+		]
+	}
+}

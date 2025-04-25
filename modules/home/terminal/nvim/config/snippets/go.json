@@ -1,0 +1,12 @@
+{
+    "for loop map": {
+        "prefix": ["forMap"],
+        "body": [
+            "xs := make([]${1:from}, 0, len(${1}))",
+            "for _, x := range ${1} {",
+            "	xs = append(xs, ${2})",
+            "}",
+            ""
+        ]
+    }
+}
