@@ -5,6 +5,7 @@
   ...
 }: {
   imports = [
+    ./audio.nix
     ./fonts.nix
     ./anyrun
     ./eww
