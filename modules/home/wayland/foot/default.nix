@@ -10,6 +10,7 @@
       settings = {
         main = {
           font = "FiraCode Nerd Font:size=12";
+          gamma-correct-blending = false;
           include = "${pkgs.foot.themes}/share/foot/themes/gruvbox-dark";
         };
         colors = {
