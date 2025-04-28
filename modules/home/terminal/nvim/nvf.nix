@@ -104,7 +104,6 @@ in {
             engine = "astgrep";
           };
         };
-        };
       };
     };
 
