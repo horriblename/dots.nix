@@ -1,9 +1,11 @@
 {
-  services.easyeffects = {
+  lib,
+  config,
+  ...
+}: let
+  inherit (lib.modules) mkIf;
+in {
+  services.easyeffects = mkIf config.dots.wayland.enable {
     enable = true;
-    # Set to false to disable the EasyEffects daemon
-    daemon.enable = true;
-    # Set to false to disable the EasyEffects GUI
-    gui.enable = true;
   };
 }
