@@ -354,11 +354,13 @@
           modules = [
             ({config, ...}: {
               user.shell = lib.getExe pkgs.zsh;
-              environment.packages = with pkgs; [
-                busybox
-                neovim
-                zsh
-                git
+              environment.packages = [
+                pkgs.busybox
+                pkgs.neovim
+                pkgs.zsh
+                pkgs.git
+                inputs.nixdroidpkgs.packages.${pkgs.stdenv.system}.openssh
+                inputs.nixdroidpkgs.packages.${pkgs.stdenv.system}.termux-auth
               ];
               # TODO: extract along with genHomeConfig
               home-manager = {
