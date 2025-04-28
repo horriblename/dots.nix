@@ -382,10 +382,7 @@
     };
 
     packages = forEachSystem (system: let
-      pkgs = import nixpkgs {
-        inherit system;
-        overlays = [self.overlay];
-      };
+      pkgs = pkgsFor {inherit system;};
     in {
       inherit
         (pkgs)
