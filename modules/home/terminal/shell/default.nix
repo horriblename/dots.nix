@@ -31,6 +31,7 @@
       nr = "nix run";
       ns = "nix shell";
       nd = "nix develop";
+      ne = "nix eval";
       vim = lib.getExe pkgs.neovim;
       nn = lib.getExe pkgs.neovim + " ./";
       ls = "ls -A";
