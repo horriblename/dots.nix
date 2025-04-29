@@ -1,9 +1,14 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  lib,
+  ...
+}: {
   # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
+  # boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "surface"; # Define your hostname.
@@ -75,9 +80,18 @@
 
   services.thermald.enable = true;
 
+  ## Lanzaboote
+  imports = [inputs.lanzaboote.nixosModules.lanzaboote];
+  environment.systemPackages = [
+    pkgs.sbctl
+  ];
+  boot.loader.systemd-boot.enable = lib.mkForce false;
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/var/lib/sbctl";
+  };
+
   # system.copySystemConfiguration = true;
 
-  system.stateVersion = "
-        22.11
-        "; # DO NOT CHANGE THIS
+  system.stateVersion = "23.11"; # DO NOT CHANGE THIS
 }

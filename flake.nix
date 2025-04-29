@@ -85,6 +85,9 @@
       url = "github:t-troebst/perfanno.nvim";
       flake = false;
     };
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote";
+    };
   };
 
   outputs = {
