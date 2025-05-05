@@ -84,6 +84,8 @@
   imports = [inputs.lanzaboote.nixosModules.lanzaboote];
   environment.systemPackages = [
     pkgs.sbctl
+
+    pkgs.unityhub
   ];
   boot.loader.systemd-boot.enable = lib.mkForce false;
   boot.lanzaboote = {

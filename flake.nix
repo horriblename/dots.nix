@@ -126,6 +126,7 @@
           config.allowUnfreePredicate = pkg:
             builtins.elem (lib.getName pkg) [
               "codeium"
+              "unityhub"
             ];
           overlays = [self.overlay];
         };
