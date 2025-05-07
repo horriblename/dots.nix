@@ -38,37 +38,6 @@ cmd open ${{
    esac
 }}
 
-# open_with f|fx
-cmd open_with ${{
-	ftype=$(xdg-mime query filetype "$f")
-	open_with=$(grep "$ftype" "${XDG_CONFIG_HOME:-$HOME/.config}/mimeapps.list" | head -n 1 | sed -e 's/^.*=//' -e 's/\.desktop;/\n/g' | fzf)
-
-	OLD_IFS=$IFS
-	IFS=:
-	for dir in $XDG_DATA_HOME:$XDG_DATA_DIRS; do
-		IFS=$OLD_IFS
-		# TODO search subdirs as well
-		desktop_entry="$dir/applications/$open_with.desktop" 
-		if [ -f "$desktop_entry" ]; then
-			echo INFO: reading from "$desktop_entry"
-			exe=$(awk '/^Exec=/{sub("^Exec=", ""); print}' "$desktop_entry")
-			if [ -n "$exe" ]; then
-				# TODO shell escape $f
-				# TODO maybe use $fx for %F?
-				cmd=$(echo "$exe" | sed -e "s#%f#$fx#g" -e "s#%F#$fx#g" -e "s#%u#file://$fx#g" -e "s#%U#file://$fx#g" )
-				grep 'Terminal=true' "$desktop_entry" && exec $cmd
-				$cmd 2> /dev/null > /dev/null & disown
-				exit 0
-			else
-				echo "\x1b[31mERROR\x1b[0m:can't find Exec in $desktop_entry"
-			fi
-		fi
-	done
-
-	printf "\x1b[31mERROR\x1b[0m: can't find desktop entry $open_with.desktop\n"
-	exit 1
-}}
-
 cmd mkdir %{{
    printf "Directory Name: "
    read ans
@@ -364,7 +333,7 @@ map ed ${{
 }}
 map I $view "$f"
 map o $(xdg-open "$f" 1>/dev/null 2>/dev/null & disown)
-map O open_with
+map O $mimeopen -a "$f"
 map cv $gnvide
 map cd &LF_LEVEL=0 ${term:-xterm} -e "lf $PWD"
 map <c-g> $lazygit

@@ -13,6 +13,7 @@
     glow
     catdoc
     catdocx
+    perlPackages.FileMimeInfo
     # FIXME broken package
     # haskellPackages.pdftotext
 
