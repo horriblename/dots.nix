@@ -191,8 +191,8 @@
        :halign {orientation == "v" ? "center" : "start"}
        :valign {orientation == "v" ? "start" : "center"}
        :spacing 1
-       ;(button :onclick ``
-       ;  " ")
+       (button :onclick `nwg-drawer`
+         " ")
        (widgetWorkspaces :orientation {orientation ?: "h"})
        (_taskbar :tasks lTasks)))
 
