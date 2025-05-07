@@ -3,13 +3,15 @@
   pkgs,
   config,
   lib,
+  impurity,
   ...
 }: {
   config = lib.mkIf config.dots.wayland.enable {
     programs.eww = {
       enable = true;
-      configDir = ./config;
     };
+
+    xdg.configFile."eww".source = impurity.link ./config;
 
     home.packages = with pkgs; [
       brightnessctl
