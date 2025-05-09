@@ -948,11 +948,11 @@
         "termux-packages": "termux-packages"
       },
       "locked": {
-        "lastModified": 1735617404,
-        "narHash": "sha256-B6TvLBzd9VMshff8DCKHvzl+g3UHRPPfgjLHSRBzNTA=",
+        "lastModified": 1746794649,
+        "narHash": "sha256-GZKmDCvnXJv2EXzTAwHXnVX/4sUCqFaCeLGgTtCQg70=",
         "owner": "horriblename",
         "repo": "nixdroidpkgs",
-        "rev": "aa2b6b32a1f0293d808372290ef58ce709f6217a",
+        "rev": "4afd1e8d473902ff29b14ef97af51aaeea24be8b",
         "type": "github"
       },
       "original": {
@@ -1551,11 +1551,11 @@
     "termux-packages": {
       "flake": false,
       "locked": {
-        "lastModified": 1730118209,
-        "narHash": "sha256-NHOyEMSi0Oht/PwwspSZAy8rpDxU4nC6rw/OgULlQ0A=",
+        "lastModified": 1746793234,
+        "narHash": "sha256-iel8GPpNNwtj/XWxvD/Wx2+v8H5IU85Tx1pYKpJe4B4=",
         "owner": "termux",
         "repo": "termux-packages",
-        "rev": "ad5a441bd5624b88582a2de715b8428d68413db3",
+        "rev": "bb381b573d55b379943a8129ed29f2599d73cb44",
         "type": "github"
       },
       "original": {
