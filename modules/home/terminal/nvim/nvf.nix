@@ -155,7 +155,10 @@ in {
         enable = false;
         crates.enable = true;
       };
-      haskell.enable = true;
+      haskell = {
+        enable = true;
+        lsp.package = ["haskell-language-server-wrapper" "--lsp"];
+      };
       ts.enable = false;
       go.enable = true;
       zig.enable = false;
