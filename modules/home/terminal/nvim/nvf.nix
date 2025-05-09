@@ -186,52 +186,18 @@ in {
       };
     };
 
-    lsp.lspconfig.sources = let
-      lspconfigSetup = server: {
-        custom ? false,
-        extraConfig ? {},
-      }: ''
-        ${lib.optionalString custom ''
-          require'lspconfig.configs'.${server} = ${nix2Lua {
-            default_config = {
-              name = server;
-              inherit (extraConfig) cmd filetypes;
-              root_dir = extraConfig.root_dir or (mkLuaInline "function(fname) return lspconfig.util.find_git_ancestor(fname) end");
-              settings = extraConfig.settings or {};
-            };
-          }}
-        ''}
-
-        lspconfig.${server}.setup ${
-          nix2Lua ({
-              capabilities = mkLuaInline "capabilities";
-              on_attach = mkLuaInline "default_on_attach";
-            }
-            // extraConfig)
-        }
-      '';
-      mkLspSources = builtins.mapAttrs lspconfigSetup;
-    in
-      mkLspSources {
-        yamlls = {};
-        csharp_ls = {};
-        elmls = {};
-        clojure_lsp = {};
-        jsonls.extraConfig = {
-          cmd = ["${pkgs.nodePackages.vscode-langservers-extracted}/bin/vscode-json-language-server"];
-        };
-        nixd.extraConfig = {
-          cmd = [(lib.getExe pkgs.nixd)];
-        };
-        roc_ls = {
-          custom = true;
-          extraConfig = {
-            cmd = ["roc_language_server"];
-            filetypes = ["roc"];
-            root_pattern = mkLuaInline "require'lspconfig.util'.root_pattern('main.roc', '.git')";
-          };
-        };
+    lsp.servers = {
+      yamlls = {};
+      elmls = {};
+      clojure_lsp = {};
+      jsonls.cmd = ["${pkgs.nodePackages.vscode-langservers-extracted}/bin/vscode-json-language-server"];
+      roc_ls = {
+        cmd = ["roc_language_server"];
+        filetypres = ["roc"];
+        root_markers = [".git" "main.roc"];
       };
+      nixd = {cmd = [(lib.getExe pkgs.nixd)];};
+    };
 
     visuals = {
       nvim-web-devicons.enable = true;
