@@ -104,6 +104,17 @@ in {
             engine = "astgrep";
           };
         };
+        "asyncrun.vim" = {
+          package = pkgs.vimPlugins.asyncrun-vim;
+          cmd = ["AsyncRun"];
+          keys = [
+            (mkKeymap "n" "<leader>mm" "':AsyncRun ' . (exists('g:runner_cmd') ? g:runner_cmd . '<CR>' : ':AsyncRun ')" {
+              desc = "AsyncRun";
+              expr = true;
+              silent = false;
+            })
+          ];
+        };
       };
     };
 
@@ -385,16 +396,6 @@ in {
 
     notes = {
       todo-comments.enable = true;
-    };
-
-    runner = {
-      run-nvim = {
-        enable = true;
-        mappings = {
-          runCommand = "<leader>mm";
-          runOverride = "<leader>mo";
-        };
-      };
     };
 
     terminal = {
