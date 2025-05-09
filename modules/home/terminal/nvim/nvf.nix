@@ -420,7 +420,6 @@ in {
       };
       breadcrumbs.enable = false;
       illuminate.enable = true;
-      fastaction.enable = true;
     };
 
     assistant = {
