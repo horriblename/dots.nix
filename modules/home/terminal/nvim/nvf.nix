@@ -155,10 +155,7 @@ in {
         enable = false;
         crates.enable = true;
       };
-      haskell = {
-        enable = true;
-        lsp.package = ["haskell-language-server-wrapper" "--lsp"];
-      };
+      haskell.enable = false;
       ts.enable = false;
       go.enable = true;
       zig.enable = false;
@@ -189,6 +186,7 @@ in {
     lsp.servers = {
       yamlls = {};
       elmls = {};
+      hls = {};
       clojure_lsp = {};
       jsonls.cmd = ["${pkgs.nodePackages.vscode-langservers-extracted}/bin/vscode-json-language-server"];
       roc_ls = {
