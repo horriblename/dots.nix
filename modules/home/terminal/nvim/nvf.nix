@@ -608,7 +608,10 @@ in {
     extraPlugins = with pkgs.vimPlugins; {
       night-owl-nvim = {
         package = night-owl-nvim;
-        setup = "vim.cmd.colorscheme 'night-owl'";
+        setup = ''
+          vim.cmd.colorscheme("night-owl")
+          vim.cmd.highlight({"WinSeparator", "guifg=smokewhite"})
+        '';
       };
       nlsp-settings = {
         package = nlsp-settings-nvim;
