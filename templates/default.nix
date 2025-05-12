@@ -18,4 +18,5 @@
   rust = {path = ./rust;};
   vala = {path = ./vala;};
   python = {path = ./python;};
+  haskellStack = {path = ./haskellStack;};
 }
