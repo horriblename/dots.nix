@@ -5,5 +5,6 @@
     ./input.nix
     ./wayland.nix
     ./gaming.nix
+    ./users.nix
   ];
 }
