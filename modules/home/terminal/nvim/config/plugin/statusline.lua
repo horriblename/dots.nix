@@ -1,8 +1,3 @@
-if _G.format_callback == nil then
-	-- dumb way to detect nvf
-	return
-end
-
 local diagnosticIcons = {
 	[vim.diagnostic.severity.ERROR] = "%#DiagnosticError# x",
 	[vim.diagnostic.severity.WARN] = "%#DiagnosticWarn# !",
@@ -11,20 +6,20 @@ local diagnosticIcons = {
 }
 function _G.StatuslineDiagnostics()
 	local diag = vim.diagnostic.count(0)
-	local s = ''
+	local s = ""
 	local typ = vim.diagnostic.severity.ERROR
-	s = s .. (diag[typ] and diagnosticIcons[typ] .. diag[typ] or '')
+	s = s .. (diag[typ] and diagnosticIcons[typ] .. diag[typ] or "")
 
 	typ = vim.diagnostic.severity.WARN
-	s = s .. (diag[typ] and diagnosticIcons[typ] .. diag[typ] or '')
+	s = s .. (diag[typ] and diagnosticIcons[typ] .. diag[typ] or "")
 
 	typ = vim.diagnostic.severity.INFO
-	s = s .. (diag[typ] and diagnosticIcons[typ] .. diag[typ] or '')
+	s = s .. (diag[typ] and diagnosticIcons[typ] .. diag[typ] or "")
 
 	typ = vim.diagnostic.severity.HINT
-	s = s .. (diag[typ] and diagnosticIcons[typ] .. diag[typ] or '')
+	s = s .. (diag[typ] and diagnosticIcons[typ] .. diag[typ] or "")
 
-	return s ~= '' and s .. ' %0*' or ''
+	return s ~= "" and s .. " %0*" or ""
 end
 
 function _G.StatuslineGitStatus()
@@ -50,7 +45,7 @@ function _G.StatuslineGitStatus()
 		changed,
 		removed,
 		" %*",
-	}, '')
+	}, "")
 end
 
 local modes = {
@@ -81,33 +76,33 @@ function _G.StatuslineMode()
 end
 
 function _G.StatuslineFtIcon()
-	local icon, highlight = require 'nvim-web-devicons'.get_icon(
-		vim.fn.expand('%:t'),
-		vim.bo.filetype,
-		{ default = true })
+	local ok, devicons = pcall(require, "nvim-web-devicons")
+	if not ok then
+		return ""
+	end
+
+	local icon, highlight = devicons.get_icon(vim.fn.expand("%:t"), vim.bo.filetype, { default = true })
 
 	if highlight then
-		highlight = string.format('%%#%s#', highlight)
+		highlight = string.format("%%#%s#", highlight)
 	end
 	return string.format(" %s%s%%*", highlight, icon)
 end
 
+local lsp_skipset = { copilot = true }
 function _G.StatuslineLsp()
-	local all = vim.lsp.get_clients()
-
-	local attached = {}
-	for _, client in ipairs(all) do
-		if vim.lsp.buf_is_attached(0, client.id) then
-			table.insert(attached, client)
-		end
-	end
+	local attached = vim.lsp.get_clients({ bufnr = vim.fn.bufnr() })
 
 	if vim.tbl_isempty(attached) then
-		return ''
+		return ""
 	end
 
-	local count = #attached > 1 and '%#Comment#+' .. (#attached - 1) or ''
-	return ' ' .. attached[1].name .. count
+	local main_lsp = vim.iter(attached):find(function(client)
+		return not lsp_skipset[client.name]
+	end)
+
+	local count = #attached > 1 and "%#Comment#+" .. (#attached - 1) or ""
+	return " " .. main_lsp.name .. count
 end
 
 vim.o.statusline = table.concat({
