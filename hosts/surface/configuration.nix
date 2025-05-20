@@ -78,7 +78,16 @@
     '';
   };
 
-  services.thermald.enable = true;
+  services = {
+    thermald.enable = true;
+    btrfs = {
+      autoScrub = {
+        enable = true;
+        interval = "weekly";
+        fileSystems = ["/home/py"];
+      };
+    };
+  };
 
   ## Lanzaboote
   imports = [inputs.lanzaboote.nixosModules.lanzaboote];
