@@ -89,9 +89,13 @@ in {
     };
 
     xdg.configFile = {
-      "hypr/hyprlandd.conf".text = hlDebugMonitor + builtins.readFile ./hyprlandd.conf;
-      "hypr/scripts".source = ./scripts;
-      "xdg-desktop-portal/hyprland-portals.conf".source = ./hyprland-portals.conf;
+      "hypr/hyprlandd.conf".text =
+        hlDebugMonitor
+        + ''
+          source = ${impurity.link ./hyprlandd.conf}
+        '';
+      "hypr/scripts".source = impurity.link ./scripts;
+      "xdg-desktop-portal/hyprland-portals.conf".source = impurity.link ./hyprland-portals.conf;
     };
 
     systemd.user.services = {
