@@ -41,9 +41,6 @@
 
   users.users.py = {
     uid = 1000;
-    isNormalUser = true;
-    shell = pkgs.zsh;
-    extraGroups = ["wheel" "input" "disk"];
     packages = with pkgs; [
       firefox
     ];
