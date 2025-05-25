@@ -24,13 +24,14 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.py = {
-    uid = 1000;
-    isNormalUser = true;
-    shell = pkgs.zsh;
-    extraGroups = ["wheel" "input" "disk"];
+    extraGroups = ["docker"];
   };
 
   programs.zsh.enable = true;
+
+  virtualisation.docker = {
+    enable = true;
+  };
 
   services = {
     btrfs = {
