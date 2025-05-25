@@ -32,6 +32,7 @@ set jumpoptions=stack
 set formatoptions+=ro/
 set timeoutlen=400
 let &isfname = '@,48-57,/,\,.,-,_,+,,,#,$,%,~,='
+set completeopt=menu,popup,noinsert,fuzzy,menuone
 
 " Tab Settings
 set noexpandtab
