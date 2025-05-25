@@ -99,7 +99,7 @@ function _G.StatuslineLsp()
 
 	local main_lsp = vim.iter(attached):find(function(client)
 		return not lsp_skipset[client.name]
-	end)
+	end) or attached[1]
 
 	local count = #attached > 1 and "%#Comment#+" .. (#attached - 1) or ""
 	return " " .. main_lsp.name .. count
