@@ -194,7 +194,7 @@ in {
         filetypres = ["roc"];
         root_markers = [".git" "main.roc"];
       };
-      nixd = {cmd = [(lib.getExe pkgs.nixd)];};
+      nixd = {cmd = [(lib.getExe pkgs.nixd) "--log=error"];};
     };
 
     visuals = {
