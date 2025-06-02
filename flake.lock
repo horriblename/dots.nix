@@ -473,6 +473,26 @@
         "type": "github"
       }
     },
+    "hyprcursor-phinger": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1733645462,
+        "narHash": "sha256-6ktkUyK1CAuAXRZLNcAvR7o9lduC/EX98wZaapi4Q5M=",
+        "owner": "jappie3",
+        "repo": "hyprcursor-phinger",
+        "rev": "2e244e3398a3f9bbece6d21d56c2353cd773a8e6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jappie3",
+        "repo": "hyprcursor-phinger",
+        "type": "github"
+      }
+    },
     "hyprgraphics": {
       "inputs": {
         "hyprutils": [
@@ -1460,6 +1480,7 @@
         "fcitx-virtual-keyboard-adapter": "fcitx-virtual-keyboard-adapter",
         "gruvbox-kvantum": "gruvbox-kvantum",
         "home-manager": "home-manager",
+        "hyprcursor-phinger": "hyprcursor-phinger",
         "hyprgrass": "hyprgrass",
         "hyprland": "hyprland",
         "hyprland-border-actions": "hyprland-border-actions",
