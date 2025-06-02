@@ -115,6 +115,34 @@ in {
             })
           ];
         };
+        "iron.nvim" = {
+          package = pkgs.vimPlugins.iron-nvim;
+          setupModule = "iron";
+          setupOpts = {
+            config = {
+              repl_open_cmd = mkLuaInline "require('iron.view').split.botright(16)";
+            };
+
+            keymaps = {
+              toggle_repl = "<leader>rr";
+              restart_repl = "<leader>rR";
+              send_motion = "<leader>rs";
+              visual_send = "<leader>rs";
+              send_file = "<leader>rf";
+              send_line = "<leader>rss";
+              send_mark = "<leader>r'";
+              send_code_block = "<leader>rb";
+              send_code_block_and_move = "<leader>rn";
+              mark_motion = "<leader>rm";
+              mark_visual = "<leader>rm";
+              remove_mark = "<leader>rM";
+              cr = "<leader>r<cr>";
+              interrupt = "<leader>ri";
+              exit = "<leader>rq";
+              clear = "<leader>r<C-l>";
+            };
+          };
+        };
       };
     };
 
