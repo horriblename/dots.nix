@@ -515,7 +515,7 @@ in {
       (mkKeymap "n" "<leader>lf" ":lua vim.lsp.buf.format()<CR>" {})
       (mkKeymap "n" "<leader>li" ":lua vim.lsp.buf.implementation()<CR>" {})
       (mkKeymap "n" "<leader>le"
-        "<cmd>lua vim.diagnostic.config({virtual_lines = vim.diagnostic.config().virtual_lines})<CR>"
+        "<cmd>lua vim.diagnostic.config({virtual_lines = not vim.diagnostic.config().virtual_lines})<CR>"
         {desc = "Toggle line diagnostics";})
 
       # Diffview
