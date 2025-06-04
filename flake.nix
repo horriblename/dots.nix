@@ -397,7 +397,6 @@
     in {
       inherit
         (pkgs)
-        kanagawa-gtk
         hyprworkspaces
         anyrunPackages
         md-img-paste-vim
@@ -413,7 +412,6 @@
       ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
         buildInputs =
           [
-            pkgs.kanagawa-gtk
             pkgs.hyprworkspaces
             pkgs.roc
             pkgs.roc-ls
@@ -441,7 +439,6 @@
         '';
     });
     overlay = final: prev: {
-      kanagawa-gtk = final.callPackage ./pkgs/kanagawa-gtk.nix {};
       hyprworkspaces = final.callPackage ./pkgs/hyprworkspaces/default.nix {};
       anyrunPackages = anyrun.packages.${final.system};
       md-img-paste-vim = final.vimUtils.buildVimPlugin {
