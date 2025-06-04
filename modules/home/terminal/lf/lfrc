@@ -1,4 +1,4 @@
-# vim: expandtab tabstop=3 syntax=sh foldmethod=marker foldmarker={{,}}
+# vim: expandtab tabstop=3 foldmethod=marker foldmarker={{,}}
 # uses zsh for shell scripting
 # Basic Settings {{
 set preview true
@@ -13,15 +13,40 @@ set ignorecase true
 set truncatechar "…"
 set mouse
 set sixel
+set info custom_git
 #set cleaner ~/.config/lf/cleaner
 # }}
 
 # Hooks {{
-cmd on-cd ${{
+cmd on-cd &{{
    if [ -n "$ZELLIJ" ]; then
       command nohup zellij action rename-tab "${PWD##*/}" >/dev/null 2>&1
    fi
+
+	awkScript='
+      function prettify(status) {
+         if (status == "M") {
+            return "\x1b[31mM"
+         } else if (status == "MM") {
+            return "\x1b[32mM\x1b[31mM"
+         } else if (status == "??") {
+            return "\x1b[31m??"
+         } else if (status == "!!") {
+            return "\x1b[37mi"
+         }
+         return status
+      }
+
+      !index($2, "/") {
+         printf "custominfo %s/%s:custom_git:%s\n", ENVIRON["PWD"], $2, prettify($1);
+      }
+   '
+
+   git status --ignored --porcelain | awk -F' ' "$awkScript" \
+      | xargs -I@ lf -remote "send $id @"
 }}
+
+cmd on-init on-cd
 
 # }}
 
