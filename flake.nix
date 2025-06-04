@@ -397,7 +397,6 @@
     in {
       inherit
         (pkgs)
-        wf-osk
         kanagawa-gtk
         hyprworkspaces
         anyrunPackages
@@ -443,7 +442,6 @@
         '';
     });
     overlay = final: prev: {
-      wf-osk = final.callPackage ./pkgs/wf-osk.nix {};
       kanagawa-gtk = final.callPackage ./pkgs/kanagawa-gtk.nix {};
       hyprworkspaces = final.callPackage ./pkgs/hyprworkspaces/default.nix {};
       anyrunPackages = anyrun.packages.${final.system};
