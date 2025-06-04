@@ -409,7 +409,6 @@
         libcallex-vim
         treesitter-roc
         neovim-treesitter-roc
-        lazyjj
         ;
       ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
         buildInputs =
@@ -470,8 +469,6 @@
       roc-ls = inputs.roc.packages.${final.system}.lang-server;
       treesitter-roc = inputs.tree-sitter-roc.packages.${final.system}.default;
       neovim-treesitter-roc = final.callPackage ./pkgs/neovim-treesitter-roc.nix {treesitter-roc-src = inputs.tree-sitter-roc;};
-
-      lazyjj = final.callPackage ./pkgs/lazyjj.nix {};
     };
     formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
     templates = import ./templates;
