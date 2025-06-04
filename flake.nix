@@ -408,6 +408,7 @@
         libcallex-vim
         treesitter-roc
         neovim-treesitter-roc
+        lf-custom
         ;
       ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
         buildInputs =
@@ -464,6 +465,17 @@
       roc-ls = inputs.roc.packages.${final.system}.lang-server;
       treesitter-roc = inputs.tree-sitter-roc.packages.${final.system}.default;
       neovim-treesitter-roc = final.callPackage ./pkgs/neovim-treesitter-roc.nix {treesitter-roc-src = inputs.tree-sitter-roc;};
+
+      lf-custom = final.lf.overrideAttrs (old: {
+        patches =
+          (old.patches or [])
+          ++ [
+            (final.fetchpatch {
+              url = "https://github.com/horriblename/lf/compare/upstream...custom-info.patch";
+              hash = "sha256-nhYb3IiVxMgv0XXdsLMOljL5lF8jk42j1tOKXdSGC6U=";
+            })
+          ];
+      });
     };
     formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
     templates = import ./templates;
