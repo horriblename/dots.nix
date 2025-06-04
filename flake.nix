@@ -461,8 +461,6 @@
       };
       fennel-ls = final.callPackage ./pkgs/fennel-ls.nix {};
 
-      mpv = prev.mpv.override {scripts = [prev.mpvScripts.mpris];};
-
       rssAggrePackages = inputs.rss-aggre.packages.${final.system};
 
       roc = inputs.roc.packages.${final.system}.default;

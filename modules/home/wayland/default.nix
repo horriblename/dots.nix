@@ -30,7 +30,7 @@
       libsForQt5.index
 
       # general user apps
-      mpv
+      (mpv.override {scripts = [mpvScripts.mpris];})
       dex
       nextcloud-client
       xournalpp
