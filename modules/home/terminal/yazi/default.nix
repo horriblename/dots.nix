@@ -6,8 +6,11 @@
   programs.yazi = {
     enable = true;
     enableZshIntegration = true;
-    plugins = [pkgs.yaziPlugins.git];
+    plugins = {
+      inherit (pkgs.yaziPlugins) git;
+    };
   };
 
-  xdg.configFile."yazi".source = impurity.link ./config;
+  xdg.configFile."yazi/yazi.toml".source = impurity.link ./config/yazi.toml;
+  xdg.configFile."yazi/init.lua".source = impurity.link ./config/init.lua;
 }
