@@ -52,6 +52,7 @@
     enable = true;
     #permitRootLogin = "yes";
   };
+  systemd.services.sshd.wantedBy = lib.mkForce [];
 
   nix = {
     buildMachines = [
