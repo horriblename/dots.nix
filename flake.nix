@@ -94,6 +94,10 @@
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
     };
+    styluslabs-write = {
+      url = "git+https://github.com/horriblename/Write?ref=wayland&submodules=1";
+      flake = false;
+    };
   };
 
   outputs = {
@@ -429,6 +433,26 @@
       ghActionsBuilder2 = pkgs.callPackage ./pkgs/dummy.nix {
         buildInputs = [self.nixosConfigurations.surface.config.system.build.kernel];
       };
+
+      styluslabs-write = pkgs.styluslabs-write.overrideAttrs (_final: prev: {
+        src = inputs.styluslabs-write;
+        postConfigure = ''
+          echo "dirty" > ./GITREV
+          echo "000" > ./GITCOUNT
+        '';
+
+          installPhase = prev.installPhase + ''
+            wrapProgram $out/bin/Write \
+              --set SDL_VIDEODRIVER wayland
+          '';
+
+        nativeBuildInputs =
+          prev.nativeBuildInputs
+          ++ [pkgs.wayland-scanner pkgs.makeWrapper];
+        buildInputs =
+          prev.buildInputs
+          ++ [pkgs.wayland];
+      });
       nixWithSubstituters = let
         coreSettings = import ./modules/core {inherit self inputs pkgs;};
       in
