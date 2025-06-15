@@ -1499,6 +1499,7 @@
         "roc": "roc",
         "rss-aggre": "rss-aggre",
         "ssr-nvim": "ssr-nvim",
+        "styluslabs-write": "styluslabs-write",
         "tree-sitter-roc": "tree-sitter-roc"
       }
     },
@@ -1595,6 +1596,25 @@
         "ref": "feature/escape",
         "repo": "ssr.nvim",
         "type": "github"
+      }
+    },
+    "styluslabs-write": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1749993387,
+        "narHash": "sha256-bILKEO0LweBUJIksrTxnZFynWuzJiQ5MHc67/qgvm7E=",
+        "ref": "wayland",
+        "rev": "cb82eb4e285f0d07c4371a108cdb31db79439f28",
+        "revCount": 37,
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/horriblename/Write"
+      },
+      "original": {
+        "ref": "wayland",
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/horriblename/Write"
       }
     },
     "systems": {
