@@ -424,6 +424,7 @@
             pkgs.anyrunPackages.applications
             pkgs.anyrunPackages.symbols
             pkgs.anyrunPackages.rink
+            self.packages.${pkgs.stdenv.system}.styluslabs-write
           ]
           ++ (with inputs.nixdroidpkgs.packages.${pkgs.stdenv.system}.crossPkgs.aarch64-linux; [
             termux-auth
