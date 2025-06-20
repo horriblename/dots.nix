@@ -150,7 +150,6 @@ in {
 
     lsp = {
       formatOnSave = true;
-      lspkind.enable = true;
       lspsaga.enable = false;
       lspSignature.enable = false;
       mappings.openDiagnosticFloat = null;
@@ -246,6 +245,22 @@ in {
         };
         completion.documentation = {
           window.border = ["" "" "" "▕" "" "" "" "▌"];
+        };
+        appearance = {
+          kind_icons = {
+            Variable = "󰀫";
+            Class = "";
+            Interface = "";
+            Struct = "";
+            Unit = "󰑭";
+            Value = "󰎠";
+            Enum = "";
+            EnumMember = "";
+            Keyword = "󰌋";
+            Snippet = "󰩫";
+            Operator = "󰆕";
+            TypeParameter = "T";
+          };
         };
       };
       mappings = {
@@ -641,9 +656,6 @@ in {
           vim.cmd.colorscheme("night-owl")
           vim.cmd.highlight({"WinSeparator", "guifg=smokewhite"})
         '';
-      };
-      nlsp-settings = {
-        package = nlsp-settings-nvim;
       };
       treesitter-roc = {package = pkgs.neovim-treesitter-roc;};
       aerial = {
