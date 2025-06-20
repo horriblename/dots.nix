@@ -491,16 +491,15 @@
       treesitter-roc = inputs.tree-sitter-roc.packages.${final.system}.default;
       neovim-treesitter-roc = final.callPackage ./pkgs/neovim-treesitter-roc.nix {treesitter-roc-src = inputs.tree-sitter-roc;};
 
-      lf-custom = final.lf.overrideAttrs (old: {
-        patches =
-          (old.patches or [])
-          ++ [
-            (final.fetchpatch {
-              url = "https://github.com/horriblename/lf/compare/upstream...custom-info.patch";
-              hash = "sha256-nhYb3IiVxMgv0XXdsLMOljL5lF8jk42j1tOKXdSGC6U=";
-            })
-          ];
-      });
+      lf-custom = final.lf.overrideAttrs {
+        src = final.fetchFromGitHub {
+          owner = "gokcehan";
+          repo = "lf";
+          rev = "44e716d2f1b36c64a9ef77850edfa7afe0ac7616";
+          hash = "sha256-ehM09K1UKHhQnJKDeqw+ogV996TPWdn3724mAT/XxE4=";
+        };
+        vendorHash = "sha256-ZShpWCfEVPLafrn3MvtxkRsBvwUEOiLBs1gZhKSBrsQ=";
+      };
     };
     formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
     templates = import ./templates;
