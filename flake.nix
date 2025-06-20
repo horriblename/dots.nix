@@ -44,7 +44,7 @@
       inputs.hyprland.follows = "hyprland";
     };
     nvf = {
-      url = "github:NotAShelf/nvf";
+      url = "github:horriblename/nvf/personal";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     anyrun = {
