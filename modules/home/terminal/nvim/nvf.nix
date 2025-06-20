@@ -151,6 +151,7 @@ in {
     lsp = {
       formatOnSave = true;
       lspsaga.enable = false;
+      lspconfig.enable = true;
       lspSignature.enable = false;
       mappings.openDiagnosticFloat = null;
     };
