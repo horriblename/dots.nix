@@ -13,7 +13,7 @@ set ignorecase true
 set truncatechar "…"
 set mouse
 set sixel
-set info custom_git
+set info custom
 #set cleaner ~/.config/lf/cleaner
 # }}
 
@@ -22,31 +22,36 @@ cmd on-cd &{{
    if [ -n "$ZELLIJ" ]; then
       command nohup zellij action rename-tab "${PWD##*/}" >/dev/null 2>&1
    fi
-
-	awkScript='
-      function prettify(status) {
-         if (status == "M") {
-            return "\x1b[31mM"
-         } else if (status == "MM") {
-            return "\x1b[32mM\x1b[31mM"
-         } else if (status == "??") {
-            return "\x1b[31m??"
-         } else if (status == "!!") {
-            return "\x1b[37mi"
-         }
-         return status
-      }
-
-      !index($2, "/") {
-         printf "custominfo %s/%s:custom_git:%s\n", ENVIRON["PWD"], $2, prettify($1);
-      }
-   '
-
-   git status --ignored --porcelain | awk -F' ' "$awkScript" \
-      | xargs -I@ lf -remote "send $id @"
 }}
 
 cmd on-init on-cd
+
+cmd on-load &{{
+   set -eu
+
+   dir="$(dirname "$1")"
+   cd "$dir" || exit 1
+   export git_root="$(git rev-parse --show-toplevel 2>/dev/null || true)"
+   if [ -z "$git_root" ]; then exit 0; fi
+
+   cmds=''
+
+   for file in "$@"; do
+      status=$(git status --porcelain --ignored -- "$file" | head -n1 | cut -c1-2)
+
+      case "$status" in
+         " M") cmds="${cmds}addcustominfo \"${file}\" \"$(printf "\x1b[31m M")\"; " ;;
+         "MM") cmds="${cmds}addcustominfo \"${file}\" \"$(printf "\x1b[32mM\x1b[31mM")\"; " ;;
+         "??") cmds="${cmds}addcustominfo \"${file}\" \"$(printf "\x1b[31m??")\"; " ;;
+         "!!") cmds="${cmds}addcustominfo \"${file}\" \"$(printf "\x1b[37m i")\"; " ;;
+         *)    cmds="${cmds}addcustominfo \"${file}\" \"$status\"; " ;;
+      esac
+   done
+
+   if [ -n "$cmds" ]; then
+      lf -remote "send $id :$cmds"
+   fi
+}}
 
 # }}
 
@@ -427,6 +432,7 @@ map g! !"$f"
 map g$ $"$f"
 map g% %"$f"
 map g& &"$f"
+map zg :set info custom
 
 # }}
 
