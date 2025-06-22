@@ -169,14 +169,7 @@ in {
 
       nix.enable = true;
       html.enable = true;
-      clang = {
-        enable = true;
-        lsp = {
-          enable = true;
-          package = pkgs.clang-tools_19;
-          server = "clangd";
-        };
-      };
+      clang.enable = true;
 
       sql.enable = false;
       rust = {
@@ -216,6 +209,7 @@ in {
       yamlls = {};
       elmls = {};
       hls = {};
+      clangd.cmd = ["${pkgs.clang-tools_19}/bin/clangd"];
       clojure_lsp = {};
       jsonls.cmd = ["${pkgs.nodePackages.vscode-langservers-extracted}/bin/vscode-json-language-server"];
       roc_ls = {
