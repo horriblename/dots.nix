@@ -1,5 +1,6 @@
 {...}: {
   imports = [
+    ./apps.nix
     ./security.nix
     ./login.nix
     ./input.nix
