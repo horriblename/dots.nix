@@ -234,6 +234,13 @@ in {
     autocomplete.blink-cmp = {
       enable = true;
       setupOpts = {
+        sources = {
+          providers = {
+            # copilot.score_offset = -20;
+            buffer.score_offset = -30;
+          };
+        };
+
         signature = {
           enabled = true;
           window.border = ["" "" "" "▕" "" "" "" "▌"];
@@ -431,7 +438,7 @@ in {
 
     assistant = {
       copilot = {
-        enable = true;
+        enable = false;
         cmp.enable = true;
         mappings = {
           panel = {
