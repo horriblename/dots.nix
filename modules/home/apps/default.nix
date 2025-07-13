@@ -7,7 +7,10 @@
   inherit (lib.modules) mkIf;
   inherit (lib.lists) optionals;
 in {
-  imports = [./touch.nix];
+  imports = [
+    ./touch.nix
+    ./timetrace.nix
+  ];
 
   config = mkIf config.dots.wayland.graphicalApps {
     home.packages = with pkgs;
