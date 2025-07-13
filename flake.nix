@@ -412,6 +412,7 @@
         libcallex-vim
         treesitter-roc
         neovim-treesitter-roc
+        timetrace
         lf-custom
         ;
       ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
@@ -492,6 +493,8 @@
       roc-ls = inputs.roc.packages.${final.system}.lang-server;
       treesitter-roc = inputs.tree-sitter-roc.packages.${final.system}.default;
       neovim-treesitter-roc = final.callPackage ./pkgs/neovim-treesitter-roc.nix {treesitter-roc-src = inputs.tree-sitter-roc;};
+
+      timetrace = final.callPackage ./pkgs/timetrace.nix {};
 
       lf-custom = final.lf.overrideAttrs {
         src = final.fetchFromGitHub {
