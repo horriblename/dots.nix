@@ -104,6 +104,8 @@ in {
       "xdg-desktop-portal/hyprland-portals.conf".source = impurity.link ./hyprland-portals.conf;
     };
 
+    xdg.portal.config.common.default = "*";
+
     systemd.user.services = {
       swaybg = mkHyprlandService {
         Unit.Description = "Wallpaper chooser";
