@@ -49,11 +49,13 @@ in {
         unzip
         gnumake
         jujutsu
+        jjui
 
         # utilities
         btop
         nix-du
         graphviz
+        dust
         nixFunctionCalls
         nh
       ]
