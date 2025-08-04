@@ -55,6 +55,7 @@ in {
         nix-du
         graphviz
         nixFunctionCalls
+        nh
       ]
 
       (lib.mkIf (!config.dots.darwin.enable) [powertop])

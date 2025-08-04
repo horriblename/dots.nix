@@ -4,13 +4,13 @@ build-nixos: ## Build NixOS config
 	nix build .#nixosConfigurations.$$(hostname).config.system.build.toplevel
 
 nixos: ## nixos-rebuild switch
-	IMPURITY_PATH="$$PWD" nix run nixpkgs#nh -- os switch . -- --impure -L --show-trace
+	IMPURITY_PATH="$$PWD" nh os switch . -- --impure -L --show-trace
 
 build-hm: ## Build HM config
 	nix build .#homeConfigurations."$$(whoami)@$$(hostname)".activationPackage -L
 
 hm: ## Switch HM config
-	IMPURITY_PATH="$$PWD" nix run nixpkgs#nh -- home switch . -- --impure -L --show-trace
+	IMPURITY_PATH="$$PWD" nh home switch . -- --impure -L --show-trace
 
 nix-on-droid: ## nix-on-droid switch
 	nix-on-droid switch --flake .
