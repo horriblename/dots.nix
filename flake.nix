@@ -127,6 +127,8 @@
         overlays = [self.overlay];
       };
 
+    npins = import ./npins;
+
     genHomeConfig = {
       preset ? "minimal",
       system,
@@ -148,10 +150,10 @@
             {dots = {inherit preset;};}
           ]
           ++ extraModules;
-        extraSpecialArgs = {inherit self inputs;};
+        extraSpecialArgs = {inherit self inputs npins;};
       };
   in {
-    inherit inputs;
+    inherit inputs npins;
     homeConfigurations = {
       "deck" = genHomeConfig {
         preset = "deck";

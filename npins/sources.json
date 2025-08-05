@@ -1,0 +1,21 @@
+{
+  "pins": {
+    "aerial.nvim": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "horriblename",
+        "repo": "aerial.nvim"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": null,
+      "submodules": false,
+      "version": "v2.5.0",
+      "revision": "3284a2cb858ba009c79da87d5e010ccee3c99c4d",
+      "url": "https://api.github.com/repos/horriblename/aerial.nvim/tarball/v2.5.0",
+      "hash": "0fsvd6ndkp3r8lzpyshqshapna5sh37nz6qabznpwpwax42ghakp"
+    }
+  },
+  "version": 5
+}
