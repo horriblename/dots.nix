@@ -4,6 +4,7 @@
   config,
   pkgs,
   impurity,
+  npins,
   ...
 }: let
   nix2Lua = inputs.nvf.lib.nvim.lua.toLuaObject;
@@ -654,7 +655,7 @@ in {
       };
       treesitter-roc = {package = pkgs.neovim-treesitter-roc;};
       aerial = {
-        package = aerial-nvim;
+        package = npins."aerial.nvim";
         setup = setup "aerial" {};
       };
       luee = {
