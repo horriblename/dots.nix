@@ -188,17 +188,6 @@ in {
       dart.enable = false;
       elixir.enable = false;
       php.enable = false;
-      php.lsp.package = pkgs.phpactor.override {
-        php = pkgs.php.buildEnv {extraConfig = "memory_limit = 8G";};
-      };
-
-      # "saying java is good because it runs on all systems is like saying
-      # anal sex is good because it works on all species"
-      # - sun tzu; translated by raf, probably
-      java = {
-        enable = false;
-        lsp.package = ["jdt-language-server" "-configuration" "${config.xdg.cacheHome}/jdtls/config" "-data" "${config.xdg.cacheHome}/jdtls/workspace"];
-      };
       lua = {
         enable = true;
         lsp.lazydev.enable = true;
@@ -209,7 +198,7 @@ in {
       yamlls = {};
       elmls = {};
       hls = {};
-      clangd.cmd = ["${pkgs.clang-tools_19}/bin/clangd"];
+      clangd.cmd = lib.mkForce ["${pkgs.clang-tools_19}/bin/clangd"];
       clojure_lsp = {};
       jsonls.cmd = ["${pkgs.nodePackages.vscode-langservers-extracted}/bin/vscode-json-language-server"];
       roc_ls = {
@@ -218,6 +207,10 @@ in {
         root_markers = [".git" "main.roc"];
       };
       nixd = {cmd = [(lib.getExe pkgs.nixd) "--log=error"];};
+      jdtls = {
+        enable = false;
+        cmd = ["jdt-language-server" "-configuration" "${config.xdg.cacheHome}/jdtls/config" "-data" "${config.xdg.cacheHome}/jdtls/workspace"];
+      };
     };
 
     visuals = {
