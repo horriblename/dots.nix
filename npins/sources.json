@@ -12,6 +12,22 @@
       "revision": "2a6e6e8185ed9a8fa801692c32684ff81de5a98c",
       "url": "https://github.com/horriblename/aerial.nvim/archive/2a6e6e8185ed9a8fa801692c32684ff81de5a98c.tar.gz",
       "hash": "1n6b0asq7pb3x2wr283wh2njvnc82h62smsd4qdwrwd9zrs1ijj3"
+    },
+    "grug-far.nvim": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "MagicDuck",
+        "repo": "grug-far.nvim"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": null,
+      "submodules": false,
+      "version": "1.6.48",
+      "revision": "50d9ee2b5a19634670441948e7e4afaa042f1059",
+      "url": "https://api.github.com/repos/MagicDuck/grug-far.nvim/tarball/1.6.48",
+      "hash": "0pbwlp5i4aq1ffqbcnjf62ygb73b1svyh5ly4vyq6x7jnc0g416g"
     }
   },
   "version": 5
