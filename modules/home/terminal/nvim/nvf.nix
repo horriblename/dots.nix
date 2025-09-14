@@ -675,7 +675,7 @@ in {
       };
       treesitter-roc = {package = pkgs.neovim-treesitter-roc;};
       aerial = {
-        package = npins."aerial.nvim";
+        package = noBuildPlug "aerial.nvim";
         setup = setup "aerial" {};
       };
       luee = {
