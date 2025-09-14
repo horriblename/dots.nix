@@ -446,6 +446,7 @@ map gd cd ~/Documents
 map gD cd ~/Downloads
 map gp cd ~/Pictures
 map gm cd ~/Music
+map gv cd ~/Videos
 map gt cd ~/Templates
 map gs cd ~/scripts
 map gc cd ~/.config
