@@ -1,8 +1,12 @@
 {
+  lib,
+  pkgs,
   config,
   impurity,
   ...
-}: {
+}: let
+  inherit (lib) getExe;
+in {
   programs.git = {
     enable = true;
     userEmail = "badnam3o.0@gmail.com";
@@ -21,6 +25,13 @@
       core = {
         editor = "nvim";
         excludesfile = "${impurity.link ./global.excludes}";
+        pager = getExe pkgs.delta;
+      };
+
+      interactive.diffFilter = "${getExe pkgs.delta} --color-only";
+
+      delta = {
+        navigate = true;
       };
 
       diff = {
