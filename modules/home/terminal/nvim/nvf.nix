@@ -667,21 +667,25 @@ in {
       };
       fzf-lua = {
         package = pkgs.vimPlugins.fzf-lua;
-        setup = setup "fzf-lua" {
-          "@1" = "max-perf";
-          keymap = {
-            builtin = {
-              "@1" = true;
-              "ctrl-j" = "preview-page-down";
-              "ctrl-k" = "preview-page-up";
+        setup =
+          setup "fzf-lua" {
+            "@1" = "max-perf";
+            keymap = {
+              builtin = {
+                "@1" = true;
+                "ctrl-j" = "preview-page-down";
+                "ctrl-k" = "preview-page-up";
+              };
+              fzf = {
+                "@1" = true;
+                "ctrl-j" = "preview-page-down";
+                "ctrl-k" = "preview-page-up";
+              };
             };
-            fzf = {
-              "@1" = true;
-              "ctrl-j" = "preview-page-down";
-              "ctrl-k" = "preview-page-up";
-            };
-          };
-        };
+          }
+          + ''
+            require('fzf-lua').register_ui_select()
+          '';
       };
       ssr-nvim = {
         package = pkgs.vimUtils.buildVimPlugin {
