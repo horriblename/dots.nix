@@ -50,6 +50,7 @@
     };
     anyrun = {
       url = "github:Kirottu/anyrun";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     md-img-paste-vim = {
       url = "github:ferrine/md-img-paste.vim";
@@ -93,7 +94,8 @@
       flake = false;
     };
     lanzaboote = {
-      url = "github:nix-community/lanzaboote";
+      url = "github:nix-community/lanzaboote/v0.4.2";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     styluslabs-write = {
       url = "git+https://github.com/horriblename/Write?ref=wayland&submodules=1";
