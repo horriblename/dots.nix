@@ -128,7 +128,7 @@
         overlays = [self.overlay];
       };
 
-    npins = import ./npins;
+    npinsFor = system: (pkgsFor {inherit system;}).callPackage ./npins/sources.nix {};
 
     genHomeConfig = {
       preset ? "minimal",
@@ -151,10 +151,14 @@
             {dots = {inherit preset;};}
           ]
           ++ extraModules;
-        extraSpecialArgs = {inherit self inputs npins;};
+        extraSpecialArgs = {
+          inherit self inputs;
+          npins = npinsFor system;
+        };
       };
   in {
-    inherit inputs npins;
+    inherit inputs;
+    npins = forEachSystem npinsFor;
     homeConfigurations = {
       "deck" = genHomeConfig {
         preset = "deck";
