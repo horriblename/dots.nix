@@ -4,7 +4,6 @@
 {lib, ...}: {
   imports = [
     # Include the results of the hardware scan.
-    ./server.nix
     ./hardware-configuration.nix
   ];
 
