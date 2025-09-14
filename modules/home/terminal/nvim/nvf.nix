@@ -12,6 +12,16 @@
   inherit (lib.generators) mkLuaInline;
   setup = module: table: "require('${module}').setup(${nix2Lua table})";
   mkKeymap = mode: key: action: opts: opts // {inherit mode key action;};
+  noBuildPlug = pname: let
+    pin = npins.${pname};
+    version = builtins.substring 0 8 pin.revision;
+  in
+    pin.outPath.overrideAttrs {
+      inherit pname version;
+      name = "${pname}-${version}";
+
+      passthru.vimPlugin = false;
+    };
 in {
   programs.nvf.settings.vim = {
     viAlias = false;
@@ -93,7 +103,7 @@ in {
           '';
         };
         "grug-far.nvim" = {
-          package = pkgs.vimPlugins.grug-far-nvim;
+          package = noBuildPlug "grug-far.nvim";
           cmd = ["GrugFar"];
           setupModule = "grug-far";
           setupOpts = {
@@ -104,6 +114,16 @@ in {
             };
             engine = "astgrep";
           };
+          after = ''
+            vim.api.nvim_create_autocmd('FileType', {
+              group = vim.api.nvim_create_augroup('grug-far-keybindings', { clear = true }),
+              pattern = { 'grug-far' },
+              callback = function()
+                vim.bo.buftype = "nofile"
+                vim.bo.bufhidden = "delete"
+              end,
+            })
+          '';
         };
         "asyncrun.vim" = {
           package = pkgs.vimPlugins.asyncrun-vim;
