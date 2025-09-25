@@ -186,6 +186,59 @@
         if [[ -n "$ZELLIJ" ]]; then
           add-zsh-hook chpwd zellij_set_tab_name
         fi
+
+        LONG_CMD_THRESHOLD_SECONDS=10
+
+        # Record start time before each command
+        notify_slow_preexec() {
+          CMD_START_TIME=$EPOCHSECONDS
+          CMD="$1"
+        }
+
+        typeset -a preexec_functions # initialize the array
+        preexec_functions+=(notify_slow_preexec)
+
+        # After each command finishes
+        notify_slow_precmd() {
+          local -i exit_code=$?
+          if [[ -n "$CMD_START_TIME" ]]; then
+            local duration=$(( EPOCHSECONDS - CMD_START_TIME ))
+
+            if (( duration > LONG_CMD_THRESHOLD_SECONDS )); then
+              local cmd_name="''${CMD%% *}"
+              local trimmed_cmd="$(cut -c1-15 <<< "$CMD")"
+              if [[ ''${#CMD} -gt 15 ]]; then
+                trimmed_cmd="$trimmed_cmd..."
+              fi
+
+              case "$cmd_name" in
+                nvim|v|vim|nvf|lazygit|lf|lfcd|jjui) return 0;;
+              esac
+
+              if [[ "$exit_code" -eq 0 ]]; then
+                local msg="\"$trimmed_cmd\" finished in ''${duration}s"
+              else
+                local msg="\"$trimmed_cmd\" failed in ''${duration}s"
+              fi
+
+              case "$OSTYPE" in
+                darwin*)  # macOS
+                  osascript -e "display notification \"$msg\" with title \"zsh\""
+                  ;;
+                linux*)   # Linux with libnotify
+                  notify-send "zsh" "$msg"
+                  ;;
+                *)
+                  echo "$msg"
+                  ;;
+              esac
+            fi
+          fi
+          unset CMD_START_TIME
+          unset CMD
+        }
+
+        precmd_functions+=(notify_slow_precmd)
       '';
 
       plugins = with pkgs; [
