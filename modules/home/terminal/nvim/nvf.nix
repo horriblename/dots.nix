@@ -227,6 +227,9 @@ in {
         filetypres = ["roc"];
         root_markers = [".git" "main.roc"];
       };
+      nil = {
+        settings.nil.nix.autoArchive = true;
+      };
       nixd = {cmd = [(lib.getExe pkgs.nixd) "--log=error"];};
       jdtls = {
         enable = false;
