@@ -1,2 +1,2 @@
-setlocal expandtab tabstop=4
+setlocal expandtab tabstop=2
 setlocal cpoptions+=M
