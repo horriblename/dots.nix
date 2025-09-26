@@ -58,6 +58,7 @@ in {
         dust
         nixFunctionCalls
         nh
+        npins
       ]
 
       (lib.mkIf (!config.dots.darwin.enable) [powertop])
