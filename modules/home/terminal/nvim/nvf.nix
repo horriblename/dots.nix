@@ -224,7 +224,7 @@ in {
       jsonls.cmd = ["${pkgs.nodePackages.vscode-langservers-extracted}/bin/vscode-json-language-server"];
       roc_ls = {
         cmd = ["roc_language_server"];
-        filetypres = ["roc"];
+        filetypes = ["roc"];
         root_markers = [".git" "main.roc"];
       };
       nil = {
