@@ -11,4 +11,10 @@ in {
     enable = true;
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
   };
+  programs.niri = mkIf config.dots.wayland.enable {
+    enable = true;
+  };
+  environment.systemPackages = with pkgs; [
+    xwayland-satellite
+  ];
 }
