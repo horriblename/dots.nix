@@ -19,15 +19,9 @@
   time.timeZone = "Europe/Berlin";
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.py = {
-    extraGroups = ["docker"];
-  };
+  users.users.py = {};
 
   programs.zsh.enable = true;
-
-  virtualisation.docker = {
-    enable = true;
-  };
 
   services = {
     btrfs = {

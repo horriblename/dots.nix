@@ -18,6 +18,10 @@ in {
         enable = mkEnableOption "Wayland session" // {default = config.dots.preset == "desktop";};
         gaming = mkEnableOption "gaming stuff";
       };
+
+      development = {
+        enable = mkEnableOption "Development tools" // {default = config.dots.preset == "desktop";};
+      };
     };
   };
 }
