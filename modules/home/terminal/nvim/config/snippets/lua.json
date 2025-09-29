@@ -5,7 +5,7 @@
 			"local function enter_callback()",
 			"	$0",
 			"end",
-			"if vim.v.vim_did_enter then",
+			"if vim.v.vim_did_enter == 1 then",
 			"	enter_callback()",
 			"else",
 			"	vim.api.nvim_create_autocmd(\"VimEnter\", {",
