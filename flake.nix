@@ -101,6 +101,10 @@
       url = "git+https://github.com/horriblename/Write?ref=wayland&submodules=1";
       flake = false;
     };
+    micros = {
+      url = "github:snugnug/micros";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -423,6 +427,7 @@
         neovim-treesitter-roc
         timetrace
         lf-custom
+        microsContainer
         ;
       ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
         buildInputs =
@@ -514,6 +519,16 @@
         };
         vendorHash = "sha256-ZShpWCfEVPLafrn3MvtxkRsBvwUEOiLBs1gZhKSBrsQ=";
       };
+
+      microsContainer =
+        (inputs.micros.lib.microsSystem {
+          modules = [
+            "${inputs.micros}/micros/modules/profiles/virtualization/iso-image.nix"
+            {
+              nixpkgs.hostPlatform = {inherit (final.stdenv) system;};
+            }
+          ];
+        }).config.system.build.image;
     };
     formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
     templates = import ./templates;

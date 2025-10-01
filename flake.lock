@@ -949,6 +949,26 @@
         "type": "github"
       }
     },
+    "micros": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1759319185,
+        "narHash": "sha256-AAgMikkP8n1tId5Ho3B71ufJ28PX7frSo1QKZsrdxZQ=",
+        "owner": "snugnug",
+        "repo": "micros",
+        "rev": "ba1d4657a1428470bef576d3d3f5e8eb20e94284",
+        "type": "github"
+      },
+      "original": {
+        "owner": "snugnug",
+        "repo": "micros",
+        "type": "github"
+      }
+    },
     "mnw": {
       "locked": {
         "lastModified": 1748710831,
@@ -1436,6 +1456,7 @@
         "lanzaboote": "lanzaboote",
         "luee": "luee",
         "md-img-paste-vim": "md-img-paste-vim",
+        "micros": "micros",
         "nix-index-database": "nix-index-database",
         "nix-on-droid": "nix-on-droid",
         "nix-wsl": "nix-wsl",
