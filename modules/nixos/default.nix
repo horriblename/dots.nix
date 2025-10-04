@@ -9,6 +9,8 @@
     inputs.impurity.nixosModules.default
 
     ./options.nix
+
+    ./common
     ./desktop
   ];
   programs.neovim = {
