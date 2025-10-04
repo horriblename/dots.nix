@@ -10,6 +10,7 @@ in {
     environment.systemPackages = [pkgs.act];
     virtualisation.docker = {
       enable = true;
+      enableOnBoot = false;
     };
 
     users.users = {
