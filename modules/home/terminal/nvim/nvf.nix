@@ -167,7 +167,13 @@ in {
       };
     };
 
-    snippets.luasnip.enable = true;
+    snippets.luasnip = {
+      enable = true;
+      loaders = ''
+        require('luasnip.loaders.from_vscode').lazy_load()
+        require('luasnip.loaders.from_vscode').lazy_load({paths = {"~/.config/nvim/snippets"}})
+      '';
+    };
 
     lsp = {
       formatOnSave = true;

@@ -1,0 +1,27 @@
+{
+	"Target/output": {
+		"prefix": "$target",
+		"body": "$@",
+		"description": "The file name of the target of the rule"
+	},
+	"First prerequisite": {
+		"prefix": "$prereq1",
+		"body": "$<",
+		"description": "Refers to the first prerequisite"
+	},
+	"Newer prerequisites": {
+		"prefix": "$prereqUpdated",
+		"body": "$?",
+		"description": "All prerequisites that are newer than the target, with spaces between them"
+	},
+	"All prerequisites": {
+		"prefix": "$prereqAll",
+		"body": "$^",
+		"description": "All prerequisites, separated by spaces."
+	},
+	"All prerequisites with duplicates": {
+		"prefix": "$prereqNoDedup",
+		"body": "$+",
+		"description": "Like `$^`, but does not eliminate duplicates"
+	}
+}
