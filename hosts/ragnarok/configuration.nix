@@ -55,6 +55,9 @@
   services.openssh.enable = true;
   systemd.services.sshd.wantedBy = lib.mkForce [];
 
+  security.tpm2.enable = false;
+  systemd.tpm2.enable = false;
+
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
   #
