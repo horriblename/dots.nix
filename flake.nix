@@ -157,12 +157,11 @@
           ++ extraModules;
         extraSpecialArgs = {
           inherit self inputs;
-          npins = npinsFor system;
+          pins = npinsFor system;
         };
       };
   in {
     inherit inputs;
-    npins = forEachSystem npinsFor;
     homeConfigurations = {
       "deck" = genHomeConfig {
         preset = "deck";
@@ -412,12 +411,14 @@
     packages = forEachSystem (system: let
       pkgs = pkgsFor {inherit system;};
     in {
+      pins = npinsFor system;
       inherit
         (pkgs)
         hyprworkspaces
         anyrunPackages
         md-img-paste-vim
         nixrun-nvim
+        pendulum-nvim
         fennel-ls
         mpv
         roc
@@ -481,7 +482,9 @@
             $@
         '';
     });
-    overlay = final: prev: {
+    overlay = final: prev: let
+      pins = npinsFor final.system;
+    in {
       hyprworkspaces = final.callPackage ./pkgs/hyprworkspaces/default.nix {};
       anyrunPackages = anyrun.packages.${final.system};
       md-img-paste-vim = final.vimUtils.buildVimPlugin {
@@ -498,6 +501,10 @@
         pname = "libcallex-vim";
         version = "git";
         src = final.callPackage ./pkgs/libcallex-vim.nix {};
+      };
+      pendulum-nvim = final.callPackage ./pkgs/pendulum-nvim.nix {
+        src = pins.pendulum-nvim;
+        inherit (pins.pendulum-nvim) version;
       };
       fennel-ls = final.callPackage ./pkgs/fennel-ls.nix {};
 

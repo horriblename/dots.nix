@@ -28,6 +28,22 @@
       "revision": "50d9ee2b5a19634670441948e7e4afaa042f1059",
       "url": "https://api.github.com/repos/MagicDuck/grug-far.nvim/tarball/1.6.48",
       "hash": "0pbwlp5i4aq1ffqbcnjf62ygb73b1svyh5ly4vyq6x7jnc0g416g"
+    },
+    "pendulum-nvim": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "ptdewey",
+        "repo": "pendulum-nvim"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": null,
+      "submodules": false,
+      "version": "v1.1.0",
+      "revision": "c129ae3d69f164b3e51e067b0eca45a8d3da29ee",
+      "url": "https://api.github.com/repos/ptdewey/pendulum-nvim/tarball/v1.1.0",
+      "hash": "19rlifim7fp4mvhn99vaaac49ah0pv7yycip4als1y8lzb9qygri"
     }
   },
   "version": 5

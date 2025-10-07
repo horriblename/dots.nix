@@ -4,7 +4,7 @@
   config,
   pkgs,
   impurity,
-  npins,
+  pins,
   ...
 }: let
   nix2Lua = inputs.nvf.lib.nvim.lua.toLuaObject;
@@ -13,7 +13,7 @@
   setup = module: table: "require('${module}').setup(${nix2Lua table})";
   mkKeymap = mode: key: action: opts: opts // {inherit mode key action;};
   noBuildPlug = pname: let
-    pin = npins.${pname};
+    pin = pins.${pname};
     version = builtins.substring 0 8 pin.revision;
   in
     pin.outPath.overrideAttrs {
@@ -162,6 +162,13 @@ in {
               exit = "<leader>rq";
               clear = "<leader>r<C-l>";
             };
+          };
+        };
+        pendulum-nvim = {
+          package = pkgs.pendulum-nvim;
+          setupModule = "pendulum";
+          setupOpts = {
+            time_zone = "Europe/Berlin";
           };
         };
       };
