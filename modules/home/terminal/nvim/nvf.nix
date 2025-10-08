@@ -241,7 +241,7 @@ in {
         root_markers = [".git" "main.roc"];
       };
       nil = {
-        settings.nil.nix.autoArchive = true;
+        settings.nil.nix.flake.autoArchive = false;
       };
       nixd = {cmd = [(lib.getExe pkgs.nixd) "--log=error"];};
       jdtls = {
