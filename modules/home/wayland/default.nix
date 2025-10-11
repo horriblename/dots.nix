@@ -7,10 +7,10 @@
   imports = [
     ./audio.nix
     ./fonts.nix
-    ./anyrun
     ./eww
     ./foot
     ./gtk
+    ./tofi
     ./qt
     ./menu
     ./hyprland
