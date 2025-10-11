@@ -802,30 +802,6 @@
         "type": "github"
       }
     },
-    "hyprspace": {
-      "inputs": {
-        "hyprland": [
-          "hyprland"
-        ],
-        "systems": [
-          "hyprland",
-          "systems"
-        ]
-      },
-      "locked": {
-        "lastModified": 1759033501,
-        "narHash": "sha256-QhcOFLJYC9CiSVPkci62ghMEAJChzl+L98To1pKvnRQ=",
-        "owner": "KZDKM",
-        "repo": "Hyprspace",
-        "rev": "e54884da1d6a1af76af9d053887bf3750dd554fd",
-        "type": "github"
-      },
-      "original": {
-        "owner": "KZDKM",
-        "repo": "Hyprspace",
-        "type": "github"
-      }
-    },
     "hyprutils": {
       "inputs": {
         "nixpkgs": [
@@ -1451,7 +1427,6 @@
         "hyprland": "hyprland",
         "hyprland-border-actions": "hyprland-border-actions",
         "hyprland-xdg-toplevel-move": "hyprland-xdg-toplevel-move",
-        "hyprspace": "hyprspace",
         "impurity": "impurity",
         "lanzaboote": "lanzaboote",
         "luee": "luee",

@@ -31,11 +31,6 @@
       url = "github:horriblename/hyprgrass";
       inputs.hyprland.follows = "hyprland";
     };
-    hyprspace = {
-      url = "github:KZDKM/Hyprspace";
-      inputs.hyprland.follows = "hyprland";
-      inputs.systems.follows = "hyprland/systems";
-    };
     hyprland-border-actions = {
       url = "github:horriblename/hyprland-border-actions";
       inputs.hyprland.follows = "hyprland";

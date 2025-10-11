@@ -88,7 +88,6 @@ in {
       plugins =
         [
           "${inputs.hyprland-xdg-toplevel-move.packages.${pkgs.system}.default}/lib/libexample.so"
-          inputs.hyprspace.packages.${pkgs.system}.default
           # "${inputs.hyprland-border-actions.packages.${pkgs.system}.default}/lib/libborder-actions.so"
         ]
         ++ lib.optional config.dots.wayland.touchScreen inputs.hyprgrass.packages.${pkgs.system}.default;
