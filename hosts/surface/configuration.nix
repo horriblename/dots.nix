@@ -25,9 +25,19 @@
   # };
 
   # encyrpted home partition
-
-  # see ./hardware-configuration.nix for full fstab
-  boot.initrd.luks.devices.cryptroot.device = "/dev/disk/by-uuid/3b3599cf-1783-4891-a4c6-15c50de09646";
+  security.pam.mount.enable = true;
+  # NOTE since I cant pass mount options to btrfs (gets consumed by mount.crypt), the partition is structured like so:
+  #    btrfs-partition /dev/sdaX
+  #    - py            top level 5
+  #      - files...
+  security.pam.mount.extraVolumes = [
+    ''
+      <volume user="py"
+              path="/dev/disk/by-uuid/3b3599cf-1783-4891-a4c6-15c50de09646"
+              />
+    ''
+    # maybe add option "crypto_name" (see https://man.archlinux.org/man/mount.crypt.8#Mount_options)
+  ];
 
   users.users.py = {
     uid = 1000;
