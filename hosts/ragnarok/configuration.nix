@@ -58,6 +58,10 @@
   security.tpm2.enable = false;
   systemd.tpm2.enable = false;
 
+  # NOTE: allow connected devices by running `sudo sh -c 'usbguard generate-policy > /var/lib/usbguard/rules.conf'`
+  # BEFORE enabling this on a new machine. Otherwise you will be locked out of your machine.
+  services.usbguard.enable = true;
+
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
   #
