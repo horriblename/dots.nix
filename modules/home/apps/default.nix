@@ -34,5 +34,11 @@ in {
           "corefonts"
         ];
     };
+
+    services.podman.enable = true;
+    # manual setup needed: systemctl --user enable podman.socket
+    home.sessionVariables = {
+      DOCKER_HOST = "unix://$XDG_RUNTIME_DIR/podman/podman.sock";
+    };
   };
 }
