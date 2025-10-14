@@ -210,7 +210,9 @@ in {
         enable = false;
         crates.enable = true;
       };
-      haskell.enable = false;
+      haskell.enable = true;
+      haskell.lsp.enable = false;
+      haskell.dap.enable = false;
       ts.enable = false;
       go.enable = true;
       zig.enable = false;
