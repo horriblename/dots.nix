@@ -687,8 +687,20 @@ in {
       night-owl-nvim = {
         package = night-owl-nvim;
         setup = ''
+          do
+            local group = vim.api.nvim_create_augroup("night-owl-tweaks", {clear = true})
+            vim.api.nvim_create_autocmd("Colorscheme", {
+              pattern = {"night-owl"},
+              group = group,
+              command = [[
+                hi WinSeparator guifg=smokewhite
+                hi CurSearch guibg=Orange guifg=NvimDarkGray1
+                hi IncSearch guibg=NvimLightYellow guifg=NvimDarkGray1
+              ]]
+            })
+            vim.cmd.highlight({"WinSeparator", "guifg=smokewhite"})
+          end
           vim.cmd.colorscheme("night-owl")
-          vim.cmd.highlight({"WinSeparator", "guifg=smokewhite"})
         '';
       };
       treesitter-roc = {package = pkgs.neovim-treesitter-roc;};
