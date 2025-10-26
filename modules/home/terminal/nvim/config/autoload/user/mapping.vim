@@ -90,6 +90,7 @@ nnoremap gV ^v$
 xnoremap ga gg0oG$
 onoremap ga :<c-u>normal! ggVG<CR>
 
+" sub-word {{{
 function s:subword(reverse = v:false)
 	let l:pattern = '\v(\<|\U\u|\A\a)'
 	call search(l:pattern, 'We' . (a:reverse? 'b' : ''))
@@ -100,13 +101,13 @@ function s:subwordEnd()
 	call search(l:pattern, 'W')
 endfu
 
-" sub-word
 noremap <M-w> <cmd>call <SID>subword()<CR>
 noremap <M-b> <cmd>call <SID>subword(v:true)<CR>
 noremap <M-e> <cmd>call <SID>subwordEnd()<CR>
 
 nmap <M-o> v<M-o>
 xnoremap <M-o> <Plug>(MatchitVisualTextObject)
+" }}}
 
 " \x16 is <c-v>
 xnoremap <expr> I mode() ==# "\x16"? "I" : "\<Esc>`<i"
@@ -115,7 +116,7 @@ xnoremap <expr> A mode() ==# "\x16"? "A" : "\<Esc>`>a"
 vnoremap <C-n> :m '>+1<CR>gv-gv
 vnoremap <C-p> :m '<-2<CR>gv-gv
 
-" Indent text object
+" Indent text object {{{
 nnoremap <silent>[i :<C-U>call user#txtobj#FindIndentBegin(0)<CR>
 nnoremap <silent>]i :<C-U>call user#txtobj#FindIndentEnd(0)<CR>
 xnoremap <silent>[i :<C-U>call user#txtobj#FindIndentBegin(0)<CR>m<lt>gvo
@@ -127,6 +128,12 @@ onoremap <silent>ai :<C-U>call user#txtobj#IndentTextObj(0)<CR>
 onoremap <silent>ii :<C-U>call user#txtobj#IndentTextObj(1)<CR>
 xnoremap <silent>ai :<C-U>call user#txtobj#IndentTextObj(0)<CR>
 xnoremap <silent>ii :<C-U>call user#txtobj#IndentTextObj(1)<CR>
+" }}}
+
+" Diagnostics {{{
+nnoremap ]d :lua vim.diagnostic.goto_next()<CR>
+nnoremap [d :lua vim.diagnostic.goto_prev()<CR>
+" }}}
 " }}}
 
 " Autoclose
