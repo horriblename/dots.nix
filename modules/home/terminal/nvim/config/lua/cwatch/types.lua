@@ -1,0 +1,6 @@
+---@class Watcher
+---@field new fun(): Watcher
+---@field watch fun(self, full_path: string): string?
+---@field unwatch fun(self, full_path: string)
+---@field unwatch_all fun(self)
+---@field list_watched fun(self): string[]
