@@ -122,7 +122,7 @@ in {
           package = pkgs.vimPlugins.asyncrun-vim;
           cmd = ["AsyncRun"];
           keys = [
-            (mkKeymap "n" "<leader>mm" "':AsyncRun ' . (exists('g:runner_cmd') ? g:runner_cmd . '<CR>' : ':AsyncRun ')" {
+            (mkKeymap "n" "<leader>mm" "':AsyncRun ' . (exists('g:runner_cmd') ? g:runner_cmd . '<CR>' : '')" {
               desc = "AsyncRun";
               expr = true;
               silent = false;
