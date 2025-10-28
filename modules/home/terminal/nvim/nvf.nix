@@ -436,20 +436,6 @@ in {
       todo-comments.enable = true;
     };
 
-    terminal = {
-      toggleterm = {
-        mappings.open = null;
-        enable = true;
-        setupOpts = {
-          direction = "tab";
-        };
-        lazygit = {
-          enable = true;
-          direction = "float";
-        };
-      };
-    };
-
     ui = {
       borders = {
         enable = false;
@@ -523,15 +509,6 @@ in {
       vim.fn.sign_define("DapLogPoint", { text = "", texthl = "ErrorMsg", linehl = "", numhl = "" })
       vim.cmd.highlight("default", "link", "DashboardHeader", "DevIconNix")
 
-      -- auto ToggleTerm scoping
-      do
-        local gid = vim.api.nvim_create_augroup("auto_toggleterm_number", {clear = true})
-        vim.api.nvim_create_autocmd("TabNew", {
-          group = gid,
-          callback = function(ev) vim.t.default_terminal = vim.fn.tabpagenr() end,
-        })
-      end
-
       -- LSP help window border
       local border = {"", "", "", "▕", "", "", "", "▌"}
       local orig = vim.lsp.util.open_floating_preview
@@ -593,26 +570,6 @@ in {
       # Image pasre
       (mkKeymap "n" "<leader>P" ":call mdip#MarkdownClipboardImage()<CR>" {})
 
-      # Toggleterm
-      (mkKeymap "n" "<M-x>" "function() require'toggleterm'.toggle(vim.v.count > 0 and vim.v.count or vim.w.default_terminal or vim.t.default_terminal or vim.g.default_terminal or 1) end" {lua = true;})
-      (mkKeymap "n" "<D-x>" "function() require'toggleterm'.toggle(vim.v.count > 0 and vim.v.count or vim.w.default_terminal or vim.t.default_terminal or vim.g.default_terminal or 1) end" {lua = true;})
-      (
-        mkKeymap "n" "<leader>zt" ''
-          function()
-            local scope
-            if vim.v.register == 'w' or vim.v.register == 't' or vim.v.register == 'g' then
-              scope = vim[vim.v.register]
-            else
-              scope = vim.t
-            end
-
-            scope.default_terminal = vim.v.count1
-          end
-        '' {
-          desc = ''["scope]Set default ToggleTerm'';
-          lua = true;
-        }
-      )
       # luasnip
       (mkKeymap ["n" "i" "s"] "<C-;>" "<Plug>luasnip-jump-next" {silent = true;})
       (mkKeymap ["n" "i" "s"] "<C-,>" "<Plug>luasnip-jump-prev" {silent = true;})
@@ -623,11 +580,6 @@ in {
 
       # ssr.nvim
       (mkKeymap ["n" "x" "o"] "<leader>sr" ":lua require('ssr').open()<CR>" {})
-
-      # ToggleTerm
-      (mkKeymap ["n" "x" "o"] "<leader>ct" "':ToggleTermSendVisualLines ' . v:count == 0 ? g:default_terminal : v:count" {expr = true;})
-      (mkKeymap "t" "<M-x>" "<cmd>ToggleTerm<cr>" {})
-      (mkKeymap "t" "<D-x>" "<cmd>ToggleTerm<cr>" {})
 
       # FzfLua
       (mkKeymap "n" "<leader>fj" "<cmd>FzfLua jumps<CR>" {})
