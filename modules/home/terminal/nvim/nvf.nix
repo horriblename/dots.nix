@@ -95,13 +95,6 @@ in {
             (mkKeymap "x" "<leader>pc" ":PerfHottestCallersSelection<CR>" {desc = "Hottest Callers Selection";})
           ];
         };
-        conjure = {
-          package = pkgs.vimPlugins.conjure;
-          lazy = true;
-          before = ''
-            vim.g["conjure#mapping#doc_word"] = "<localleader>h"
-          '';
-        };
         "grug-far.nvim" = {
           package = noBuildPlug "grug-far.nvim";
           cmd = ["GrugFar"];
