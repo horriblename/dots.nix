@@ -359,7 +359,6 @@ inoremap <M-;>      <Esc>:tabnext<CR>
 inoremap <M-,>      <Esc>:tabprevious<CR>
 tnoremap <C-Tab>    <C-\><C-n>:tabnext<CR>
 tnoremap <C-S-Tab>  <C-\><C-n>:tabprevious<CR>
-tnoremap <M-.>      <C-\><C-n>:tabnext<CR>
 tnoremap <M-;>      <C-\><C-n>:tabnext<CR>
 tnoremap <M-,>      <C-\><C-n>:tabprevious<CR>
 
