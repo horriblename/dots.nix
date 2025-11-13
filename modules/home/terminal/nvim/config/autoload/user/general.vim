@@ -48,7 +48,6 @@ set nowrap
 set sidescroll=5
 set sidescrolloff=2
 set cursorline
-set lazyredraw
 set cmdheight=1
 set noshowmode
 set splitbelow splitright

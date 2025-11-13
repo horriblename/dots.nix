@@ -346,7 +346,8 @@ tnoremap <M-n>      <C-\><C-n>:bnext<CR>
 tnoremap <M-p>      <C-\><C-n>:bNext<CR>
 
 " Tabs
-nnoremap <leader>t  :tabnew<CR>
+nnoremap <leader>tn :tabnew<CR>
+nnoremap <leader>tq :tabclose<CR>
 nnoremap <M-.>      :tabnext<CR>
 nnoremap <M-;>      :tabnext<CR>
 nnoremap <M-,>      :tabprevious<CR>
