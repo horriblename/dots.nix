@@ -137,6 +137,12 @@ in {
               repl_open_cmd = mkLuaInline "require('iron.view').split.botright(16)";
             };
 
+            repl_definition = {
+              nix = {
+                command = ["nix" "repl" "nixpkgs"];
+              };
+            };
+
             keymaps = {
               toggle_repl = "<leader>rr";
               restart_repl = "<leader>rR";
@@ -194,7 +200,10 @@ in {
       enableTreesitter = true;
       enableExtraDiagnostics = true;
 
-      nix.enable = true;
+      nix={
+        enable = true;
+        lsp.servers = ["nixd"];
+      };
       html.enable = true;
       clang.enable = true;
 
@@ -220,6 +229,7 @@ in {
       lua = {
         enable = true;
         lsp.lazydev.enable = true;
+        format.enable = false;
       };
     };
 
@@ -229,7 +239,7 @@ in {
       hls = {};
       clangd.cmd = lib.mkForce ["${pkgs.clang-tools_19}/bin/clangd"];
       clojure_lsp = {};
-      jsonls.cmd = ["${pkgs.nodePackages.vscode-langservers-extracted}/bin/vscode-json-language-server"];
+      jsonls.cmd = ["${pkgs.nodePackages.vscode-langservers-extracted}/bin/vscode-json-language-server" "--stdio"];
       roc_ls = {
         cmd = ["roc_language_server"];
         filetypes = ["roc"];
@@ -238,7 +248,9 @@ in {
       nil = {
         settings.nil.nix.flake.autoArchive = false;
       };
-      nixd = {cmd = [(lib.getExe pkgs.nixd) "--log=error"];};
+      nixd = {
+        cmd = lib.mkForce [(lib.getExe pkgs.nixd) "--log=error"];
+      };
       jdtls = {
         enable = false;
         cmd = ["jdt-language-server" "-configuration" "${config.xdg.cacheHome}/jdtls/config" "-data" "${config.xdg.cacheHome}/jdtls/workspace"];
@@ -444,7 +456,15 @@ in {
         };
       };
       breadcrumbs.enable = false;
-      illuminate.enable = true;
+      illuminate = {
+        enable = true;
+        setupOpts = {
+          large_file_cutoff = 2000;
+          large_file_overrides = {
+            providers = [];
+          };
+        };
+      };
     };
 
     assistant = {
