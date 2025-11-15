@@ -7,16 +7,18 @@
   imports = [
     ./audio.nix
     ./fonts.nix
+
     ./eww
+    ./desktop
     ./foot
     ./gtk
-    ./tofi
-    ./qt
-    ./menu
     ./hyprland
+    ./input
+    ./menu
+    ./qt
     ./sway
     ./swayidle
-    ./input
+    ./tofi
   ];
 
   config = lib.mkIf config.dots.wayland.enable {

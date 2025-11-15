@@ -6,11 +6,6 @@
   impurity,
   ...
 }: let
-  mkHyprlandService = lib.recursiveUpdate {
-    Unit.PartOf = ["hyprland-session.target"];
-    Unit.After = ["hyprland-session.target"];
-    Install.WantedBy = ["hyprland-session.target"];
-  };
   hlDebugMonitor = ''
     monitor=WL-1,${
       if config.dots.preset == "surface"
@@ -104,47 +99,5 @@ in {
     };
 
     xdg.portal.config.common.default = "*";
-
-    systemd.user.services = {
-      swaybg = mkHyprlandService {
-        Unit.Description = "Wallpaper chooser";
-        Service = {
-          ExecStart = "${lib.getExe pkgs.swaybg} -i %h/Pictures/wallpapers/wallpaper.png";
-          Restart = "always";
-        };
-      };
-      swayidle = mkHyprlandService {
-        Unit.Description = "Idle handler";
-        Service = {
-          ExecStart = "${lib.getExe pkgs.swayidle}";
-          Restart = "always";
-        };
-      };
-      cliphist = mkHyprlandService {
-        Unit.Description = "Clipboard history";
-        Service = {
-          ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste --watch ${lib.getExe pkgs.cliphist} store";
-          Restart = "always";
-        };
-      };
-
-      nwg-drawer = mkHyprlandService {
-        Unit.Description = "nwg-drawer Daemon";
-        Service = {
-          ExecStart = "${pkgs.nwg-drawer}/bin/nwg-drawer -r";
-          Restart = "always";
-        };
-      };
-
-      dunst = mkHyprlandService {
-        Unit.Description = "Dunst notification daemon";
-
-        Service = {
-          Type = "dbus";
-          BusName = "org.freedesktop.Notifications";
-          ExecStart = "${pkgs.dunst}/bin/dunst -config ${./dunstrc}";
-        };
-      };
-    };
   };
 }
