@@ -130,6 +130,31 @@ xnoremap <silent>ai :<C-U>call user#txtobj#IndentTextObj(0)<CR>
 xnoremap <silent>ii :<C-U>call user#txtobj#IndentTextObj(1)<CR>
 " }}}
 
+" Marking
+fu s:visualMark()
+	let mark = getcharstr()
+	if mark =~# '\u'
+		let lower = tolower(mark)
+		execute "'<mark" mark
+		execute "'>mark" lower
+	else
+		execute "normal" ('m' . mark)
+	endif
+endfu
+fu s:selectMark()
+	let mark = getcharstr()
+	if mark =~# '\u'
+		let lower = tolower(mark)
+		execute "'" . mark
+		normal v
+		execute "'" . lower
+	endif
+endfu
+xnoremap m <Esc>:call <SID>visualMark()<CR>
+nnoremap gm <cmd>call <SID>selectMark()<CR>
+xnoremap gm <Esc><cmd>call <SID>selectMark()<CR>
+onoremap gm <cmd>call <SID>selectMark()<CR>
+
 " Diagnostics {{{
 nnoremap ]d :lua vim.diagnostic.goto_next()<CR>
 nnoremap [d :lua vim.diagnostic.goto_prev()<CR>
