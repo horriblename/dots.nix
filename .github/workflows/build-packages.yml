@@ -54,7 +54,7 @@ jobs:
             .#styluslabs-write \
             .#nvtopPackages.nvidia \
             .#inputs.nvf.packages.x86_64-linux.blink-cmp \
-            --no-link --print-out-paths -L
+            --no-link --print-out-paths -L \
           | cachix push horriblename
       - run: "cachix push horriblename"
       - run: "nix-collect-garbage --delete-old"
