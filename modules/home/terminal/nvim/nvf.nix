@@ -182,6 +182,7 @@ in {
     };
 
     lsp = {
+      enable = true;
       formatOnSave = true;
       lspsaga.enable = false;
       lspconfig.enable = true;
