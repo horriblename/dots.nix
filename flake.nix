@@ -144,7 +144,7 @@
       extraModules ? [],
     }:
       home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgsFor.${system};
+        pkgs = pkgsFor {inherit system;};
         modules =
           [
             ./modules/home/home.nix
@@ -298,10 +298,7 @@
       in
         lib.nixosSystem {
           inherit system;
-          pkgs = import nixpkgs {
-            inherit system;
-            overlays = [self.overlay inputs.agenix.overlays.default];
-          };
+          pkgs = pkgsFor {inherit system;};
           specialArgs = {inherit self inputs;};
           modules = [
             inputs.agenix.nixosModules.default
