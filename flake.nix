@@ -59,11 +59,6 @@
     rss-aggre.url = "github:horriblename/rss-aggregator";
     rss-aggre.inputs.nixpkgs.follows = "nixpkgs";
 
-    hyprcursor-phinger = {
-      url = "github:jappie3/hyprcursor-phinger";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     roc = {
       url = "github:roc-lang/roc";
     };

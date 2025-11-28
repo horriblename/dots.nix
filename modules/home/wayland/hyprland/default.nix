@@ -33,10 +33,6 @@
     hyprctl keyword animation "fadeOut,1,5,default"
   '';
 in {
-  imports = [
-    inputs.hyprcursor-phinger.homeManagerModules.hyprcursor-phinger
-  ];
-
   config = lib.mkIf config.dots.wayland.enable {
     home.packages = [
       pkgs.libnotify
@@ -56,8 +52,6 @@ in {
       pkgs.swayidle
       pkgs.nwg-drawer
     ];
-
-    programs.hyprcursor-phinger.enable = true;
 
     wayland.windowManager.hyprland = {
       enable = true;
