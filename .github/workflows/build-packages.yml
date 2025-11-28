@@ -52,7 +52,7 @@ jobs:
             .#roc \
             .#roc-ls \
             .#styluslabs-write \
-            .#inputs.nixpkgs.legacyPackages.x86_64-linux.nvtopPackages.nvidia \
+            .#nvtopPackages.nvidia \
             .#inputs.nvf.packages.x86_64-linux.blink-cmp \
             --no-link --print-out-paths -L
           | cachix push horriblename

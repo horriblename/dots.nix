@@ -458,6 +458,7 @@
         '';
 
       ollama-python = pkgs.python3.withPackages (p: with p; [ollama]);
+      inherit (pkgs) nvtopPackages; # re-export so that allowUnfreePredicate applies
     });
     overlay = final: prev: let
       pins = npinsFor final.stdenv.system;
