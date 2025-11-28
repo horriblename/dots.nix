@@ -1,17 +1,19 @@
 ---@alias term_info {buf: integer, win: integer?}
+---@alias LocalID integer A unique ID for each terminal local to its tab
 
 ---@type table<integer, table<integer, term_info>>
 local tab_terms = {}
+local augroup = vim.api.nvim_create_augroup('toggleterm_focus_hooks', { clear = false })
 
 ---@param buf integer
 ---@param y_offset integer
 ---@return integer
 local function open_floating_win(buf, y_offset)
 	local ui = vim.api.nvim_list_uis()[1]
-	local width = math.floor(ui.width * 0.8)
-	local height = math.floor(ui.height * 0.8)
+	local width = math.floor(ui.width * 0.9)
+	local height = math.floor(ui.height * 0.9)
 	local col = math.floor((ui.width - width) / 2)
-	local row = math.floor((ui.height - height) / 2)
+	local row_baseline = math.min(1, ui.height - 1)
 
 	-- Open the floating window
 	local win = vim.api.nvim_open_win(buf, true, {
@@ -19,7 +21,7 @@ local function open_floating_win(buf, y_offset)
 		width = width,
 		height = height,
 		col = col,
-		row = row + y_offset,
+		row = row_baseline + y_offset,
 		style = "minimal",
 		border = "rounded",
 	})
@@ -30,8 +32,9 @@ end
 
 ---@param cmd string?
 ---@param y_offset integer passed to open_floating_win()
+---@param local_id integer
 ---@return term_info
-local function new_floating_terminal(cmd, y_offset)
+local function new_floating_terminal(cmd, y_offset, local_id)
 	cmd = cmd or vim.o.shell
 
 	-- Create a new (unlisted, scratch) buffer
@@ -49,12 +52,21 @@ local function new_floating_terminal(cmd, y_offset)
 	-- Enter insert mode so you can start typing in the terminal
 	vim.cmd("startinsert")
 
+	vim.api.nvim_create_autocmd("BufEnter", {
+		group = augroup,
+		buffer = buf,
+		callback = function()
+			-- TODO: specify tab id?
+			vim.t.toggleterm_focused_id = local_id
+		end
+	})
+
 	return { buf = buf, win = win }
 end
 
 ---@param tab_id integer
----@param local_id integer
-local function open_floating_terms(tab_id, local_id)
+---@param to_focus LocalID local_id to focus
+local function open_floating_terms(tab_id, to_focus)
 	if not tab_terms[tab_id] then
 		tab_terms[tab_id] = {}
 	end
@@ -67,7 +79,7 @@ local function open_floating_terms(tab_id, local_id)
 			info.win = open_floating_win(info.buf, y_offset)
 			y_offset = y_offset + 1
 			opened = true
-			if loc_id == local_id then
+			if loc_id == to_focus then
 				focus_win = info.win
 			end
 		else
@@ -76,7 +88,7 @@ local function open_floating_terms(tab_id, local_id)
 	end
 
 	if not opened or focus_win == nil then
-		tab[local_id] = new_floating_terminal(nil, y_offset)
+		tab[to_focus] = new_floating_terminal(nil, y_offset, to_focus)
 	elseif focus_win then
 		vim.api.nvim_set_current_win(focus_win)
 	end
@@ -117,6 +129,9 @@ local function toggleterm()
 	else
 		local tabid = vim.api.nvim_get_current_tabpage()
 		local local_id = vim.v.count
+		if local_id == 0 then
+			local_id = vim.t[tabid].toggleterm_focused_id or 1
+		end
 		open_floating_terms(tabid, local_id)
 	end
 end
@@ -163,7 +178,7 @@ vim.keymap.set({ 'n', 'i', 'x', 's', 't' }, '<M-m>n', function()
 
 		local last_id = vim.iter(pairs(tab)):last()
 		local offset = #vim.iter(pairs(tab))
-		local info = new_floating_terminal(nil, offset + 1)
+		local info = new_floating_terminal(nil, offset + 1, last_id + 1)
 		tab[last_id + 1] = info
 	end
 end, opts)

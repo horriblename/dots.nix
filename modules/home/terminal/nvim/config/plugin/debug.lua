@@ -12,15 +12,10 @@ _G.rerequire = function(mod)
 	return require(mod)
 end
 
-_G.req = setmetatable({}, {
+_G.req = setmetatable(package.loaded, {
 	__call = function(_, key)
+		print("__call")
 		return require(key)
-	end,
-	__index = function(_, key)
-		return require(key)
-	end,
-	__tostring = function()
-		return "<require shorthand>"
 	end,
 })
 

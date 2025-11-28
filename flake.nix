@@ -141,7 +141,16 @@
             builtins.elem (lib.getName pkg) [
               "codeium"
               "unityhub"
-            ];
+              "nvidia"
+              "corefonts"
+
+              # nvtop-nvidia BS
+              "cuda-merged"
+              "libnvjitlink"
+              "libnpp"
+            ]
+            || lib.strings.hasPrefix "cuda_" (lib.getName pkg)
+            || lib.strings.hasPrefix "libcu" (lib.getName pkg);
           overlays = [self.overlay];
         };
         modules =
@@ -421,7 +430,6 @@
         libcallex-vim
         treesitter-roc
         neovim-treesitter-roc
-        timetrace
         lf-custom
         microsContainer
         ;
@@ -436,6 +444,7 @@
             pkgs.anyrunPackages.symbols
             pkgs.anyrunPackages.rink
             self.packages.${pkgs.stdenv.system}.styluslabs-write
+            pkgs.nvtopPackages.nvidia
           ]
           ++ (with inputs.nixdroidpkgs.packages.${pkgs.stdenv.system}.crossPkgs.aarch64-linux; [
             termux-auth
@@ -476,6 +485,8 @@
             --option extra-trusted-public-keys '${builtins.concatStringsSep " " coreSettings.nix.settings.trusted-public-keys}' \
             $@
         '';
+
+      ollama-python = pkgs.python3.withPackages (p: with p; [ollama]);
     });
     overlay = final: prev: let
       pins = npinsFor final.system;
@@ -509,8 +520,6 @@
       roc-ls = inputs.roc.packages.${final.system}.lang-server;
       treesitter-roc = inputs.tree-sitter-roc.packages.${final.system}.default;
       neovim-treesitter-roc = final.callPackage ./pkgs/neovim-treesitter-roc.nix {treesitter-roc-src = inputs.tree-sitter-roc;};
-
-      timetrace = final.callPackage ./pkgs/timetrace.nix {};
 
       lf-custom = final.lf.overrideAttrs {
         src = final.fetchFromGitHub {

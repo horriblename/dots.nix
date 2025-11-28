@@ -8,8 +8,8 @@
   inherit (lib.lists) optionals;
 in {
   imports = [
+    ./desktop.nix
     ./touch.nix
-    ./timetrace.nix
   ];
 
   config = mkIf config.dots.wayland.graphicalApps {

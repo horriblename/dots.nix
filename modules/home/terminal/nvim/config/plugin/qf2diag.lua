@@ -53,3 +53,7 @@ vim.api.nvim_create_autocmd({ "QuickFixCmdPost" }, {
 		DiagnosticFromQfList()
 	end,
 })
+
+vim.api.nvim_create_user_command("Qf2Diag", _G.DiagnosticFromQfList, {
+	desc = "Populate Diagnostics with Quickfix items",
+})
