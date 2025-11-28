@@ -11,7 +11,7 @@
     # external modules
     ../core
     inputs.impurity.nixosModules.default
-    inputs.nix-index-database.hmModules.nix-index
+    inputs.nix-index-database.homeModules.nix-index
 
     # custom options
     ./module.nix
