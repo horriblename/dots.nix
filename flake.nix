@@ -437,6 +437,7 @@
             pkgs.anyrunPackages.rink
             self.packages.${pkgs.stdenv.system}.styluslabs-write
             pkgs.nvtopPackages.nvidia
+            inputs.nvf.packages.${pkgs.stdenv.system}.blink-cmp
           ]
           ++ (with inputs.nixdroidpkgs.packages.${pkgs.stdenv.system}.crossPkgs.aarch64-linux; [
             termux-auth
