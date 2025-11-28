@@ -125,6 +125,20 @@
       import nixpkgs {
         inherit system;
         overlays = [self.overlay];
+        config.allowUnfreePredicate = pkg:
+          builtins.elem (lib.getName pkg) [
+            "codeium"
+            "unityhub"
+            "nvidia"
+            "corefonts"
+
+            # nvtop-nvidia BS
+            "cuda-merged"
+            "libnvjitlink"
+            "libnpp"
+          ]
+          || lib.strings.hasPrefix "cuda_" (lib.getName pkg)
+          || lib.strings.hasPrefix "libcu" (lib.getName pkg);
       };
 
     npinsFor = system: (pkgsFor {inherit system;}).callPackage ./npins/sources.nix {};
@@ -135,24 +149,7 @@
       extraModules ? [],
     }:
       home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
-          inherit system;
-          config.allowUnfreePredicate = pkg:
-            builtins.elem (lib.getName pkg) [
-              "codeium"
-              "unityhub"
-              "nvidia"
-              "corefonts"
-
-              # nvtop-nvidia BS
-              "cuda-merged"
-              "libnvjitlink"
-              "libnpp"
-            ]
-            || lib.strings.hasPrefix "cuda_" (lib.getName pkg)
-            || lib.strings.hasPrefix "libcu" (lib.getName pkg);
-          overlays = [self.overlay];
-        };
+        pkgs = pkgsFor.${system};
         modules =
           [
             ./modules/home/home.nix
