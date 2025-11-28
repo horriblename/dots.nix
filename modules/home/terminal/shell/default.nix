@@ -24,6 +24,7 @@
       "$XDG_DATA_HOME/npm/bin"
     ];
     shellAliases = {
+      "@" = "xargs -I@";
       c = "clear";
       v = lib.getExe pkgs.neovim;
       n = "nix";
