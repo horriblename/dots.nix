@@ -85,7 +85,7 @@ in {
           "${inputs.hyprland-xdg-toplevel-move.packages.${pkgs.system}.default}/lib/libexample.so"
           # "${inputs.hyprland-border-actions.packages.${pkgs.system}.default}/lib/libborder-actions.so"
         ]
-        ++ lib.optional config.dots.wayland.touchScreen inputs.hyprgrass.packages.${pkgs.system}.default;
+        ++ lib.optional config.dots.wayland.touchScreen inputs.hyprgrass.packages.${pkgs.stdenv.hostPlatform.system}.default;
     };
 
     xdg.configFile = {

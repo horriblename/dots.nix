@@ -9,7 +9,7 @@
 in {
   config = mkIf config.dots.wayland.touchScreen {
     home.packages = [
-      self.packages.${pkgs.system}.styluslabs-write
+      self.packages.${pkgs.stdenv.hostPlatform.system}.styluslabs-write
     ];
   };
 }

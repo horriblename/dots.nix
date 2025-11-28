@@ -84,7 +84,7 @@
       syntaxHighlighting = {
         enable = true;
       };
-      dotDir = ".config/zsh";
+      dotDir = "${config.xdg.configHome}/zsh";
       sessionVariables = {
         LC_ALL = "en_US.UTF-8";
         ZSH_AUTOSUGGEST_USE_ASYNC = "true";

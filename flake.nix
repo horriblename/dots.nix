@@ -486,10 +486,10 @@
       ollama-python = pkgs.python3.withPackages (p: with p; [ollama]);
     });
     overlay = final: prev: let
-      pins = npinsFor final.system;
+      pins = npinsFor final.stdenv.system;
     in {
       hyprworkspaces = final.callPackage ./pkgs/hyprworkspaces/default.nix {};
-      anyrunPackages = anyrun.packages.${final.system};
+      anyrunPackages = anyrun.packages.${final.stdenv.system};
       md-img-paste-vim = final.vimUtils.buildVimPlugin {
         pname = "md-img-paste-vim";
         version = "master";
@@ -511,11 +511,11 @@
       };
       fennel-ls = final.callPackage ./pkgs/fennel-ls.nix {};
 
-      rssAggrePackages = inputs.rss-aggre.packages.${final.system};
+      rssAggrePackages = inputs.rss-aggre.packages.${final.stdenv.system};
 
-      roc = inputs.roc.packages.${final.system}.default;
-      roc-ls = inputs.roc.packages.${final.system}.lang-server;
-      treesitter-roc = inputs.tree-sitter-roc.packages.${final.system}.default;
+      roc = inputs.roc.packages.${final.stdenv.system}.default;
+      roc-ls = inputs.roc.packages.${final.stdenv.system}.lang-server;
+      treesitter-roc = inputs.tree-sitter-roc.packages.${final.stdenv.system}.default;
       neovim-treesitter-roc = final.callPackage ./pkgs/neovim-treesitter-roc.nix {treesitter-roc-src = inputs.tree-sitter-roc;};
 
       lf-custom = final.lf.overrideAttrs {

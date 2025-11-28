@@ -18,7 +18,7 @@ in {
         firefox
         kdePackages.okular
         image-roll
-        onlyoffice-bin
+        onlyoffice-desktopeditors
         # NOTE: manual intervention needed:
         # copy corefonts into ~/.local/share/fonts/truetype/*.ttf
         # (symlinks don't work due to bug)

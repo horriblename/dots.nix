@@ -194,7 +194,6 @@ in {
     };
 
     languages = {
-      enableLSP = true;
       enableDAP = true;
       enableFormat = true;
       enableTreesitter = true;
@@ -238,8 +237,8 @@ in {
       elmls = {};
       hls = {};
       clangd.cmd = lib.mkForce ["${pkgs.clang-tools_19}/bin/clangd"];
+      clangd.cmd = lib.mkForce ["${pkgs.llvmPackages_19.clang-tools}/bin/clangd"];
       clojure_lsp = {};
-      jsonls.cmd = ["${pkgs.nodePackages.vscode-langservers-extracted}/bin/vscode-json-language-server" "--stdio"];
       roc_ls = {
         cmd = ["roc_language_server"];
         filetypes = ["roc"];

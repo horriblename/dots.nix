@@ -9,7 +9,7 @@
 in {
   programs.hyprland = mkIf config.dots.wayland.enable {
     enable = true;
-    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
   };
   programs.niri = mkIf config.dots.wayland.enable {
     enable = true;

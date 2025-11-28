@@ -20,7 +20,7 @@
 in {
   config = mkIf config.dots.wayland.touchScreen {
     i18n.inputMethod.fcitx5.addons = [
-      inputs.fcitx-virtual-keyboard-adapter.packages.${pkgs.system}.default
+      inputs.fcitx-virtual-keyboard-adapter.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
 
     home.packages = [pkgs.wvkbd toggleScript];

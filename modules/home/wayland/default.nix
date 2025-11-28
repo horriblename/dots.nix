@@ -29,7 +29,6 @@
       pulseaudio # TODO migrate to pipewire fully (with pw-cli)
       pavucontrol
       wvkbd
-      libsForQt5.index
 
       # general user apps
       (mpv.override {scripts = [mpvScripts.mpris];})
@@ -37,7 +36,7 @@
       nextcloud-client
       xournalpp
       noisetorch
-      xdragon
+      dragon-drop
     ];
   };
 }

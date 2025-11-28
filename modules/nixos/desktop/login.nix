@@ -8,8 +8,7 @@
 in {
   config = mkIf config.dots.wayland.enable {
     environment.systemPackages = [pkgs.onboard];
-    services.xserver = {
-      enable = true;
+    services = {
       displayManager.gdm = {
         enable = true;
       };
