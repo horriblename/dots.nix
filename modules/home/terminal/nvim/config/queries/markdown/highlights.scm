@@ -26,31 +26,29 @@
   (#as_devicon! @devicon))
 
 ; quote blocks
-; warning: enabling will consume the whitespace after each quote block marker ('>')
-; ((
-;  (block_continuation) @text.reference
-;  (#lua-match? @text.reference "^>")
-;  (#sub! @text.reference 0 0 0 1)
-; )
-;  (#set! conceal "▌")
-; )
-;
-;
-; (
-;  (block_quote_marker) @text.reference
-;  (#set! conceal "▌"))
+((block_quote_marker) @variable
+	(#trim! @variable 0 0 0 1)
+	(#set! conceal "│"))
+
+((block_continuation) @variable
+  (#set! conceal "│")
+  (#lua-match? @variable "^>")
+  (#trim! @variable 0 0 0 1))
+
 ; call-out blocks/admonition
 ; https://help.obsidian.md/How+to/Use+callouts
 ; https://learn.microsoft.com/en-us/contribute/markdown-reference#alerts-note-tip-important-caution-warning
-((block_quote_marker) @text.note
+(block_quote
+  (block_quote_marker)
   (paragraph
-    (inline) @tag)
-  (#eq? @tag "[!NOTE]"))
+    (inline)  @comment.note)
+  (#eq? @comment.note "[!NOTE]"))
 
 ((block_quote_marker) @text.warning
+  (block_quote_marker)
   (paragraph
-    (inline) @tag)
-  (#eq? @tag "[!WARNING]"))
+    (inline) @comment.warning)
+  (#eq? @comment.warning "[!WARNING]"))
 
 ; table
 (pipe_table_header
