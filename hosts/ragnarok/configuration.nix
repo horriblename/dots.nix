@@ -62,7 +62,7 @@
   # BEFORE enabling this on a new machine. Otherwise you will be locked out of your machine.
   services.usbguard.enable = true;
 
-  services.nixseparatedebuginfod.enable = true;
+  services.nixseparatedebuginfod2.enable = true;
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.

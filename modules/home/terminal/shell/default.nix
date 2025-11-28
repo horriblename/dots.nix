@@ -96,7 +96,7 @@
         ignoreDups = true;
       };
 
-      initExtra = ''
+      initContent = ''
         ## Pure prompt
 
         fpath+=("${pkgs.pure-prompt}/share/zsh/site-functions")
