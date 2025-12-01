@@ -9,9 +9,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "2a6e6e8185ed9a8fa801692c32684ff81de5a98c",
-      "url": "https://github.com/horriblename/aerial.nvim/archive/2a6e6e8185ed9a8fa801692c32684ff81de5a98c.tar.gz",
-      "hash": "1n6b0asq7pb3x2wr283wh2njvnc82h62smsd4qdwrwd9zrs1ijj3"
+      "revision": "578a41affca7cdb1fe3bdee5be638bd932cd0c89",
+      "url": "https://github.com/horriblename/aerial.nvim/archive/578a41affca7cdb1fe3bdee5be638bd932cd0c89.tar.gz",
+      "hash": "02rxvi2nqm9i9mpwkrmghh11q2kx3dvq28nlaiq9vj2riii8kwf5"
     },
     "grug-far.nvim": {
       "type": "GitRelease",
