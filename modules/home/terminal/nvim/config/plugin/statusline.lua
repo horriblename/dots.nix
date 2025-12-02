@@ -105,12 +105,44 @@ function _G.StatuslineLsp()
 	return " " .. main_lsp.name .. count
 end
 
+-- Simple default-like tabline
+function _G.Tabline()
+	local s = require('string.buffer').new()
+	for i = 1, vim.fn.tabpagenr('$') do
+		local cwd = vim.fn.fnamemodify(vim.fn.getcwd(-1, i), [[:p:~:s#\/$##:gs#\([^/]\)[^/]*\/#\1\/#]])
+
+		-- tab highlight
+		if i == vim.fn.tabpagenr() then
+			s:put("%#TabLineSel#")
+		else
+			s:put("%#TabLine#")
+		end
+
+		-- tab click target
+		s:put("%", i, "T ")
+
+		-- label
+		s:put(cwd, " ")
+	end
+
+	-- filler
+	s:put("%#TabLineFill#%T")
+
+	-- right-align close button
+	if vim.fn.tabpagenr('$') > 1 then
+		s:put("%=%#ErrorMsg#%999X X")
+	end
+
+	return s:get()
+end
+
 vim.o.statusline = table.concat({
 	-- Left-aligned
 	"%-6{%v:lua.StatuslineMode()%} %*",
 	"%{%v:lua.StatuslineFtIcon()%}",
 	"  %t",
 	" %h%w%m%r",
+	"%<",
 	"%{%v:lua.StatuslineGitStatus()%}",
 
 	-- Right-aligned
@@ -121,3 +153,5 @@ vim.o.statusline = table.concat({
 	"  %l:%c",
 	"  [%{&fileformat}]",
 })
+
+vim.o.tabline = "%!v:lua.Tabline()"
