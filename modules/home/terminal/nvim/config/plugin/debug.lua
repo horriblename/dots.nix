@@ -53,11 +53,16 @@ end
 
 -- user command that opens a file in the runtime path
 vim.api.nvim_create_user_command("EditRuntime", function(args)
-	local files = vim.api.nvim__get_runtime({ args.args }, false, {})
-	if files[1] then
+	local files = vim.api.nvim__get_runtime({ args.args }, true, {})
+	if #files == 0 then
+		vim.notify(string.format("no file %s on runtimepath", args.args), vim.log.levels.ERROR)
+	elseif #files == 1 then
 		vim.cmd.edit(files[1])
 	else
-		vim.notify(string.format("no file %s on runtimepath", args.args), vim.log.levels.ERROR)
+		vim.fn.setqflist(vim.iter(files):map(function(path)
+			return { filename = path, lnum = 1 }
+		end):totable(), 'r')
+		vim.cmd.copen()
 	end
 end, {
 	nargs = 1,
