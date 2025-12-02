@@ -44,6 +44,13 @@ _G.E = setmetatable({}, {
 	end,
 })
 
+local old_notify = vim.notify
+vim.notify = function(msg, lvl, opt)
+	if lvl and lvl > vim.log.levels.DEBUG then
+		old_notify(msg, lvl, opt)
+	end
+end
+
 -- user command that opens a file in the runtime path
 vim.api.nvim_create_user_command("EditRuntime", function(args)
 	local files = vim.api.nvim__get_runtime({ args.args }, false, {})
