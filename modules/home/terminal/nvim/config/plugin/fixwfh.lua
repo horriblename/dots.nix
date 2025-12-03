@@ -38,27 +38,27 @@ local function leaves_with_option_enabled(opt, node, side)
 	elseif node[1] == "col" then
 		---@cast node vim.fn.winlayout.branch
 		local children = node[2]
-		-- if side == "up" then
-		-- 	return leaves_with_option_enabled(opt, children[1], side)
-		-- elseif side == "down" then
-		-- 	return leaves_with_option_enabled(opt, children[#children], side)
-		-- else -- left or right => all children span horizontal edge
-		return vim.iter(children):map(function(child)
-			return leaves_with_option_enabled(opt, child, side)
-		end):flatten():totable()
-		-- end
+		if side == "up" then
+			return leaves_with_option_enabled(opt, children[1], side)
+		elseif side == "down" then
+			return leaves_with_option_enabled(opt, children[#children], side)
+		else -- left or right => all children span horizontal edge
+			return vim.iter(children):map(function(child)
+				return leaves_with_option_enabled(opt, child, side)
+			end):flatten():totable()
+		end
 	elseif node[1] == "row" then
 		---@cast node vim.fn.winlayout.branch
 		local children = node[2]
-		-- if side == "left" then
-		-- 	return leaves_with_option_enabled(opt, children[1], side)
-		-- elseif side == "right" then
-		-- 	return leaves_with_option_enabled(opt, children[#children], side)
-		-- else
-		return vim.iter(children):map(function(child)
-			return leaves_with_option_enabled(opt, child, side)
-		end):flatten():totable()
-		-- end
+		if side == "left" then
+			return leaves_with_option_enabled(opt, children[1], side)
+		elseif side == "right" then
+			return leaves_with_option_enabled(opt, children[#children], side)
+		else
+			return vim.iter(children):map(function(child)
+				return leaves_with_option_enabled(opt, child, side)
+			end):flatten():totable()
+		end
 	end
 	return {}
 end
@@ -66,7 +66,7 @@ end
 ---@alias direction "vertical"|"horizontal"
 ---@alias side "up"|"right"|"down"|"left"
 
----@type table<integer, {direction: direction, size: integer}>
+---@type table<integer, {width: integer?, height: integer?}>
 local needs_resize = {}
 
 local function on_win_closed(ev)
@@ -133,15 +133,15 @@ local function on_win_closed(ev)
 		descendants = winids
 	end
 
-	for _, node in ipairs(descendants) do
-		local size = direction == "vertical"
-			and vim.api.nvim_win_get_height(node)
-			or vim.api.nvim_win_get_width(node)
-
+	for _, win in ipairs(descendants) do
 		-- schedule a resize after window is removed from layout
-		needs_resize[node] = {
-			direction = direction,
-			size = size,
+		needs_resize[win] = {
+			height = direction == "vertical"
+				and vim.api.nvim_win_get_height(win)
+				or nil,
+			width = direction == "horizontal"
+				and vim.api.nvim_win_get_width(win)
+				or nil,
 		}
 	end
 
@@ -151,9 +151,9 @@ end
 local group = vim.api.nvim_create_augroup("fix_winfixheight", { clear = true })
 vim.api.nvim_create_autocmd("WinClosed", {
 	group = group,
-	callback = function (ev)
+	callback = function(ev)
 		local ok, err = pcall(on_win_closed, ev)
-		if not ok then
+		if not ok and type(err) == "string" then
 			vim.notify_once(err, vim.log.levels.ERROR)
 		end
 	end,
@@ -163,16 +163,19 @@ vim.api.nvim_create_autocmd("WinResized", {
 	group = group,
 	callback = function()
 		for winid, info in pairs(needs_resize) do
-			-- TODO: direction is same for all nodes
-			local cmd = info.direction == "vertical"
-				and "resize"
-				or "vertical resize"
-			pcall(vim.fn.win_execute,
+			pcall(vim.api.nvim_win_call,
 				winid,
-				string.format("%s %d ", cmd, info.size),
-				true)
-			vim.notify(
-				"[fixwfh] restored win size: " .. info.direction .. info.size,
+				function()
+					if info.width then
+						vim.cmd.resize({ info.width, mods = { vertical = true } })
+					end
+					if info.height then
+						vim.cmd.resize(info.width)
+					end
+				end
+			)
+			vim.notify_once(
+				string.format("[fixwfh] restored win size: (%s, %s)", info.width, info.height),
 				vim.log.levels.TRACE
 			)
 		end
