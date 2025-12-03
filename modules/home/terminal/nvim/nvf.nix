@@ -42,6 +42,12 @@ in {
           before = ''
             vim.g.undotree_ShortIndicators = true
             vim.g.undotree_TreeVertShape = '│'
+            vim.g.undotree_DiffCommand = [[sh -c 'git diff --word-diff --no-index "$@" | tail -n +5' git]]
+            vim.g.undotree_CustomMap = function()
+              vim.wo.winfixwidth = true
+              vim.wo.winfixheight = true
+            end
+            vim.g.undotree_CustomDiffpanelCmd = [[botright 12 new +setl\ winfixheight\ winfixwidth]]
           '';
           cmd = ["UndotreeFocus" "UndotreeHide" "UndotreePersistUndo" "UndotreeShow" "UndotreeToggle"];
           keys = [
@@ -173,6 +179,21 @@ in {
       };
     };
 
+    augroups = [
+      {
+        name = "dots_term_block_illuminate" ;
+        clear = true;
+      }
+    ];
+    autocmds = [
+      {
+        desc = "Block vim-illuminate in terminal";
+        event = ["TermOpen"];
+        command = "IlluminatePauseBuf";
+        group = "dots_term_block_illuminate";
+      }
+    ];
+
     snippets.luasnip = {
       enable = true;
       loaders = ''
@@ -200,7 +221,7 @@ in {
       enableTreesitter = true;
       enableExtraDiagnostics = true;
 
-      nix={
+      nix = {
         enable = true;
         lsp.servers = ["nixd"];
       };
@@ -220,7 +241,6 @@ in {
       zig.enable = false;
       markdown = {
         enable = true;
-        extensions.render-markdown-nvim.enable = true;
       };
       python.enable = true;
       dart.enable = false;
@@ -228,7 +248,7 @@ in {
       php.enable = false;
       lua = {
         enable = true;
-        lsp.lazydev.enable = true;
+        lsp.lazydev.enable = false;
         format.enable = false;
       };
     };
@@ -250,6 +270,13 @@ in {
       };
       nixd = {
         cmd = lib.mkForce [(lib.getExe pkgs.nixd) "--log=error"];
+      };
+      lua_ls = {
+        settings.Lua = {
+          runtime.version = "LuaJIT";
+          workspace.library = ["lua" "\${env:VIMRUNTIME}"];
+          diagnostic.globals = ["vim"];
+        };
       };
       jdtls = {
         enable = false;
@@ -301,6 +328,7 @@ in {
             TypeParameter = "T";
           };
         };
+        cmdline.keymap = mkForce {};
       };
       mappings = {
         complete = "<C-x><C-a>";
@@ -418,30 +446,16 @@ in {
       };
     };
 
-    projects = {
-      project-nvim = {
-        enable = true;
-        setupOpts = {
-          manual_mode = false;
-          detection_methods = ["lsp" "pattern"]; # NOTE: lsp detection will get annoying with multiple langs in one project
-          patterns = [
-            ".git"
-            "_darcs"
-            ".hg"
-            ".bzr"
-            ".svn"
-            "flake.nix"
-            ".anchor"
-            ">.config"
-            ">repo"
-            ">/nix/store"
-          ];
-        };
-      };
-    };
-
     utility = {
       diffview-nvim.enable = true;
+      snacks-nvim = {
+        enable = true;
+        setupOpts = {
+          bigfile = {
+            enable = true;
+          };
+        };
+      };
     };
 
     notes = {
@@ -630,6 +644,9 @@ in {
       (mkKeymap "n" "<leader>fdC" "<cmd>FzfLua dap_configurations<CR>" {})
       (mkKeymap "n" "<leader>fdf" "<cmd>FzfLua dap_frames<CR>" {})
       (mkKeymap "n" "<leader>fdv" "<cmd>FzfLua dap_variables<CR>" {})
+      (mkKeymap "n" "<leader>de" "function() require('dap').set_exception_breakpoints() end" {
+        lua = true;
+      })
 
       # QuickFix
       (mkKeymap "n" "<leader>fxx" "<cmd>FzfLua quickfix<CR>" {})
