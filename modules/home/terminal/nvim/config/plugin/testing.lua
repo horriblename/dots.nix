@@ -174,6 +174,22 @@ local function focus_prev()
 	end
 end
 
+local group = vim.api.nvim_create_augroup("toggleterm_tab_closed", { clear = true })
+vim.api.nvim_create_autocmd("TabClosed", {
+	group = group,
+	callback = function(ev)
+		local existing_ids = vim.api.nvim_list_tabpages()
+		for tabid, terms in pairs(tab_terms) do
+			if not vim.list_contains(existing_ids, tabid) then
+				for _, info in pairs(terms) do
+					pcall(vim.cmd, "bdelete! " .. info.buf)
+				end
+				tab_terms[tabid] = nil
+			end
+		end
+	end
+})
+
 local opts = { remap = false }
 vim.keymap.set('t', '<M-m>', '<C-\\><C-n>', opts)
 vim.keymap.set({ 'n', 'i', 'x', 's', 't' }, '<M-m>w', toggleterm, opts)
