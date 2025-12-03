@@ -1,7 +1,8 @@
 ---@alias term_info {buf: integer, win: integer?}
 ---@alias LocalID integer A unique ID for each terminal local to its tab
+---@alias TabID integer
 
----@type table<integer, table<integer, term_info>>
+---@type table<TabID, table<LocalID, term_info>>
 local tab_terms = {}
 local augroup = vim.api.nvim_create_augroup('toggleterm_focus_hooks', { clear = false })
 
@@ -48,11 +49,12 @@ local function new_floating_terminal(cmd, y_offset, local_id)
 
 	-- Start the terminal job in that buffer
 	vim.cmd.term(cmd)
+	vim.bo.buflisted = false
 
 	-- Enter insert mode so you can start typing in the terminal
 	vim.cmd("startinsert")
 
-	vim.api.nvim_create_autocmd("BufEnter", {
+	vim.api.nvim_create_autocmd("WinEnter", {
 		group = augroup,
 		buffer = buf,
 		callback = function()
@@ -124,10 +126,14 @@ local function find_next_local_id(tab_id, buf)
 end
 
 local function toggleterm()
+	local tabid = vim.api.nvim_get_current_tabpage()
 	if vim.w.toggleterm_win_offset then
+		-- t:toggleterm_focused_id will be reset when closing windows due to autocmd
+		-- save it to restore later
+		local last_focus = vim.t[tabid].toggleterm_focused_id
 		vim.cmd('fclose!')
+		vim.t[tabid].toggleterm_focused_id = last_focus
 	else
-		local tabid = vim.api.nvim_get_current_tabpage()
 		local local_id = vim.v.count
 		if local_id == 0 then
 			local_id = vim.t[tabid].toggleterm_focused_id or 1
@@ -174,7 +180,9 @@ vim.keymap.set({ 'n', 'i', 'x', 's', 't' }, '<M-m>w', toggleterm, opts)
 vim.keymap.set({ 'n', 'i', 'x', 's', 't' }, '<M-m>n', function()
 	if vim.w.toggleterm_win_offset then
 		local tab = tab_terms[vim.api.nvim_get_current_tabpage()]
-		if not tab then return end
+		if not tab then
+			vim.cmd("new +term")
+		end
 
 		local last_id = vim.iter(pairs(tab)):last()
 		local offset = #vim.iter(pairs(tab))
