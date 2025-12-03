@@ -4,12 +4,18 @@ local config = {
 }
 
 local repoHome = vim.fs.normalize("~/repo")
+
+-- NOTE: we take win_id instead of buf_id cuz
+-- vim.lsp.buf.list_workspace_folders doesn't accept it
+--
+---@param win_id integer
+---@return string path, string kind kind is only for debugging
 function _G.FindProjectRoot(win_id)
 	local buf = vim.api.nvim_win_get_buf(win_id)
 
-	local lsp_root = vim.api.nvim_win_call(win_id, vim.lsp.buf.list_workspace_folders)[0]
+	local lsp_root = vim.api.nvim_win_call(win_id, vim.lsp.buf.list_workspace_folders)[1]
 	if lsp_root then
-		return lsp_root
+		return lsp_root, "lsp"
 	end
 
 	-- look for the .git marker, stop at ~/repo/*/ and /nix/store/*/
@@ -17,7 +23,7 @@ function _G.FindProjectRoot(win_id)
 	local fallback = bufpath
 	for dir in vim.fs.parents(bufpath) do
 		if vim.uv.fs_stat(vim.fs.joinpath(dir, ".git")) then
-			return dir
+			return dir, "git"
 		end
 		if dir == repoHome or dir == "/nix/store" then
 			break
@@ -26,7 +32,8 @@ function _G.FindProjectRoot(win_id)
 	end
 
 	local marker_root = vim.fs.root(buf, { "flake.nix" })
-	return marker_root or fallback
+	if marker_root then return marker_root, "flake.nix" end
+	return fallback, "fallback"
 end
 
 function _G.RefreshProjectRoot(win_id)
