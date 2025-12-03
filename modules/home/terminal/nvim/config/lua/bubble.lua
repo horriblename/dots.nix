@@ -57,6 +57,7 @@ function M.parent_open_files(sock_mode, child_sock, ...)
 		return
 	elseif nargs == 1 then
 		vim.cmd.edit(...)
+		vim.keymap.set('n', 'ZZ', ':w | edit #<CR>')
 	else
 		vim.cmd.tabnew()
 		vim.cmd.args(...)

@@ -109,7 +109,7 @@ else " nvim
 	command! Sudowrite call s:nvimSudoWrite()
 endif
 " CDC = Change to Directory of Current file
-command! CDC cd %:p:h
+command! CDC lcd %:p:h
 " delete augroup
 command! -nargs=1 -complete=augroup AugroupDel call user#general#AugroupDel(<q-args>)
 command! -nargs=1 -complete=file ShareVia0x0 

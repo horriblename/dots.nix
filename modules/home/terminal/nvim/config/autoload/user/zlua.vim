@@ -10,8 +10,12 @@ fu user#zlua#chdir(pattern) abort
 	endif
 	if &ft ==# 'netrw'
 		execute 'Explore '.dir
+	elseif &buftype ==# '' && bufname() ==# ''
+		" (probably) a new window
+		execute 'tcd ' . dir
 	else
-		execute 'cd '.dir
+		wincmd n
+		execute 'tcd ' . dir
 	endif
 endfun
 
