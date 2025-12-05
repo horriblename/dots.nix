@@ -167,15 +167,16 @@ vim.api.nvim_create_autocmd("WinResized", {
 				winid,
 				function()
 					if info.width then
-						vim.cmd.resize({ info.width, mods = { vertical = true } })
+						vim.cmd(("vertical resize %d"):format(info.width))
 					end
 					if info.height then
-						vim.cmd.resize(info.width)
+						vim.cmd(("resize %d"):format(info.height))
 					end
 				end
 			)
-			vim.notify_once(
-				string.format("[fixwfh] restored win size: (%s, %s)", info.width, info.height),
+			vim.notify(
+				string.format("[fixwfh] restored win size: (%s, %s)",
+					info.width or "unchanged", info.height or "unchanged"),
 				vim.log.levels.TRACE
 			)
 		end
