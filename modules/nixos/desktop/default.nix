@@ -2,11 +2,12 @@
   imports = [
     ./apps
     ./apps.nix
-    ./security.nix
-    ./login.nix
-    ./input.nix
-    ./wayland.nix
     ./gaming.nix
+    ./input.nix
+    ./login.nix
+    ./nix-daemon.nix
+    ./security.nix
     ./users.nix
+    ./wayland.nix
   ];
 }
