@@ -1,5 +1,5 @@
 local diagnosticIcons = {
-	[vim.diagnostic.severity.ERROR] = "%#DiagnosticError# x",
+	[vim.diagnostic.severity.ERROR] = "%#DiagnosticError# 🞩1",
 	[vim.diagnostic.severity.WARN] = "%#DiagnosticWarn# !",
 	[vim.diagnostic.severity.INFO] = "%#DiagnosticInfo# i",
 	[vim.diagnostic.severity.HINT] = "%#DiagnosticInfo# ?",
@@ -108,8 +108,12 @@ end
 -- Simple default-like tabline
 function _G.Tabline()
 	local s = require('string.buffer').new()
+	local tab_ids = vim.api.nvim_list_tabpages()
 	for i = 1, vim.fn.tabpagenr('$') do
-		local cwd = vim.fn.fnamemodify(vim.fn.getcwd(-1, i), [[:p:~:s#\/$##:gs#\([^/]\)[^/]*\/#\1\/#]])
+		local win = vim.api.nvim_tabpage_get_win(tab_ids[i])
+		local cwd = vim.fn.fnamemodify(
+			vim.fn.getcwd(win, i),
+			[[:p:~:s#\/$##:gs#\([^/]\)[^/]*\/#\1\/#]])
 
 		-- tab highlight
 		if i == vim.fn.tabpagenr() then

@@ -20,12 +20,14 @@ function _G.FindProjectRoot(win_id)
 
 	-- look for the .git marker, stop at ~/repo/*/ and /nix/store/*/
 	local bufpath = vim.api.nvim_buf_get_name(buf)
+	local found_fallback = false
 	local fallback = bufpath
 	for dir in vim.fs.parents(bufpath) do
 		if vim.uv.fs_stat(vim.fs.joinpath(dir, ".git")) then
 			return dir, "git"
 		end
 		if dir == repoHome or dir == "/nix/store" then
+			found_fallback = true
 			break
 		end
 		fallback = dir
@@ -33,7 +35,9 @@ function _G.FindProjectRoot(win_id)
 
 	local marker_root = vim.fs.root(buf, { "flake.nix" })
 	if marker_root then return marker_root, "flake.nix" end
-	return fallback, "fallback"
+	if found_fallback then return fallback, "fallback" end
+
+	return vim.fs.dirname(bufpath), "buf_directory"
 end
 
 function _G.RefreshProjectRoot(win_id)

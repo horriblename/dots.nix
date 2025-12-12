@@ -3,7 +3,7 @@
     "runtime.version": "LuaJIT",
     "workspace.library": [
         "lua",
-        "$VIMRUNTIME"
+        "${env:VIMRUNTIME}"
     ],
-    "diagnostcis.globals": ["vim"]
+    "diagnostics.globals": ["vim"]
 }

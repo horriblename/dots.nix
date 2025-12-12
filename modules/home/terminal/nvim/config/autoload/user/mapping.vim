@@ -290,6 +290,17 @@ nnoremap <leader>x; :colder<CR>
 nnoremap <leader>xx :botright copen<CR>
 nnoremap <leader>xq :cclose<CR>
 nnoremap <leader>xc :cclose<CR>
+nnoremap <leader>xL :call setloclist(0, getqflist()) <bar> cclose <bar> botright lopen<CR>
+
+" loclist
+nnoremap <localleader>xn :lnext<CR>
+nnoremap <localleader>xp :lprev<CR>
+nnoremap <localleader>x, :lnewer<CR>
+nnoremap <localleader>x; :lolder<CR>
+nnoremap <localleader>xx :botright lopen<CR>
+nnoremap <localleader>xq :lclose<CR>
+nnoremap <localleader>xc :lclose<CR>
+nnoremap <localleader>xL :call setqflist(getloclist(0)) <bar> lclose <bar> botright copen<CR>
 
 " toggleterm
 noremap <M-x> :call user#general#ToggleTerm()<cr>

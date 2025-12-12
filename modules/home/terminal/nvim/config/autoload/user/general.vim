@@ -33,6 +33,7 @@ set formatoptions+=ro/
 set timeoutlen=400
 let &isfname = '@,48-57,/,\,.,-,_,+,,,#,$,%,~,='
 set completeopt=menu,popup,noinsert,fuzzy,menuone
+set sessionoptions=curdir,folds,help,tabpages,winsize,terminal,skiprtp
 
 " Tab Settings
 set noexpandtab
@@ -116,6 +117,21 @@ command! -nargs=1 -complete=file ShareVia0x0
 			\ call setreg(v:register, system('curl --silent -F"file=@"'.expand(<q-args>).' https://0x0.st')) <bar>
 			\ echo getreg()
 
+command! -nargs=1 -complete=file Rename saveas <args> | !rm #
+
+" Insert spaces until cursor is right of a given column
+function! user#general#InsertSpacesUntil(col)
+	let curcol = col('.')
+
+	if curcol <= a:col
+		let toinsert = a:col - curcol + 1
+		echo toinsert
+		execute "normal! " . toinsert . "i \<Esc>l"
+	endif
+endfunction
+
+command! -count=40 AlignCharCol call user#general#InsertSpacesUntil(<count>)
+
 " }}}
 
 " Autocmds
@@ -126,6 +142,7 @@ if has('nvim') && (!has('lua') || luaeval('not lvim'))
 		au TermOpen * setlocal wrap nolist nonumber norelativenumber statusline=%{b:term_title}
 		au TermOpen * let b:term_title=substitute(get(b:, 'term_title', ''),'.*:','',1) | startinsert
 		au BufEnter,BufWinEnter,WinEnter term://* if nvim_win_get_cursor(0)[0] > line('$') - nvim_win_get_height(0) | startinsert | endif
+		au BufLeave term://* checktime
 	augroup END
 
 	augroup YankHighlight
