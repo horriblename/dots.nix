@@ -15,6 +15,9 @@ in {
   config = mkIf config.dots.wayland.graphicalApps {
     home.packages = with pkgs;
       [
+        # CLI tools
+        keep-sorted
+
         firefox
         kdePackages.okular
         image-roll

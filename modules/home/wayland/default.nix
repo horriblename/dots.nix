@@ -33,10 +33,10 @@
       # general user apps
       (mpv.override {scripts = [mpvScripts.mpris];})
       dex
-      nextcloud-client
       xournalpp
-      noisetorch
       dragon-drop
     ];
+
+    services.nextcloud-client.enable = true;
   };
 }

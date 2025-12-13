@@ -50,10 +50,11 @@ in {
         gnumake
         jujutsu
         jjui
+        python3
 
         # utilities
         btop
-        nix-du
+        nix-tree
         graphviz
         dust
         nixFunctionCalls
