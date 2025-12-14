@@ -47,14 +47,8 @@ jobs:
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
       # TODO: build inputs.nixdroidpkgs.packages.x86_64-linux.crossPkgs.aarch64-linux.openssh
       - run: |
-          nix build --no-link --print-out-paths \
-            .#hyprworkspaces \
-            .#roc \
-            .#roc-ls \
-            .#styluslabs-write \
-            .#nvtopPackages.nvidia \
-            .#inputs.nvf.packages.x86_64-linux.blink-cmp \
-            --no-link --print-out-paths -L \
+          nix build --no-link --print-out-paths -L \
+            .#ghActionsBuilder \
           | cachix push horriblename
       - run: "cachix push horriblename"
       - run: "nix-collect-garbage --delete-old"

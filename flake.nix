@@ -422,6 +422,21 @@
         lf-custom
         microsContainer
         ;
+      ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
+        buildInputs =
+          [
+            pkgs.hyprworkspaces
+            pkgs.roc
+            pkgs.roc-ls
+            pkgs.styluslabs-write
+            pkgs.nvtopPackages.nvidia
+            inputs.nvf.packages.${pkgs.stdenv.system}.blink-cmp
+          ]
+          ++ (with inputs.nixdroidpkgs.packages.${pkgs.stdenv.system}.crossPkgs.aarch64-linux; [
+            termux-auth
+            openssh
+          ]);
+      };
       ghActionsBuilder2 = pkgs.callPackage ./pkgs/dummy.nix {
         buildInputs = [self.nixosConfigurations.surface.config.system.build.kernel];
       };
