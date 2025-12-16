@@ -23,7 +23,7 @@ in {
       inputs.fcitx-virtual-keyboard-adapter.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
 
-    home.packages = [pkgs.wvkbd toggleScript];
+    home.packages = [pkgs.wvkbd toggleScript pkgs.libinput];
 
     xdg.configFile."fcitx5/conf/virtualkeyboardadapter.conf".text = ''
       ActivateCmd="${getExe toggleScript} activate"
