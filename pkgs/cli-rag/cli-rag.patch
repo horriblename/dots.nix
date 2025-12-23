@@ -1,0 +1,249 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 10bc021..b78e8fb 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -13,48 +13,24 @@ find_package(PkgConfig REQUIRED)
+ pkg_check_modules(CMARK REQUIRED libcmark)
+ 
+ # Fetch cpp-httplib for HTTP server (header-only, no install needed)
+-include(FetchContent)
+-set(HTTPLIB_INSTALL OFF CACHE BOOL "Disable httplib installation")
+-FetchContent_Declare(
+-    httplib
+-    GIT_REPOSITORY https://github.com/yhirose/cpp-httplib.git
+-    GIT_TAG v0.15.3
+-)
+-FetchContent_MakeAvailable(httplib)
++find_package(httplib REQUIRED)
+ 
+ # Fetch IXWebSocket for WebSocket server (static lib, no install needed)
+-set(USE_TLS OFF CACHE BOOL "Disable TLS for IXWebSocket")
+-set(USE_OPEN_SSL OFF CACHE BOOL "Disable OpenSSL for IXWebSocket")
+-set(IXWEBSOCKET_INSTALL OFF CACHE BOOL "Disable IXWebSocket installation")
+-FetchContent_Declare(
+-    ixwebsocket
+-    GIT_REPOSITORY https://github.com/machinezone/IXWebSocket.git
+-    GIT_TAG v11.4.5
+-)
+-FetchContent_MakeAvailable(ixwebsocket)
++find_package(ixwebsocket REQUIRED)
++
++find_package(ZLIB REQUIRED)
+ 
+ # Fetch esbuild for TypeScript compilation
+ include(cmake/fetch_esbuild.cmake)
+ 
+ # Elm build - compile Elm to JavaScript
+-find_program(ELM_EXECUTABLE elm)
+-if(ELM_EXECUTABLE)
+-    set(ELM_OUTPUT "${CMAKE_BINARY_DIR}/www/elm.js")
+-    set(ELM_SOURCE "${CMAKE_SOURCE_DIR}/src/elm/Main.elm")
++set(ELM_OUTPUT "" CACHE PATH "Path to elm output Main.html")
++if(ELM_OUTPUT)
+     set(WWW_DIR "${CMAKE_BINARY_DIR}/www")
+ 
+     # Create www directory
+     file(MAKE_DIRECTORY ${WWW_DIR})
+ 
+-    # Custom command to compile Elm
+-    add_custom_command(
+-        OUTPUT ${ELM_OUTPUT}
+-        COMMAND ${ELM_EXECUTABLE} make ${ELM_SOURCE} --output=${ELM_OUTPUT} --optimize
+-        DEPENDS ${ELM_SOURCE}
+-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+-        COMMENT "Compiling Elm application"
+-    )
+-
+     # Custom command to compile TypeScript with esbuild
+     set(TS_SOURCE "${CMAKE_SOURCE_DIR}/www/index.ts")
+     set(TS_OUTPUT "${WWW_DIR}/bundle.js")
+@@ -99,7 +75,7 @@ if(ELM_EXECUTABLE)
+     add_custom_target(embed_www ALL DEPENDS ${WWW_HEADER})
+     add_dependencies(embed_www web_build)
+ else()
+-    message(WARNING "Elm compiler not found. Web UI will not be built.")
++    message(WARNING "Elm output not set. Web UI will not be built.")
+ endif()
+ 
+ # Source files
+@@ -123,7 +99,7 @@ set(SOURCES
+ add_executable(crag ${SOURCES})
+ 
+ # Add dependency on embedded resources
+-if(ELM_EXECUTABLE)
++if(ELM_OUTPUT)
+     add_dependencies(crag embed_www)
+ endif()
+ 
+@@ -140,6 +116,7 @@ target_link_libraries(crag PRIVATE
+     CURL::libcurl
+     ${CMARK_LIBRARIES}
+     httplib::httplib
++	ZLIB::ZLIB
+     ixwebsocket
+ )
+ 
+@@ -171,7 +148,7 @@ if(BUILD_TESTS)
+ 
+     add_library(crag_lib STATIC ${LIB_SOURCES})
+ 
+-    if(ELM_EXECUTABLE)
++	if(ELM_OUTPUT)
+         add_dependencies(crag_lib embed_www)
+     endif()
+ 
+diff --git a/cmake/fetch_esbuild.cmake b/cmake/fetch_esbuild.cmake
+index e348425..0ceba4b 100644
+--- a/cmake/fetch_esbuild.cmake
++++ b/cmake/fetch_esbuild.cmake
+@@ -12,87 +12,7 @@ endif()
+ 
+ set(ESBUILD_PLATFORM "linux-${ESBUILD_ARCH}")
+ set(ESBUILD_DIR "${CMAKE_BINARY_DIR}/_deps/esbuild")
+-set(ESBUILD_EXECUTABLE "${ESBUILD_DIR}/bin/esbuild")
+-
+-# Only download if not already present
+-if(NOT EXISTS "${ESBUILD_EXECUTABLE}")
+-    message(STATUS "Fetching latest esbuild version...")
+-
+-    # First, get the latest version from npm registry
+-    set(ESBUILD_METADATA "${CMAKE_BINARY_DIR}/_deps/esbuild_metadata.json")
+-    file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/_deps")
+-    file(DOWNLOAD
+-        "https://registry.npmjs.org/@esbuild/${ESBUILD_PLATFORM}/latest"
+-        "${ESBUILD_METADATA}"
+-        STATUS METADATA_STATUS
+-    )
+-
+-    list(GET METADATA_STATUS 0 METADATA_CODE)
+-    if(NOT METADATA_CODE EQUAL 0)
+-        message(FATAL_ERROR "Failed to fetch esbuild metadata")
+-    endif()
+-
+-    # Parse version from JSON (simple regex extraction)
+-    file(READ "${ESBUILD_METADATA}" METADATA_CONTENT)
+-    string(REGEX MATCH "\"version\":\"([0-9]+\\.[0-9]+\\.[0-9]+)\"" VERSION_MATCH "${METADATA_CONTENT}")
+-    set(ESBUILD_VERSION "${CMAKE_MATCH_1}")
+-
+-    if(NOT ESBUILD_VERSION)
+-        message(FATAL_ERROR "Could not parse esbuild version from metadata")
+-    endif()
+-
+-    message(STATUS "Latest esbuild version: ${ESBUILD_VERSION}")
+-    message(STATUS "Downloading esbuild for ${ESBUILD_PLATFORM}...")
+-
+-    # Download URL from npm registry
+-    set(ESBUILD_URL "https://registry.npmjs.org/@esbuild/${ESBUILD_PLATFORM}/-/${ESBUILD_PLATFORM}-${ESBUILD_VERSION}.tgz")
+-    set(ESBUILD_TARBALL "${CMAKE_BINARY_DIR}/_deps/esbuild.tgz")
+-
+-    # Create directory
+-    file(MAKE_DIRECTORY "${ESBUILD_DIR}")
+-
+-    # Download the tarball
+-    file(DOWNLOAD
+-        "${ESBUILD_URL}"
+-        "${ESBUILD_TARBALL}"
+-        STATUS DOWNLOAD_STATUS
+-        SHOW_PROGRESS
+-    )
+-
+-    list(GET DOWNLOAD_STATUS 0 STATUS_CODE)
+-    if(NOT STATUS_CODE EQUAL 0)
+-        list(GET DOWNLOAD_STATUS 1 ERROR_MESSAGE)
+-        message(FATAL_ERROR "Failed to download esbuild: ${ERROR_MESSAGE}")
+-    endif()
+-
+-    # Extract the tarball
+-    message(STATUS "Extracting esbuild...")
+-    execute_process(
+-        COMMAND ${CMAKE_COMMAND} -E tar xzf "${ESBUILD_TARBALL}"
+-        WORKING_DIRECTORY "${ESBUILD_DIR}"
+-        RESULT_VARIABLE EXTRACT_RESULT
+-    )
+-
+-    if(NOT EXTRACT_RESULT EQUAL 0)
+-        message(FATAL_ERROR "Failed to extract esbuild tarball")
+-    endif()
+-
+-    # Move files from package/ subdirectory to esbuild dir
+-    file(RENAME "${ESBUILD_DIR}/package/bin" "${ESBUILD_DIR}/bin")
+-    file(REMOVE_RECURSE "${ESBUILD_DIR}/package")
+-    file(REMOVE "${ESBUILD_TARBALL}")
+-
+-    # Make executable
+-    file(CHMOD "${ESBUILD_EXECUTABLE}" PERMISSIONS
+-        OWNER_READ OWNER_WRITE OWNER_EXECUTE
+-        GROUP_READ GROUP_EXECUTE
+-        WORLD_READ WORLD_EXECUTE
+-    )
+-
+-    message(STATUS "esbuild downloaded to: ${ESBUILD_EXECUTABLE}")
+-else()
+-    message(STATUS "Using cached esbuild: ${ESBUILD_EXECUTABLE}")
+-endif()
++set(ESBUILD_EXECUTABLE "esbuild")
+ 
+ # Verify esbuild works
+ execute_process(
+diff --git a/src/embedded_resources.hpp b/src/embedded_resources.hpp
+index 3cf3bfd..17fb3b2 100644
+--- a/src/embedded_resources.hpp
++++ b/src/embedded_resources.hpp
+@@ -7,10 +7,11 @@
+  * as a compressed zip archive.
+  */
+ 
+-#include <string>
++#include <cstdint>
+ #include <optional>
+-#include <vector>
++#include <string>
+ #include <unordered_map>
++#include <vector>
+ 
+ namespace rag {
+ 
+@@ -19,28 +20,28 @@ namespace rag {
+  */
+ class EmbeddedResources {
+ public:
+-    EmbeddedResources();
+-    ~EmbeddedResources();
++  EmbeddedResources();
++  ~EmbeddedResources();
+ 
+-    // Non-copyable
+-    EmbeddedResources(const EmbeddedResources&) = delete;
+-    EmbeddedResources& operator=(const EmbeddedResources&) = delete;
++  // Non-copyable
++  EmbeddedResources(const EmbeddedResources &) = delete;
++  EmbeddedResources &operator=(const EmbeddedResources &) = delete;
+ 
+-    // Returns true if resources were loaded successfully.
+-    bool is_valid() const { return valid_; }
++  // Returns true if resources were loaded successfully.
++  bool is_valid() const { return valid_; }
+ 
+-    // Gets a file's content by path (e.g., "index.html" or "elm.js").
+-    // Returns nullopt if the file doesn't exist.
+-    std::optional<std::vector<uint8_t>> get_file(const std::string& path) const;
++  // Gets a file's content by path (e.g., "index.html" or "elm.js").
++  // Returns nullopt if the file doesn't exist.
++  std::optional<std::vector<uint8_t>> get_file(const std::string &path) const;
+ 
+-    // Gets the MIME type for a file based on its extension.
+-    static std::string get_mime_type(const std::string& path);
++  // Gets the MIME type for a file based on its extension.
++  static std::string get_mime_type(const std::string &path);
+ 
+ private:
+-    void load_archive();
++  void load_archive();
+ 
+-    bool valid_ = false;
+-    void* archive_ = nullptr;  // mz_zip_archive*
++  bool valid_ = false;
++  void *archive_ = nullptr; // mz_zip_archive*
+ };
+ 
+ } // namespace rag

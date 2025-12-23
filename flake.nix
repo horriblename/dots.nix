@@ -519,6 +519,8 @@
       };
 
       ixwebsocket = final.callPackage ./pkgs/ixwebsocket.nix {pin = pins.IXWebSocket;};
+      rag-cli = final.callPackage ./pkgs/cli-rag/default.nix {src = pins.rag-cli;};
+      rag-cli-elm = final.callPackage ./pkgs/cli-rag/elm.nix {pin = pins.rag-cli;};
 
       microsContainer =
         (inputs.micros.lib.microsSystem {

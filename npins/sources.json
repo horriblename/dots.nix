@@ -60,6 +60,20 @@
       "revision": "c129ae3d69f164b3e51e067b0eca45a8d3da29ee",
       "url": "https://api.github.com/repos/ptdewey/pendulum-nvim/tarball/v1.1.0",
       "hash": "19rlifim7fp4mvhn99vaaac49ah0pv7yycip4als1y8lzb9qygri"
+    },
+    "rag-cli": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "the-sett",
+        "repo": "rag-cli"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "8d6c66acf5aef1f138ef089b1e8e2707229e60ef",
+      "url": "https://github.com/the-sett/rag-cli/archive/8d6c66acf5aef1f138ef089b1e8e2707229e60ef.tar.gz",
+      "hash": "0ah97d99w2rqw1hbmdqimn79zlkkdc0dg4hzav0s5f5ps5y7jfh2",
+      "frozen": true
     }
   },
   "version": 5
