@@ -120,20 +120,32 @@
       import nixpkgs {
         inherit system;
         overlays = [self.overlay];
-        config.allowUnfreePredicate = pkg:
-          builtins.elem (lib.getName pkg) [
-            "codeium"
-            "unityhub"
-            "nvidia"
-            "corefonts"
+        config = {
+          allowAliases = false;
+          allowUnfreePredicate = pkg:
+            builtins.elem (lib.getName pkg) [
+              "codeium"
+              "unityhub"
+              "open-webui"
+              "steam"
+              "steam-original"
+              "steam-unwrapped"
+              "steam-run"
+              "corefonts"
 
-            # nvtop-nvidia BS
-            "cuda-merged"
-            "libnvjitlink"
-            "libnpp"
-          ]
-          || lib.strings.hasPrefix "cuda_" (lib.getName pkg)
-          || lib.strings.hasPrefix "libcu" (lib.getName pkg);
+              "nvidia-x11"
+              "nvidia-settings"
+              "nvidia-persistenced"
+
+              # nvtop-nvidia BS
+              "nvidia"
+              "cuda-merged"
+              "libnvjitlink"
+              "libnpp"
+            ]
+            || lib.strings.hasPrefix "cuda_" (lib.getName pkg)
+            || lib.strings.hasPrefix "libcu" (lib.getName pkg);
+        };
       };
 
     npinsFor = system: (pkgsFor {inherit system;}).callPackage ./npins/sources.nix {};
@@ -246,6 +258,7 @@
       in
         lib.nixosSystem {
           inherit system;
+          pkgs = pkgsFor {inherit system;};
           specialArgs = {inherit self inputs;};
           modules = [
             ./hosts/surface/configuration.nix
@@ -267,6 +280,7 @@
         lib.nixosSystem {
           inherit system;
           specialArgs = {inherit self inputs;};
+          pkgs = pkgsFor {inherit system;};
           modules = [
             core
             ./hosts/ragnarok/configuration.nix

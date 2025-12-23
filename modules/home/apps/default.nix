@@ -31,13 +31,6 @@ in {
         rnote
       ];
 
-    nixpkgs.config = {
-      allowUnfreePredicate = pkg:
-        builtins.elem (lib.getName pkg) [
-          "corefonts"
-        ];
-    };
-
     services.podman.enable = true;
     # manual setup needed: systemctl --user enable podman.socket
     home.sessionVariables = {

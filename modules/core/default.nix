@@ -23,8 +23,4 @@
     substituters = extra-substituters;
     trusted-public-keys = extra-trusted-public-keys;
   };
-
-  nixpkgs.config = {
-    allowAliases = false;
-  };
 }
