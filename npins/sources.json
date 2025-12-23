@@ -1,5 +1,21 @@
 {
   "pins": {
+    "IXWebSocket": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "machinezone",
+        "repo": "IXWebSocket"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": null,
+      "submodules": false,
+      "version": "v11.4.6",
+      "revision": "2efe037c9cc96fd536774f17bdb5215161ee5087",
+      "url": "https://api.github.com/repos/machinezone/IXWebSocket/tarball/v11.4.6",
+      "hash": "085xl1x3bjhylbpxdscnrmysx3m8mrmasbbs8gqrwxz0lbib57k5"
+    },
     "aerial.nvim": {
       "type": "Git",
       "repository": {

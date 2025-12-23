@@ -518,6 +518,8 @@
         vendorHash = "sha256-ZShpWCfEVPLafrn3MvtxkRsBvwUEOiLBs1gZhKSBrsQ=";
       };
 
+      ixwebsocket = final.callPackage ./pkgs/ixwebsocket.nix {pin = pins.IXWebSocket;};
+
       microsContainer =
         (inputs.micros.lib.microsSystem {
           modules = [
