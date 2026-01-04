@@ -1,14 +1,14 @@
-set guifont=FiraCode\ Nerd\ Font:h16
+set guifont=FiraCode\ Nerd\ Font:h12
 if !exists("g:neovide")
 	finish
 endif
 
 " Animations
 
-let g:neovide_cursor_animation_length=0.01
-let g:neovide_cursor_trail_length=0.8
+let g:neovide_cursor_animation_length=0.05
+let g:neovide_cursor_trail_length=0.02
 
-let g:neovide_scroll_animation_length = 0.2
+let g:neovide_scroll_animation_length = 0.04
 
 " Keys
 
@@ -16,7 +16,7 @@ let g:neovide_input_macos_option_key_is_meta = v:true
 
 " Appearance
 
-let g:neovide_transparency = 0.75
+let g:neovide_opacity = 0.9
 let g:neovide_window_blurred = v:true
 let g:neovide_floating_blur_amount_x = 2.0
 let g:neovide_floating_blur_amount_y = 2.0

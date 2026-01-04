@@ -9,7 +9,7 @@ local repoHome = vim.fs.normalize("~/repo")
 -- vim.lsp.buf.list_workspace_folders doesn't accept it
 --
 ---@param win_id integer
----@return string path, string kind kind is only for debugging
+---@return string? path, string kind kind is only for debugging
 function _G.FindProjectRoot(win_id)
 	local buf = vim.api.nvim_win_get_buf(win_id)
 
@@ -36,6 +36,10 @@ function _G.FindProjectRoot(win_id)
 	local marker_root = vim.fs.root(buf, { "flake.nix" })
 	if marker_root then return marker_root, "flake.nix" end
 	if found_fallback then return fallback, "fallback" end
+
+	if vim.startswith(bufpath, "/tmp") then
+		return nil, "do_not_cd"
+	end
 
 	return vim.fs.dirname(bufpath), "buf_directory"
 end

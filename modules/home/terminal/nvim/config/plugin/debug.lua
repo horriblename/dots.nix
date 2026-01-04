@@ -46,7 +46,8 @@ _G.E = setmetatable({}, {
 
 local old_notify = vim.notify
 vim.notify = function(msg, lvl, opt)
-	if lvl and lvl > vim.log.levels.DEBUG then
+	lvl = lvl or vim.log.levels.INFO
+	if lvl > vim.log.levels.DEBUG then
 		old_notify(msg, lvl, opt)
 	end
 end

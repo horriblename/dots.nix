@@ -166,6 +166,12 @@ augroup DotsColorTweaks
 	au ColorScheme night-owl hi DiffChange guifg=NONE gui=NONE guibg=#4a3e1a
 	au ColorScheme night-owl hi DiffText guifg=NONE guibg=#7d6213
 augroup END
+
+augroup DotsMarkdown
+  au!
+  " nvim defaults are unoverridable due to after/ftplugin being broken
+  au FileType markdown setl formatoptions+=ro/
+augroup END
 " }}}
 
 let g:markdown_folding = 1
