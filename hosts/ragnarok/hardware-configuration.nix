@@ -46,12 +46,6 @@
     options = ["rw" "nosuid" "nodev" "uid=0" "gid=0" "allow_other" "blksize=4096" "noauto"];
   };
 
-  fileSystems."/var/lib/docker" = {
-    device = "/mnt/choncc/docker";
-    fsType = "none";
-    options = ["bind"];
-  };
-
   services.xserver.videoDrivers = ["nvidia"];
   hardware = {
     graphics.enable = true;
