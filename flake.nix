@@ -417,78 +417,81 @@
 
     packages = forEachSystem (system: let
       pkgs = pkgsFor {inherit system;};
-    in {
-      pins = npinsFor system;
-      inherit
-        (pkgs)
-        hyprworkspaces
-        anyrunPackages
-        md-img-paste-vim
-        nixrun-nvim
-        pendulum-nvim
-        fennel-ls
-        mpv
-        roc
-        roc-ls
-        libcallex-vim
-        treesitter-roc
-        neovim-treesitter-roc
-        lf-custom
-        microsContainer
-        ;
-      ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
-        buildInputs =
-          [
-            pkgs.hyprworkspaces
-            pkgs.roc
-            pkgs.roc-ls
-            pkgs.styluslabs-write
-            pkgs.nvtopPackages.nvidia
-            inputs.nvf.packages.${pkgs.stdenv.system}.blink-cmp
-          ]
-          ++ (with inputs.nixdroidpkgs.packages.${pkgs.stdenv.system}.crossPkgs.aarch64-linux; [
-            termux-auth
-            openssh
-          ]);
-      };
-      ghActionsBuilder2 = pkgs.callPackage ./pkgs/dummy.nix {
-        buildInputs = [self.nixosConfigurations.surface.config.system.build.kernel];
-      };
+      overlayPkgs = builtins.intersectAttrs (self.overlay null null) pkgs;
+    in
+      overlayPkgs
+      // {
+        pins = npinsFor system;
+        inherit
+          (pkgs)
+          hyprworkspaces
+          anyrunPackages
+          md-img-paste-vim
+          nixrun-nvim
+          pendulum-nvim
+          fennel-ls
+          mpv
+          roc
+          roc-ls
+          libcallex-vim
+          treesitter-roc
+          neovim-treesitter-roc
+          lf-custom
+          microsContainer
+          ;
+        ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
+          buildInputs =
+            [
+              pkgs.hyprworkspaces
+              pkgs.roc
+              pkgs.roc-ls
+              pkgs.styluslabs-write
+              pkgs.nvtopPackages.nvidia
+              inputs.nvf.packages.${pkgs.stdenv.system}.blink-cmp
+            ]
+            ++ (with inputs.nixdroidpkgs.packages.${pkgs.stdenv.system}.crossPkgs.aarch64-linux; [
+              termux-auth
+              openssh
+            ]);
+        };
+        ghActionsBuilder2 = pkgs.callPackage ./pkgs/dummy.nix {
+          buildInputs = [self.nixosConfigurations.surface.config.system.build.kernel];
+        };
 
-      styluslabs-write = pkgs.styluslabs-write.overrideAttrs (_final: prev: {
-        src = inputs.styluslabs-write;
-        postConfigure = ''
-          echo "dirty" > ./GITREV
-          echo "000" > ./GITCOUNT
-        '';
-
-        installPhase =
-          prev.installPhase
-          + ''
-            wrapProgram $out/bin/Write \
-              --set SDL_VIDEODRIVER wayland
+        styluslabs-write = pkgs.styluslabs-write.overrideAttrs (_final: prev: {
+          src = inputs.styluslabs-write;
+          postConfigure = ''
+            echo "dirty" > ./GITREV
+            echo "000" > ./GITCOUNT
           '';
 
-        nativeBuildInputs =
-          prev.nativeBuildInputs
-          ++ [pkgs.wayland-scanner pkgs.makeWrapper];
-        buildInputs =
-          prev.buildInputs
-          ++ [pkgs.wayland];
-      });
-      nixWithSubstituters = let
-        coreSettings = import ./modules/core {inherit self inputs pkgs;};
-      in
-        pkgs.writeShellScriptBin "nixWithSubstituters" ''
-          nix \
-            --option extra-substituters '${builtins.concatStringsSep " " coreSettings.nix.settings.substituters}' \
-            --option extra-trusted-public-keys '${builtins.concatStringsSep " " coreSettings.nix.settings.trusted-public-keys}' \
-            $@
-        '';
+          installPhase =
+            prev.installPhase
+            + ''
+              wrapProgram $out/bin/Write \
+                --set SDL_VIDEODRIVER wayland
+            '';
 
-      ollama-python = pkgs.python3.withPackages (p: with p; [ollama]);
-      inherit (pkgs) nvtopPackages; # re-export so that allowUnfreePredicate applies
-    });
+          nativeBuildInputs =
+            prev.nativeBuildInputs
+            ++ [pkgs.wayland-scanner pkgs.makeWrapper];
+          buildInputs =
+            prev.buildInputs
+            ++ [pkgs.wayland];
+        });
+        nixWithSubstituters = let
+          coreSettings = import ./modules/core {inherit self inputs pkgs;};
+        in
+          pkgs.writeShellScriptBin "nixWithSubstituters" ''
+            nix \
+              --option extra-substituters '${builtins.concatStringsSep " " coreSettings.nix.settings.substituters}' \
+              --option extra-trusted-public-keys '${builtins.concatStringsSep " " coreSettings.nix.settings.trusted-public-keys}' \
+              $@
+          '';
+
+        ollama-python = pkgs.python3.withPackages (p: with p; [ollama]);
+        inherit (pkgs) nvtopPackages; # re-export so that allowUnfreePredicate applies
+      });
     overlay = final: prev: let
       pins = npinsFor final.stdenv.system;
     in {
