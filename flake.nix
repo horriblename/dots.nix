@@ -393,23 +393,6 @@
       overlayPkgs
       // {
         pins = npinsFor system;
-        inherit
-          (pkgs)
-          hyprworkspaces
-          anyrunPackages
-          md-img-paste-vim
-          nixrun-nvim
-          pendulum-nvim
-          fennel-ls
-          mpv
-          roc
-          roc-ls
-          libcallex-vim
-          treesitter-roc
-          neovim-treesitter-roc
-          lf-custom
-          microsContainer
-          ;
         ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
           buildInputs =
             [
@@ -450,15 +433,6 @@
             prev.buildInputs
             ++ [pkgs.wayland];
         });
-        nixWithSubstituters = let
-          coreSettings = import ./modules/core {inherit self inputs pkgs;};
-        in
-          pkgs.writeShellScriptBin "nixWithSubstituters" ''
-            nix \
-              --option extra-substituters '${builtins.concatStringsSep " " coreSettings.nix.settings.substituters}' \
-              --option extra-trusted-public-keys '${builtins.concatStringsSep " " coreSettings.nix.settings.trusted-public-keys}' \
-              $@
-          '';
 
         ollama-python = pkgs.python3.withPackages (p: with p; [ollama]);
         inherit (pkgs) nvtopPackages; # re-export so that allowUnfreePredicate applies
