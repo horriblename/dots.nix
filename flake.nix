@@ -229,7 +229,6 @@
       in
         lib.nixosSystem {
           inherit system;
-          pkgs = pkgsFor.${system};
           specialArgs = {inherit self inputs;};
           modules = [
             ./hosts/surface/configuration.nix
@@ -251,7 +250,6 @@
         lib.nixosSystem {
           inherit system;
           specialArgs = {inherit self inputs;};
-          pkgs = pkgsFor.${system};
           modules = [
             core
             ./hosts/ragnarok/configuration.nix
@@ -266,13 +264,11 @@
 
       surface-iso = let
         system = "x86_64-linux";
-        pkgs = pkgsFor.${system};
       in
         lib.nixosSystem {
           inherit system;
           modules = [
             (mkIsoModule {
-              inherit pkgs;
               extraPackages = [self.nixosConfigurations.surface.config.system.build.toplevel];
             })
           ];
@@ -283,7 +279,6 @@
       in
         lib.nixosSystem {
           inherit system;
-          pkgs = pkgsFor.${system};
           specialArgs = {inherit self inputs;};
           modules = [
             inputs.agenix.nixosModules.default
@@ -314,7 +309,6 @@
     darwinConfigurations = {
       work = let
         system = "x86_64-darwin";
-        pkgs = pkgsFor.${system};
       in
         inputs.darwin.lib.darwinSystem {
           inherit system;
@@ -323,7 +317,7 @@
             # ./configuration.nix
             core
             # home-manager.darwinModules.home-manager
-            {
+            ({pkgs, ...}: {
               environment.systemPackages = with pkgs; [nix];
               services.nix-daemon.enable = true;
               fonts = {
@@ -338,7 +332,7 @@
               # home-manager.users."pei.ching" = import ./modules/home/home.nix;
 
               # home-manager.extraSpecialArgs = {inherit self inputs; };
-            }
+            })
 
             # {
             #   home-manager.users."pei.ching" = {
@@ -351,39 +345,41 @@
     };
 
     nixOnDroidConfigurations = {
-      kirin = let
-        pkgs = pkgsFor."aarch64-linux";
-      in
-        inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-          inherit pkgs;
-          modules = [
-            ({config, ...}: {
-              user.shell = lib.getExe pkgs.zsh;
-              environment.packages = [
-                pkgs.busybox
-                pkgs.neovim
-                pkgs.zsh
-                pkgs.git
-                inputs.nixdroidpkgs.packages.${pkgs.stdenv.system}.openssh
-                inputs.nixdroidpkgs.packages.${pkgs.stdenv.system}.termux-auth
+      kirin = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+        system = "aarch64-linux";
+        modules = [
+          core
+          ({
+            config,
+            pkgs,
+            ...
+          }: {
+            user.shell = lib.getExe pkgs.zsh;
+            environment.packages = [
+              pkgs.busybox
+              pkgs.neovim
+              pkgs.zsh
+              pkgs.git
+              inputs.nixdroidpkgs.packages.${pkgs.stdenv.system}.openssh
+              inputs.nixdroidpkgs.packages.${pkgs.stdenv.system}.termux-auth
+            ];
+            # TODO: extract along with genHomeConfig
+            home-manager = {
+              useGlobalPkgs = true;
+              config = ./modules/home/home.nix;
+              sharedModules = [
+                {
+                  nix.package = lib.mkForce config.nix.package;
+                  dots.preset = "droid";
+                }
               ];
-              # TODO: extract along with genHomeConfig
-              home-manager = {
-                useGlobalPkgs = true;
-                config = ./modules/home/home.nix;
-                sharedModules = [
-                  {
-                    nix.package = lib.mkForce config.nix.package;
-                    dots.preset = "droid";
-                  }
-                ];
-                extraSpecialArgs = {inherit self inputs;};
-              };
+              extraSpecialArgs = {inherit self inputs;};
+            };
 
-              system.stateVersion = "24.05";
-            })
-          ];
-        };
+            system.stateVersion = "24.05";
+          })
+        ];
+      };
     };
 
     packages = forEachSystem (system: let
