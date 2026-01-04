@@ -10,6 +10,7 @@ in {
   imports = [
     ./desktop.nix
     ./touch.nix
+    ./development.nix
   ];
 
   config = mkIf config.dots.wayland.graphicalApps {
@@ -30,11 +31,5 @@ in {
       ++ optionals (config.dots.preset == "surface") [
         rnote
       ];
-
-    services.podman.enable = true;
-    # manual setup needed: systemctl --user enable podman.socket
-    home.sessionVariables = {
-      DOCKER_HOST = "unix://$XDG_RUNTIME_DIR/podman/podman.sock";
-    };
   };
 }

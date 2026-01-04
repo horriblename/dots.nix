@@ -28,6 +28,10 @@ with lib; {
       };
 
       darwin.enable = mkEnableOption "MacOS features";
+
+      development = {
+        enable = mkEnableOption "developer tools" // {default = config.dots.preset == "archbox";};
+      };
     };
   };
 
