@@ -4,7 +4,7 @@
   ...
 }: {
   home.packages = with pkgs; [
-    lf-custom
+    lf
 
     xdg-utils
     # preview tools

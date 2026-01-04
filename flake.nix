@@ -466,16 +466,6 @@
       treesitter-roc = inputs.tree-sitter-roc.packages.${final.stdenv.system}.default;
       neovim-treesitter-roc = final.callPackage ./pkgs/neovim-treesitter-roc.nix {treesitter-roc-src = inputs.tree-sitter-roc;};
 
-      lf-custom = final.lf.overrideAttrs {
-        src = final.fetchFromGitHub {
-          owner = "gokcehan";
-          repo = "lf";
-          rev = "44e716d2f1b36c64a9ef77850edfa7afe0ac7616";
-          hash = "sha256-ehM09K1UKHhQnJKDeqw+ogV996TPWdn3724mAT/XxE4=";
-        };
-        vendorHash = "sha256-ZShpWCfEVPLafrn3MvtxkRsBvwUEOiLBs1gZhKSBrsQ=";
-      };
-
       ixwebsocket = final.callPackage ./pkgs/ixwebsocket.nix {pin = pins.IXWebSocket;};
       rag-cli = final.callPackage ./pkgs/cli-rag/default.nix {src = pins.rag-cli;};
       rag-cli-elm = final.callPackage ./pkgs/cli-rag/elm.nix {pin = pins.rag-cli;};
