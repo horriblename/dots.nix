@@ -116,49 +116,20 @@
     forEachSystem = lib.genAttrs defaultSystems;
 
     core = ./modules/core;
-    pkgsFor = {system}:
-      import nixpkgs {
-        inherit system;
-        overlays = [self.overlay];
-        config = {
-          allowAliases = false;
-          allowUnfreePredicate = pkg:
-            builtins.elem (lib.getName pkg) [
-              "codeium"
-              "unityhub"
-              "open-webui"
-              "steam"
-              "steam-original"
-              "steam-unwrapped"
-              "steam-run"
-              "corefonts"
+    pkgsFor = nixpkgs.legacyPackages;
 
-              "nvidia-x11"
-              "nvidia-settings"
-              "nvidia-persistenced"
-
-              # nvtop-nvidia BS
-              "nvidia"
-              "cuda-merged"
-              "libnvjitlink"
-              "libnpp"
-            ]
-            || lib.strings.hasPrefix "cuda_" (lib.getName pkg)
-            || lib.strings.hasPrefix "libcu" (lib.getName pkg);
-        };
-      };
-
-    npinsFor = system: (pkgsFor {inherit system;}).callPackage ./npins/sources.nix {};
+    npinsFor = system: pkgsFor.${system}.callPackage ./npins/sources.nix {};
 
     genHomeConfig = {
-      preset ? "minimal",
       system,
+      preset ? "minimal",
       extraModules ? [],
     }:
       home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgsFor {inherit system;};
+        pkgs = pkgsFor.${system};
         modules =
           [
+            ./modules/core
             ./modules/home/home.nix
             {dots = {inherit preset;};}
           ]
@@ -258,7 +229,7 @@
       in
         lib.nixosSystem {
           inherit system;
-          pkgs = pkgsFor {inherit system;};
+          pkgs = pkgsFor.${system};
           specialArgs = {inherit self inputs;};
           modules = [
             ./hosts/surface/configuration.nix
@@ -280,7 +251,7 @@
         lib.nixosSystem {
           inherit system;
           specialArgs = {inherit self inputs;};
-          pkgs = pkgsFor {inherit system;};
+          pkgs = pkgsFor.${system};
           modules = [
             core
             ./hosts/ragnarok/configuration.nix
@@ -295,7 +266,7 @@
 
       surface-iso = let
         system = "x86_64-linux";
-        pkgs = pkgsFor {inherit system;};
+        pkgs = pkgsFor.${system};
       in
         lib.nixosSystem {
           inherit system;
@@ -312,7 +283,7 @@
       in
         lib.nixosSystem {
           inherit system;
-          pkgs = pkgsFor {inherit system;};
+          pkgs = pkgsFor.${system};
           specialArgs = {inherit self inputs;};
           modules = [
             inputs.agenix.nixosModules.default
@@ -343,7 +314,7 @@
     darwinConfigurations = {
       work = let
         system = "x86_64-darwin";
-        pkgs = pkgsFor {inherit system;};
+        pkgs = pkgsFor.${system};
       in
         inputs.darwin.lib.darwinSystem {
           inherit system;
@@ -381,7 +352,7 @@
 
     nixOnDroidConfigurations = {
       kirin = let
-        pkgs = pkgsFor {system = "aarch64-linux";};
+        pkgs = pkgsFor."aarch64-linux";
       in
         inputs.nix-on-droid.lib.nixOnDroidConfiguration {
           inherit pkgs;
@@ -416,7 +387,7 @@
     };
 
     packages = forEachSystem (system: let
-      pkgs = pkgsFor {inherit system;};
+      pkgs = pkgsFor.${system};
       overlayPkgs = builtins.intersectAttrs (self.overlay null null) pkgs;
     in
       overlayPkgs
