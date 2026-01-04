@@ -2,7 +2,6 @@
   self,
   pkgs,
   inputs,
-  lib,
   ...
 }: {
   imports = [
@@ -17,7 +16,10 @@
     enable = true;
     defaultEditor = true;
   };
-  time.timeZone = "Europe/Berlin";
+  time = {
+    timeZone = "Europe/Berlin";
+    hardwareClockInLocalTime = true;
+  };
   environment.systemPackages = with pkgs; [
     git
   ];
