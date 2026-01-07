@@ -1,5 +1,5 @@
 local diagnosticIcons = {
-	[vim.diagnostic.severity.ERROR] = "%#DiagnosticError# 🞩1",
+	[vim.diagnostic.severity.ERROR] = "%#DiagnosticError# 🞩",
 	[vim.diagnostic.severity.WARN] = "%#DiagnosticWarn# !",
 	[vim.diagnostic.severity.INFO] = "%#DiagnosticInfo# i",
 	[vim.diagnostic.severity.HINT] = "%#DiagnosticInfo# ?",
@@ -105,7 +105,6 @@ function _G.StatuslineLsp()
 	return " " .. main_lsp.name .. count
 end
 
--- Simple default-like tabline
 function _G.Tabline()
 	local s = require('string.buffer').new()
 	local tab_ids = vim.api.nvim_list_tabpages()
@@ -115,15 +114,15 @@ function _G.Tabline()
 			vim.fn.getcwd(win, i),
 			[[:p:~:s#\/$##:gs#\([^/]\)[^/]*\/#\1\/#]])
 
-		-- tab highlight
-		if i == vim.fn.tabpagenr() then
-			s:put("%#TabLineSel#")
-		else
-			s:put("%#TabLine#")
-		end
-
 		-- tab click target
-		s:put("%", i, "T ")
+		s:put("%", i, "T")
+
+		-- tab highlight and tabnr
+		if i == vim.fn.tabpagenr() then
+			s:put("%#TabLineSel# ")
+		else
+			s:put("%#Special# ", i, "%#TabLine#")
+		end
 
 		-- label
 		s:put(cwd, " ")
