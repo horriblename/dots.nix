@@ -46,6 +46,8 @@ set number relativenumber
 set termguicolors
 set scrolloff=5
 set nowrap
+set breakindent
+set breakindentopt=shift:1
 set sidescroll=5
 set sidescrolloff=2
 set cursorline

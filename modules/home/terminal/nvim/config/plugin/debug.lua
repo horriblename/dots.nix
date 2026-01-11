@@ -14,7 +14,6 @@ end
 
 _G.req = setmetatable(package.loaded, {
 	__call = function(_, key)
-		print("__call")
 		return require(key)
 	end,
 })

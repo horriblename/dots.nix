@@ -47,6 +47,10 @@ nnoremap zV :let &foldlevel = foldlevel('.')<CR>
 
 " Movement {{{
 
+" defaults respect 'ignorecase' but ignores 'smartcase'
+nnoremap * /\C\<<c-r><c-w>\><CR>
+nnoremap # ?\C\<<c-r><c-w>\><CR>
+
 nnoremap gh ^
 nnoremap gl g_
 nnoremap gL g$
