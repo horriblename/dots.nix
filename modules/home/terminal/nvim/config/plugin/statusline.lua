@@ -22,6 +22,86 @@ function _G.StatuslineDiagnostics()
 	return s ~= "" and s .. " %0*" or ""
 end
 
+---@param path string[]
+---@return string
+local function highlighted_label(path)
+	local len = #path
+	if len == 1 then
+		return path[1]
+	end
+	local dir = vim.fs.joinpath(unpack(path, 1, len - 1))
+	local basename = path[len]
+	return string.format("%%#Comment#%s/%%*%s", dir, basename)
+end
+
+---Table storing the shortest paths disambiguating all open windows in this
+---tab
+---@type table<string, string>
+local filename_labels = {}
+
+function _G.Labels()
+	vim.print(filename_labels)
+end
+
+---@param paths string[] full paths to compute minimal path
+---@return table<string, {dir: string, basename: string}> -- map of full path -> shortened path
+local function compute_suffixes(paths)
+	---@type table<string, {suffix: string[], full: string[], expand: boolean?}>
+	local labels = {}
+	for _, p in ipairs(paths) do
+		labels[p] = {
+			suffix = { vim.fn.fnamemodify(p, ":t") },
+			full = vim.split(p, "/")
+		}
+	end
+
+	local unique = false
+	local depth = 1
+
+	while not unique do
+		unique = true
+		local seen = {}
+
+		for _, data in pairs(labels) do
+			local label = vim.fs.joinpath(unpack(data.suffix))
+			if seen[label] then
+				unique = false
+				seen[label].expand = true
+				data.expand = true
+			else
+				seen[label] = data
+			end
+		end
+
+		if not unique then
+			for _, data in pairs(labels) do
+				if data.expand then
+					local full = data.full
+					local suffix = data.suffix
+					local parent_index = #full - depth
+					if parent_index >= 1 then
+						table.insert(suffix, 1, full[parent_index])
+					end
+					data.suffix = suffix
+					data.expand = nil
+				end
+			end
+			depth = depth + 1
+		end
+	end
+
+	local out = {}
+	for p, data in pairs(labels) do
+		out[p] = highlighted_label(data.suffix)
+	end
+	return out
+end
+
+function _G.StatuslineFileName()
+	local bufname = vim.api.nvim_buf_get_name(0)
+	return filename_labels[bufname] or bufname
+end
+
 function _G.StatuslineGitStatus()
 	local git_info = vim.b.gitsigns_status_dict
 	if not git_info or git_info.head == "" then
@@ -139,11 +219,36 @@ function _G.Tabline()
 	return s:get()
 end
 
+-- autocmds
+local function syncShortFileNames()
+	local wins = vim.api.nvim_tabpage_list_wins(0)
+	local bufnames = vim.iter(wins):map(function(win)
+		local buf = vim.api.nvim_win_get_buf(win)
+		if vim.bo[buf].buftype ~= "" then return nil end
+		return vim.api.nvim_buf_get_name(buf)
+	end):totable()
+	filename_labels = compute_suffixes(bufnames)
+end
+
+local augroup = vim.api.nvim_create_augroup("dots_statusline", { clear = true })
+vim.api.nvim_create_autocmd({ "BufWinEnter", "TabEnter" }, {
+	group = augroup,
+	callback = syncShortFileNames,
+})
+if vim.v.vim_did_enter == 1 then
+	syncShortFileNames()
+else
+	vim.api.nvim_create_autocmd("VimEnter", {
+		callback = syncShortFileNames,
+		once = true
+	})
+end
+
 vim.o.statusline = table.concat({
 	-- Left-aligned
 	"%-6{%v:lua.StatuslineMode()%} %*",
 	"%{%v:lua.StatuslineFtIcon()%}",
-	"  %t",
+	" %{%v:lua.StatuslineFileName()%}",
 	" %h%w%m%r",
 	"%<",
 	"%{%v:lua.StatuslineGitStatus()%}",
