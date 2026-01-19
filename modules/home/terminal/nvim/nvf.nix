@@ -179,18 +179,49 @@ in {
       };
     };
 
-    augroups = [
-      {
-        name = "dots_term_block_illuminate" ;
+    augroups =
+      map (name: {
+        inherit name;
         clear = true;
-      }
-    ];
+      }) [
+        "dots_term_block_illuminate"
+        "dots_minifiles"
+      ];
     autocmds = [
       {
         desc = "Block vim-illuminate in terminal";
         event = ["TermOpen"];
         command = "IlluminatePauseBuf";
         group = "dots_term_block_illuminate";
+      }
+      {
+        desc = "Custom mini.files keymaps";
+        event = ["FileType"];
+        pattern = ["minifiles"];
+        callback = mkLuaInline ''
+          function()
+            local function cdToGitRoot()
+              local state = MiniFiles.get_explorer_state()
+              if state == nil then
+                vim.notify("Tried to cdToGitRoot when mini.files is not open?", vim.log.levels.ERROR)
+              end
+              local res = vim.system(
+                {"git", "-C", state.branch[state.depth_focus], "rev-parse", "--show-toplevel"},
+                {text = true}
+              ):wait()
+              if res.code == 0 then
+                MiniFiles.set_branch({vim.trim(res.stdout)})
+              else
+                local msg = "Could not find git root directory:\n" .. res.stderr
+                vim.notify(msg, vim.log.levels.ERROR)
+              end
+            end
+            vim.keymap.set("n", "g0", cdToGitRoot, {
+              buf = vim.fn.bufnr(),
+              desc = "Go to Git Root",
+            })
+          end
+        '';
       }
     ];
 
@@ -341,34 +372,6 @@ in {
       };
     };
 
-    filetree = {
-      neo-tree = {
-        enable = true;
-        setupOpts = {
-          git_status_async = true;
-          window = {
-            mapping_options = {nowait = false;};
-            mappings = {
-              "<space>" = "none";
-              "l" = "open";
-              "/" = "none";
-              # "h" = {"@1" = "navigate_up";};
-              "h" = mkLuaInline ''
-                function()
-                  vim.cmd.normal "zcl";
-                end
-              '';
-              "z" = "none";
-              "zc" = "close_node";
-              "zC" = "close_all_nodes";
-              "s" = "open_split";
-              "v" = "open_vsplit";
-            };
-          };
-        };
-      };
-    };
-
     tabline = {
       nvimBufferline.enable = false;
     };
@@ -392,7 +395,7 @@ in {
 
     binds = {
       whichKey = {
-        enable = true;
+        enable = false;
       };
     };
 
@@ -416,14 +419,9 @@ in {
       gitsigns.codeActions.enable = false;
     };
 
-    minimap = {
-      minimap-vim.enable = false;
-      codewindow.enable = false; # lighter, faster, and uses lua for configuration
-    };
-
     dashboard = {
       dashboard-nvim = {
-        enable = true;
+        enable = false;
         setupOpts = {
           # adapted from nvf logo (https://github.com/NotAShelf/nvf)
           # under CC-BY (https://creativecommons.org/licenses/by/4.0/)
@@ -454,6 +452,86 @@ in {
           bigfile = {
             enable = true;
           };
+        };
+      };
+    };
+
+    mini = {
+      files = {
+        enable = true;
+        setupOpts = {
+          mappings = {
+            go_in = "L";
+            go_in_plus = "l";
+            synchronize = "<C-s>";
+          };
+          windows = {
+            max_number = 3;
+            preview = false;
+          };
+        };
+      };
+
+      clue = {
+        enable = true;
+        setupOpts = {
+          triggers = let
+            mkTrigger = mode: keys: {inherit mode keys;};
+          in [
+            # Leader triggers
+            (mkTrigger "n" "<Leader>")
+            (mkTrigger "x" "<Leader>")
+
+            # `[` and `]` keys
+            (mkTrigger "n" "[")
+            (mkTrigger "n" "]")
+
+            # Built-in completion
+            (mkTrigger "i" "<C-x>")
+
+            # `g` key
+            (mkTrigger "n" "g")
+            (mkTrigger "x" "g")
+
+            # Marks
+            (mkTrigger "n" "\"")
+            (mkTrigger "n" "`")
+            (mkTrigger "x" "\"")
+            (mkTrigger "x" "`")
+
+            # Registers
+            (mkTrigger "n" "\"")
+            (mkTrigger "x" "\"")
+            (mkTrigger "i" "<C-r>")
+            (mkTrigger "c" "<C-r>")
+
+            # Window commands
+            (mkTrigger "n" "<C-w>")
+
+            # `z` key
+            (mkTrigger "n" "z")
+            (mkTrigger "x" "z")
+          ];
+
+          window = {
+            config = {
+              width = 40;
+            };
+            delay = mkLuaInline "vim.o.timeoutlen";
+          };
+          clues = mkLuaInline ''
+            (function(miniclue)
+              return {
+                miniclue.gen_clues.square_brackets(),
+                miniclue.gen_clues.builtin_completion(),
+                miniclue.gen_clues.g(),
+                miniclue.gen_clues.marks(),
+                miniclue.gen_clues.registers({show_contents = true}),
+                miniclue.gen_clues.windows(),
+                miniclue.gen_clues.z(),
+              }
+            end)(require("mini.clue"))
+          '';
         };
       };
     };
@@ -521,13 +599,6 @@ in {
         call user#mapping#setup()
       ]])
     '';
-    luaConfigRC.whichKeyExtra = entryAfter ["pluginConfigs" "userDots"] ''
-      require("which-key").add({
-        {"s", mode = "x", group = "Surround"},
-        {"ds", mode = "n", group = "Delete surround"},
-        {"cs", mode = "n", group = "Change surround"},
-      })
-    '';
 
     luaConfigPost = ''
       vim.opt.wrap = false
@@ -563,7 +634,6 @@ in {
     keymaps = [
       # General
       (mkKeymap "n" "<leader>zf" ":lua vim.g.formatsave = not vim.g.formatsave<CR>" {})
-      (mkKeymap "n" "<leader>e" ":Neotree toggle reveal<CR>" {})
       (mkKeymap "n" "<leader>ld" ":lua vim.diagnostic.setqflist({open = true})<CR>" {})
       (mkKeymap "n" "<leader>lf" ":lua vim.lsp.buf.format()<CR>" {})
       (mkKeymap "n" "<leader>li" ":lua vim.lsp.buf.implementation()<CR>" {})
@@ -663,6 +733,14 @@ in {
       (mkKeymap "n" "<leader>fgS" "<cmd>FzfLua git_stash<CR>" {})
       (mkKeymap "n" "<leader>fgs" "<cmd>FzfLua git_status<CR>" {})
       (mkKeymap "n" "<leader>fgt" "<cmd>FzfLua git_tags<CR>" {})
+
+      # mini.files
+      (mkKeymap "n" "-" ":lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>" {
+        desc = "Open mini.files in the parent of this buffer";
+      })
+      (mkKeymap "n" "<leader>e" ":lua MiniFiles.open(MiniFiles.get_latest_path())<CR>" {
+        desc = "Open mini.files in last opened path";
+      })
     ];
 
     extraPlugins = with pkgs.vimPlugins; {
