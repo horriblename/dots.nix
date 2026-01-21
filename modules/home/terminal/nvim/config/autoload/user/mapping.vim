@@ -61,15 +61,16 @@ xnoremap gl g_
 xnoremap gL g$
 xnoremap gH g^
 
-function s:gdCaseSensitive()
-	let is_ic = &ic
-	set noic
-	normal! gd
-	let @/ = @/ .. '\C'
-	let &ic = is_ic
-	unlet is_ic
+" custom `gd` - case sensitive and respects custom [[
+function s:gdCustom()
+	let l:word = '\C\<' . expand('<cword>') . '\>'
+	let l:curline = line('.')
+	normal [[
+	keepjumps call search(l:word, 'csW', l:curline)
+	let @/ = l:word
 endfu
-nnoremap <silent> gd <cmd>call <SID>gdCaseSensitive()<CR>
+nnoremap <silent> gd <cmd>call <SID>gdCustom()<CR>
+xnoremap <silent> gd <cmd>call <SID>gdCustom()<CR>
 
 " Sub-mode mapping {{{
 nmap gj gjg
