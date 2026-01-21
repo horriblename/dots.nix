@@ -16,8 +16,7 @@ in {
       ollama = {
         Service = {
           Nice = 19;
-          IOSchedulingClass = "best-effort";
-          IOSchedulingPriority = 7;
+          IOSchedulingClass = "idle";
         };
       };
     };
