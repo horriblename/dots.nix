@@ -1,4 +1,5 @@
-local ok, data = pcall(require('bubble').try_attach_parent, vim.fn.argv())
+local args = { unpack(vim.v.argv, 2) }
+local ok, data = pcall(require('bubble').try_attach_parent, args)
 if not ok then
 	vim.notify(data, vim.log.levels.ERROR)
 elseif data then

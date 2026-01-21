@@ -42,6 +42,8 @@ function! user#txtobj#IndentTextObj(inner)
 	call user#txtobj#FindIndentBegin(a:inner)
 	normal! 0V
 	call cursor(curline, 0)
-	call user#txtobj#FindIndentEnd(a:inner)
+	" never include end of indent, since indent-based languages don't usually
+	" have an 'end marker' with same indent as the starting line
+	call user#txtobj#FindIndentEnd(1)
 	normal! $
 endfunction

@@ -98,8 +98,9 @@ local function compute_suffixes(paths)
 end
 
 function _G.StatuslineFileName()
-	local bufname = vim.api.nvim_buf_get_name(0)
-	return filename_labels[bufname] or bufname
+	local fullname = vim.api.nvim_buf_get_name(0)
+	-- fullname can be unfriendly on buffers without a "proper" name
+	return filename_labels[fullname] or vim.fn.bufname('.')
 end
 
 function _G.StatuslineGitStatus()

@@ -157,7 +157,7 @@ endif
 " instead
 augroup FixTabClose
 	au!
-	au TabClosed * if str2nr(expand('<afile>')) <= tabpagenr('$') | tabprev | endif
+	au TabClosed * if str2nr(expand('<afile>')) <= tabpagenr('$') && expand('<afile>') != 1 | tabprev | endif
 augroup END
 
 augroup DotsColorTweaks
