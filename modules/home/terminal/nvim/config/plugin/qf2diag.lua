@@ -48,12 +48,22 @@ end
 
 vim.api.nvim_create_autocmd({ "QuickFixCmdPost" }, {
 	group = group,
-	pattern = { "*cgetfile*", "*cfile*" },
 	callback = function(ev)
+		if ev.match:match('^Diagnostics') then
+			return
+		end
 		DiagnosticFromQfList()
 	end,
 })
 
-vim.api.nvim_create_user_command("Qf2Diag", _G.DiagnosticFromQfList, {
+vim.api.nvim_create_user_command("Qf2Diag", function(ev)
+	if ev.bang then
+		vim.diagnostic.reset(diag_ns)
+	else
+		_G.DiagnosticFromQfList()
+	end
+end, {
 	desc = "Populate Diagnostics with Quickfix items",
+	bang = true
 })
+vim.keymap.set('n', '<leader>xd', ":Qf2Diag<CR>")
