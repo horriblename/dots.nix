@@ -43,6 +43,8 @@ nnoremap ` '
 xnoremap ' `
 xnoremap ` '
 
+nnoremap <leader>& :AlignCharCol<CR>
+
 nnoremap zV :let &foldlevel = foldlevel('.')<CR>
 
 " Movement {{{
@@ -71,6 +73,53 @@ function s:gdCustom()
 endfu
 nnoremap <silent> gd <cmd>call <SID>gdCustom()<CR>
 xnoremap <silent> gd <cmd>call <SID>gdCustom()<CR>
+
+" Budget hydra keymaps {{{
+function s:getShortMode()
+	let m = mode()
+	if m =~# '^no'
+		return 'o'
+	elseif m =~# '^n'
+		return 'n'
+	elseif m =~# '^i'
+		return 'i'
+	elseif m =~# '^c'
+		return 'c'
+	elseif m =~? '^s'
+		return 's'
+	elseif m =~# "^[vV\<C-V>]"
+		return 'x'
+	elseif m ==# 't'
+		return 't'
+	else
+		return ''
+	endif
+endfu
+function s:bracketMovement(char) abort
+	echo a:char
+	let key = getcharstr(-1)
+	if maparg(a:char . key, s:getShortMode()) ==# ''
+		return
+	endif
+	echo a:char . key
+	let @n = ']' . key
+	let @p = '[' . key
+	if a:char == ']'
+		normal! @n
+	else
+		normal! @p
+	endif
+endfu
+augroup dots_bracket_hydra
+	au!
+	" These need to be <buffer> for nowait to work reliably
+	au BufEnter * nnoremap <buffer><nowait><silent> [ <cmd>call <SID>bracketMovement('[')<CR>
+	au BufEnter * nnoremap <buffer><nowait><silent> ] <cmd>call <SID>bracketMovement(']')<CR>
+augroup END
+
+nnoremap <c-p> @p
+nnoremap <c-n> @n
+" }}}
 
 " Sub-mode mapping {{{
 nmap gj gjg
@@ -182,68 +231,90 @@ nnoremap S :%s##gI<Left><Left><Left>
 xnoremap S :s##gI<Left><Left><Left>
 
 " surround {{{
-fu s:surround(left, right = '')
+fu Surround(left, right = '', type = '') abort
 	let right = a:right ==# '' ? a:left : a:right
-	if mode() ==# "V"
-		return '"zs' . a:left . "\<cr>" . right . "\<Esc>\"zgPm>"
+	if a:type ==# "line"
+		call setpos("'<", getpos("'["))
+		call setpos("'>", getpos("']"))
+		exec 'normal!' 'gv"zs' . a:left . "\<cr>" . right
+		normal! "zgPm>
 	else
-		let offset_left = "h"->repeat(len(right) - 1)
-		let offset_right = "l"->repeat(len(right) - 1)
-		return '"zs' . a:left . right . "\<Esc>" . offset_left . "\"zzP`>" . offset_right . "m>"
+		let offset_left = len(a:left)
+		let offset_right = len(right)
+		let adjust_right = repeat('h', offset_right-1)
+
+		call setpos("'<", getpos("'["))
+		call setpos("'>", getpos("']"))
+		let [buf, line, col, off] = getpos("']")
+		let col = col + offset_left + offset_right
+		exec 'normal!' 'gv"zs' . a:left . right
+		exec 'normal!' adjust_right . "\"zzP"
+		call setpos("'>", [buf, line, col, off])
+		normal! `>
 	endif
 	return
 endfu
 
 xmap s <Nop>
-xnoremap <expr> s( <SID>surround('(', ')')
-xnoremap <expr> s) <SID>surround('(', ')')
-xnoremap <expr> sb <SID>surround('(', ')')
-xnoremap <expr> s[ <SID>surround('[', ']')
-xnoremap <expr> s] <SID>surround('[', ']')
-xnoremap <expr> s{ <SID>surround('{', '}')
-xnoremap <expr> s} <SID>surround('{', '}')
-xnoremap <expr> sB <SID>surround('{', '}')
-xnoremap <expr> s< <SID>surround('<', '>')
-xnoremap <expr> s> <SID>surround('<', '>')
-xnoremap <expr> s" <SID>surround('"', '"')
-xnoremap <expr> s' <SID>surround("'", "'")
-xnoremap <expr> s` <SID>surround('`', '`')
-xnoremap <expr> s* <SID>surround('*', '*')
-xnoremap <expr> s_ <SID>surround('_', '_')
-xnoremap <expr> se <SID>surround('**', '**')
-xnoremap <expr> sE <SID>surround('***', '***')
-xnoremap <expr> s<space> <SID>surround(' ', ' ')
-xnoremap <expr> sf <SID>surround(getcharstr())
+xnoremap s( <cmd>let &operatorfunc=function('Surround', ['(', ')'])<CR>g@
+xnoremap s) <cmd>let &operatorfunc=function('Surround', ['(', ')'])<CR>g@
+xnoremap sb <cmd>let &operatorfunc=function('Surround', ['(', ')'])<CR>g@
+xnoremap s[ <cmd>let &operatorfunc=function('Surround', ['[', ']'])<CR>g@
+xnoremap s] <cmd>let &operatorfunc=function('Surround', ['[', ']'])<CR>g@
+xnoremap s{ <cmd>let &operatorfunc=function('Surround', ['{', '}'])<CR>g@
+xnoremap s} <cmd>let &operatorfunc=function('Surround', ['{', '}'])<CR>g@
+xnoremap sB <cmd>let &operatorfunc=function('Surround', ['{', '}'])<CR>g@
+xnoremap s< <cmd>let &operatorfunc=function('Surround', ['<', '>'])<CR>g@
+xnoremap s> <cmd>let &operatorfunc=function('Surround', ['<', '>'])<CR>g@
+xnoremap s" <cmd>let &operatorfunc=function('Surround', ['"', '"'])<CR>g@
+xnoremap s' <cmd>let &operatorfunc=function('Surround', ["'", "'"])<CR>g@
+xnoremap s` <cmd>let &operatorfunc=function('Surround', ['`', '`'])<CR>g@
+xnoremap s* <cmd>let &operatorfunc=function('Surround', ['*', '*'])<CR>g@
+xnoremap s_ <cmd>let &operatorfunc=function('Surround', ['_', '_'])<CR>g@
+xnoremap se <cmd>let &operatorfunc=function('Surround', ['**', '**'])<CR>g@
+xnoremap sE <cmd>let &operatorfunc=function('Surround', ['***', '***'])<CR>g@
+xnoremap s<space> <cmd>let &operatorfunc=function('Surround', [' ', ' '])<CR>g@
+xnoremap sf <cmd>let &operatorfunc=printf('{t -> Surround(%s, "", t)}', getcharstr())<CR>g@
 
 fu s:surroundTag(tag)
 	let name = split(a:tag)[0]
-	return s:surround('<'.a:tag.'>', '</'.name.'>')
+	let &operatorfunc = function('Surround', ['<'.a:tag.'>', '</'.name.'>'])
+	return "g@"
 endfu
 
 xnoremap <expr> su <SID>surroundTag('u')
 xnoremap <expr> st <SID>surroundTag(input('Surround with tag (and attributes): '))
 
 " }}}
-" de-surround
-for char in "(){}[]<>bBt"
-	exec printf('nnoremap ds%s di%sva%spgv', char, char, char)
-	exec printf('nmap <silent><expr> cs%s "di%sva%spgvs" . getcharstr()', char, char, char)
+" de-surround {{{
+function Desurround(char, type='')
+	if a:char ==# "'" || a:char ==# '"'
+		exec printf("normal! di%svhp", a:char)
+	else
+		exec printf('normal! di%sva%sp', a:char, a:char)
+	end
+endfu
+function ChangeSurround(char, new_char, type='') abort
+	let new_char = a:new_char ?? getcharstr()
+	call Desurround(a:char)
+	call setpos("'[", getpos("'<"))
+	call setpos("']", getpos("'>"))
+
+	exec 'normal gvs' . new_char
+	let &operatorfunc=function("ChangeSurround", [a:char, new_char])
+endfu
+for char in "(){}[]<>bBt\"'`"
+	exec printf('nnoremap <silent> ds%s :let &operatorfunc=function("Desurround", ["%s"])<CR>g@l', char, escape(char, '"'))
+	exec printf('nnoremap <silent> cs%s :let &operatorfunc=function("ChangeSurround", ["%s", ""])<CR>g@l', char, char)
 endfor
 
-" quotes are single-line only, so this can work
-" using a different keymap as `da'` could delete a whitespace
-for char in "\"`'"
-	exec printf('nnoremap ds%s di%svhpgv', char, char)
-endfor
-nmap <silent><expr> cs" printf('di%svhpgvs%s', '"', getcharstr())
-nmap <silent><expr> cs' printf('di%svhpgvs%s', "'", getcharstr())
-nmap <silent><expr> cs` printf('di%svhpgvs%s', '`', getcharstr())
 " desurrounds anything
 fu s:desurround_f()
 	let c = getcharstr()
 	return printf("F%sxm<f%sxm>", c, c)
 endfu
 nnoremap <expr> dsf <SID>desurround_f()
+" }}}
 
 " keyboard layout switching
 nnoremap <leader>zl :set langmap=yYzZ\\"§&/()=?`ü+öä#-Ü*ÖÄ'\\;:_;zZyY@#^&*()_+[]\\;'\\\\/{}:\\"\\|\\<\\>?<cr>
