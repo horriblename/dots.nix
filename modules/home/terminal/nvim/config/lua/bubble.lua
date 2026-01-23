@@ -46,6 +46,7 @@ local function parse_cli_flags(args)
 	for i, arg in ipairs(args) do
 		if arg == "--" then
 			vim.list_extend(res.files, args, i + 1)
+			break
 		elseif arg:match("^%+") then
 			table.insert(res.commands, arg:sub(2))
 		else
