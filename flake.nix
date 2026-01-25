@@ -392,7 +392,6 @@
         ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
           buildInputs =
             [
-              pkgs.hyprworkspaces
               pkgs.roc
               pkgs.roc-ls
               pkgs.styluslabs-write
@@ -436,7 +435,6 @@
     overlay = final: prev: let
       pins = npinsFor final.stdenv.system;
     in {
-      hyprworkspaces = final.callPackage ./pkgs/hyprworkspaces/default.nix {};
       anyrunPackages = anyrun.packages.${final.stdenv.system};
       md-img-paste-vim = final.vimUtils.buildVimPlugin {
         pname = "md-img-paste-vim";

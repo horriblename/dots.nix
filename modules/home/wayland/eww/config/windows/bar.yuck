@@ -29,7 +29,7 @@
 
 (deflisten lWorkspaceState
   :initial "[]"
-  `hyprworkspaces`)
+  "printf")
 
 (deflisten lTasks
   :initial "[]"
