@@ -96,25 +96,33 @@ function s:getShortMode()
 	endif
 endfu
 function s:bracketMovement(char) abort
-	echo a:char
+	let hasnext = getchar(1)
+	if !hasnext | echo a:char | endif
 	let key = getcharstr(-1)
-	if maparg(a:char . key, s:getShortMode()) ==# ''
-		return
-	endif
-	echo a:char . key
+	if key == "\<Esc>" | return | endif
 	let @n = ']' . key
 	let @p = '[' . key
+
 	if a:char == ']'
-		normal! @n
+		if hasnext && !maparg(@n)
+			" our ']' keybind is triggered recursively,
+			" with no (fully matched) custom keymap
+			" execute the contents of the macro literally, ignoring keymaps
+			return @n
+		endif
+		return '@n'
 	else
-		normal! @p
+		if hasnext && !maparg(@p)
+			return @p
+		endif
+		return '@p'
 	endif
 endfu
 augroup dots_bracket_hydra
 	au!
 	" These need to be <buffer> for nowait to work reliably
-	au BufEnter * nnoremap <buffer><nowait><silent> [ <cmd>call <SID>bracketMovement('[')<CR>
-	au BufEnter * nnoremap <buffer><nowait><silent> ] <cmd>call <SID>bracketMovement(']')<CR>
+	au BufEnter * nnoremap <buffer><nowait><silent><expr> [ <SID>bracketMovement('[')
+	au BufEnter * nnoremap <buffer><nowait><silent><expr> ] <SID>bracketMovement(']')
 augroup END
 
 nnoremap <c-p> @p
@@ -301,7 +309,7 @@ function ChangeSurround(char, new_char, type='') abort
 endfu
 for char in "(){}[]<>bBt\"'`"
 	exec printf('nnoremap <silent> ds%s :let &operatorfunc=function("Desurround", ["%s"])<CR>g@l', char, escape(char, '"'))
-	exec printf('nnoremap <silent> cs%s :let &operatorfunc=function("ChangeSurround", ["%s", ""])<CR>g@l', char, char)
+	exec printf('nnoremap <silent> cs%s :let &operatorfunc=function("ChangeSurround", ["%s", ""])<CR>g@l', char, escape(char, '"'))
 endfor
 
 " desurrounds anything
@@ -326,7 +334,7 @@ nnoremap <expr> <leader>z<Tab> v:count == 0 ? ':set expandtab! \| set expandtab?
 " transparent background, :noau ignores the autocmd (and any other aucmd)
 nnoremap <leader>zb :set bg=dark<CR>
 nnoremap <leader>zB :noau set bg=dark<CR>
-nnoremap <leader>zz :<C-U>let &foldcolumn = v:count == 0 ? 
+nnoremap <leader>zf :<C-U>let &foldcolumn = v:count == 0 ?
 			\ &foldcolumn ==# "0"? "auto" : "0"
 			\ : "auto:" . v:count <CR>
 nnoremap <leader>zi :IndentHintsToggle<CR>
