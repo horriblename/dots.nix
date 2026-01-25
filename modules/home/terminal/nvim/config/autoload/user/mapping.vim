@@ -209,10 +209,6 @@ nnoremap gm <cmd>call <SID>selectMark()<CR>
 xnoremap gm <Esc><cmd>call <SID>selectMark()<CR>
 onoremap gm <cmd>call <SID>selectMark()<CR>
 
-" Diagnostics {{{
-nnoremap ]d :lua vim.diagnostic.goto_next()<CR>
-nnoremap [d :lua vim.diagnostic.goto_prev()<CR>
-" }}}
 " }}}
 
 " Autoclose
