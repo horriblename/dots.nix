@@ -39,10 +39,6 @@ end
 ---@type table<string, string>
 local filename_labels = {}
 
-function _G.Labels()
-	vim.print(filename_labels)
-end
-
 ---@param paths string[] full paths to compute minimal path
 ---@return table<string, {dir: string, basename: string}> -- map of full path -> shortened path
 local function compute_suffixes(paths)
@@ -100,7 +96,7 @@ end
 function _G.StatuslineFileName()
 	local fullname = vim.api.nvim_buf_get_name(0)
 	-- fullname can be unfriendly on buffers without a "proper" name
-	return filename_labels[fullname] or vim.fn.bufname('.')
+	return filename_labels[fullname] or vim.fn.bufname('%')
 end
 
 function _G.StatuslineGitStatus()
@@ -222,17 +218,19 @@ end
 
 -- autocmds
 local function syncShortFileNames()
-	local wins = vim.api.nvim_tabpage_list_wins(0)
-	local bufnames = vim.iter(wins):map(function(win)
-		local buf = vim.api.nvim_win_get_buf(win)
-		if vim.bo[buf].buftype ~= "" then return nil end
-		return vim.api.nvim_buf_get_name(buf)
+	local bufs = vim.api.nvim_list_bufs()
+	local bufnames = vim.iter(bufs):map(function(buf)
+		return
+			vim.bo[buf].buflisted
+			and vim.bo[buf].buftype == ""
+			and vim.api.nvim_buf_get_name(buf)
+			or nil
 	end):totable()
 	filename_labels = compute_suffixes(bufnames)
 end
 
 local augroup = vim.api.nvim_create_augroup("dots_statusline", { clear = true })
-vim.api.nvim_create_autocmd({ "BufWinEnter", "TabEnter" }, {
+vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete" }, {
 	group = augroup,
 	callback = syncShortFileNames,
 })
