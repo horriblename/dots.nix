@@ -217,7 +217,9 @@ function _G.Tabline()
 end
 
 -- autocmds
+local sync_scheduled = false
 local function syncShortFileNames()
+	sync_scheduled = false
 	local bufs = vim.api.nvim_list_bufs()
 	local bufnames = vim.iter(bufs):map(function(buf)
 		return
@@ -232,7 +234,15 @@ end
 local augroup = vim.api.nvim_create_augroup("dots_statusline", { clear = true })
 vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete" }, {
 	group = augroup,
-	callback = syncShortFileNames,
+	callback = function()
+		if not sync_scheduled then
+			-- we schedule a sync to
+			-- 1. sync after BufDelete event, when the buffer is actually deleted
+			-- 2. possibly batch multiple events into one sync
+			vim.schedule(syncShortFileNames)
+			sync_scheduled = true
+		end
+	end,
 })
 if vim.v.vim_did_enter == 1 then
 	syncShortFileNames()
