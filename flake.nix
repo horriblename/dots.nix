@@ -255,9 +255,12 @@
             ./hosts/ragnarok/configuration.nix
             ./modules/nixos
             {
-              dots.preset = "desktop";
+              dots = {
+                preset = "desktop";
+                wayland.gaming = true;
+                ai.enable = true;
+              };
               nix.settings.trusted-users = ["py"];
-              dots.wayland.gaming = true;
             }
           ];
         };
