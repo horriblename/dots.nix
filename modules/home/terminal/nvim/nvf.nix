@@ -259,58 +259,49 @@ in {
 
     languages = {
       enableDAP = true;
+      enableExtraDiagnostics = true;
       enableFormat = true;
       enableTreesitter = true;
-      enableExtraDiagnostics = true;
 
-      nix = {
-        enable = true;
-        lsp.servers = ["nixd"];
-      };
-      html.enable = true;
       clang.enable = true;
-
-      sql.enable = false;
-      rust = {
-        enable = false;
-      };
+      dart.enable = false;
+      elixir.enable = false;
+      go.enable = true;
       haskell = {
         enable = true;
         lsp.enable = false;
         dap.enable = false;
       };
-      ts.enable = false;
-      go.enable = true;
-      zig.enable = false;
-      markdown = {
-        enable = true;
-      };
-      python.enable = true;
-      dart.enable = false;
-      elixir.enable = false;
-      php.enable = false;
+      html.enable = true;
       lua = {
         enable = true;
         lsp.lazydev.enable = false;
         format.enable = false;
       };
+      markdown = {
+        enable = true;
+      };
+      nix = {
+        enable = true;
+        lsp.servers = ["nixd"];
+      };
+      php.enable = false;
+      python.enable = true;
+      rust = {
+        enable = false;
+      };
+      sql.enable = false;
+      ts.enable = false;
+      zig.enable = false;
     };
 
     lsp.servers = {
-      yamlls = {};
-      elmls = {};
       clangd.cmd = lib.mkForce ["${pkgs.llvmPackages_19.clang-tools}/bin/clangd"];
       clojure_lsp = {};
-      roc_ls = {
-        cmd = ["roc_language_server"];
-        filetypes = ["roc"];
-        root_markers = [".git" "main.roc"];
-      };
-      nil = {
-        settings.nil.nix.flake.autoArchive = false;
-      };
-      nixd = {
-        cmd = lib.mkForce [(lib.getExe pkgs.nixd) "--log=error"];
+      elmls = {};
+      jdtls = {
+        enable = false;
+        cmd = ["jdt-language-server" "-configuration" "${config.xdg.cacheHome}/jdtls/config" "-data" "${config.xdg.cacheHome}/jdtls/workspace"];
       };
       lua-language-server = {
         settings.Lua = {
@@ -319,10 +310,18 @@ in {
           diagnostic.globals = ["vim"];
         };
       };
-      jdtls = {
-        enable = false;
-        cmd = ["jdt-language-server" "-configuration" "${config.xdg.cacheHome}/jdtls/config" "-data" "${config.xdg.cacheHome}/jdtls/workspace"];
+      nil = {
+        settings.nil.nix.flake.autoArchive = false;
       };
+      nixd = {
+        cmd = lib.mkForce [(lib.getExe pkgs.nixd) "--log=error"];
+      };
+      roc_ls = {
+        cmd = ["roc_language_server"];
+        filetypes = ["roc"];
+        root_markers = [".git" "main.roc"];
+      };
+      yamlls = {};
     };
 
     visuals = {
