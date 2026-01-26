@@ -682,9 +682,6 @@ in {
       (mkKeymap ["n" "x" "o"] "<leader>gr" ":Gitsigns reset_hunk<CR>" {})
       (mkKeymap ["n" "x" "o"] "<leader>lr" "<cmd>lua vim.lsp.buf.references()<CR>" {})
 
-      # ssr.nvim
-      (mkKeymap ["n" "x" "o"] "<leader>sr" ":lua require('ssr').open()<CR>" {})
-
       # FzfLua
       (mkKeymap "n" "<leader>fj" "<cmd>FzfLua jumps<CR>" {})
       (mkKeymap "n" "<leader>fh" "<cmd>FzfLua oldfiles<CR>" {})
@@ -796,14 +793,6 @@ in {
           + ''
             require('fzf-lua').register_ui_select()
           '';
-      };
-      ssr-nvim = {
-        package = pkgs.vimUtils.buildVimPlugin {
-          pname = "ssr-nvim";
-          version = "fork";
-          src = inputs.ssr-nvim;
-        };
-        setup = "require('ssr').setup {}";
       };
       friendly-snippets = {package = friendly-snippets;};
       direnv = {package = direnv-vim;};
