@@ -14,5 +14,17 @@
 			"	})",
 			"end"
 		]
+	},
+	"autocmd": {
+		"prefix": ["autocmd"],
+		"body": [
+			"local augroup = vim.api.nvim_create_augroup(\"${1:augroup_name}\", {clear = true})",
+			"vim.api.nvim_create_autocmd({\"${2:Event}\"}, {",
+			"    group = augroup,",
+			"    callback = function(ev)",
+			"       $0",
+			"    end,",
+			"})"
+		]
 	}
 }
