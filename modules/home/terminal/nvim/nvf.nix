@@ -8,10 +8,17 @@
   ...
 }: let
   nix2Lua = inputs.nvf.lib.nvim.lua.toLuaObject;
-  inherit (inputs.nvf.lib.nvim.dag) entryBetween entryAfter;
+  inherit (inputs.nvf.lib.nvim.dag) entryBetween;
   inherit (lib.generators) mkLuaInline;
+  inherit (lib.modules) mkForce;
   setup = module: table: "require('${module}').setup(${nix2Lua table})";
-  mkKeymap = mode: key: action: opts: opts // {inherit mode key action;};
+  mkKeymap = mode: key: action: opts:
+    {
+      inherit mode key action;
+      noremap = true;
+      silent = true;
+    }
+    // opts;
   noBuildPlug = pname: let
     pin = pins.${pname};
     version = builtins.substring 0 8 pin.revision;
@@ -29,6 +36,10 @@ in {
     preventJunkFiles = true;
     enableLuaLoader = true;
 
+    options = {
+      signcolumn = "yes:2";
+    };
+
     lazy = {
       enable = true;
       plugins = {
@@ -42,7 +53,7 @@ in {
           before = ''
             vim.g.undotree_ShortIndicators = true
             vim.g.undotree_TreeVertShape = '│'
-            vim.g.undotree_DiffCommand = [[sh -c 'git diff --word-diff --no-index "$@" | tail -n +5' git]]
+            vim.g.undotree_DiffCommand = [[sh -c 'git diff --word-diff --word-diff-regex="[^\n]" --no-index "$@" | tail -n +5' git]]
             vim.g.undotree_CustomMap = function()
               vim.wo.winfixwidth = true
               vim.wo.winfixheight = true
@@ -287,9 +298,9 @@ in {
     lsp.servers = {
       yamlls = {};
       elmls = {};
+      clangd.cmd = lib.mkForce ["${pkgs.llvmPackages_19.clang-tools}/bin/clangd"];
       hls = {};
       clangd.cmd = lib.mkForce ["${pkgs.clang-tools_19}/bin/clangd"];
-      clangd.cmd = lib.mkForce ["${pkgs.llvmPackages_19.clang-tools}/bin/clangd"];
       clojure_lsp = {};
       roc_ls = {
         cmd = ["roc_language_server"];
@@ -415,8 +426,13 @@ in {
 
     git = {
       enable = true;
-      gitsigns.enable = true;
-      gitsigns.codeActions.enable = false;
+      gitsigns = {
+        enable = true;
+        setupOpts = {
+          sign_priority = 50;
+        };
+        codeActions.enable = false;
+      };
     };
 
     dashboard = {
@@ -575,15 +591,6 @@ in {
       };
     };
 
-    session = {
-      nvim-session-manager = {
-        enable = false;
-        setupOpts = {
-          autoload_mode = "Disabled";
-        };
-      };
-    };
-
     comments.comment-nvim.enable = false;
 
     treesitter.grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
@@ -658,6 +665,8 @@ in {
       (mkKeymap "n" "<leader>gb" "<cmd>Gitsigns blame_line<CR>" {})
       (mkKeymap "n" "<leader>gD" "<cmd>Gitsigns diffthis HEAD<CR>" {})
       (mkKeymap "n" "<leader>gw" "<cmd>Gitsigns toggle_word_diff<CR>" {})
+      (mkKeymap "n" "]g" ":Gitsigns next_hunk<CR>" {})
+      (mkKeymap "n" "[g" ":Gitsigns prev_hunk<CR>" {})
 
       # fzf-lua
       (mkKeymap "n" "<M-f>" ":FzfLua resume<CR>" {})
@@ -730,6 +739,8 @@ in {
       (mkKeymap "n" "<leader>fgS" "<cmd>FzfLua git_stash<CR>" {})
       (mkKeymap "n" "<leader>fgs" "<cmd>FzfLua git_status<CR>" {})
       (mkKeymap "n" "<leader>fgt" "<cmd>FzfLua git_tags<CR>" {})
+      (mkKeymap "n" "]g" ":Gitsigns next_hunk<CR>" {})
+      (mkKeymap "n" "[g" ":Gitsigns prev_hunk<CR>" {})
 
       # mini.files
       (mkKeymap "n" "-" ":lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>" {
@@ -852,21 +863,17 @@ in {
               set_jumps = true;
               goto_next_start = {
                 "]f" = "@function.outer";
-                "]c" = "@class.outer";
-                "]s" = "@scope";
               };
               goto_previous_start = {
                 "[f" = "@function.outer";
-                "[c" = "@class.outer";
-                "[s" = "@scope";
+                "[C" = "@class.outer";
               };
               goto_next_end = {
                 "]F" = "@function.outer";
-                "]C" = "@class.outer";
               };
               goto_previous_end = {
                 "[F" = "@function.outer";
-                "[C" = "@class.outer";
+                "]C" = "@class.outer";
               };
             };
           };
