@@ -273,11 +273,12 @@ in {
       sql.enable = false;
       rust = {
         enable = false;
-        crates.enable = true;
       };
-      haskell.enable = true;
-      haskell.lsp.enable = false;
-      haskell.dap.enable = false;
+      haskell = {
+        enable = true;
+        lsp.enable = false;
+        dap.enable = false;
+      };
       ts.enable = false;
       go.enable = true;
       zig.enable = false;
@@ -299,8 +300,6 @@ in {
       yamlls = {};
       elmls = {};
       clangd.cmd = lib.mkForce ["${pkgs.llvmPackages_19.clang-tools}/bin/clangd"];
-      hls = {};
-      clangd.cmd = lib.mkForce ["${pkgs.clang-tools_19}/bin/clangd"];
       clojure_lsp = {};
       roc_ls = {
         cmd = ["roc_language_server"];
@@ -313,7 +312,7 @@ in {
       nixd = {
         cmd = lib.mkForce [(lib.getExe pkgs.nixd) "--log=error"];
       };
-      lua_ls = {
+      lua-language-server = {
         settings.Lua = {
           runtime.version = "LuaJIT";
           workspace.library = ["lua" "\${env:VIMRUNTIME}"];
