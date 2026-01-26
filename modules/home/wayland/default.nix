@@ -35,6 +35,8 @@
       dex
       xournalpp
       dragon-drop
+
+      nextcloud-client # services.nextcloud-client doesn't expose the app
     ];
 
     services.nextcloud-client.enable = true;
