@@ -217,7 +217,7 @@ in {
               end
             end
             vim.keymap.set("n", "g0", cdToGitRoot, {
-              buf = vim.fn.bufnr(),
+              buffer = true,
               desc = "Go to Git Root",
             })
           end
