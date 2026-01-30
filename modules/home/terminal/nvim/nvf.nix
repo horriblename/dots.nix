@@ -747,6 +747,17 @@ in {
       (mkKeymap "n" "<leader>e" ":lua MiniFiles.open(MiniFiles.get_latest_path())<CR>" {
         desc = "Open mini.files in last opened path";
       })
+
+      # 99
+      (mkKeymap "n" "<leader>9f" "require('99').fill_in_function" {
+        lua = true;
+        desc = "Fill in function";
+      })
+      (mkKeymap "x" "<leader>9v" "require('99').visual" {lua = true;})
+      (mkKeymap "x" "<leader>9s" "require('99').stop_all_requests" {
+        lua = true;
+        desc = "Stop all requests";
+      })
     ];
 
     extraPlugins = with pkgs.vimPlugins; {
@@ -802,6 +813,15 @@ in {
           + ''
             require('fzf-lua').register_ui_select()
           '';
+      };
+      "99" = {
+        package = noBuildPlug "99";
+        setup = setup "99" {
+          completion = {
+            custom_rules = ["scratch/rules/"];
+            source = "cmp";
+          };
+        };
       };
       friendly-snippets = {package = friendly-snippets;};
       direnv = {package = direnv-vim;};
