@@ -458,6 +458,13 @@ in {
       };
     };
 
+    spellcheck = {
+      enable = true;
+      languages = ["en" "de_de"];
+      ignoredFiletypes = ["qf"];
+      programmingWordlist.enable = true;
+    };
+
     utility = {
       diffview-nvim.enable = true;
       snacks-nvim = {
@@ -495,10 +502,6 @@ in {
             # Leader triggers
             (mkTrigger "n" "<Leader>")
             (mkTrigger "x" "<Leader>")
-
-            # `[` and `]` keys
-            (mkTrigger "n" "[")
-            (mkTrigger "n" "]")
 
             # Built-in completion
             (mkTrigger "i" "<C-x>")
@@ -597,8 +600,11 @@ in {
       regex
     ];
 
-    luaConfigRC.userDots = entryBetween ["lazyConfigs"] ["optionsScript"] ''
+    luaConfigPre = ''
       vim.opt.runtimepath:prepend("${impurity.link ./config}");
+    '';
+
+    luaConfigRC.userDots = entryBetween ["lazyConfigs"] ["optionsScript"] ''
       pcall(vim.cmd, [[
         call user#general#setup()
         call user#mapping#setup()
@@ -674,6 +680,7 @@ in {
       (mkKeymap "n" "<leader>fb" ":FzfLua buffers<CR>" {})
       (mkKeymap "n" "<leader>fh" ":FzfLua oldfiles<CR>" {})
       (mkKeymap "n" "<leader>f:" ":FzfLua command_history<CR>" {})
+      (mkKeymap "n" "g]" ":ltag <C-R><C-W> | lua FzfLua.loclist{previewer = 'builtin'}<CR>" {})
 
       # Aerial
       (mkKeymap "n" "gO" ":AerialToggle<CR>" {})
@@ -773,9 +780,18 @@ in {
                 hi WinSeparator guifg=smokewhite
                 hi CurSearch guibg=Orange guifg=NvimDarkGray1
                 hi IncSearch guibg=NvimLightYellow guifg=NvimDarkGray1
+                hi NonText gui=nocombine
+                hi DiffAdd        guifg=NONE guibg=#123a2f
+                hi DiffDelete     guifg=NONE guibg=#3a1618
+                hi DiffChange     guifg=NONE guibg=#3a2f12
+                hi DiffText       ctermfg=0 ctermbg=14 guifg=NONE guibg=#6b4e1d
+                hi SpellBad       gui=underdotted guisp=Red
+                hi SpellCap       gui=underdotted guisp=Yellow
+                hi SpellRare      gui=underdotted guisp=LightBlue
+                hi SpellLocal     gui=underdotted guisp=SlateBlue
+                hi WinSeparator guifg=smokewhite
               ]]
             })
-            vim.cmd.highlight({"WinSeparator", "guifg=smokewhite"})
           end
           vim.cmd.colorscheme("night-owl")
         '';
@@ -793,7 +809,7 @@ in {
         };
       };
       fzf-lua = {
-        package = pkgs.vimPlugins.fzf-lua;
+        package = "fzf-lua";
         setup =
           setup "fzf-lua" {
             "@1" = "max-perf";
@@ -808,6 +824,9 @@ in {
                 "ctrl-j" = "preview-page-down";
                 "ctrl-k" = "preview-page-up";
               };
+            };
+            previewers = {
+              bat.args = "--color=always --style=numbers,changes --decorations=always";
             };
           }
           + ''
@@ -831,12 +850,6 @@ in {
           check_ts = true;
           disable_filetype = ["TelescopePrompt"];
           enable_afterquote = false;
-          fast_wrap = {
-            map = "<M-e>";
-            end_key = "l";
-            highlight = "PmenuSel";
-            highlight_grey = "LineNr";
-          };
         };
       };
       md-img-paste-vim = {

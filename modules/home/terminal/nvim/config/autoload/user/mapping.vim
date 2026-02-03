@@ -43,6 +43,24 @@ nnoremap ` '
 xnoremap ' `
 xnoremap ` '
 
+fu s:fileInfo() abort
+	let cwd = getcwd()
+	let bufname = bufname()
+	let l = line('.')
+	let total = line('$')
+	if bufname ==# '^/'
+		" absolute path
+		echo printf('"%s" %d lines --%d%%--', bufname, total, l*100 / total)
+	else
+		echo '"'
+		echohl Directory
+		echon fnamemodify(cwd, ':~') '/'
+		echohl None
+		echon printf('%s" %d lines --%d%%--', bufname, total, l*100 / total)
+	endif
+endfu
+nnoremap <c-g> :call <SID>fileInfo()<CR>
+
 nnoremap <leader>& :AlignCharCol<CR>
 
 nnoremap zV :let &foldlevel = foldlevel('.')<CR>
@@ -51,7 +69,8 @@ nnoremap zV :let &foldlevel = foldlevel('.')<CR>
 
 " defaults respect 'ignorecase' but ignores 'smartcase'
 nnoremap * /\C\<<c-r><c-w>\><CR>
-nnoremap # ?\C\<<c-r><c-w>\><CR>
+" funny hack to skip word under cursor when searching backwards
+nnoremap # :call search('\<', 'bc')<CR>?\C\<<c-r><c-w>\><CR>
 
 nnoremap gh ^
 nnoremap gl g_

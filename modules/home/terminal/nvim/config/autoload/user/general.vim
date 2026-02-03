@@ -18,6 +18,7 @@ set mousemodel=extend
 set ignorecase
 set smartcase
 set wildignorecase
+set tagcase=match
 set incsearch
 set encoding=utf-8
 set autoindent
@@ -158,15 +159,6 @@ endif
 augroup FixTabClose
 	au!
 	au TabClosed * if str2nr(expand('<afile>')) <= tabpagenr('$') && expand('<afile>') != 1 | tabprev | endif
-augroup END
-
-augroup DotsColorTweaks
-	au!
-	au ColorScheme night-owl hi NonText gui=nocombine
-	au ColorScheme night-owl hi DiffAdd guifg=NONE guibg=#2e3b1f
-	au ColorScheme night-owl hi DiffDelete guifg=NONE guibg=#5a2625
-	au ColorScheme night-owl hi DiffChange guifg=NONE gui=NONE guibg=#4a3e1a
-	au ColorScheme night-owl hi DiffText guifg=NONE guibg=#7d6213
 augroup END
 
 augroup DotsMarkdown

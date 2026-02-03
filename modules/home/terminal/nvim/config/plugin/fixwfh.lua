@@ -103,7 +103,9 @@ local function on_win_closed(ev)
 			return
 		end
 
-		assert(parent[2][closed_index][2] == closed_winid)
+		assert(parent[2][closed_index][2] == closed_winid,
+			("child index %d of the parent layout is not the closed winid (%d)\nparent layout: %s")
+			:format(closed_index, closed_winid, vim.inspect(parent)))
 		if parent[2][closed_index - 1] then
 			sibling = parent[2][closed_index - 1]
 			side = parent[1] == "row" and "right" or "down"
