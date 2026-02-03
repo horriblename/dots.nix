@@ -17,20 +17,27 @@ local kv_flags = {
 	["--listen"] = true,
 }
 
----only allow "+" and file arguments, recognizes "--" for passing rest of args as literal files
+---Sanitizes file arguments for an RPC call,
+---* Only allow "+", "-d", and file arguments
+---* Expand file arguments to full path
 ---@param args string[]
 ---@return string[]
-local function filter_args(args)
+local function sanitize_args_for_call(args)
 	local filtered = {}
 	local skipnext = false
 	for i, arg in ipairs(args) do
 		if skipnext then
 			skipnext = false
 		elseif arg == "--" then
-			vim.list_extend(filtered, args, i)
+			table.insert(filtered, "--")
+			for j = i + 1, #args do
+				table.insert(filtered, vim.fn.fnamemodify(args[j], ":p"))
+			end
 			break
-		elseif not arg:match("^%-") then
+		elseif arg:find("^%+") or arg == "-d" then
 			table.insert(filtered, arg)
+		elseif not arg:match("^%-") then
+			table.insert(filtered, vim.fn.fnamemodify(arg, ":p"))
 		elseif kv_flags[arg] then
 			skipnext = true
 		end
@@ -40,16 +47,19 @@ end
 
 ---Currently only supports files, "+cmd", and "--" for passing rest of args as literal files
 ---@param args string[]
----@return {commands: string[], files: string[]}
+---@return {commands: string[], files: string[], diff: boolean}
 local function parse_cli_flags(args)
-	local res = { commands = {}, files = {} }
+	local res = { commands = {}, files = {}, diff = false }
 	for i, arg in ipairs(args) do
 		if arg == "--" then
 			vim.list_extend(res.files, args, i + 1)
 			break
-		elseif arg:match("^%+") then
+		elseif arg == "-d" then
+			res.diff = true
+		elseif arg:find("^%+") then
 			table.insert(res.commands, arg:sub(2))
 		else
+			print('parsed file:', arg)
 			table.insert(res.files, arg)
 		end
 	end
@@ -77,8 +87,10 @@ function M.try_attach_parent(args)
 
 	vim.cmd('%argdelete') -- clear args as it may prevent clean shutdown
 	-- TODO: support tcp socket?
+	local sanitized_args = sanitize_args_for_call(args)
+	vim.print("sanitized", sanitized_args)
 	vim.rpcrequest(chan, "nvim_exec_lua", "require('bubble').parent_open_files(...)",
-		{ "pipe", client_sock, unpack(filter_args(args)) })
+		{ "pipe", client_sock, unpack(sanitized_args) })
 	return true
 end
 
@@ -111,14 +123,22 @@ function M.parent_open_files(sock_mode, child_sock, ...)
 		return
 	elseif nfiles == 1 then
 		vim.cmd.edit(unpack(cli_args.files))
+		if cli_args.diff then
+			vim.cmd("diffthis")
+		end
 		for _, cmd in ipairs(cli_args.commands) do
 			vim.cmd(cmd)
 		end
-		vim.keymap.set('n', 'ZZ', ':w | edit #<CR>')
+		vim.keymap.set('n', 'ZZ', ':w | edit #<CR>', {
+			buffer = true,
+		})
 	else
 		vim.cmd.tabnew()
 		vim.cmd.args(unpack(cli_args.files))
 		vim.cmd('vertical all')
+		if cli_args.diff then
+			vim.cmd("windo diffthis")
+		end
 		for _, cmd in ipairs(cli_args.commands) do
 			vim.cmd(cmd)
 		end
