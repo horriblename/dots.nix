@@ -1,9 +1,6 @@
----@alias term_info {buf: integer, win: integer?}
----@alias LocalID integer A unique ID for each terminal local to its tab
----@alias TabID integer
+local M = {}
 
----@type table<TabID, table<LocalID, term_info>>
-local tab_terms = {}
+local state = require("tterm.state")
 local augroup = vim.api.nvim_create_augroup('toggleterm_focus_hooks', { clear = false })
 
 ---@param buf integer
@@ -69,10 +66,10 @@ end
 ---@param tab_id integer
 ---@param to_focus LocalID local_id to focus
 local function open_floating_terms(tab_id, to_focus)
-	if not tab_terms[tab_id] then
-		tab_terms[tab_id] = {}
+	if not state.tab_terms[tab_id] then
+		state.tab_terms[tab_id] = {}
 	end
-	local tab = tab_terms[tab_id]
+	local tab = state.tab_terms[tab_id]
 	local opened = false
 	local y_offset = 0
 	local focus_win
@@ -101,7 +98,7 @@ end
 ---@return integer? local_id, term_info? info
 local function find_prev_local_id(tab_id, buf)
 	local prev_id, prev_info
-	for local_id, info in pairs(tab_terms[tab_id] or {}) do
+	for local_id, info in pairs(state.tab_terms[tab_id] or {}) do
 		if info.buf == buf then
 			return prev_id, prev_info
 		end
@@ -115,7 +112,7 @@ end
 ---@return integer? local_id, term_info? info
 local function find_next_local_id(tab_id, buf)
 	local found = false
-	for local_id, info in pairs(tab_terms[tab_id] or {}) do
+	for local_id, info in pairs(state.tab_terms[tab_id] or {}) do
 		if found then
 			return local_id, info
 		end
@@ -125,7 +122,7 @@ local function find_next_local_id(tab_id, buf)
 	end
 end
 
-local function toggleterm()
+function M.toggleterm()
 	local tabid = vim.api.nvim_get_current_tabpage()
 	if vim.w.toggleterm_win_offset then
 		-- t:toggleterm_focused_id will be reset when closing windows due to autocmd
@@ -142,7 +139,7 @@ local function toggleterm()
 	end
 end
 
-local function focus_next()
+function M.focus_next()
 	local offset = vim.w.toggleterm_win_offset
 	if not offset then
 		return
@@ -158,7 +155,7 @@ local function focus_next()
 	end
 end
 
-local function focus_prev()
+function M.focus_prev()
 	local offset = vim.w.toggleterm_win_offset
 	if not offset then
 		return
@@ -174,49 +171,29 @@ local function focus_prev()
 	end
 end
 
-local group = vim.api.nvim_create_augroup("toggleterm_tab_closed", { clear = true })
-vim.api.nvim_create_autocmd("TabClosed", {
-	group = group,
-	callback = function(ev)
-		local existing_ids = vim.api.nvim_list_tabpages()
-		for tabid, terms in pairs(tab_terms) do
-			if not vim.list_contains(existing_ids, tabid) then
-				for _, info in pairs(terms) do
-					pcall(vim.cmd, "bdelete! " .. info.buf)
-				end
-				tab_terms[tabid] = nil
+function M.on_tab_closed()
+	local existing_ids = vim.api.nvim_list_tabpages()
+	for tabid, terms in pairs(state.tab_terms) do
+		if not vim.list_contains(existing_ids, tabid) then
+			for _, info in pairs(terms) do
+				pcall(vim.cmd, "bdelete! " .. info.buf)
 			end
+			state.tab_terms[tabid] = nil
 		end
 	end
-})
+end
 
-local opts = { remap = false }
-vim.keymap.set('t', '<M-m>', '<C-\\><C-n>', opts)
-vim.keymap.set({ 'n', 'i', 'x', 's', 't' }, '<M-m>w', toggleterm, opts)
-vim.keymap.set({ 'n', 'i', 'x', 's', 't' }, '<M-m>n', function()
-	if vim.w.toggleterm_win_offset then
-		local tab = tab_terms[vim.api.nvim_get_current_tabpage()]
-		if not tab then
-			vim.cmd("new +term")
-		end
+function M.new_term()
+	local tab = state.tab_terms[vim.api.nvim_get_current_tabpage()]
+	if not tab then
+		vim.cmd("new +term")
+		return
+	end
 
-		local last_id = vim.iter(pairs(tab)):last()
-		local offset = #vim.iter(pairs(tab))
-		local info = new_floating_terminal(nil, offset + 1, last_id + 1)
-		tab[last_id + 1] = info
-	end
-end, opts)
-vim.keymap.set({ 'n', 'i', 'x', 's', 't' }, '<M-j>', function()
-	if vim.w.toggleterm_win_offset then
-		focus_next()
-	else
-		vim.cmd.wincmd('j')
-	end
-end, opts)
-vim.keymap.set({ 'n', 'i', 'x', 's', 't' }, '<M-k>', function()
-	if vim.w.toggleterm_win_offset then
-		focus_prev()
-	else
-		vim.cmd.wincmd('k')
-	end
-end, opts)
+	local last_id = vim.iter(pairs(tab)):last()
+	local offset = #vim.iter(pairs(tab))
+	local info = new_floating_terminal(nil, offset + 1, last_id + 1)
+	tab[last_id + 1] = info
+end
+
+return M
