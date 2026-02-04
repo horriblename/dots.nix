@@ -26,7 +26,7 @@ local function create_scratch(name)
 
 	vim.cmd("vsplit")
 	vim.api.nvim_win_set_buf(0, buf)
-	vim.wo.diff = true
+	vim.wo[0][0].diff = true
 
 	return buf
 end
