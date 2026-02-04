@@ -149,6 +149,7 @@ function M.focus_next()
 	local local_id, info = find_next_local_id(tab_id, vim.fn.bufnr())
 	if local_id and info and info.win then
 		if vim.api.nvim_win_is_valid(info.win) then
+			vim.cmd.stopinsert()
 			vim.api.nvim_set_current_win(info.win)
 			return info.win
 		end
@@ -165,6 +166,7 @@ function M.focus_prev()
 	local local_id, info = find_prev_local_id(tab_id, vim.fn.bufnr())
 	if local_id and info and info.win then
 		if vim.api.nvim_win_is_valid(info.win) then
+			vim.cmd.stopinsert()
 			vim.api.nvim_set_current_win(info.win)
 			return info.win
 		end
