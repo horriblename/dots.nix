@@ -195,33 +195,52 @@ fu s:nvimSudoWrite() abort
 	call assert_true(password != getline('1'), 'something went wrong: delete the first line of your file and perhaps delete the undofile !')
 endfu
 
-fu user#general#GotoNextFloat(reverse) abort
+" like range, but if wrapfrom is given,
+" appends range(wrapfrom, start - stride, stride)
+fu s:rangeMaybeWrap(start, end, stride=1, wrapfrom = v:null) abort
+	let r = range(a:start, a:end, a:stride)
+	if !(a:wrapfrom is v:null)
+		if a:stride < 0 && a:wrapfrom < a:end
+			echoerr "rangeMaybeWrap: stride is negative but wrapfrom < end"
+		elseif a:stride >= 0 && a:start < a:wrapfrom
+			echoerr "rangeMaybeWrap: stride is positive but start < wrapFrom" 
+		endif
+		let r += range(a:wrapfrom, a:start - a:stride, a:stride)
+	endif
+	return r
+endfu
+
+fu s:clamp(a, min, max) 
+	return max([a:min, min([a:max, a:a])]) 
+endfu
+
+fu! user#general#GotoNextFloat(reverse, wrap=1) abort
 	if !has("nvim")
 		return
 	endif
-	let loop_from = 1
-	let curr_c = nvim_win_get_config(0)
-	if !empty(curr_c.relative)
-		let loop_from = winnr() + 1
-	endif
-
-	let loop = range(loop_from, winnr('$'))
-	if loop_from != 1
-		let loop += range(1, loop_from-2)
-	endif
-	if a:reverse
-		let loop = reverse(loop)
-	endif
+	let stride = a:reverse ? -1 : 1
+	let loop_from = s:clamp(winnr() + stride, 1, winnr('$'))
+	let loop_to = a:reverse ? 1 : winnr('$')
+	let wrap_from = !a:wrap ? v:null : a:reverse ? winnr('$') : 1
+	let loop = s:rangeMaybeWrap(loop_from, loop_from, stride, wrap_from)
 
 	for w in loop
 		let c = nvim_win_get_config(win_getid(w))
 		if c.focusable && !empty(c.relative)
 			execute w . 'wincmd w'
-			execute 'echo w'
 			break
 		endif
 	endfor
 endfunction
+
+fu! user#general#FocusInDirection(dir) abort
+	if nvim_win_get_config(0).relative ==# ''
+		exec 'wincmd' a:dir
+	else
+		let reverse = a:dir ==# 'l' || a:dir ==# 'j'
+		call user#general#GotoNextFloat(reverse, 0)
+	endif
+endfu
 
 fu! user#general#AugroupDel(group) abort
 	echo 'deleting augroup ' a:group

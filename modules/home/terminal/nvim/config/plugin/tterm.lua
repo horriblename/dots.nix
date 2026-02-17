@@ -12,17 +12,3 @@ end, opts)
 vim.keymap.set({ 'n', 'i', 'x', 's', 't' }, '<M-m>n', function()
 	require('tterm').new_term()
 end, opts)
-vim.keymap.set({ 'n', 'i', 'x', 's', 't' }, '<M-j>', function()
-	if vim.w.toggleterm_win_offset then
-		require('tterm').focus_next()
-	else
-		vim.cmd.wincmd('j')
-	end
-end, opts)
-vim.keymap.set({ 'n', 'i', 'x', 's', 't' }, '<M-k>', function()
-	if vim.w.toggleterm_win_offset then
-		require('tterm').focus_prev()
-	else
-		vim.cmd.wincmd('k')
-	end
-end, opts)

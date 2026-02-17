@@ -459,18 +459,18 @@ nnoremap <C-/> :nohlsearch<cr>
 nnoremap <C-_> :nohlsearch<cr>
 
 " Window Focus
-tnoremap <A-h> <C-\><C-N><C-w>h
-tnoremap <A-j> <C-\><C-N><C-w>j
-tnoremap <A-k> <C-\><C-N><C-w>k
-tnoremap <A-l> <C-\><C-N><C-w>l
-inoremap <A-h> <C-\><C-N><C-w>h
-inoremap <A-j> <C-\><C-N><C-w>j
-inoremap <A-k> <C-\><C-N><C-w>k
-inoremap <A-l> <C-\><C-N><C-w>l
-nnoremap <A-h> <C-w>h
-nnoremap <A-j> <C-w>j
-nnoremap <A-k> <C-w>k
-nnoremap <A-l> <C-w>l
+tnoremap <silent> <A-h> <C-\><C-N>:call user#general#FocusInDirection("h")<CR>
+tnoremap <silent> <A-j> <C-\><C-N>:call user#general#FocusInDirection("j")<CR>
+tnoremap <silent> <A-k> <C-\><C-N>:call user#general#FocusInDirection("k")<CR>
+tnoremap <silent> <A-l> <C-\><C-N>:call user#general#FocusInDirection("l")<CR>
+inoremap <silent> <A-h> <C-\><C-N>:call user#general#FocusInDirection("h")<CR>
+inoremap <silent> <A-j> <C-\><C-N>:call user#general#FocusInDirection("j")<CR>
+inoremap <silent> <A-k> <C-\><C-N>:call user#general#FocusInDirection("k")<CR>
+inoremap <silent> <A-l> <C-\><C-N>:call user#general#FocusInDirection("l")<CR>
+nnoremap <silent> <A-h> :call user#general#FocusInDirection("h")<CR>
+nnoremap <silent> <A-j> :call user#general#FocusInDirection("j")<CR>
+nnoremap <silent> <A-k> :call user#general#FocusInDirection("k")<CR>
+nnoremap <silent> <A-l> :call user#general#FocusInDirection("l")<CR>
 
 " Swap Buffer
 nnoremap <M-n>      :bnext<CR>
@@ -519,6 +519,8 @@ noremap <M-9> :$tabnext<CR>
 
 noremap <M-C-I> :<c-u>call user#general#GotoNextFloat(1)<cr>
 noremap <M-C-O> :<c-u>call user#general#GotoNextFloat(0)<cr>
+tnoremap <M-C-I> <C-\><C-n>:call user#general#GotoNextFloat(1)<CR>
+tnoremap <M-C-O> <C-\><C-n>:call user#general#GotoNextFloat(0)<CR>
 
 " }}}
 
