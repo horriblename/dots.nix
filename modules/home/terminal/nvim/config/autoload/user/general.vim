@@ -214,21 +214,36 @@ fu s:clamp(a, min, max)
 	return max([a:min, min([a:max, a:a])]) 
 endfu
 
-fu! user#general#GotoNextFloat(reverse, wrap=1) abort
+" Note that directions outside of l/h/j/k are not checked and always return 1
+fu s:isInDirection(dir, src, target)
+	return a:dir ==# 'l' && a:src[1] < a:target[1]
+		\ || a:dir ==# 'h' && a:target[1] < a:src[1]
+		\ || a:dir ==# 'j' && a:src[0] < a:target[0]
+		\ || a:dir ==# 'k' && a:target[0] < a:src[0]
+endfu
+
+fu! user#general#GotoNextFloat(dir, wrap=1) abort
 	if !has("nvim")
 		return
 	endif
-	let stride = a:reverse ? -1 : 1
+	let thiswin_pos = nvim_win_get_position(nvim_get_current_win())
+	" winnr is ordered bottom to top, right to left, so we reverse if we want
+	" to go in the direction of right/down
+	let rev = a:dir =~# 'j\|l\|botright'
+	let stride = rev ? -1 : 1
 	let loop_from = s:clamp(winnr() + stride, 1, winnr('$'))
-	let loop_to = a:reverse ? 1 : winnr('$')
-	let wrap_from = !a:wrap ? v:null : a:reverse ? winnr('$') : 1
-	let loop = s:rangeMaybeWrap(loop_from, loop_from, stride, wrap_from)
+	let loop_to = rev ? 1 : winnr('$')
+	let wrap_from = !a:wrap ? v:null : rev ? winnr('$') : 1
+	let loop = s:rangeMaybeWrap(loop_from, loop_to, stride, wrap_from)
 
 	for w in loop
 		let c = nvim_win_get_config(win_getid(w))
+		let pos = nvim_win_get_position(win_getid(w))
 		if c.focusable && !empty(c.relative)
-			execute w . 'wincmd w'
-			break
+			if s:isInDirection(a:dir, thiswin_pos, pos)
+				execute w . 'wincmd w'
+				break
+			endif
 		endif
 	endfor
 endfunction
@@ -237,8 +252,7 @@ fu! user#general#FocusInDirection(dir) abort
 	if nvim_win_get_config(0).relative ==# ''
 		exec 'wincmd' a:dir
 	else
-		let reverse = a:dir ==# 'l' || a:dir ==# 'j'
-		call user#general#GotoNextFloat(reverse, 0)
+		call user#general#GotoNextFloat(a:dir, 0)
 	endif
 endfu
 

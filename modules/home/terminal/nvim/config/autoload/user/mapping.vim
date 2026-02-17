@@ -517,10 +517,10 @@ for i in range(1,8)
 endfor
 noremap <M-9> :$tabnext<CR>
 
-noremap <M-C-I> :<c-u>call user#general#GotoNextFloat(1)<cr>
-noremap <M-C-O> :<c-u>call user#general#GotoNextFloat(0)<cr>
-tnoremap <M-C-I> <C-\><C-n>:call user#general#GotoNextFloat(1)<CR>
-tnoremap <M-C-O> <C-\><C-n>:call user#general#GotoNextFloat(0)<CR>
+noremap <M-C-I> :<c-u>call user#general#GotoNextFloat('botright')<cr>
+noremap <M-C-O> :<c-u>call user#general#GotoNextFloat('botright')<cr>
+tnoremap <M-C-I> <C-\><C-n>:call user#general#GotoNextFloat('topleft')<CR>
+tnoremap <M-C-O> <C-\><C-n>:call user#general#GotoNextFloat('topleft')<CR>
 
 " }}}
 
