@@ -9,7 +9,7 @@ local augroup = vim.api.nvim_create_augroup('toggleterm_focus_hooks', { clear = 
 local function open_floating_win(buf, y_offset)
 	local ui = vim.api.nvim_list_uis()[1]
 	local width = math.floor(ui.width * 0.9)
-	local height = math.floor(ui.height * 0.9)
+	local height = math.floor(ui.height - 8)
 	local col = math.floor((ui.width - width) / 2)
 	local row_baseline = math.min(1, ui.height - 1)
 
@@ -186,16 +186,20 @@ function M.on_tab_closed()
 end
 
 function M.new_term()
-	local tab = state.tab_terms[vim.api.nvim_get_current_tabpage()]
-	if not tab then
-		vim.cmd("new +term")
-		return
-	end
+	if vim.w.toggleterm_win_offset then
+		local tab = state.tab_terms[vim.api.nvim_get_current_tabpage()]
+		if not tab then
+			vim.cmd("new +term")
+			return
+		end
 
-	local last_id = vim.iter(pairs(tab)):last()
-	local offset = #vim.iter(pairs(tab))
-	local info = new_floating_terminal(nil, offset + 1, last_id + 1)
-	tab[last_id + 1] = info
+		local last_id = table.maxn(tab)
+		local offset = vim.iter(pairs(tab)):fold(0, function(acc) return acc + 1 end)
+		local info = new_floating_terminal(nil, offset, last_id + 1)
+		tab[last_id + 1] = info
+	else
+		vim.cmd("new +term")
+	end
 end
 
 return M
