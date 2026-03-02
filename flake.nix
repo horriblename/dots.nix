@@ -255,9 +255,12 @@
             ./hosts/ragnarok/configuration.nix
             ./modules/nixos
             {
-              dots.preset = "desktop";
+              dots = {
+                preset = "desktop";
+                wayland.gaming = true;
+                ai.enable = true;
+              };
               nix.settings.trusted-users = ["py"];
-              dots.wayland.gaming = true;
             }
           ];
         };
@@ -383,7 +386,10 @@
     };
 
     packages = forEachSystem (system: let
-      pkgs = pkgsFor.${system};
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [self.overlay];
+      };
       overlayPkgs = builtins.intersectAttrs (self.overlay null null) pkgs;
     in
       overlayPkgs
@@ -392,7 +398,6 @@
         ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
           buildInputs =
             [
-              pkgs.hyprworkspaces
               pkgs.roc
               pkgs.roc-ls
               pkgs.styluslabs-write
@@ -436,7 +441,6 @@
     overlay = final: prev: let
       pins = npinsFor final.stdenv.system;
     in {
-      hyprworkspaces = final.callPackage ./pkgs/hyprworkspaces/default.nix {};
       anyrunPackages = anyrun.packages.${final.stdenv.system};
       md-img-paste-vim = final.vimUtils.buildVimPlugin {
         pname = "md-img-paste-vim";

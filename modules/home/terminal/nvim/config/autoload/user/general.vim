@@ -18,6 +18,7 @@ set mousemodel=extend
 set ignorecase
 set smartcase
 set wildignorecase
+set tagcase=match
 set incsearch
 set encoding=utf-8
 set autoindent
@@ -160,15 +161,6 @@ augroup FixTabClose
 	au TabClosed * if str2nr(expand('<afile>')) <= tabpagenr('$') && expand('<afile>') != 1 | tabprev | endif
 augroup END
 
-augroup DotsColorTweaks
-	au!
-	au ColorScheme night-owl hi NonText gui=nocombine
-	au ColorScheme night-owl hi DiffAdd guifg=NONE guibg=#2e3b1f
-	au ColorScheme night-owl hi DiffDelete guifg=NONE guibg=#5a2625
-	au ColorScheme night-owl hi DiffChange guifg=NONE gui=NONE guibg=#4a3e1a
-	au ColorScheme night-owl hi DiffText guifg=NONE guibg=#7d6213
-augroup END
-
 augroup DotsMarkdown
   au!
   " nvim defaults are unoverridable due to after/ftplugin being broken
@@ -203,33 +195,66 @@ fu s:nvimSudoWrite() abort
 	call assert_true(password != getline('1'), 'something went wrong: delete the first line of your file and perhaps delete the undofile !')
 endfu
 
-fu user#general#GotoNextFloat(reverse) abort
+" like range, but if wrapfrom is given,
+" appends range(wrapfrom, start - stride, stride)
+fu s:rangeMaybeWrap(start, end, stride=1, wrapfrom = v:null) abort
+	let r = range(a:start, a:end, a:stride)
+	if !(a:wrapfrom is v:null)
+		if a:stride < 0 && a:wrapfrom < a:end
+			echoerr "rangeMaybeWrap: stride is negative but wrapfrom < end"
+		elseif a:stride >= 0 && a:start < a:wrapfrom
+			echoerr "rangeMaybeWrap: stride is positive but start < wrapFrom" 
+		endif
+		let r += range(a:wrapfrom, a:start - a:stride, a:stride)
+	endif
+	return r
+endfu
+
+fu s:clamp(a, min, max) 
+	return max([a:min, min([a:max, a:a])]) 
+endfu
+
+" Note that directions outside of l/h/j/k are not checked and always return 1
+fu s:isInDirection(dir, src, target)
+	return a:dir ==# 'l' && a:src[1] < a:target[1]
+		\ || a:dir ==# 'h' && a:target[1] < a:src[1]
+		\ || a:dir ==# 'j' && a:src[0] < a:target[0]
+		\ || a:dir ==# 'k' && a:target[0] < a:src[0]
+endfu
+
+fu! user#general#GotoNextFloat(dir, wrap=1) abort
 	if !has("nvim")
 		return
 	endif
-	let loop_from = 1
-	let curr_c = nvim_win_get_config(0)
-	if !empty(curr_c.relative)
-		let loop_from = winnr() + 1
-	endif
-
-	let loop = range(loop_from, winnr('$'))
-	if loop_from != 1
-		let loop += range(1, loop_from-2)
-	endif
-	if a:reverse
-		let loop = reverse(loop)
-	endif
+	let thiswin_pos = nvim_win_get_position(nvim_get_current_win())
+	" winnr is ordered bottom to top, right to left, so we reverse if we want
+	" to go in the direction of right/down
+	let rev = a:dir =~# 'j\|l\|botright'
+	let stride = rev ? -1 : 1
+	let loop_from = s:clamp(winnr() + stride, 1, winnr('$'))
+	let loop_to = rev ? 1 : winnr('$')
+	let wrap_from = !a:wrap ? v:null : rev ? winnr('$') : 1
+	let loop = s:rangeMaybeWrap(loop_from, loop_to, stride, wrap_from)
 
 	for w in loop
 		let c = nvim_win_get_config(win_getid(w))
+		let pos = nvim_win_get_position(win_getid(w))
 		if c.focusable && !empty(c.relative)
-			execute w . 'wincmd w'
-			execute 'echo w'
-			break
+			if s:isInDirection(a:dir, thiswin_pos, pos)
+				execute w . 'wincmd w'
+				break
+			endif
 		endif
 	endfor
 endfunction
+
+fu! user#general#FocusInDirection(dir) abort
+	if nvim_win_get_config(0).relative ==# ''
+		exec 'wincmd' a:dir
+	else
+		call user#general#GotoNextFloat(a:dir, 0)
+	endif
+endfu
 
 fu! user#general#AugroupDel(group) abort
 	echo 'deleting augroup ' a:group

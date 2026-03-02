@@ -1,5 +1,18 @@
 {
   "pins": {
+    "99": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "ThePrimeagen",
+        "repo": "99"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "215be1dabf558d0c260d5f4c5e818a185856f3c7",
+      "url": "https://github.com/ThePrimeagen/99/archive/215be1dabf558d0c260d5f4c5e818a185856f3c7.tar.gz",
+      "hash": "0b73mw21rw43j6sl67h6bma3vpdrn591w7dbzkzwcyjbv3hym4m3"
+    },
     "IXWebSocket": {
       "type": "GitRelease",
       "repository": {

@@ -8,10 +8,17 @@
   ...
 }: let
   nix2Lua = inputs.nvf.lib.nvim.lua.toLuaObject;
-  inherit (inputs.nvf.lib.nvim.dag) entryBetween entryAfter;
+  inherit (inputs.nvf.lib.nvim.dag) entryBetween;
   inherit (lib.generators) mkLuaInline;
+  inherit (lib.modules) mkForce;
   setup = module: table: "require('${module}').setup(${nix2Lua table})";
-  mkKeymap = mode: key: action: opts: opts // {inherit mode key action;};
+  mkKeymap = mode: key: action: opts:
+    {
+      inherit mode key action;
+      noremap = true;
+      silent = true;
+    }
+    // opts;
   noBuildPlug = pname: let
     pin = pins.${pname};
     version = builtins.substring 0 8 pin.revision;
@@ -29,6 +36,10 @@ in {
     preventJunkFiles = true;
     enableLuaLoader = true;
 
+    options = {
+      signcolumn = "yes:2";
+    };
+
     lazy = {
       enable = true;
       plugins = {
@@ -42,7 +53,7 @@ in {
           before = ''
             vim.g.undotree_ShortIndicators = true
             vim.g.undotree_TreeVertShape = '│'
-            vim.g.undotree_DiffCommand = [[sh -c 'git diff --word-diff --no-index "$@" | tail -n +5' git]]
+            vim.g.undotree_DiffCommand = [[sh -c 'git diff --word-diff --word-diff-regex="[^\n]" --no-index "$@" | tail -n +5' git]]
             vim.g.undotree_CustomMap = function()
               vim.wo.winfixwidth = true
               vim.wo.winfixheight = true
@@ -217,7 +228,7 @@ in {
               end
             end
             vim.keymap.set("n", "g0", cdToGitRoot, {
-              buf = vim.fn.bufnr(),
+              buffer = true,
               desc = "Go to Git Root",
             })
           end
@@ -248,53 +259,56 @@ in {
 
     languages = {
       enableDAP = true;
+      enableExtraDiagnostics = true;
       enableFormat = true;
       enableTreesitter = true;
-      enableExtraDiagnostics = true;
 
-      nix = {
-        enable = true;
-        lsp.servers = ["nixd"];
-      };
-      html.enable = true;
       clang.enable = true;
-
-      sql.enable = false;
-      rust = {
-        enable = false;
-        crates.enable = true;
-      };
-      haskell.enable = true;
-      haskell.lsp.enable = false;
-      haskell.dap.enable = false;
-      ts.enable = false;
-      go.enable = true;
-      zig.enable = false;
-      markdown = {
-        enable = true;
-      };
-      python.enable = true;
       dart.enable = false;
       elixir.enable = false;
-      php.enable = false;
+      go.enable = true;
+      haskell = {
+        enable = true;
+        lsp.enable = false;
+        dap.enable = false;
+      };
+      html.enable = true;
       lua = {
         enable = true;
         lsp.lazydev.enable = false;
         format.enable = false;
       };
+      markdown = {
+        enable = true;
+      };
+      nix = {
+        enable = true;
+        lsp.servers = ["nixd"];
+      };
+      php.enable = false;
+      python.enable = true;
+      rust = {
+        enable = false;
+      };
+      sql.enable = false;
+      ts.enable = false;
+      zig.enable = false;
     };
 
     lsp.servers = {
-      yamlls = {};
-      elmls = {};
-      hls = {};
-      clangd.cmd = lib.mkForce ["${pkgs.clang-tools_19}/bin/clangd"];
       clangd.cmd = lib.mkForce ["${pkgs.llvmPackages_19.clang-tools}/bin/clangd"];
       clojure_lsp = {};
-      roc_ls = {
-        cmd = ["roc_language_server"];
-        filetypes = ["roc"];
-        root_markers = [".git" "main.roc"];
+      elmls = {};
+      jdtls = {
+        enable = false;
+        cmd = ["jdt-language-server" "-configuration" "${config.xdg.cacheHome}/jdtls/config" "-data" "${config.xdg.cacheHome}/jdtls/workspace"];
+      };
+      lua-language-server = {
+        settings.Lua = {
+          runtime.version = "LuaJIT";
+          workspace.library = ["lua" "\${env:VIMRUNTIME}"];
+          diagnostic.globals = ["vim"];
+        };
       };
       nil = {
         settings.nil.nix.flake.autoArchive = false;
@@ -302,17 +316,12 @@ in {
       nixd = {
         cmd = lib.mkForce [(lib.getExe pkgs.nixd) "--log=error"];
       };
-      lua_ls = {
-        settings.Lua = {
-          runtime.version = "LuaJIT";
-          workspace.library = ["lua" "\${env:VIMRUNTIME}"];
-          diagnostic.globals = ["vim"];
-        };
+      roc_ls = {
+        cmd = ["roc_language_server"];
+        filetypes = ["roc"];
+        root_markers = [".git" "main.roc"];
       };
-      jdtls = {
-        enable = false;
-        cmd = ["jdt-language-server" "-configuration" "${config.xdg.cacheHome}/jdtls/config" "-data" "${config.xdg.cacheHome}/jdtls/workspace"];
-      };
+      yamlls = {};
     };
 
     visuals = {
@@ -415,8 +424,13 @@ in {
 
     git = {
       enable = true;
-      gitsigns.enable = true;
-      gitsigns.codeActions.enable = false;
+      gitsigns = {
+        enable = true;
+        setupOpts = {
+          sign_priority = 50;
+        };
+        codeActions.enable = false;
+      };
     };
 
     dashboard = {
@@ -442,6 +456,13 @@ in {
           ];
         };
       };
+    };
+
+    spellcheck = {
+      enable = true;
+      languages = ["en" "de_de"];
+      ignoredFiletypes = ["qf"];
+      programmingWordlist.enable = true;
     };
 
     utility = {
@@ -481,10 +502,6 @@ in {
             # Leader triggers
             (mkTrigger "n" "<Leader>")
             (mkTrigger "x" "<Leader>")
-
-            # `[` and `]` keys
-            (mkTrigger "n" "[")
-            (mkTrigger "n" "]")
 
             # Built-in completion
             (mkTrigger "i" "<C-x>")
@@ -575,15 +592,6 @@ in {
       };
     };
 
-    session = {
-      nvim-session-manager = {
-        enable = false;
-        setupOpts = {
-          autoload_mode = "Disabled";
-        };
-      };
-    };
-
     comments.comment-nvim.enable = false;
 
     treesitter.grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
@@ -592,8 +600,11 @@ in {
       regex
     ];
 
-    luaConfigRC.userDots = entryBetween ["lazyConfigs"] ["optionsScript"] ''
+    luaConfigPre = ''
       vim.opt.runtimepath:prepend("${impurity.link ./config}");
+    '';
+
+    luaConfigRC.userDots = entryBetween ["lazyConfigs"] ["optionsScript"] ''
       pcall(vim.cmd, [[
         call user#general#setup()
         call user#mapping#setup()
@@ -658,6 +669,8 @@ in {
       (mkKeymap "n" "<leader>gb" "<cmd>Gitsigns blame_line<CR>" {})
       (mkKeymap "n" "<leader>gD" "<cmd>Gitsigns diffthis HEAD<CR>" {})
       (mkKeymap "n" "<leader>gw" "<cmd>Gitsigns toggle_word_diff<CR>" {})
+      (mkKeymap "n" "]g" ":Gitsigns next_hunk<CR>" {})
+      (mkKeymap "n" "[g" ":Gitsigns prev_hunk<CR>" {})
 
       # fzf-lua
       (mkKeymap "n" "<M-f>" ":FzfLua resume<CR>" {})
@@ -667,6 +680,7 @@ in {
       (mkKeymap "n" "<leader>fb" ":FzfLua buffers<CR>" {})
       (mkKeymap "n" "<leader>fh" ":FzfLua oldfiles<CR>" {})
       (mkKeymap "n" "<leader>f:" ":FzfLua command_history<CR>" {})
+      (mkKeymap "n" "g]" ":ltag <C-R><C-W> | lua FzfLua.loclist{previewer = 'builtin'}<CR>" {})
 
       # Aerial
       (mkKeymap "n" "gO" ":AerialToggle<CR>" {})
@@ -681,9 +695,6 @@ in {
       (mkKeymap ["n" "x" "o"] "<leader>gs" ":Gitsigns stage_hunk<CR>" {})
       (mkKeymap ["n" "x" "o"] "<leader>gr" ":Gitsigns reset_hunk<CR>" {})
       (mkKeymap ["n" "x" "o"] "<leader>lr" "<cmd>lua vim.lsp.buf.references()<CR>" {})
-
-      # ssr.nvim
-      (mkKeymap ["n" "x" "o"] "<leader>sr" ":lua require('ssr').open()<CR>" {})
 
       # FzfLua
       (mkKeymap "n" "<leader>fj" "<cmd>FzfLua jumps<CR>" {})
@@ -733,6 +744,8 @@ in {
       (mkKeymap "n" "<leader>fgS" "<cmd>FzfLua git_stash<CR>" {})
       (mkKeymap "n" "<leader>fgs" "<cmd>FzfLua git_status<CR>" {})
       (mkKeymap "n" "<leader>fgt" "<cmd>FzfLua git_tags<CR>" {})
+      (mkKeymap "n" "]g" ":Gitsigns next_hunk<CR>" {})
+      (mkKeymap "n" "[g" ":Gitsigns prev_hunk<CR>" {})
 
       # mini.files
       (mkKeymap "n" "-" ":lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>" {
@@ -740,6 +753,17 @@ in {
       })
       (mkKeymap "n" "<leader>e" ":lua MiniFiles.open(MiniFiles.get_latest_path())<CR>" {
         desc = "Open mini.files in last opened path";
+      })
+
+      # 99
+      (mkKeymap "n" "<leader>9f" "require('99').fill_in_function" {
+        lua = true;
+        desc = "Fill in function";
+      })
+      (mkKeymap "x" "<leader>9v" "require('99').visual" {lua = true;})
+      (mkKeymap "x" "<leader>9s" "require('99').stop_all_requests" {
+        lua = true;
+        desc = "Stop all requests";
       })
     ];
 
@@ -756,9 +780,18 @@ in {
                 hi WinSeparator guifg=smokewhite
                 hi CurSearch guibg=Orange guifg=NvimDarkGray1
                 hi IncSearch guibg=NvimLightYellow guifg=NvimDarkGray1
+                hi NonText gui=nocombine
+                hi DiffAdd        guifg=NONE guibg=#123a2f
+                hi DiffDelete     guifg=NONE guibg=#3a1618
+                hi DiffChange     guifg=NONE guibg=#3a2f12
+                hi DiffText       ctermfg=0 ctermbg=14 guifg=NONE guibg=#6b4e1d
+                hi SpellBad       gui=underdotted guisp=Red
+                hi SpellCap       gui=underdotted guisp=Yellow
+                hi SpellRare      gui=underdotted guisp=LightBlue
+                hi SpellLocal     gui=underdotted guisp=SlateBlue
+                hi WinSeparator guifg=smokewhite
               ]]
             })
-            vim.cmd.highlight({"WinSeparator", "guifg=smokewhite"})
           end
           vim.cmd.colorscheme("night-owl")
         '';
@@ -776,7 +809,7 @@ in {
         };
       };
       fzf-lua = {
-        package = pkgs.vimPlugins.fzf-lua;
+        package = "fzf-lua";
         setup =
           setup "fzf-lua" {
             "@1" = "max-perf";
@@ -792,18 +825,22 @@ in {
                 "ctrl-k" = "preview-page-up";
               };
             };
+            previewers = {
+              bat.args = "--color=always --style=numbers,changes --decorations=always";
+            };
           }
           + ''
             require('fzf-lua').register_ui_select()
           '';
       };
-      ssr-nvim = {
-        package = pkgs.vimUtils.buildVimPlugin {
-          pname = "ssr-nvim";
-          version = "fork";
-          src = inputs.ssr-nvim;
+      "99" = {
+        package = noBuildPlug "99";
+        setup = setup "99" {
+          completion = {
+            custom_rules = ["scratch/rules/"];
+            source = "cmp";
+          };
         };
-        setup = "require('ssr').setup {}";
       };
       friendly-snippets = {package = friendly-snippets;};
       direnv = {package = direnv-vim;};
@@ -813,12 +850,6 @@ in {
           check_ts = true;
           disable_filetype = ["TelescopePrompt"];
           enable_afterquote = false;
-          fast_wrap = {
-            map = "<M-e>";
-            end_key = "l";
-            highlight = "PmenuSel";
-            highlight_grey = "LineNr";
-          };
         };
       };
       md-img-paste-vim = {
@@ -863,21 +894,17 @@ in {
               set_jumps = true;
               goto_next_start = {
                 "]f" = "@function.outer";
-                "]c" = "@class.outer";
-                "]s" = "@scope";
               };
               goto_previous_start = {
                 "[f" = "@function.outer";
-                "[c" = "@class.outer";
-                "[s" = "@scope";
+                "[C" = "@class.outer";
               };
               goto_next_end = {
                 "]F" = "@function.outer";
-                "]C" = "@class.outer";
               };
               goto_previous_end = {
                 "[F" = "@function.outer";
-                "[C" = "@class.outer";
+                "]C" = "@class.outer";
               };
             };
           };

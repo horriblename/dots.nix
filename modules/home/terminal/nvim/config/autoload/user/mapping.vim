@@ -43,6 +43,24 @@ nnoremap ` '
 xnoremap ' `
 xnoremap ` '
 
+fu s:fileInfo() abort
+	let cwd = getcwd()
+	let bufname = bufname()
+	let l = line('.')
+	let total = line('$')
+	if bufname ==# '^/'
+		" absolute path
+		echo printf('"%s" %d lines --%d%%--', bufname, total, l*100 / total)
+	else
+		echo '"'
+		echohl Directory
+		echon fnamemodify(cwd, ':~') '/'
+		echohl None
+		echon printf('%s" %d lines --%d%%--', bufname, total, l*100 / total)
+	endif
+endfu
+nnoremap <c-g> :call <SID>fileInfo()<CR>
+
 nnoremap <leader>& :AlignCharCol<CR>
 
 nnoremap zV :let &foldlevel = foldlevel('.')<CR>
@@ -51,7 +69,8 @@ nnoremap zV :let &foldlevel = foldlevel('.')<CR>
 
 " defaults respect 'ignorecase' but ignores 'smartcase'
 nnoremap * /\C\<<c-r><c-w>\><CR>
-nnoremap # ?\C\<<c-r><c-w>\><CR>
+" funny hack to skip word under cursor when searching backwards
+nnoremap # :call search('\<', 'bc')<CR>?\C\<<c-r><c-w>\><CR>
 
 nnoremap gh ^
 nnoremap gl g_
@@ -96,25 +115,33 @@ function s:getShortMode()
 	endif
 endfu
 function s:bracketMovement(char) abort
-	echo a:char
+	let hasnext = getchar(1)
+	if !hasnext | echo a:char | endif
 	let key = getcharstr(-1)
-	if maparg(a:char . key, s:getShortMode()) ==# ''
-		return
-	endif
-	echo a:char . key
+	if key == "\<Esc>" | return | endif
 	let @n = ']' . key
 	let @p = '[' . key
+
 	if a:char == ']'
-		normal! @n
+		if hasnext && !maparg(@n)
+			" our ']' keybind is triggered recursively,
+			" with no (fully matched) custom keymap
+			" execute the contents of the macro literally, ignoring keymaps
+			return @n
+		endif
+		return '@n'
 	else
-		normal! @p
+		if hasnext && !maparg(@p)
+			return @p
+		endif
+		return '@p'
 	endif
 endfu
 augroup dots_bracket_hydra
 	au!
 	" These need to be <buffer> for nowait to work reliably
-	au BufEnter * nnoremap <buffer><nowait><silent> [ <cmd>call <SID>bracketMovement('[')<CR>
-	au BufEnter * nnoremap <buffer><nowait><silent> ] <cmd>call <SID>bracketMovement(']')<CR>
+	au BufEnter * nnoremap <buffer><nowait><silent><expr> [ <SID>bracketMovement('[')
+	au BufEnter * nnoremap <buffer><nowait><silent><expr> ] <SID>bracketMovement(']')
 augroup END
 
 nnoremap <c-p> @p
@@ -209,10 +236,6 @@ nnoremap gm <cmd>call <SID>selectMark()<CR>
 xnoremap gm <Esc><cmd>call <SID>selectMark()<CR>
 onoremap gm <cmd>call <SID>selectMark()<CR>
 
-" Diagnostics {{{
-nnoremap ]d :lua vim.diagnostic.goto_next()<CR>
-nnoremap [d :lua vim.diagnostic.goto_prev()<CR>
-" }}}
 " }}}
 
 " Autoclose
@@ -305,7 +328,7 @@ function ChangeSurround(char, new_char, type='') abort
 endfu
 for char in "(){}[]<>bBt\"'`"
 	exec printf('nnoremap <silent> ds%s :let &operatorfunc=function("Desurround", ["%s"])<CR>g@l', char, escape(char, '"'))
-	exec printf('nnoremap <silent> cs%s :let &operatorfunc=function("ChangeSurround", ["%s", ""])<CR>g@l', char, char)
+	exec printf('nnoremap <silent> cs%s :let &operatorfunc=function("ChangeSurround", ["%s", ""])<CR>g@l', char, escape(char, '"'))
 endfor
 
 " desurrounds anything
@@ -330,7 +353,7 @@ nnoremap <expr> <leader>z<Tab> v:count == 0 ? ':set expandtab! \| set expandtab?
 " transparent background, :noau ignores the autocmd (and any other aucmd)
 nnoremap <leader>zb :set bg=dark<CR>
 nnoremap <leader>zB :noau set bg=dark<CR>
-nnoremap <leader>zz :<C-U>let &foldcolumn = v:count == 0 ? 
+nnoremap <leader>zf :<C-U>let &foldcolumn = v:count == 0 ?
 			\ &foldcolumn ==# "0"? "auto" : "0"
 			\ : "auto:" . v:count <CR>
 nnoremap <leader>zi :IndentHintsToggle<CR>
@@ -436,18 +459,18 @@ nnoremap <C-/> :nohlsearch<cr>
 nnoremap <C-_> :nohlsearch<cr>
 
 " Window Focus
-tnoremap <A-h> <C-\><C-N><C-w>h
-tnoremap <A-j> <C-\><C-N><C-w>j
-tnoremap <A-k> <C-\><C-N><C-w>k
-tnoremap <A-l> <C-\><C-N><C-w>l
-inoremap <A-h> <C-\><C-N><C-w>h
-inoremap <A-j> <C-\><C-N><C-w>j
-inoremap <A-k> <C-\><C-N><C-w>k
-inoremap <A-l> <C-\><C-N><C-w>l
-nnoremap <A-h> <C-w>h
-nnoremap <A-j> <C-w>j
-nnoremap <A-k> <C-w>k
-nnoremap <A-l> <C-w>l
+tnoremap <silent> <A-h> <C-\><C-N>:call user#general#FocusInDirection("h")<CR>
+tnoremap <silent> <A-j> <C-\><C-N>:call user#general#FocusInDirection("j")<CR>
+tnoremap <silent> <A-k> <C-\><C-N>:call user#general#FocusInDirection("k")<CR>
+tnoremap <silent> <A-l> <C-\><C-N>:call user#general#FocusInDirection("l")<CR>
+inoremap <silent> <A-h> <C-\><C-N>:call user#general#FocusInDirection("h")<CR>
+inoremap <silent> <A-j> <C-\><C-N>:call user#general#FocusInDirection("j")<CR>
+inoremap <silent> <A-k> <C-\><C-N>:call user#general#FocusInDirection("k")<CR>
+inoremap <silent> <A-l> <C-\><C-N>:call user#general#FocusInDirection("l")<CR>
+nnoremap <silent> <A-h> :call user#general#FocusInDirection("h")<CR>
+nnoremap <silent> <A-j> :call user#general#FocusInDirection("j")<CR>
+nnoremap <silent> <A-k> :call user#general#FocusInDirection("k")<CR>
+nnoremap <silent> <A-l> :call user#general#FocusInDirection("l")<CR>
 
 " Swap Buffer
 nnoremap <M-n>      :bnext<CR>
@@ -494,8 +517,10 @@ for i in range(1,8)
 endfor
 noremap <M-9> :$tabnext<CR>
 
-noremap <M-C-I> :<c-u>call user#general#GotoNextFloat(1)<cr>
-noremap <M-C-O> :<c-u>call user#general#GotoNextFloat(0)<cr>
+noremap <M-C-I> :<c-u>call user#general#GotoNextFloat('botright')<cr>
+noremap <M-C-O> :<c-u>call user#general#GotoNextFloat('botright')<cr>
+tnoremap <M-C-I> <C-\><C-n>:call user#general#GotoNextFloat('topleft')<CR>
+tnoremap <M-C-O> <C-\><C-n>:call user#general#GotoNextFloat('topleft')<CR>
 
 " }}}
 

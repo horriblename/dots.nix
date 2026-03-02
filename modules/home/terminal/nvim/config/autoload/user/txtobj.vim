@@ -1,7 +1,7 @@
 " Credits: https://vim.fandom.com/wiki/Indent_text_object
 " Licensed under CC-BY-SA (https://www.fandom.com/licensing)
 
-function! user#txtobj#FindIndentBegin(inner)
+fu s:findIndentBegin(inner)
 	let i = indent(line(".")) - &shiftwidth * (v:count1 - 1)
 	let i = i < 0 ? 0 : i
 	if getline(".") =~ "^\\s*$"
@@ -18,9 +18,14 @@ function! user#txtobj#FindIndentBegin(inner)
 		-
 	endif
 	call cursor(line('.'), 0)
+endfu
+
+function! user#txtobj#FindIndentBegin(inner)
+	mark '
+	keepjumps call s:findIndentBegin(a:inner)
 endfunction
 
-function! user#txtobj#FindIndentEnd(inner)
+fu s:findIndentEnd(inner)
 	let i = indent(line(".")) - &shiftwidth * (v:count1 - 1)
 	let i = i < 0 ? 0 : i
 	let lastline = line("$")
@@ -35,6 +40,11 @@ function! user#txtobj#FindIndentEnd(inner)
 		+
 	endif
 	call cursor(line('.'), 0)
+endfu
+
+function! user#txtobj#FindIndentEnd(inner)
+	mark '
+	keepjumps call s:findIndentEnd(a:inner)
 endfunction
 
 function! user#txtobj#IndentTextObj(inner)

@@ -22,6 +22,10 @@ in {
       development = {
         enable = mkEnableOption "Development tools" // {default = config.dots.preset == "desktop";};
       };
+
+      ai = {
+        enable = mkEnableOption "Electricity Bill Pro Max";
+      };
     };
   };
 }
