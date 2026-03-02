@@ -386,7 +386,10 @@
     };
 
     packages = forEachSystem (system: let
-      pkgs = pkgsFor.${system};
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [self.overlay];
+      };
       overlayPkgs = builtins.intersectAttrs (self.overlay null null) pkgs;
     in
       overlayPkgs
