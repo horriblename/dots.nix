@@ -265,6 +265,35 @@
           ];
         };
 
+      poopy = let
+        system = "x86_64-linux";
+      in
+        lib.nixosSystem {
+          inherit system;
+          specialArgs = {inherit self inputs;};
+          modules = [
+            (import "${home-manager}/nixos")
+            core
+            ./hosts/poopy/configuration.nix
+            ./modules/nixos
+            # TODO:  extract (see nix-on-droid config above)
+            {
+              dots.preset = "base";
+              home-manager = {
+                users.py = {pkgs, ...}: {
+                  imports = [./modules/home/home.nix];
+                  nix.package = lib.mkForce pkgs.nix;
+                  dots.preset = "minimal";
+                };
+                extraSpecialArgs = {
+                  inherit self inputs;
+                  pins = npinsFor system;
+                };
+              };
+            }
+          ];
+        };
+
       surface-iso = let
         system = "x86_64-linux";
       in
