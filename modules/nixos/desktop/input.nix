@@ -5,7 +5,6 @@
 }: {
   environment.etc = {
     "keyd/default.conf".source = impurity.link ./keyd.conf;
-    "keyd/lofree.conf".source = impurity.link ./keyd-lofree.conf;
   };
 
   systemd.services.keyd = {
