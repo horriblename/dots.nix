@@ -10,7 +10,9 @@
   nix2Lua = inputs.nvf.lib.nvim.lua.toLuaObject;
   inherit (inputs.nvf.lib.nvim.dag) entryBetween;
   inherit (lib.generators) mkLuaInline;
-  inherit (lib.modules) mkForce;
+  inherit (lib.modules) mkForce mkIf;
+  devEnabled = config.dots.development.enable;
+  langCfg = config.programs.nvf.settings.vim.languages;
   setup = module: table: "require('${module}').setup(${nix2Lua table})";
   mkKeymap = mode: key: action: opts:
     {
@@ -245,12 +247,13 @@ in {
     };
 
     lsp = {
-      enable = true;
+      enable = devEnabled;
       formatOnSave = true;
       lspsaga.enable = false;
       lspconfig.enable = true;
       lspSignature.enable = false;
       mappings.openDiagnosticFloat = null;
+      harper-ls.enable = devEnabled;
     };
 
     debugger.nvim-dap = {
@@ -258,7 +261,7 @@ in {
     };
 
     languages = {
-      enableDAP = true;
+      enableDAP = devEnabled;
       enableExtraDiagnostics = true;
       enableFormat = true;
       enableTreesitter = true;
@@ -296,7 +299,9 @@ in {
     };
 
     lsp.servers = {
-      clangd.cmd = lib.mkForce ["${pkgs.llvmPackages_19.clang-tools}/bin/clangd"];
+      clangd.cmd =
+        mkIf langCfg.clang.lsp.enable
+        (lib.mkForce ["${pkgs.llvmPackages_19.clang-tools}/bin/clangd"]);
       clojure_lsp = {};
       elmls = {};
       jdtls = {
@@ -313,7 +318,7 @@ in {
       nil = {
         settings.nil.nix.flake.autoArchive = false;
       };
-      nixd = {
+      nixd = mkIf langCfg.nix.lsp.enable {
         cmd = mkForce [(lib.getExe pkgs.nixd) "--log=error"];
       };
       roc_ls = {
