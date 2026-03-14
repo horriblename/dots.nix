@@ -72,6 +72,7 @@ in {
             pname = "perfanno-nvim";
             version = "git";
             src = inputs.perfanno-nvim;
+            nvimSkipModules = ["perfanno.fzf_lua"];
           };
           setupModule = "perfanno";
           setupOpts = {};
@@ -180,13 +181,6 @@ in {
               exit = "<leader>rq";
               clear = "<leader>r<C-l>";
             };
-          };
-        };
-        pendulum-nvim = {
-          package = pkgs.pendulum-nvim;
-          setupModule = "pendulum";
-          setupOpts = {
-            time_zone = "Europe/Berlin";
           };
         };
       };
@@ -480,6 +474,9 @@ in {
           };
         };
       };
+      vim-wakatime = {
+        enable = true;
+      };
     };
 
     mini = {
@@ -682,9 +679,10 @@ in {
       (mkKeymap "n" "<leader>fq" ":FzfLua quickfix<CR>" {})
       (mkKeymap "n" "<leader>f/" ":FzfLua live_grep_native<CR>" {})
       (mkKeymap "n" "<leader>ff" ":FzfLua files<CR>" {})
-      (mkKeymap "n" "<leader>fb" ":FzfLua buffers<CR>" {})
+      (mkKeymap "n" "<leader>fb" ":lua FzfLua.buffers{previewer = 'builtin'}<CR>" {})
       (mkKeymap "n" "<leader>fh" ":FzfLua oldfiles<CR>" {})
       (mkKeymap "n" "<leader>f:" ":FzfLua command_history<CR>" {})
+      (mkKeymap "n" "<leader>f]" ":FzfLua tags<CR>" {})
       (mkKeymap "n" "g]" ":ltag <C-R><C-W> | lua FzfLua.loclist{previewer = 'builtin'}<CR>" {})
 
       # Aerial
@@ -833,6 +831,23 @@ in {
             previewers = {
               bat.args = "--color=always --style=numbers,changes --decorations=always";
             };
+            buffers.previewers = "builtin";
+            winopts.on_create = mkLuaInline ''
+              function()
+                local function expander(expr)
+                  return function()
+                    local winid = vim.fn.win_getid(vim.fn.winnr("#"))
+                    return vim.api.nvim_win_call(winid, function()
+                      return vim.fn.expand(expr)
+                    end)
+                  end
+                end
+
+                local opt = {expr = true, silent = true, remap = false, buffer = true}
+                vim.keymap.set("t", "<c-r><c-w>", expander("<cword>"), opt)
+                vim.keymap.set("t", "<c-r>%", expander("%"), opt)
+              end
+            '';
           }
           + ''
             require('fzf-lua').register_ui_select()
