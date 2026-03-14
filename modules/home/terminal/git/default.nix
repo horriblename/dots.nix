@@ -17,7 +17,7 @@ in {
     settings = {
       user = {
         name = "Ching Pei Yang";
-        email = "badnam3o.0@gmail.com";
+        email = "badnam3o.0${"@"}gmail.com";
       };
       alias = {
         ignore-changes-to-file = "update-index --assume-unchanged";
