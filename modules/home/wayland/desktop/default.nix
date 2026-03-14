@@ -68,6 +68,14 @@ in {
             ExecStart = "${pkgs.dunst}/bin/dunst -config ${./dunstrc}";
           };
         };
+
+        opencloud = mkWmService {
+          Unit.Description = "nwg-drawer";
+          Service = {
+            ExecStart = "${pkgs.opencloud-desktop}/bin/opencloud";
+            Restart = "always";
+          };
+        };
       };
     };
   };
