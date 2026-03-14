@@ -11,6 +11,7 @@
 
     ./common
     ./desktop
+    ./server
   ];
   programs.neovim = {
     enable = true;
