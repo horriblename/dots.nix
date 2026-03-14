@@ -1,3 +1,6 @@
 {
-  imports = [./opencloud.nix];
+  imports = [
+    ./opencloud.nix
+    ./web.nix
+  ];
 }
