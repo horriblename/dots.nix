@@ -1,4 +1,4 @@
-# vim: expandtab tabstop=3 foldmethod=marker foldmarker={{,}}
+# vim: expandtab tabstop=3 foldmethod=marker foldmarker={{,}} commentstring=#\ %s
 # uses zsh for shell scripting
 # Basic Settings {{
 set preview true
@@ -163,10 +163,11 @@ cmd mkln ${{
 	esac
 }}
 
-cmd intoZip ${{
+# any args are passed to zip
+cmd clipboardToZip ${{
 	load=$(cat ~/.local/share/lf/files)
 	mode=$(echo "$load" | sed -n '1p')
-   files=$(echo "$load" | sed '1d' | sed "s|$PWD/||g")
+	files=$(echo "$load" | sed '1d' | sed "s|$PWD/||g")
 	echo "$files"
 	[ "$(echo "$files" | wc -w)" -eq 0 ] && exec lf -remote "send $id % printf '\033[31mNo files in clipboard'"
 
@@ -186,7 +187,7 @@ cmd intoZip ${{
 	if [ "$mode" = 'move' ]; then
 		flags='-m'
 	fi
-	echo "$files" | xargs -d '\n' zip -r $@ $flags "$zip"
+	echo "$files" | xargs -d '\n' zip -r "$@" $flags "$zip"
 	lf -remote 'send clear'
 }}
 
@@ -416,7 +417,7 @@ map ch chmod
 map Ps mkln -s
 map Pr mkln -sr
 map Ph mkln
-map Pz intoZip
+map Pz clipboardToZip
 map s0 shareViaNullPointer
 map r rename
 map H top
