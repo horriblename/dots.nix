@@ -149,6 +149,7 @@
       "py@ragnarok" = genHomeConfig {
         preset = "archbox";
         system = "x86_64-linux";
+        extraModules = [./hosts/ragnarok/home.nix];
       };
       "py@surface" = genHomeConfig {
         preset = "surface";
