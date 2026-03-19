@@ -33,8 +33,10 @@ end
 function _G.DiagnosticFromQfList()
 	vim.diagnostic.reset(diag_ns)
 	local list = squash_qflist(vim.fn.getqflist())
+	local title = vim.fn.getqflist({ title = 1 }).title
 	local bufset = {}
 	for _, diag in ipairs(vim.diagnostic.fromqflist(list)) do
+		diag.source = "quickfix:" .. title
 		if not bufset[diag.bufnr] then
 			bufset[diag.bufnr] = { diag }
 		else

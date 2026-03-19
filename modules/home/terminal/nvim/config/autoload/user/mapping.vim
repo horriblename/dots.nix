@@ -224,7 +224,9 @@ fu s:visualMark()
 endfu
 fu s:selectMark()
 	let mark = getcharstr()
-	if mark =~# '\u'
+	if mark ==# '[' || mark ==# ']'
+		normal! `[v`]
+	elseif mark =~# '\u'
 		let lower = tolower(mark)
 		execute "'" . mark
 		normal v
@@ -358,7 +360,7 @@ nnoremap <leader>zf :<C-U>let &foldcolumn = v:count == 0 ?
 			\ : "auto:" . v:count <CR>
 nnoremap <leader>zi :IndentHintsToggle<CR>
 
-fu s:wrapMovements()
+fu! user#mapping#WrapMovements()
 	nnoremap j gj
 	xnoremap j gj
 	onoremap j gj
@@ -373,7 +375,7 @@ fu s:wrapMovements()
 	xnoremap 0 g0
 	onoremap 0 g0
 endfu
-nnoremap <leader>zgj :call <SID>wrapMovements()<CR>
+nnoremap <leader>zgj :call user#mapping#WrapMovements()<CR>
 
 " silent! map <unique> prevents new binds from replacing old ones
 silent! nnoremap <unique> <leader>e :25Lexplore<CR>
@@ -484,6 +486,10 @@ tnoremap <M-p>      <C-\><C-n>:bNext<CR>
 nnoremap <leader>tn :tabnew<CR>
 nnoremap <leader>tc :tabclose<CR>
 nnoremap <leader>tq :tabclose<CR>
+nnoremap <leader>tl :tabmove+1<CR>
+nnoremap <leader>th :tabmove-1<CR>
+nnoremap <leader>tL :tabmove$<CR>
+nnoremap <leader>tH :tabmove0<CR>
 nnoremap <M-.>      :tabnext<CR>
 nnoremap <M-;>      :tabnext<CR>
 nnoremap <M-,>      :tabprevious<CR>

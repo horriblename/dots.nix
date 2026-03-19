@@ -17,13 +17,11 @@
     (variable_expression
       name: (identifier) @funcName
       (#eq? @funcName "mkLuaInline"))
-	;; matches lib.generators.mkLuaInline
+    ; matches lib.generators.mkLuaInline
     (select_expression
-      expression: _ @lib
-      (#eq? @lib "lib")
       (attrpath
-        attr: (identifier) @generators
-        attr: (identifier) @funcName))
+        attr: (identifier) @funcName
+        (#eq? @funcName "mkLuaInline") .))
   ]
   argument: [
     (string_expression
@@ -38,7 +36,7 @@
     function: [
       (variable_expression
         name: (identifier) @_func)
-      ;; matches lib.nvim.bla.bla.entryBefore
+      ; matches lib.nvim.bla.bla.entryBefore
       (select_expression
         expression: (variable_expression)
         attrpath: (attrpath

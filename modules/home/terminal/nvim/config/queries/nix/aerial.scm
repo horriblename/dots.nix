@@ -2,10 +2,8 @@
   (binding_set
     binding: (binding
       attrpath: _ @name
-      expression: [
-        (function_expression
-          (#set! "kind" "Function"))
-      ]) @symbol))
+      expression: (function_expression
+        (#set! "kind" "Function"))) @symbol))
 
 ; generic pattern for modules (matches only sometimes lol)
 (source_code
@@ -16,9 +14,8 @@
         (#set! "kind" "Struct")) @symbol)))
 
 (attrset_expression
-      (binding_set
-        binding: (binding
-          attrpath: _ @name
-          expression: _ @symbol
-          (#set! "kind" "Struct"))))
-
+  (binding_set
+    binding: (binding
+      attrpath: _ @name
+      expression: _ @symbol
+      (#set! "kind" "Struct"))))

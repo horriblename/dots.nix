@@ -18,7 +18,7 @@ set mousemodel=extend
 set ignorecase
 set smartcase
 set wildignorecase
-set tagcase=match
+set tagcase=smart
 set incsearch
 set encoding=utf-8
 set autoindent

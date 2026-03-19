@@ -25,6 +25,8 @@ function _G.FindProjectRoot(win_id)
 	for dir in vim.fs.parents(bufpath) do
 		if vim.uv.fs_stat(vim.fs.joinpath(dir, ".git")) then
 			return dir, "git"
+		elseif vim.uv.fs_stat(vim.fs.joinpath(dir, ".jj")) then
+			return dir, "jj"
 		end
 		if dir == repoHome or dir == "/nix/store" then
 			found_fallback = true
