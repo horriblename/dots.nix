@@ -2,6 +2,7 @@
   pkgs,
   config,
   lib,
+  self,
   ...
 }: let
   inherit (lib.modules) mkIf;
@@ -23,6 +24,7 @@ in {
         kdePackages.okular
         image-roll
         onlyoffice-desktopeditors
+        self.packages.${pkgs.stdenv.hostPlatform.system}.styluslabs-write
         # NOTE: manual intervention needed:
         # copy corefonts into ~/.local/share/fonts/truetype/*.ttf
         # (symlinks don't work due to bug)
