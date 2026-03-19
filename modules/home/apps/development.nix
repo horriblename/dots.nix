@@ -11,6 +11,10 @@ in
       pkgs.act
     ];
 
+    programs.opencode = {
+      enable = true;
+    };
+
     services.podman.enable = true;
 
     xdg.configFile = {
