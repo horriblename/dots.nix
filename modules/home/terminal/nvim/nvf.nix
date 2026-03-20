@@ -314,7 +314,7 @@ in {
         settings.nil.nix.flake.autoArchive = false;
       };
       nixd = {
-        cmd = lib.mkForce [(lib.getExe pkgs.nixd) "--log=error"];
+        cmd = mkForce [(lib.getExe pkgs.nixd) "--log=error"];
       };
       roc_ls = {
         cmd = ["roc_language_server"];
