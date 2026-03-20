@@ -29,7 +29,7 @@
 
 (deflisten lWorkspaceState
   :initial "[]"
-  "printf")
+  `false`)
 
 (deflisten lTasks
   :initial "[]"
@@ -159,7 +159,8 @@
 
 (defwidget workspaces [ wsState ?orientation ]
   (eventbox :class "workspaces boxed-widget-group"
-            :halign "start"
+            :halign "center"
+            :valign "start"
             :onscroll "hyprctl dispatch workspace $([ {} = up ] && echo -1 || echo +1)"
             (box :orientation {orientation ?: "h"}
                  :space-evenly true
@@ -192,7 +193,7 @@
        :valign {orientation == "v" ? "start" : "center"}
        :spacing 1
        (button :onclick `nwg-drawer`
-         " ")
+         "")
        (widgetWorkspaces :orientation {orientation ?: "h"})
        (_taskbar :tasks lTasks)))
 
@@ -263,7 +264,6 @@
        :batteryLvl pollBattery))
 
 (defwindow bar_vert :monitor 0
-  :exclusive false
   :geometry (geometry
               :anchor "left center"
               :width "40px"
