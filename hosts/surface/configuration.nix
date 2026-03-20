@@ -48,6 +48,14 @@
 
   systemd.sleep.extraConfig = "HibernateDelaySec=900";
 
+  systemd.services = {
+    nix-gc = {
+      # HACK: make sure impurity symlinks are alive before gc
+      requires = ["home-py.mount"];
+      after = ["home-py.mount"];
+    };
+  };
+
   services.openssh = {
     enable = true;
     #permitRootLogin = "yes";
@@ -87,14 +95,19 @@
     };
   };
 
+  ## Plymouth
+  boot.plymouth = {
+    enable = true;
+  };
+
   ## Lanzaboote
   imports = [inputs.lanzaboote.nixosModules.lanzaboote];
   environment.systemPackages = [
     pkgs.sbctl
   ];
-  boot.loader.systemd-boot.enable = lib.mkForce false;
+  boot.loader.systemd-boot.enable = lib.mkForce true;
   boot.lanzaboote = {
-    enable = true;
+    enable = false;
     pkiBundle = "/var/lib/sbctl";
   };
 
