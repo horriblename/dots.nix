@@ -15,5 +15,4 @@ augroup ColorTweaks
 	au ColorScheme slate hi MatchParen guifg=orange
 	au ColorScheme slate hi WinSeparator guibg=bg guifg=smokewhite
 	au ColorScheme * hi Normal guibg=NONE
-	au ColorScheme * hi Cursor gui=NONE guibg=white guifg=black
 augroup END
