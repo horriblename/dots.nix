@@ -233,7 +233,7 @@
           modules = [
             ./hosts/surface/configuration.nix
             ./hosts/surface/hardware-configuration.nix
-            nixos-hardware.nixosModules.microsoft-surface-pro-3
+            # nixos-hardware.nixosModules.microsoft-surface-pro-3
 
             core
             ./modules/nixos
