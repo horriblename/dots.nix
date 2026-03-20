@@ -1,2 +1,4 @@
 /.NOTES.md
 Session.vim
+.nvim.lua
+/.local

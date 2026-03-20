@@ -10,6 +10,7 @@ in {
   config = mkIf config.dots.wayland.touchScreen {
     home.packages = [
       self.packages.${pkgs.stdenv.hostPlatform.system}.styluslabs-write
+      pkgs.epiphany
     ];
   };
 }
