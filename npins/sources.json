@@ -87,6 +87,19 @@
       "url": "https://github.com/the-sett/rag-cli/archive/8d6c66acf5aef1f138ef089b1e8e2707229e60ef.tar.gz",
       "hash": "0ah97d99w2rqw1hbmdqimn79zlkkdc0dg4hzav0s5f5ps5y7jfh2",
       "frozen": true
+    },
+    "tele-nvim": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "horriblename",
+        "repo": "tele-nvim"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "67df5d365ccff1cf7bfccde395062f1ad9563753",
+      "url": "https://github.com/horriblename/tele-nvim/archive/67df5d365ccff1cf7bfccde395062f1ad9563753.tar.gz",
+      "hash": "11w8das0q49b0jqkl1ix375dwgy8240f2s1nxxrn7dwpz02jf0cs"
     }
   },
   "version": 5

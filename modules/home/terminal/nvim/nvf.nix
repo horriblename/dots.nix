@@ -263,7 +263,10 @@ in {
       clang.enable = true;
       dart.enable = false;
       elixir.enable = false;
-      go.enable = true;
+      go = {
+        enable = true;
+        format.enable = false;
+      };
       haskell = {
         enable = true;
         lsp.enable = false;
@@ -475,7 +478,7 @@ in {
         };
       };
       vim-wakatime = {
-        enable = true;
+        enable = devEnabled;
       };
     };
 
@@ -771,6 +774,9 @@ in {
     ];
 
     extraPlugins = with pkgs.vimPlugins; {
+      tele-nvim = {
+        package = noBuildPlug "tele-nvim";
+      };
       night-owl-nvim = {
         package = night-owl-nvim;
         setup = ''
