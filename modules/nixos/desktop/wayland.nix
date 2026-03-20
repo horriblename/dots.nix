@@ -16,5 +16,6 @@ in {
   };
   environment.systemPackages = with pkgs; [
     xwayland-satellite
+    # inputs.mangowc.packages.${pkgs.system}.default
   ];
 }
