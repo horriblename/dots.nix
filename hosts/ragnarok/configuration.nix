@@ -49,6 +49,8 @@
     };
   };
 
+  environment.systemPackages = [pkgs.nvtopPackages.nvidia];
+
   virtualisation.waydroid.enable = true;
 
   # Enable the OpenSSH daemon.
