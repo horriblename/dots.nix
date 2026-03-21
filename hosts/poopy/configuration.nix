@@ -49,6 +49,7 @@
       address = "127.0.0.1";
       port = 9200;
     };
+    netdata.enable = true;
   };
 
   system.stateVersion = "23.11";
