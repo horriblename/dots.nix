@@ -18,6 +18,9 @@ nix-on-droid: ## nix-on-droid switch
 surface-kernel: ## surface kernel
 	nix build .\#ghActionsBuilder2 --print-out-paths --option cores "$$(($$(nproc) - 2))" | cachix push horriblename
 
+deploy-poopy:
+	NIX_SSHOPTS='-p 14122' nixos-rebuild switch --flake .#poopy --build-host py@peynch.online --target-host py@peynch.online --sudo
+
 # Hint: suppress override warnings by prepending "-" to the rule
 # e.g.
 # -hm:
