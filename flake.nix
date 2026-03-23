@@ -433,6 +433,7 @@
               pkgs.roc-ls
               pkgs.styluslabs-write
               pkgs.nvtopPackages.nvidia
+              pkgs.llama-cpp
               inputs.nvf.packages.${pkgs.stdenv.system}.blink-cmp
             ]
             ++ (with inputs.nixdroidpkgs.packages.${pkgs.stdenv.system}.crossPkgs.aarch64-linux; [
@@ -466,13 +467,6 @@
             ++ [pkgs.wayland];
         });
 
-        llama-cpp = pkgs.llama-cpp.override {
-          cudaSupport = true;
-          rocmSupport = false;
-          metalSupport = false;
-          blasSupport = true;
-        };
-
         ollama-python = pkgs.python3.withPackages (p: with p; [ollama]);
         inherit (pkgs) nvtopPackages; # re-export so that allowUnfreePredicate applies
       });
@@ -502,6 +496,19 @@
       fennel-ls = final.callPackage ./pkgs/fennel-ls.nix {};
 
       rssAggrePackages = inputs.rss-aggre.packages.${final.stdenv.system};
+
+      llama-cpp = let
+        src = pins."llama.cpp";
+        version = builtins.substring 1 (-1) src.version;
+      in
+        (prev.llama-cpp.override {
+          cudaSupport = false;
+          rocmSupport = false;
+          metalSupport = false;
+          blasSupport = true;
+        }).overrideAttrs {
+          inherit src version;
+        };
 
       roc = inputs.roc.packages.${final.stdenv.system}.default;
       roc-ls = inputs.roc.packages.${final.stdenv.system}.lang-server;

@@ -58,6 +58,22 @@
       "url": "https://api.github.com/repos/MagicDuck/grug-far.nvim/tarball/1.6.48",
       "hash": "0pbwlp5i4aq1ffqbcnjf62ygb73b1svyh5ly4vyq6x7jnc0g416g"
     },
+    "llama.cpp": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "ggml-org",
+        "repo": "llama.cpp"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": "b",
+      "submodules": false,
+      "version": "b8493",
+      "revision": "1772701f99dd3fc13f5783b282c2361eda8ca47c",
+      "url": "https://api.github.com/repos/ggml-org/llama.cpp/tarball/b8493",
+      "hash": "1d6i1cv9qgsh31q5g0fy57i96454lb96wsvacd6ggy632x5xww2n"
+    },
     "pendulum-nvim": {
       "type": "GitRelease",
       "repository": {
