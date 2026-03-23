@@ -466,6 +466,13 @@
             ++ [pkgs.wayland];
         });
 
+        llama-cpp = pkgs.llama-cpp.override {
+          cudaSupport = true;
+          rocmSupport = false;
+          metalSupport = false;
+          blasSupport = true;
+        };
+
         ollama-python = pkgs.python3.withPackages (p: with p; [ollama]);
         inherit (pkgs) nvtopPackages; # re-export so that allowUnfreePredicate applies
       });
