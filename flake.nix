@@ -1,3 +1,4 @@
+# vim: foldlevel=4 foldenable
 {
   description = "A very basic flake";
 
@@ -100,7 +101,6 @@
   outputs = {
     self,
     nixpkgs,
-    nixos-hardware,
     home-manager,
     anyrun,
     md-img-paste-vim,
@@ -417,7 +417,8 @@
 
     packages = forEachSystem (system: let
       pkgs = import nixpkgs {
-        inherit system;
+        localSystem = system;
+        config = import ./modules/core/nixpkgs/config.nix {inherit lib;};
         overlays = [self.overlay];
       };
       overlayPkgs = builtins.intersectAttrs (self.overlay null null) pkgs;
