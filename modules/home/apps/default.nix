@@ -9,7 +9,6 @@
   inherit (lib.lists) optionals;
 in {
   imports = [
-    ./desktop.nix
     ./touch.nix
     ./development.nix
   ];
