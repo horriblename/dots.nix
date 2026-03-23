@@ -1,6 +1,10 @@
 {lib, ...}: let
   inherit (lib.modules) mkForce;
 in {
+  imports = [
+    ./llama.nix
+  ];
+
   programs.nvf.settings.vim = {
     languages = {
       clang.enable = mkForce true;
