@@ -7,13 +7,15 @@
 local function find_parent_layout(target, layout)
 	for i, l in ipairs(layout[2]) do
 		if l[1] == "leaf" then
-			return l[2] == target and layout or nil, i
-		end
-
-		---@cast l vim.fn.winlayout.branch
-		local found = find_parent_layout(target, l)
-		if found ~= nil then
-			return found, i
+			if l[2] == target then
+				return layout, i
+			end
+		else
+			---@cast l vim.fn.winlayout.branch
+			local found = find_parent_layout(target, l)
+			if found then
+				return found, i
+			end
 		end
 	end
 	return nil, 0
