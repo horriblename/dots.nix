@@ -12,9 +12,9 @@ local function find_parent_layout(target, layout)
 			end
 		else
 			---@cast l vim.fn.winlayout.branch
-			local found = find_parent_layout(target, l)
+			local found, j = find_parent_layout(target, l)
 			if found then
-				return found, i
+				return found, j
 			end
 		end
 	end
