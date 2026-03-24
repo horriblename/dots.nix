@@ -9,6 +9,7 @@ in
   mkIf config.dots.development.enable {
     home.packages = [
       pkgs.act
+      pkgs.ttags
     ];
 
     programs.opencode = {
