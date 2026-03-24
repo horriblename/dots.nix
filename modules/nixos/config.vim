@@ -185,6 +185,8 @@ for i in range(1,8)
 	exec 'tnoremap <M-' . i . '> <C-\><C-n>:' . i . 'tabnext<CR>'
 endfor
 noremap <M-9> :$tabnext<CR>
+inoremap <M-9> <Esc>:$tabnext<CR>
+tnoremap <M-9> <C-\><C-n>:$tabnext<CR>
 
 noremap <M-i> :<c-u>call GotoNextFloat(1)<cr>
 noremap <M-o> :<c-u>call GotoNextFloat(0)<cr>
