@@ -116,6 +116,19 @@
       "revision": "67df5d365ccff1cf7bfccde395062f1ad9563753",
       "url": "https://github.com/horriblename/tele-nvim/archive/67df5d365ccff1cf7bfccde395062f1ad9563753.tar.gz",
       "hash": "11w8das0q49b0jqkl1ix375dwgy8240f2s1nxxrn7dwpz02jf0cs"
+    },
+    "ttags": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "horriblename",
+        "repo": "ttags"
+      },
+      "branch": "rework",
+      "submodules": false,
+      "revision": "b59a89f0340a6c0594eb67c36980efa44d6543ec",
+      "url": "https://github.com/horriblename/ttags/archive/b59a89f0340a6c0594eb67c36980efa44d6543ec.tar.gz",
+      "hash": "1lib81hb11pqd1dcm3v31dyndvs2bgx9y8lyqv7bjbwcdjcsc2cx"
     }
   },
   "version": 5

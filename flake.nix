@@ -497,6 +497,20 @@
 
       rssAggrePackages = inputs.rss-aggre.packages.${final.stdenv.system};
 
+      ttags = let
+        src = pins.ttags;
+      in
+        prev.ttags.overrideAttrs (drv: {
+          inherit src;
+          version = builtins.substring 0 8 src.revision;
+
+          cargoDeps = final.rustPlatform.importCargoLock {
+            lockFile = src + "/Cargo.lock";
+            allowBuiltinFetchGit = true;
+          };
+          cargoHash = null;
+        });
+
       llama-cpp = let
         src = pins."llama.cpp";
         version = builtins.substring 1 (-1) src.version;
