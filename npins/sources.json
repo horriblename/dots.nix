@@ -42,6 +42,19 @@
       "url": "https://github.com/horriblename/aerial.nvim/archive/578a41affca7cdb1fe3bdee5be638bd932cd0c89.tar.gz",
       "hash": "02rxvi2nqm9i9mpwkrmghh11q2kx3dvq28nlaiq9vj2riii8kwf5"
     },
+    "direnv-nvim": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "notashelf",
+        "repo": "direnv.nvim"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "a731762567ea7d63d378b97e09a6680a6336073f",
+      "url": "https://github.com/notashelf/direnv.nvim/archive/a731762567ea7d63d378b97e09a6680a6336073f.tar.gz",
+      "hash": "1vj694xzynjzd6pzxbkxak4lphrww0k2nxyvvl6q0yac5wj1y4ib"
+    },
     "grug-far.nvim": {
       "type": "GitRelease",
       "repository": {
