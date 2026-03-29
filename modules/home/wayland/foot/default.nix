@@ -23,6 +23,9 @@
         bell = {
           notify = true;
         };
+        desktop-notifications = {
+          inhibit-when-focused = false;
+        };
       };
     };
   };
