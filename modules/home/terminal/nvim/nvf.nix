@@ -155,11 +155,12 @@ in {
           setupOpts = {
             config = {
               repl_open_cmd = mkLuaInline "require('iron.view').split.botright(16)";
-            };
 
-            repl_definition = {
-              nix = {
-                command = ["nix" "repl" "nixpkgs"];
+              repl_definition = {
+                nix = {
+                  command = ["nix" "repl" "nixpkgs"];
+                };
+                coq.command = ["coqtop"];
               };
             };
 
@@ -324,6 +325,17 @@ in {
         root_markers = [".git" "main.roc"];
       };
       yamlls = {};
+      harper-ls = {
+        filetypes = ["markdown" "gitcommit" "typst"];
+      };
+    };
+
+    diagnostics = {
+      nvim-lint = {
+        linters_by_ft = {
+          plaintex = ["chktex"];
+        };
+      };
     };
 
     visuals = {
