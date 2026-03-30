@@ -74,6 +74,10 @@ in {
           Service = {
             ExecStart = "${pkgs.opencloud-desktop}/bin/opencloud";
             Restart = "always";
+            Environment = [
+              "QT_QPA_PLATFORMTHEME="
+              "QT_STYLE_OVERRIDE="
+            ];
           };
         };
       };
