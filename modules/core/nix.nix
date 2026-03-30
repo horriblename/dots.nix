@@ -11,7 +11,6 @@
     nixpkgs.flake = inputs.nixpkgs;
     nixgl.flake = inputs.nixgl;
     dots.flake = self;
-    agenix.flake = inputs.agenix;
     roc.flake = inputs.roc;
   };
 

@@ -907,13 +907,13 @@ in {
           enable_afterquote = false;
         };
       };
-      md-img-paste-vim = {
-        package = pkgs.md-img-paste-vim;
+      "img-paste.vim" = {
+        package = noBuildPlug "img-paste.vim";
         setup = ''
           vim.g.mdip_imgdir = "attachments"
         '';
       };
-      nixrun = {package = pkgs.nixrun-nvim;};
+      nixrun-nvim = {package = noBuildPlug "nixrun-nvim";};
       nvim-treesitter-textobjects = {
         package = pkgs.vimPlugins.nvim-treesitter-textobjects;
         setup = setup "nvim-treesitter.configs" {

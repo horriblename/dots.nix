@@ -7,21 +7,16 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nix-index-database.url = "github:Mic92/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    nix-wsl.url = "github:nix-community/NixOS-wsl";
-    nix-wsl.inputs.nixpkgs.follows = "nixpkgs";
+    # nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    # nix-wsl.url = "github:nix-community/NixOS-wsl";
+    # nix-wsl.inputs.nixpkgs.follows = "nixpkgs";
     nixgl.url = "github:guibou/nixGL";
     nixgl.inputs.nixpkgs.follows = "nixpkgs";
-    nixpak.url = "github:nixpak/nixpak";
-    nixpak.inputs.nixpkgs.follows = "nixpkgs";
+    # nixpak.url = "github:nixpak/nixpak";
+    # nixpak.inputs.nixpkgs.follows = "nixpkgs";
     darwin = {
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    agenix = {
-      url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
     };
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
@@ -43,18 +38,6 @@
     nvf = {
       url = "github:horriblename/nvf/personal";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    anyrun = {
-      url = "github:Kirottu/anyrun";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    md-img-paste-vim = {
-      url = "github:ferrine/md-img-paste.vim";
-      flake = false;
-    };
-    nixrun-nvim = {
-      url = "github:horriblename/nixrun-nvim/v2";
-      flake = false;
     };
     impurity.url = "github:outfoxxed/impurity.nix";
     rss-aggre.url = "github:horriblename/rss-aggregator";
@@ -102,9 +85,6 @@
     self,
     nixpkgs,
     home-manager,
-    anyrun,
-    md-img-paste-vim,
-    nixrun-nvim,
     ...
   } @ inputs: let
     inherit (nixpkgs) lib;
@@ -487,17 +467,6 @@
     overlay = final: prev: let
       pins = npinsFor final.stdenv.system;
     in {
-      anyrunPackages = anyrun.packages.${final.stdenv.system};
-      md-img-paste-vim = final.vimUtils.buildVimPlugin {
-        pname = "md-img-paste-vim";
-        version = "master";
-        src = md-img-paste-vim;
-      };
-      nixrun-nvim = final.vimUtils.buildVimPlugin {
-        pname = "nixrun";
-        version = "master";
-        src = nixrun-nvim;
-      };
       libcallex-vim = final.vimUtils.buildVimPlugin {
         pname = "libcallex-vim";
         version = "git";

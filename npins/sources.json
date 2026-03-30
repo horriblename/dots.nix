@@ -71,6 +71,19 @@
       "url": "https://api.github.com/repos/MagicDuck/grug-far.nvim/tarball/1.6.48",
       "hash": "0pbwlp5i4aq1ffqbcnjf62ygb73b1svyh5ly4vyq6x7jnc0g416g"
     },
+    "img-paste.vim": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "img-paste-devs",
+        "repo": "img-paste.vim"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "787be15ff52ea2db5ae7b813ab8808c8d4cf749e",
+      "url": "https://github.com/img-paste-devs/img-paste.vim/archive/787be15ff52ea2db5ae7b813ab8808c8d4cf749e.tar.gz",
+      "hash": "1cmjyp2lvb3qa92c0jbffwbdnfz4xi2d6cz24l76frp9lqc89aid"
+    },
     "llama.cpp": {
       "type": "GitRelease",
       "repository": {
@@ -86,6 +99,19 @@
       "revision": "1772701f99dd3fc13f5783b282c2361eda8ca47c",
       "url": "https://api.github.com/repos/ggml-org/llama.cpp/tarball/b8493",
       "hash": "1d6i1cv9qgsh31q5g0fy57i96454lb96wsvacd6ggy632x5xww2n"
+    },
+    "nixrun-nvim": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "horriblename",
+        "repo": "nixrun-nvim"
+      },
+      "branch": "v2",
+      "submodules": false,
+      "revision": "57fbff6b3745420e3173acfebc34651437307960",
+      "url": "https://github.com/horriblename/nixrun-nvim/archive/57fbff6b3745420e3173acfebc34651437307960.tar.gz",
+      "hash": "0517vmbcacmv9slkqjszfbiy9y9a2kpd0amn82mmg4qcwqi82f45"
     },
     "pendulum-nvim": {
       "type": "GitRelease",
