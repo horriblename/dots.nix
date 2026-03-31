@@ -1,5 +1,20 @@
-{lib, ...}: let
+{
+  lib,
+  pins,
+  ...
+}: let
   inherit (lib.modules) mkForce;
+
+  noBuildPlug = pname: let
+    pin = pins.${pname};
+    version = builtins.substring 0 8 pin.revision;
+  in
+    pin.outPath.overrideAttrs {
+      inherit pname version;
+      name = "${pname}-${version}";
+
+      passthru.vimPlugin = false;
+    };
 in {
   imports = [
     ./llama.nix
@@ -13,44 +28,11 @@ in {
       html.enable = mkForce true;
       lua.enable = mkForce true;
       tex.enable = mkForce true;
+      rust.enable = mkForce true;
     };
 
-    assistant.avante-nvim = {
-      enable = true;
-      setupOpts = {
-        provider = "ollama";
-        providers = {
-          ollama = {
-            endpoint = "http://127.0.0.1:11434";
-            timeout = 30000; # Timeout in milliseconds
-            model = "qwen3-coder:30b";
-            extra_request_body = {
-              options = {
-                temperature = 0.75;
-                keep_alive = 3600;
-              };
-            };
-          };
-        };
-
-        rag_service = {
-          enabled = false;
-          runner = "nix";
-          host_mount = lib.generators.mkLuaInline "os.getenv('HOME') .. '/repo'";
-          llm = {
-            provider = "ollama";
-            endpoint = "http://127.0.0.1:11434";
-            api_key = "";
-            model = "shmily_006/Qw3";
-          };
-          embed = {
-            provider = "ollama";
-            endpoint = "http://127.0.0.1:11434";
-            api_key = "";
-            model = "embeddinggemma";
-          };
-        };
-      };
+    extraPlugins = {
+      llama = {package = noBuildPlug "llama.vim";};
     };
   };
 }
