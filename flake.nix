@@ -422,10 +422,11 @@
         overlays = [self.overlay];
       };
       overlayPkgs = builtins.intersectAttrs (self.overlay null null) pkgs;
+      pins = npinsFor system;
     in
       overlayPkgs
       // {
-        pins = npinsFor system;
+        inherit pins;
         ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
           buildInputs =
             [
@@ -466,6 +467,19 @@
             prev.buildInputs
             ++ [pkgs.wayland];
         });
+
+        llama-cpp = let
+          src = pins."llama.cpp";
+          version = builtins.substring 1 (-1) src.version;
+        in
+          (pkgs.llama-cpp.override {
+            cudaSupport = false;
+            rocmSupport = false;
+            metalSupport = false;
+            blasSupport = true;
+          }).overrideAttrs {
+            inherit src version;
+          };
 
         ollama-python = pkgs.python3.withPackages (p: with p; [ollama]);
         inherit (pkgs) nvtopPackages; # re-export so that allowUnfreePredicate applies
@@ -510,19 +524,6 @@
           };
           cargoHash = null;
         });
-
-      llama-cpp = let
-        src = pins."llama.cpp";
-        version = builtins.substring 1 (-1) src.version;
-      in
-        (prev.llama-cpp.override {
-          cudaSupport = false;
-          rocmSupport = false;
-          metalSupport = false;
-          blasSupport = true;
-        }).overrideAttrs {
-          inherit src version;
-        };
 
       roc = inputs.roc.packages.${final.stdenv.system}.default;
       roc-ls = inputs.roc.packages.${final.stdenv.system}.lang-server;
