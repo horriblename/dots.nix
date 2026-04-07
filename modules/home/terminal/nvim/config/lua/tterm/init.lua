@@ -189,7 +189,7 @@ function M.new_term()
 	if vim.w.toggleterm_win_offset then
 		local tab = state.tab_terms[vim.api.nvim_get_current_tabpage()]
 		if not tab then
-			vim.cmd("new +term")
+			vim.cmd("Split new +term")
 			return
 		end
 
@@ -198,7 +198,7 @@ function M.new_term()
 		local info = new_floating_terminal(nil, offset, last_id + 1)
 		tab[last_id + 1] = info
 	else
-		vim.cmd("new +term")
+		vim.cmd("Split new +term")
 	end
 end
 
