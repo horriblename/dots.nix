@@ -440,6 +440,18 @@ function s:closeBuffer()
 	return (buflisted(0)? ':edit #' : ':bnext' ) . '| bdelete ' . bufnr() . "\<CR>"
 endfu
 nnoremap <expr> <M-c> <SID>closeBuffer()
+nnoremap <C-w>N :new +set\ buftype=nofile\ noswapfile<CR>
+function s:moveWinToTab(tab)
+	let buf = winbufnr(0)
+	let bh=&l:bufhidden
+	setl bufhidden=
+	hide
+	exec 'tabnext' a:tab
+	exec 'Split sbuffer' buf
+	let &l:bufhidden=bh
+endfu
+nnoremap <C-w>; :call <SID>moveWinToTab(v:count ?? tabpagenr()+1)<CR>
+nnoremap <C-w>, :call <SID>moveWinToTab(tabpagenr()-1)<CR>
 
 " Resizing
 nnoremap <M-C-.>  <C-W>3>
