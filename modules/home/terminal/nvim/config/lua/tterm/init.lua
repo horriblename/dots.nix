@@ -3,28 +3,67 @@ local M = {}
 local state = require("tterm.state")
 local augroup = vim.api.nvim_create_augroup('toggleterm_focus_hooks', { clear = false })
 
+---@param y_offset integer
+---@return {}
+local function win_size(y_offset)
+	local ui = vim.api.nvim_list_uis()[1]
+	local width = math.floor(ui.width * 0.9)
+
+	return {
+		width = width,
+		height = math.floor(ui.height - 8),
+		col = math.floor((ui.width - width) / 2),
+		row = math.min(1, ui.height - 1) + y_offset,
+	}
+end
+
 ---@param buf integer
 ---@param y_offset integer
 ---@return integer
 local function open_floating_win(buf, y_offset)
-	local ui = vim.api.nvim_list_uis()[1]
-	local width = math.floor(ui.width * 0.9)
-	local height = math.floor(ui.height - 8)
-	local col = math.floor((ui.width - width) / 2)
-	local row_baseline = math.min(1, ui.height - 1)
+	local sizes = win_size(y_offset)
 
 	-- Open the floating window
 	local win = vim.api.nvim_open_win(buf, true, {
 		relative = "editor",
-		width = width,
-		height = height,
-		col = col,
-		row = row_baseline + y_offset,
+		width = sizes.width,
+		height = sizes.height,
+		col = sizes.col,
+		row = sizes.row,
 		style = "minimal",
 		border = "rounded",
 	})
 	vim.w[win].toggleterm_win_offset = y_offset
 
+	local group = vim.api.nvim_create_augroup('tterm_window_hooks_' .. tostring(win), { clear = true })
+	-- Ideally I move this into one main autocmd, but I need to handle windows
+	-- on other tabpages as well :/
+	vim.api.nvim_create_autocmd("VimResized", {
+		group = group,
+		desc = "Auto-resize for winid " .. tostring(win),
+		callback = function()
+			if not vim.api.nvim_win_is_valid(win) then
+				return true
+			end
+			local offset = vim.w[win].toggleterm_win_offset
+			if offset then
+				-- for some reason it freezes until next input otherwise
+				vim.schedule(function()
+					local config = vim.api.nvim_win_get_config(win)
+					if config.relative ~= "" then
+						local new_sizes = win_size(offset)
+						local new_config = vim.tbl_extend('force', config, new_sizes)
+						vim.api.nvim_win_set_config(win, new_config)
+					end
+				end)
+			end
+		end,
+	})
+	vim.api.nvim_create_autocmd({ "WinClosed" }, {
+		group = group,
+		pattern = tostring(win),
+		callback = function() vim.api.nvim_del_augroup_by_id(group) end,
+	})
 	return win
 end
 
@@ -178,6 +217,7 @@ function M.on_tab_closed()
 	for tabid, terms in pairs(state.tab_terms) do
 		if not vim.list_contains(existing_ids, tabid) then
 			for _, info in pairs(terms) do
+				---@diagnostic disable-next-line: param-type-mismatch
 				pcall(vim.cmd, "bdelete! " .. info.buf)
 			end
 			state.tab_terms[tabid] = nil
