@@ -167,7 +167,7 @@ function M.toggleterm()
 		-- t:toggleterm_focused_id will be reset when closing windows due to autocmd
 		-- save it to restore later
 		local last_focus = vim.t[tabid].toggleterm_focused_id
-		vim.cmd('fclose!')
+		M.close_floating_wins(tabid)
 		vim.t[tabid].toggleterm_focused_id = last_focus
 	else
 		local local_id = vim.v.count
@@ -221,6 +221,17 @@ function M.on_tab_closed()
 				pcall(vim.cmd, "bdelete! " .. info.buf)
 			end
 			state.tab_terms[tabid] = nil
+		end
+	end
+end
+
+function M.close_floating_wins(tab_id)
+	for _, term in pairs(state.tab_terms[tab_id] or {}) do
+		if term.win then
+			if vim.api.nvim_win_is_valid(term.win) then
+				vim.api.nvim_win_close(term.win, false)
+			end
+			term.win = nil
 		end
 	end
 end
