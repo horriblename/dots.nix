@@ -7,7 +7,7 @@ function _G.unload(patt)
 	end
 end
 
-_G.rerequire = function(mod)
+_G.rereq = function(mod)
 	_G.unload(mod)
 	return require(mod)
 end
