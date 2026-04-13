@@ -10,6 +10,7 @@ in
     home.packages = [
       pkgs.act
       pkgs.ttags
+      pkgs.libqalculate
     ];
 
     programs.opencode = {
