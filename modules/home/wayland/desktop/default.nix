@@ -70,7 +70,7 @@ in {
         };
 
         opencloud = mkWmService {
-          Unit.Description = "nwg-drawer";
+          Unit.Description = "Opencloud client";
           Service = {
             ExecStart = "${pkgs.opencloud-desktop}/bin/opencloud";
             Restart = "always";
