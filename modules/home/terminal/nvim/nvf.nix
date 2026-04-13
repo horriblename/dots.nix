@@ -408,11 +408,11 @@ in {
         };
       };
       mappings = {
-        incrementalSelection = {
-          init = "<M-o>";
-          incrementByNode = "<M-o>";
-          decrementByNode = "<M-i>";
-        };
+        # incrementalSelection = {
+        #   init = "<M-o>";
+        #   incrementByNode = "<M-o>";
+        #   decrementByNode = "<M-i>";
+        # };
       };
     };
 
@@ -618,7 +618,13 @@ in {
     ];
 
     luaConfigPre = ''
-      vim.opt.runtimepath:prepend("${impurity.link ./config}");
+      vim.opt.runtimepath:prepend({"${impurity.link ./config}"});
+      local attached_parent, err = require("tele").try_attach_parent({})
+      if attached_parent then
+        return
+      elseif err then
+        vim.notify(err, vim.log.levels.ERROR)
+      end
     '';
 
     luaConfigRC.userDots = entryBetween ["lazyConfigs"] ["optionsScript"] ''
@@ -817,7 +823,7 @@ in {
           vim.cmd.colorscheme("night-owl")
         '';
       };
-      treesitter-roc = {package = pkgs.neovim-treesitter-roc;};
+      # treesitter-roc = {package = pkgs.neovim-treesitter-roc;};
       aerial = {
         package = noBuildPlug "aerial.nvim";
         setup = setup "aerial" {};
