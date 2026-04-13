@@ -46,6 +46,18 @@
     options = ["rw" "nosuid" "nodev" "uid=0" "gid=0" "allow_other" "blksize=4096" "noauto"];
   };
 
+  fileSystems."/mnt/phi" = {
+    device = "/dev/disk/by-uuid/d29799bd-b25a-42d9-b0f4-08dd186ca155";
+    fsType = "ext4";
+    options = ["user" "noauto"];
+  };
+
+  fileSystems."/opt" = {
+    device = "/mnt/phi/opt";
+    fsType = "none";
+    options = ["bind" "rw" "noauto"];
+  };
+
   services.xserver.videoDrivers = ["nvidia"];
   hardware = {
     graphics.enable = true;
