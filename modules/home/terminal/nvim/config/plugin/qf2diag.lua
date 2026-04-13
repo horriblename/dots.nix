@@ -37,6 +37,12 @@ function _G.DiagnosticFromQfList()
 	local bufset = {}
 	for _, diag in ipairs(vim.diagnostic.fromqflist(list)) do
 		diag.source = "quickfix:" .. title
+
+		-- TODO: make configurable
+		if title:find("^(:rg|:grep)") then
+			diag.severity = vim.diagnostic.severity.INFO
+		end
+
 		if not bufset[diag.bufnr] then
 			bufset[diag.bufnr] = { diag }
 		else
