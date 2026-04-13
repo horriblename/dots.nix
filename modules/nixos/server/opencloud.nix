@@ -22,6 +22,18 @@ in {
         PROXY_TLS = "false"; # disable https when behind reverse-proxy
         INITIAL_ADMIN_PASSWORD = "deez-nuts";
       };
+
+      settings = {
+        csp = {
+          directives = {
+            font-src = [
+              "'self'"
+              "data:"
+              "https://esm.sh/"
+            ];
+          };
+        };
+      };
     };
 
     caddy = {
