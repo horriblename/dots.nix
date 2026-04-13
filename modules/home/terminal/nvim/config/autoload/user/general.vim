@@ -101,6 +101,8 @@ if has('nvim')
 	set exrc
 endif
 
+" }}}
+
 " User Commands
 " {{{
 command! -bar -nargs=1 -complete=customlist,user#zlua#comp Z call user#zlua#chdir(<q-args>)
@@ -121,6 +123,7 @@ command! -nargs=1 -complete=file ShareVia0x0
 			\ echo getreg()
 
 command! -nargs=1 -complete=file Rename saveas <args> | !rm #
+command! EditLaunchJson edit .vscode/launch.json
 
 " Insert spaces until cursor is right of a given column
 function! user#general#InsertSpacesUntil(col)
@@ -134,6 +137,18 @@ function! user#general#InsertSpacesUntil(col)
 endfunction
 
 command! -count=40 AlignCharCol call user#general#InsertSpacesUntil(<count>)
+
+fu! user#general#SmartSplit(cmd)
+	let cmd = a:cmd != '' ? a:cmd : 'split'
+	" arbitrarily common ratio width/height
+	let font_ratio = 1.0/2
+	if winheight(0) < winwidth(0) * font_ratio
+		exec 'vertical' cmd
+	else
+		exec 'horizontal' cmd
+	endif
+endfu
+command! -nargs=* -complete=command Split :call user#general#SmartSplit(<q-args>)
 
 " }}}
 
