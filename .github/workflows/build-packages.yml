@@ -50,6 +50,3 @@ jobs:
           nix build --no-link --print-out-paths -L \
             .#ghActionsBuilder \
           | cachix push horriblename
-      - run: "cachix push horriblename"
-      - run: "nix-collect-garbage --delete-old"
-      - run: "nix build --no-link .#ghActionsBuilder2"

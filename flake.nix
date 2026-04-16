@@ -415,15 +415,13 @@
               pkgs.styluslabs-write
               pkgs.nvtopPackages.nvidia
               pkgs.llama-cpp
-              inputs.nvf.packages.${pkgs.stdenv.system}.blink-cmp
+              inputs.hyprgrass.packages.${pkgs.stdenv.hostPlatform.system}.default
+              inputs.nvf.packages.${pkgs.stdenv.hostPlatform.system}.blink-cmp
             ]
-            ++ (with inputs.nixdroidpkgs.packages.${pkgs.stdenv.system}.crossPkgs.aarch64-linux; [
+            ++ (with inputs.nixdroidpkgs.packages.${pkgs.stdenv.hostPlatform.system}.crossPkgs.aarch64-linux; [
               termux-auth
               openssh
             ]);
-        };
-        ghActionsBuilder2 = pkgs.callPackage ./pkgs/dummy.nix {
-          buildInputs = [self.nixosConfigurations.surface.config.system.build.kernel];
         };
 
         styluslabs-write = pkgs.styluslabs-write.overrideAttrs (_final: prev: {
