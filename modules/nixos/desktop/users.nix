@@ -12,7 +12,7 @@ in {
       shell = pkgs.zsh;
       group = "py";
       isNormalUser = true;
-      extraGroups = ["wheel" "input" "disk"];
+      extraGroups = ["wheel" "input" "disk" "dialout"];
     };
   };
 }
