@@ -9,9 +9,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "215be1dabf558d0c260d5f4c5e818a185856f3c7",
-      "url": "https://github.com/ThePrimeagen/99/archive/215be1dabf558d0c260d5f4c5e818a185856f3c7.tar.gz",
-      "hash": "0b73mw21rw43j6sl67h6bma3vpdrn591w7dbzkzwcyjbv3hym4m3"
+      "revision": "0172d3caae2d8b967c9d47aa7557295f1481e5df",
+      "url": "https://github.com/ThePrimeagen/99/archive/0172d3caae2d8b967c9d47aa7557295f1481e5df.tar.gz",
+      "hash": "0nl02yibvy4pih8d7a4ywv4d13jk9yv4xrb9kd9dnyx2nil514d6"
     },
     "IXWebSocket": {
       "type": "GitRelease",
@@ -51,9 +51,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "a731762567ea7d63d378b97e09a6680a6336073f",
-      "url": "https://github.com/notashelf/direnv.nvim/archive/a731762567ea7d63d378b97e09a6680a6336073f.tar.gz",
-      "hash": "1vj694xzynjzd6pzxbkxak4lphrww0k2nxyvvl6q0yac5wj1y4ib"
+      "revision": "564146278b3d5fe4ffa389cd103bab20f9b515d6",
+      "url": "https://github.com/notashelf/direnv.nvim/archive/564146278b3d5fe4ffa389cd103bab20f9b515d6.tar.gz",
+      "hash": "0d1lfqjfg3ig4brylj15xafnr9x4bj4im7alw9mbp900jfhwdf95"
     },
     "grug-far.nvim": {
       "type": "GitRelease",
@@ -66,10 +66,10 @@
       "version_upper_bound": null,
       "release_prefix": null,
       "submodules": false,
-      "version": "1.6.48",
-      "revision": "50d9ee2b5a19634670441948e7e4afaa042f1059",
-      "url": "https://api.github.com/repos/MagicDuck/grug-far.nvim/tarball/1.6.48",
-      "hash": "0pbwlp5i4aq1ffqbcnjf62ygb73b1svyh5ly4vyq6x7jnc0g416g"
+      "version": "1.6.67",
+      "revision": "21604255d0e8f9968322f61f2b6c09e5efe1285a",
+      "url": "https://api.github.com/repos/MagicDuck/grug-far.nvim/tarball/1.6.67",
+      "hash": "1vc4c0wdj3il8ig8jdb56870zwkriw3ql306vyjfl5ii7z4jbrnz"
     },
     "img-paste.vim": {
       "type": "Git",
@@ -95,10 +95,10 @@
       "version_upper_bound": null,
       "release_prefix": "b",
       "submodules": false,
-      "version": "b8493",
-      "revision": "1772701f99dd3fc13f5783b282c2361eda8ca47c",
-      "url": "https://api.github.com/repos/ggml-org/llama.cpp/tarball/b8493",
-      "hash": "1d6i1cv9qgsh31q5g0fy57i96454lb96wsvacd6ggy632x5xww2n"
+      "version": "b8941",
+      "revision": "06a811d08529b202f2b0002f9be61d4c75d5f9d5",
+      "url": "https://api.github.com/repos/ggml-org/llama.cpp/tarball/b8941",
+      "hash": "1byd4pbwx600q8cip6dyvy6cc2akgkngpxjxg85rsac98z1zb76x"
     },
     "nixrun-nvim": {
       "type": "Git",
