@@ -22,9 +22,9 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland.url = "github:hyprwm/Hyprland/v0.54.3";
     hyprgrass = {
-      url = "github:horriblename/hyprgrass";
+      url = "github:horriblename/hyprgrass/hl-0.54.3";
       inputs.hyprland.follows = "hyprland";
     };
     hyprland-border-actions = {
