@@ -25,6 +25,8 @@ lib.mkIf config.dots.wayland.enable {
     "Kvantum/Gruvbox_Light_Brown".source = "${inputs.gruvbox-kvantum}/Gruvbox_Light_Brown";
     "Kvantum/Gruvbox_Light_Green".source = "${inputs.gruvbox-kvantum}/Gruvbox_Light_Green";
 
+    "qt6ct/qt6ct.conf".source = ./qt6ct.conf;
+
     "Kvantum/kvantum.kvconfig".text = ''
       [General]
       theme=Gruvbox-Dark-Brown
