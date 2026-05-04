@@ -7,6 +7,7 @@ let mapleader=' '
 let maplocalleader=' h'
 
 " Editor mappings {{{
+" Better defaults {{{
 nnoremap > >>
 nnoremap < <<
 xnoremap > >gv
@@ -60,6 +61,8 @@ fu s:fileInfo() abort
 	endif
 endfu
 nnoremap <c-g> :call <SID>fileInfo()<CR>
+
+"}}}
 
 nnoremap <leader>& :AlignCharCol<CR>
 
@@ -240,7 +243,7 @@ onoremap gm <cmd>call <SID>selectMark()<CR>
 
 " }}}
 
-" Autoclose
+" Autoclose {{{
 inoremap <expr> " user#autoclose#InsertSymmetric('"')
 "inoremap <expr> ' user#autoclose#InsertSymmetric("'")
 inoremap <expr> ` user#autoclose#InsertSymmetric('`')
@@ -251,6 +254,7 @@ inoremap {<CR> {<CR>}<ESC>O
 inoremap <expr> ) user#autoclose#CloseRight(")")
 inoremap <expr> ] user#autoclose#CloseRight("]")
 inoremap <expr> } user#autoclose#CloseRight("}")
+" }}}
 
 nnoremap S :%s##gI<Left><Left><Left>
 xnoremap S :s##gI<Left><Left><Left>
@@ -383,7 +387,7 @@ silent! nnoremap <unique> <leader>ff :find
 silent! nnoremap <unique> <leader>fb :buffer 
 silent! nnoremap <unique> <leader>f/ :vimgrep // **<Left><Left><Left><Left>
 
-" quickfix
+" quickfix {{{
 nnoremap <leader>xn :cnext<CR>
 nnoremap <leader>xp :cprev<CR>
 nnoremap <leader>x, :cnewer<CR>
@@ -392,8 +396,9 @@ nnoremap <leader>xx :botright copen<CR>
 nnoremap <leader>xq :cclose<CR>
 nnoremap <leader>xc :cclose<CR>
 nnoremap <leader>xL :call setloclist(0, getqflist()) <bar> cclose <bar> botright lopen<CR>
+" }}}
 
-" loclist
+" loclist {{{
 nnoremap <localleader>xn :lnext<CR>
 nnoremap <localleader>xp :lprev<CR>
 nnoremap <localleader>x, :lnewer<CR>
@@ -402,11 +407,13 @@ nnoremap <localleader>xx :botright lopen<CR>
 nnoremap <localleader>xq :lclose<CR>
 nnoremap <localleader>xc :lclose<CR>
 nnoremap <localleader>xL :call setqflist(getloclist(0)) <bar> lclose <bar> botright copen<CR>
+" }}}
 
-" toggleterm
+" toggleterm {{{
 noremap <M-x> :call user#general#ToggleTerm()<cr>
 inoremap <M-x> <Esc>:call user#general#ToggleTerm()<cr>
 tnoremap <M-x> <Cmd>close<cr>
+" }}}
 " }}}
 " {{{ Cmdline/HUD
 " Cursor movement
