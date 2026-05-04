@@ -173,12 +173,12 @@ onoremap ga :<c-u>normal! ggVG<CR>
 
 " sub-word {{{
 function s:subword(reverse = v:false)
-	let l:pattern = '\v(\<|\U\u|\A\a)'
+	let l:pattern = '\v(<|\U\u|\u\u\ze\l|\A\a)'
 	call search(l:pattern, 'We' . (a:reverse? 'b' : ''))
 endfunction
 
 function s:subwordEnd()
-	let l:pattern = '\v\w\>|\U\u|\W\w'
+	let l:pattern = '\v\w>|\U\u|\u\u\ze\l|\W\w'
 	call search(l:pattern, 'W')
 endfu
 
