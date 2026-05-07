@@ -16,7 +16,7 @@ in {
             ''ATTRS{idVendor}=="0403"''
             ''ATTRS{idProduct}=="6001"''
             ''SYMLINK+="ttyUART"''
-            ''MODE=0660''
+            ''MODE="0660"''
             ''GROUP="dialout"''
           ]);
       };
