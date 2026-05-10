@@ -95,10 +95,10 @@
       "version_upper_bound": null,
       "release_prefix": "b",
       "submodules": false,
-      "version": "b9010",
-      "revision": "d05fe1d7dadbf8943c8f1903fcf65b935ddab839",
-      "url": "https://api.github.com/repos/ggml-org/llama.cpp/tarball/b9010",
-      "hash": "12fyfphn85f8zv0kdra240nwf2mzajzq5nn96k9whpqklgvkdqad"
+      "version": "b9093",
+      "revision": "1e5ad35d560b90a8ac447d149c8f8447ae1fcaa0",
+      "url": "https://api.github.com/repos/ggml-org/llama.cpp/tarball/b9093",
+      "hash": "1jhzyfg1s3przmqg3w2p6dbr6v3i6mv87hwhpshvnkw8zw5ram8l"
     },
     "nixrun-nvim": {
       "type": "Git",
