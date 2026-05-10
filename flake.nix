@@ -501,6 +501,8 @@
       rag-cli = final.callPackage ./pkgs/cli-rag/default.nix {src = pins.rag-cli;};
       rag-cli-elm = final.callPackage ./pkgs/cli-rag/elm.nix {pin = pins.rag-cli;};
 
+      unch = final.callPackage ./pkgs/unch.nix {src = pins.unch;};
+
       microsContainer =
         (inputs.micros.lib.microsSystem {
           modules = [
