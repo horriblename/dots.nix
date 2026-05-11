@@ -3,3 +3,4 @@ Session.vim
 .nvim.lua
 /.local
 .opencode
+.semsearch
