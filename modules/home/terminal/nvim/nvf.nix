@@ -184,6 +184,19 @@ in {
             };
           };
         };
+        direnv-nvim = {
+          package = noBuildPlug "direnv-nvim";
+          setupModule = "direnv";
+          setupOpts = {
+            autoload_direnv = true;
+            keybindings = {
+              allow = null;
+              deny = null;
+              reload = null;
+              edit = null;
+            };
+          };
+        };
       };
     };
 
@@ -887,18 +900,6 @@ in {
         };
       };
       friendly-snippets = {package = friendly-snippets;};
-      direnv-nvim = {
-        package = noBuildPlug "direnv-nvim";
-        setup = setup "direnv" {
-          autoload_direnv = true;
-          keybindings = {
-            allow = null;
-            deny = null;
-            reload = null;
-            edit = null;
-          };
-        };
-      };
       nvim-autopairs = {
         package = "nvim-autopairs";
         setup = setup "nvim-autopairs" {
