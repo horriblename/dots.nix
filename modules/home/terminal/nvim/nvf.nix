@@ -638,6 +638,8 @@ in {
       elseif err then
         vim.notify(err, vim.log.levels.ERROR)
       end
+
+      pcall(vim.cmd, "runtime! lua/dots/auto/*.lua")
     '';
 
     luaConfigRC.userDots = entryBetween ["lazyConfigs"] ["optionsScript"] ''
