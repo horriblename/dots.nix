@@ -257,9 +257,7 @@ in {
     lsp = {
       enable = devEnabled;
       formatOnSave = true;
-      lspsaga.enable = false;
       lspconfig.enable = true;
-      lspSignature.enable = false;
       mappings.openDiagnosticFloat = null;
       harper-ls.enable = devEnabled;
     };
@@ -275,8 +273,6 @@ in {
       enableTreesitter = true;
 
       clang.enable = true;
-      dart.enable = false;
-      elixir.enable = false;
       go = {
         enable = true;
         format.enable = false;
@@ -299,7 +295,6 @@ in {
         enable = true;
         lsp.servers = ["nixd"];
       };
-      php.enable = false;
       python.enable = true;
       rust = {
         enable = false;
@@ -357,11 +352,6 @@ in {
       fidget-nvim.enable = true;
     };
 
-    theme.enable = false;
-
-    # custom setup at the bottom
-    autopairs.nvim-autopairs.enable = false;
-
     autocomplete.blink-cmp = {
       enable = true;
       setupOpts = {
@@ -408,10 +398,6 @@ in {
       };
     };
 
-    tabline = {
-      nvimBufferline.enable = false;
-    };
-
     treesitter = {
       fold = true;
       context = {
@@ -427,26 +413,6 @@ in {
         #   decrementByNode = "<M-i>";
         # };
       };
-    };
-
-    binds = {
-      whichKey = {
-        enable = false;
-      };
-    };
-
-    telescope.enable = false;
-    telescope.setupOpts = {
-      defaults.vimgrep_arguments = [
-        "${pkgs.ripgrep}/bin/rg"
-        "--color=never"
-        "--no-heading"
-        "--with-filename"
-        "--line-number"
-        "--column"
-        "--smart-case"
-        "--hidden"
-      ];
     };
 
     git = {
@@ -486,10 +452,10 @@ in {
     };
 
     spellcheck = {
-      enable = true;
+      enable = devEnabled;
       languages = ["en" "de_de"];
       ignoredFiletypes = ["qf"];
-      programmingWordlist.enable = true;
+      programmingWordlist.enable = devEnabled;
     };
 
     utility = {
@@ -594,7 +560,6 @@ in {
           nvim-cmp.style = "none";
         };
       };
-      breadcrumbs.enable = false;
       illuminate = {
         enable = true;
         setupOpts = {
@@ -605,24 +570,6 @@ in {
         };
       };
     };
-
-    assistant = {
-      copilot = {
-        enable = false;
-        cmp.enable = true;
-        mappings = {
-          panel = {
-            jumpPrev = "<leader>ap";
-            jumpNext = "<leader>an";
-            accept = "<leader>ay";
-            refresh = "<leader>ar";
-            open = "<leader>ao";
-          };
-        };
-      };
-    };
-
-    comments.comment-nvim.enable = false;
 
     treesitter.grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
       markdown
