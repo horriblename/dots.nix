@@ -17,6 +17,25 @@ local function win_size(y_offset)
 	}
 end
 
+local function has_open_term(tabid)
+	if vim.w.toggleterm_win_offset then
+		return true
+	end
+
+	local tab = state.tab_terms[tabid]
+	if not tab then
+		return false
+	end
+
+	for _, info in pairs(tab) do
+		if vim.api.nvim_win_is_valid(info.win) then
+			return true
+		end
+	end
+
+	return false
+end
+
 ---@param buf integer
 ---@param y_offset integer
 ---@return integer
@@ -166,11 +185,11 @@ end
 
 function M.toggleterm()
 	local tabid = vim.api.nvim_get_current_tabpage()
-	if vim.w.toggleterm_win_offset then
+	if has_open_term(tabid) then
 		-- t:toggleterm_focused_id will be reset when closing windows due to autocmd
 		-- save it to restore later
 		local last_focus = vim.t[tabid].toggleterm_focused_id
-		M.close_floating_wins(tabid)
+		vim.cmd('fclose!')
 		vim.t[tabid].toggleterm_focused_id = last_focus
 	else
 		local local_id = vim.v.count
@@ -224,17 +243,6 @@ function M.on_tab_closed()
 				pcall(vim.cmd, "bdelete! " .. info.buf)
 			end
 			state.tab_terms[tabid] = nil
-		end
-	end
-end
-
-function M.close_floating_wins(tab_id)
-	for _, term in pairs(state.tab_terms[tab_id] or {}) do
-		if term.win then
-			if vim.api.nvim_win_is_valid(term.win) then
-				vim.api.nvim_win_close(term.win, false)
-			end
-			term.win = nil
 		end
 	end
 end
