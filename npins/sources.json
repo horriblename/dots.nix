@@ -1,34 +1,5 @@
 {
   "pins": {
-    "99": {
-      "type": "Git",
-      "repository": {
-        "type": "GitHub",
-        "owner": "ThePrimeagen",
-        "repo": "99"
-      },
-      "branch": "master",
-      "submodules": false,
-      "revision": "4d229141546290746c82ac90f5afc2786865b5f3",
-      "url": "https://github.com/ThePrimeagen/99/archive/4d229141546290746c82ac90f5afc2786865b5f3.tar.gz",
-      "hash": "1wzzm7iarrngngy2vj1661yvjkcyw4l219fj2ir6adfkmj7gj1id"
-    },
-    "IXWebSocket": {
-      "type": "GitRelease",
-      "repository": {
-        "type": "GitHub",
-        "owner": "machinezone",
-        "repo": "IXWebSocket"
-      },
-      "pre_releases": false,
-      "version_upper_bound": null,
-      "release_prefix": null,
-      "submodules": false,
-      "version": "v11.4.6",
-      "revision": "2efe037c9cc96fd536774f17bdb5215161ee5087",
-      "url": "https://api.github.com/repos/machinezone/IXWebSocket/tarball/v11.4.6",
-      "hash": "085xl1x3bjhylbpxdscnrmysx3m8mrmasbbs8gqrwxz0lbib57k5"
-    },
     "aerial.nvim": {
       "type": "Git",
       "repository": {
