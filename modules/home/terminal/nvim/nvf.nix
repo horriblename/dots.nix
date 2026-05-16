@@ -652,6 +652,7 @@ in {
       (mkKeymap "n" "<leader>gP" "<cmd>Gitsigns preview_hunk_inline<CR>" {})
       (mkKeymap "n" "<leader>gR" "<cmd>Gitsigns reset_buffer<CR>" {})
       (mkKeymap "n" "<leader>gb" "<cmd>Gitsigns blame_line<CR>" {})
+      (mkKeymap "n" "<leader>gB" "<cmd>Gitsigns blame<CR>" {})
       (mkKeymap "n" "<leader>gD" "<cmd>Gitsigns diffthis HEAD<CR>" {})
       (mkKeymap "n" "<leader>gw" "<cmd>Gitsigns toggle_word_diff<CR>" {})
       (mkKeymap "n" "]g" ":Gitsigns next_hunk<CR>" {})

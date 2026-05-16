@@ -447,6 +447,9 @@ function s:closeBuffer()
 	return (buflisted(0)? ':edit #' : ':bnext' ) . '| bdelete ' . bufnr() . "\<CR>"
 endfu
 nnoremap <expr> <M-c> <SID>closeBuffer()
+nnoremap <silent> <C-W>n :Split new<CR>
+nnoremap <silent> <C-W>N :Split new +setl\ buftype=nofile<CR>
+nnoremap <C-W>\ <C-W><bar><C-W>_
 
 " Resizing
 nnoremap <M-C-.>  <C-W>3>
