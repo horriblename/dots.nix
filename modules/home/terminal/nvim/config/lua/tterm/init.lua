@@ -130,6 +130,9 @@ local function open_floating_terms(tab_id, to_focus)
 	elseif focus_win then
 		vim.api.nvim_set_current_win(focus_win)
 	end
+	-- WinEnter autocmd sets the focus to an arbitrary id
+	-- (race condition or wtv I forgor)
+	vim.t[tab_id].toggleterm_focused_id = to_focus
 end
 
 ---@param tab_id integer
