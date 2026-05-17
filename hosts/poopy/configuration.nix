@@ -50,6 +50,7 @@
       port = 9200;
     };
     netdata.enable = true;
+    wakapi.enable = true;
   };
 
   system.stateVersion = "23.11";
