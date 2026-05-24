@@ -83,11 +83,7 @@ in {
     };
 
     xdg.configFile = {
-      "hypr/hyprlandd.conf".text =
-        hlDebugMonitor
-        + ''
-          source = ${impurity.link ./hyprlandd.conf}
-        '';
+      "hypr/hyprlandd.lua".source = impurity.link ./hyprlandd.lua;
       "hypr/scripts".source = impurity.link ./scripts;
       "xdg-desktop-portal/hyprland-portals.conf".source = impurity.link ./hyprland-portals.conf;
     };
