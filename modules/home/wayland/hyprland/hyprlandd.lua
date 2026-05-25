@@ -2,20 +2,52 @@
 
 _G.hl = _G.hl or {}
 
-hl.config = {
+local function indent(indents)
+	return string.rep('  ', indents)
+end
+local function dbg_inner(indents, seen, x)
+	if x == nil then return "nil" end
+
+	local t = type(x)
+	if t == "string" then
+		return ("[[" .. x .. "]]")
+	elseif t == "table" then
+		if seen[x] then
+			return seen[x]
+		end
+
+		seen[x] = '<table ' .. tostring(seen.id) .. '>'
+		seen.id = seen.id + 1
+		local lines = "{\n"
+		for k, v in pairs(x) do
+			lines = lines .. indent(indents + 1) .. tostring(k) .. ' = ' .. dbg_inner(indents + 1, seen, v) .. ',\n'
+		end
+		lines = lines .. indent(indents) .. '}'
+		return lines
+	else
+		return tostring(x)
+	end
+end
+
+function _G.dbg(x)
+	print(dbg_inner(0, { id = 1 }, x))
+end
+
+hl.config({
 	general = {
 		border_size = 5,
 	},
 
 	debug = {
-		disable_logs = 0,
+		disable_logs = false,
 	},
 
-	device = {
-		name = "ntrg0001:01-1b96:1b0",
-		output = "eDP-1",
-	},
-}
+	-- device = {
+	-- 	name = "ntrg0001:01-1b96:1b0",
+	-- 	output = "eDP-1",
+	-- },
+
+})
 
 hl.bind("ALT+period", hl.dsp.focus({ workspace = "+1" }))
 hl.bind("ALT+comma", hl.dsp.focus({ workspace = "-1" }))
@@ -62,12 +94,35 @@ hl.gesture({ fingers = 4, direction = "horizontal", action = "resize" })
 hl.gesture({ fingers = 4, direction = "up", action = "move" })
 hl.gesture({ fingers = 4, direction = "pinchout", action = "close" })
 
-hl.plugin.touch_gestures = {
-	workspace_swipe_fingers = 4,
-	workspace_swipe_edge = "d",
-	resize_on_border_long_press = true,
-	sensitivity = 5.0,
-}
+if hl.plugin.hyprgrass then
+	hl.config {
+		plugin = {
+			hyprgrass = {
+				workspace_swipe_fingers = 4,
+				workspace_swipe_edge = "d",
+				resize_on_border_long_press = true,
+				sensitivity = 5.0,
+			},
+		},
+	}
+
+	hl.plugin.hyprgrass.gesture {
+		gesture = { kind = "swipe", fingers = 3, direction = "down" },
+		action = function()
+			hl.notify('swipe:3:down')
+		end,
+	}
+
+	hl.plugin.hyprgrass.gesture {
+		gesture = { kind = "swipe", fingers = 3, direction = "horizontal" },
+		action = "workspace",
+	}
+
+	hl.plugin.hyprgrass.gesture {
+		gesture = { kind = "edge", origin = "left", direction = "right" },
+		action = "workspace",
+	}
+end
 
 -- if hl.plugin.hyprgrass then
 -- 	hl.plugin.hyprgrass.bind {
