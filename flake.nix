@@ -4,7 +4,7 @@
 
   inputs = {
     # attribute sets listing all dependency used within the flake?
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     nix-index-database.url = "github:Mic92/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     # nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -19,7 +19,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland.url = "github:hyprwm/Hyprland/v0.54.3";
@@ -36,7 +36,7 @@
       inputs.hyprland.follows = "hyprland";
     };
     nvf = {
-      url = "github:horriblename/nvf/personal";
+      url = "github:NotAShelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     impurity.url = "github:outfoxxed/impurity.nix";
@@ -496,6 +496,11 @@
       roc-ls = inputs.roc.packages.${final.stdenv.system}.lang-server;
       treesitter-roc = inputs.tree-sitter-roc.packages.${final.stdenv.system}.default;
       neovim-treesitter-roc = final.callPackage ./pkgs/neovim-treesitter-roc.nix {treesitter-roc-src = inputs.tree-sitter-roc;};
+
+      bonsai-llama-cpp = final.llama-cpp.overrideAttrs {
+        src = pins.bonsai-llama-cpp;
+        version = "11434";
+      };
 
       ixwebsocket = final.callPackage ./pkgs/ixwebsocket.nix {pin = pins.IXWebSocket;};
       rag-cli = final.callPackage ./pkgs/cli-rag/default.nix {src = pins.rag-cli;};
