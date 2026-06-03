@@ -6,6 +6,7 @@
 }: {
   imports = [
     ./bash.nix
+    ./tclsh.nix
   ];
   home = {
     sessionVariables = {
