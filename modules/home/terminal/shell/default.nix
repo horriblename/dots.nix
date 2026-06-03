@@ -10,7 +10,7 @@
   home = {
     sessionVariables = {
       # XDG_DATA_DIRS = "${config.home.profileDirectory}/share\${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}";
-      EDITOR = lib.getExe pkgs.neovim;
+      EDITOR = lib.getExe config.programs.nvf.finalPackage;
       PAGER = "less -FR";
       CARGO_HOME = "${config.xdg.dataHome}/cargo";
       RUSTUP_HOME = "${config.xdg.dataHome}/rustup";
