@@ -28,7 +28,6 @@ in {
     ./scripts
     ./git
     ./zellij
-    ./yazi
   ];
 
   home.packages = with pkgs;
