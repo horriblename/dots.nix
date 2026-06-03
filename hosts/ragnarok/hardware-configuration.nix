@@ -49,13 +49,13 @@
   fileSystems."/mnt/phi" = {
     device = "/dev/disk/by-uuid/d29799bd-b25a-42d9-b0f4-08dd186ca155";
     fsType = "ext4";
-    options = ["user" "noauto"];
+    options = ["user" "noauto" "exec"];
   };
 
   fileSystems."/opt" = {
     device = "/mnt/phi/opt";
     fsType = "none";
-    options = ["bind" "rw" "noauto"];
+    options = ["bind" "rw" "noauto" "exec"];
   };
 
   services.xserver.videoDrivers = ["nvidia"];
