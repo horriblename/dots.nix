@@ -27,7 +27,6 @@ in {
     ./lf
     ./scripts
     ./git
-    ./zellij
   ];
 
   home.packages = with pkgs;
