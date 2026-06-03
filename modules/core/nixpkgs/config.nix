@@ -17,6 +17,7 @@ in {
       "nvidia-x11"
       "nvidia-settings"
       "nvidia-persistenced"
+      "nvidia-kernel-modules"
 
       # nvtop-nvidia BS
       "nvidia"
