@@ -1,0 +1,137 @@
+if {[info exists env(NIX_PROFILES)]} {
+    lappend auto_path {*}[lmap {p} [lindex [array get env NIX_PROFILES] 2] {"$p/share"}]
+}
+
+if {!$tcl_interactive} {
+    return
+}
+
+package require tclreadline
+
+# uncomment the following line to use
+# tclreadline's fancy ls proc.
+#
+# namespace import tclreadline::ls
+
+# tclreadline::Print is on (`yes') by default.
+# This mimics the command echoing like in the
+# non-readline interactive tclsh.
+# If you don't like this, uncomment the following
+# line.
+#
+# tclreadline::Print no
+
+# uncomment the following line, if you want
+# to change tclreadline's print behaviour
+# frequently with less typing.
+#
+# namespace import tclreadline::Print
+
+# store maximal this much lines in the history file
+#
+set tclreadline::historyLength 200
+
+# disable tclreadline's script completer
+#
+# ::tclreadline::readline customcompleter ""
+
+# automatically save the history after every
+# command (instead of when cleanly exiting)
+set tclreadline::autosave 1
+
+# TODO: completion
+proc z {dir} {
+    command z $dir
+}
+
+namespace eval tclreadline {
+    # note: the surrounding \x01...\x02 are required by readline
+    set color(reset)   "\x01\x1b\[0m\x02"
+    set color(green)   "\x01\x1b\[32m\x02"
+    set color(red)     "\x01\x1b\[31m\x02"
+    set color(orange)  "\x01\x1b\[33m\x02"
+    set color(aqua)    "\x01\x1b\[36m\x02"
+    set color(magenta) "\x01\x1b\[35m\x02"
+    set color(grey)    "\x01\x1b\[37m\x02"
+
+    set status 0
+
+    proc prompt1 {} {
+        namespace upvar ::tclreadline status status
+        namespace upvar ::tclreadline color color
+        set arrowCol [expr {$status? $color(green) : $color(green)}]
+        return "\n$color(aqua)[pwd]\n$arrowCol> $color(reset)"
+    }
+
+    proc prompt2 {} {
+        namespace upvar ::tclreadline color color
+        return "$color(grey)...> $color(reset)"
+    }
+
+    # custom main loop
+    proc Loop {args} {
+
+        eval Setup ${args}
+
+        uplevel #0 {
+
+            while {1} {
+
+                if {[catch {
+                    set prompt "% "
+                    if {"" != [info procs ::tclreadline::prompt1]} {
+                        set prompt [::tclreadline::prompt1]
+                    }
+                    set ::tclreadline::LINE [::tclreadline::readline read $prompt]
+                    while {![::tclreadline::readline complete $::tclreadline::LINE]} {
+                        append ::tclreadline::LINE "\n"
+                        set prompt2 "> "
+                        if {"" != [info procs ::tclreadline::prompt2]} {
+                            set prompt2 [::tclreadline::prompt2]
+                        }
+                        append ::tclreadline::LINE [tclreadline::readline read $prompt2]
+                    }
+                } ::tclreadline::errorMsg]} {
+                    puts stderr "tclreadline::Loop: error. $::tclreadline::errorMsg"
+                    continue
+                }
+
+                # Magnus Eriksson <magnus.eriksson@netinsight.se> proposed
+                # to add the line also to tclsh's history.
+                #
+                # I decided to add only lines which are different from
+                # the previous one to the history. This is different
+                # from tcsh's behaviour, but I found it quite convenient
+                # while using mshell on os9.
+                #
+                if {[string length $::tclreadline::LINE]
+                        && [history event 0] != $::tclreadline::LINE} {
+                    history add $::tclreadline::LINE
+                    if {[info exists ::tclreadline::autosave] && \
+                        [string is true -strict $::tclreadline::autosave] && \
+                        [catch {::tclreadline::readline write [::tclreadline::HistoryFileGet]} \
+                             ::tclreadline::errorMsg]} {
+                        puts stderr $::tclreadline::errorMsg
+                    }
+                }
+
+                if {[catch {
+                    set ::tclreadline::result [eval $::tclreadline::LINE]
+                    if {$::tclreadline::result != "" && [tclreadline::Print]} {
+                        puts $::tclreadline::result
+                    }
+                    set ::tclreadline::result ""
+                } ::tclreadline::errorMsg]} {
+                    puts stderr $::tclreadline::errorMsg
+                    puts stderr "while evaluating $::tclreadline::LINE"
+                }
+
+            }
+        }
+    }
+}
+
+tclreadline::Loop
+
+
+# vim: ft=tcl

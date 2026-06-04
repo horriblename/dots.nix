@@ -1,0 +1,3 @@
+$if tclreadline
+	"\C-o": "\C-u\C-klf\r"
+$endif
