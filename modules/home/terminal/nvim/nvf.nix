@@ -7,10 +7,11 @@
   pins,
   ...
 }: let
-  nix2Lua = inputs.nvf.lib.nvim.lua.toLuaObject;
+  inherit (inputs.nvf.lib.nvim.lua) toLuaObject;
   inherit (inputs.nvf.lib.nvim.dag) entryBetween;
   inherit (lib.generators) mkLuaInline;
   inherit (lib.modules) mkForce mkIf;
+  nix2Lua = toLuaObject;
   devEnabled = config.dots.development.enable;
   langCfg = config.programs.nvf.settings.vim.languages;
   setup = module: table: "require('${module}').setup(${nix2Lua table})";
@@ -31,6 +32,50 @@
 
       passthru.vimPlugin = false;
     };
+
+  mkTSTextObjSelectKeymap = key: tag: (mkKeymap ["x" "o"] key ''
+      function()
+          require("nvim-treesitter-textobjects.select").select_textobject(${toLuaObject tag}, "textobjects")
+      end
+    '' {
+      lua = true;
+      desc = "Select ${tag}";
+    });
+
+  mkTSTextObjSwapKeymap = key: tag: direction: (mkKeymap ["n"] key ''
+      function()
+          require("nvim-treesitter-textobjects.swap").swap_${direction}(${toLuaObject tag})
+      end
+    '' {
+      lua = true;
+      desc = "Swap ${tag} with ${direction}";
+    });
+
+  # pos should be "start" or "end"
+  mkTSTextObjMoveKeymaps = key: tag: pos: let
+    keyNext = key;
+    keyPrev =
+      if key == "]"
+      then "["
+      else key;
+  in [
+    (mkKeymap ["n" "x" "o"] "[${keyPrev}" ''
+        function()
+          require("nvim-treesitter-textobjects.move").goto_previous_${pos}(${toLuaObject tag}, "textobjects")
+        end
+      '' {
+        lua = true;
+        desc = "Move to prev ${pos} of ${tag}";
+      })
+    (mkKeymap ["n" "x" "o"] "]${keyNext}" ''
+        function()
+          require("nvim-treesitter-textobjects.move").goto_next_${pos}(${toLuaObject tag}, "textobjects")
+        end
+      '' {
+        lua = true;
+        desc = "Move to next ${pos} of ${tag}";
+      })
+  ];
 in {
   programs.nvf.settings.vim = {
     viAlias = false;
@@ -229,7 +274,9 @@ in {
       formatOnSave = true;
       lspconfig.enable = true;
       mappings.openDiagnosticFloat = null;
-      harper-ls.enable = devEnabled;
+      presets = {
+        harper.enable = devEnabled;
+      };
     };
 
     debugger.nvim-dap = {
@@ -270,7 +317,6 @@ in {
         enable = false;
       };
       sql.enable = false;
-      ts.enable = false;
       zig.enable = false;
     };
 
@@ -303,8 +349,8 @@ in {
         root_markers = [".git" "main.roc"];
       };
       yamlls = {};
-      harper-ls = {
-        filetypes = ["markdown" "gitcommit" "typst"];
+      harper = {
+        filetypes = mkForce ["markdown" "gitcommit" "typst" "mail"];
       };
     };
 
@@ -375,13 +421,6 @@ in {
         setupOpts = {
           max_lines = 5;
         };
-      };
-      mappings = {
-        # incrementalSelection = {
-        #   init = "<M-o>";
-        #   incrementByNode = "<M-o>";
-        #   decrementByNode = "<M-i>";
-        # };
       };
     };
 
@@ -597,121 +636,137 @@ in {
       end)
     '';
 
-    keymaps = [
-      # General
-      (mkKeymap "n" "<leader>zf" ":lua vim.g.formatsave = not vim.g.formatsave<CR>" {})
-      (mkKeymap "n" "<leader>ld" ":lua vim.diagnostic.setqflist({open = true})<CR>" {})
-      (mkKeymap "n" "<leader>lf" ":lua vim.lsp.buf.format()<CR>" {})
-      (mkKeymap "n" "<leader>li" ":lua vim.lsp.buf.implementation()<CR>" {})
-      (mkKeymap "n" "<leader>le"
-        "<cmd>lua vim.diagnostic.config({virtual_lines = not vim.diagnostic.config().virtual_lines})<CR>"
-        {desc = "Toggle line diagnostics";})
+    keymaps =
+      [
+        # General
+        (mkKeymap "n" "<leader>zf" ":lua vim.g.formatsave = not vim.g.formatsave<CR>" {})
+        (mkKeymap "n" "<leader>ld" ":lua vim.diagnostic.setqflist({open = true})<CR>" {})
+        (mkKeymap "n" "<leader>lf" ":lua vim.lsp.buf.format()<CR>" {})
+        (mkKeymap "n" "<leader>li" ":lua vim.lsp.buf.implementation()<CR>" {})
+        (mkKeymap "n" "<leader>le"
+          "<cmd>lua vim.diagnostic.config({virtual_lines = not vim.diagnostic.config().virtual_lines})<CR>"
+          {desc = "Toggle line diagnostics";})
 
-      # Diffview
-      (mkKeymap "n" "<leader>gdq" ":DiffviewClose<CR>" {})
-      (mkKeymap "n" "<leader>gdd" ":DiffviewOpen" {silent = false;})
-      (mkKeymap "n" "<leader>gdm" ":DiffviewOpen<CR>" {})
-      (mkKeymap "n" "<leader>gdh" ":DiffviewFileHistory %<CR>" {})
-      (mkKeymap "n" "<leader>gde" ":DiffviewToggleFiles<CR>" {})
+        # Diffview
+        (mkKeymap "n" "<leader>gdq" ":DiffviewClose<CR>" {})
+        (mkKeymap "n" "<leader>gdd" ":DiffviewOpen" {silent = false;})
+        (mkKeymap "n" "<leader>gdm" ":DiffviewOpen<CR>" {})
+        (mkKeymap "n" "<leader>gdh" ":DiffviewFileHistory %<CR>" {})
+        (mkKeymap "n" "<leader>gde" ":DiffviewToggleFiles<CR>" {})
 
-      # Git
-      (mkKeymap "n" "<leader>gu" "<cmd>Gitsigns undo_stage_hunk<CR>" {})
-      (mkKeymap "n" "<leader>g<C-w>" "<cmd>Gitsigns preview_hunk<CR>" {})
-      (mkKeymap "n" "<leader>gp" "<cmd>Gitsigns prev_hunk<CR>" {})
-      (mkKeymap "n" "<leader>gn" "<cmd>Gitsigns next_hunk<CR>" {})
-      (mkKeymap "n" "<leader>gP" "<cmd>Gitsigns preview_hunk_inline<CR>" {})
-      (mkKeymap "n" "<leader>gR" "<cmd>Gitsigns reset_buffer<CR>" {})
-      (mkKeymap "n" "<leader>gb" "<cmd>Gitsigns blame_line<CR>" {})
-      (mkKeymap "n" "<leader>gB" "<cmd>Gitsigns blame<CR>" {})
-      (mkKeymap "n" "<leader>gD" "<cmd>Gitsigns diffthis HEAD<CR>" {})
-      (mkKeymap "n" "<leader>gw" "<cmd>Gitsigns toggle_word_diff<CR>" {})
-      (mkKeymap "n" "]g" ":Gitsigns next_hunk<CR>" {})
-      (mkKeymap "n" "[g" ":Gitsigns prev_hunk<CR>" {})
+        # Git
+        (mkKeymap "n" "<leader>gu" "<cmd>Gitsigns undo_stage_hunk<CR>" {})
+        (mkKeymap "n" "<leader>g<C-w>" "<cmd>Gitsigns preview_hunk<CR>" {})
+        (mkKeymap "n" "<leader>gp" "<cmd>Gitsigns prev_hunk<CR>" {})
+        (mkKeymap "n" "<leader>gn" "<cmd>Gitsigns next_hunk<CR>" {})
+        (mkKeymap "n" "<leader>gP" "<cmd>Gitsigns preview_hunk_inline<CR>" {})
+        (mkKeymap "n" "<leader>gR" "<cmd>Gitsigns reset_buffer<CR>" {})
+        (mkKeymap "n" "<leader>gb" "<cmd>Gitsigns blame_line<CR>" {})
+        (mkKeymap "n" "<leader>gB" "<cmd>Gitsigns blame<CR>" {})
+        (mkKeymap "n" "<leader>gD" "<cmd>Gitsigns diffthis HEAD<CR>" {})
+        (mkKeymap "n" "<leader>gw" "<cmd>Gitsigns toggle_word_diff<CR>" {})
+        (mkKeymap "n" "]g" ":Gitsigns next_hunk<CR>" {})
+        (mkKeymap "n" "[g" ":Gitsigns prev_hunk<CR>" {})
 
-      # fzf-lua
-      (mkKeymap "n" "<M-f>" ":FzfLua resume<CR>" {})
-      (mkKeymap "n" "<leader>fq" ":FzfLua quickfix<CR>" {})
-      (mkKeymap "n" "<leader>f/" ":FzfLua live_grep_native<CR>" {})
-      (mkKeymap "n" "<leader>ff" ":FzfLua files<CR>" {})
-      (mkKeymap "n" "<leader>fb" ":lua FzfLua.buffers{previewer = 'builtin'}<CR>" {})
-      (mkKeymap "n" "<leader>fh" ":FzfLua oldfiles<CR>" {})
-      (mkKeymap "n" "<leader>f:" ":FzfLua command_history<CR>" {})
-      (mkKeymap "n" "<leader>f]" ":FzfLua tags<CR>" {})
-      (mkKeymap "n" "g]" ":ltag <C-R><C-W> | lua FzfLua.loclist{previewer = 'builtin'}<CR>" {})
+        # fzf-lua
+        (mkKeymap "n" "<M-f>" ":FzfLua resume<CR>" {})
+        (mkKeymap "n" "<leader>fq" ":FzfLua quickfix<CR>" {})
+        (mkKeymap "n" "<leader>f/" ":FzfLua live_grep_native<CR>" {})
+        (mkKeymap "n" "<leader>ff" ":FzfLua files<CR>" {})
+        (mkKeymap "n" "<leader>fb" ":lua FzfLua.buffers{previewer = 'builtin'}<CR>" {})
+        (mkKeymap "n" "<leader>fh" ":FzfLua oldfiles<CR>" {})
+        (mkKeymap "n" "<leader>f:" ":FzfLua command_history<CR>" {})
+        (mkKeymap "n" "<leader>f]" ":FzfLua tags<CR>" {})
+        (mkKeymap "n" "g]" ":ltag <C-R><C-W> | lua FzfLua.loclist{previewer = 'builtin'}<CR>" {})
 
-      # Aerial
-      (mkKeymap "n" "gO" ":AerialToggle<CR>" {})
+        # Aerial
+        (mkKeymap "n" "gO" ":AerialToggle<CR>" {})
 
-      # Image pasre
-      (mkKeymap "n" "<leader>P" ":call mdip#MarkdownClipboardImage()<CR>" {})
+        # Image pasre
+        (mkKeymap "n" "<leader>P" ":call mdip#MarkdownClipboardImage()<CR>" {})
 
-      # luasnip
-      (mkKeymap ["n" "i" "s"] "<C-;>" "<Plug>luasnip-jump-next" {silent = true;})
-      (mkKeymap ["n" "i" "s"] "<C-,>" "<Plug>luasnip-jump-prev" {silent = true;})
+        # luasnip
+        (mkKeymap ["n" "i" "s"] "<C-;>" "<Plug>luasnip-jump-next" {silent = true;})
+        (mkKeymap ["n" "i" "s"] "<C-,>" "<Plug>luasnip-jump-prev" {silent = true;})
 
-      (mkKeymap ["n" "x" "o"] "<leader>gs" ":Gitsigns stage_hunk<CR>" {})
-      (mkKeymap ["n" "x" "o"] "<leader>gr" ":Gitsigns reset_hunk<CR>" {})
-      (mkKeymap ["n" "x" "o"] "<leader>lr" "<cmd>lua vim.lsp.buf.references()<CR>" {})
+        (mkKeymap ["n" "x" "o"] "<leader>gs" ":Gitsigns stage_hunk<CR>" {})
+        (mkKeymap ["n" "x" "o"] "<leader>gr" ":Gitsigns reset_hunk<CR>" {})
+        (mkKeymap ["n" "x" "o"] "<leader>lr" "<cmd>lua vim.lsp.buf.references()<CR>" {})
 
-      # FzfLua
-      (mkKeymap "n" "<leader>fj" "<cmd>FzfLua jumps<CR>" {})
-      (mkKeymap "n" "<leader>fh" "<cmd>FzfLua oldfiles<CR>" {})
-      (mkKeymap "n" "<leader>fm" "<cmd>FzfLua marks<CR>" {})
-      (mkKeymap "n" "<leader>f\"" "<cmd>FzfLua registers<CR>" {})
+        # FzfLua
+        (mkKeymap "n" "<leader>fj" "<cmd>FzfLua jumps<CR>" {})
+        (mkKeymap "n" "<leader>fh" "<cmd>FzfLua oldfiles<CR>" {})
+        (mkKeymap "n" "<leader>fm" "<cmd>FzfLua marks<CR>" {})
+        (mkKeymap "n" "<leader>f\"" "<cmd>FzfLua registers<CR>" {})
 
-      # LSP
-      (mkKeymap "n" "<leader>fla" "<cmd>FzfLua lsp_code_actions<CR>" {})
-      (mkKeymap "n" "<leader>flD" "<cmd>FzfLua lsp_declarations<CR>" {})
-      (mkKeymap "n" "<leader>fld" "<cmd>FzfLua lsp_definitions<CR>" {})
-      (mkKeymap "n" "<leader>flr" "<cmd>FzfLua lsp_references<CR>" {})
-      (mkKeymap "n" "<leader>flt" "<cmd>FzfLua lsp_typedefs<CR>" {})
-      (mkKeymap "n" "<leader>flf" "<cmd>FzfLua lsp_finder<CR>" {})
-      (mkKeymap "n" "<leader>fli" "<cmd>FzfLua lsp_implementations<CR>" {})
-      (mkKeymap "n" "<leader>flci" "<cmd>FzfLua lsp_incoming_calls<CR>" {})
-      (mkKeymap "n" "<leader>flco" "<cmd>FzfLua lsp_outgoing_calls<CR>" {})
-      (mkKeymap "n" "<leader>flsd" "<cmd>FzfLua lsp_document_symbols<CR>" {})
-      (mkKeymap "n" "<leader>flsl" "<cmd>FzfLua lsp_live_workspace_symbols<CR>" {})
-      (mkKeymap "n" "<leader>flsw" "<cmd>FzfLua lsp_workspace_symbols<CR>" {})
-      (mkKeymap "n" "<leader>flxd" "<cmd>FzfLua lsp_document_diagnostics<CR>" {})
-      (mkKeymap "n" "<leader>flxw" "<cmd>FzfLua lsp_workspace_diagnostics<CR>" {})
-      (mkKeymap "n" "<leader>flxx" "<cmd>FzfLua lsp_workspace_diagnostics<CR>" {})
+        # LSP
+        (mkKeymap "n" "<leader>fla" "<cmd>FzfLua lsp_code_actions<CR>" {})
+        (mkKeymap "n" "<leader>flD" "<cmd>FzfLua lsp_declarations<CR>" {})
+        (mkKeymap "n" "<leader>fld" "<cmd>FzfLua lsp_definitions<CR>" {})
+        (mkKeymap "n" "<leader>flr" "<cmd>FzfLua lsp_references<CR>" {})
+        (mkKeymap "n" "<leader>flt" "<cmd>FzfLua lsp_typedefs<CR>" {})
+        (mkKeymap "n" "<leader>flf" "<cmd>FzfLua lsp_finder<CR>" {})
+        (mkKeymap "n" "<leader>fli" "<cmd>FzfLua lsp_implementations<CR>" {})
+        (mkKeymap "n" "<leader>flci" "<cmd>FzfLua lsp_incoming_calls<CR>" {})
+        (mkKeymap "n" "<leader>flco" "<cmd>FzfLua lsp_outgoing_calls<CR>" {})
+        (mkKeymap "n" "<leader>flsd" "<cmd>FzfLua lsp_document_symbols<CR>" {})
+        (mkKeymap "n" "<leader>flsl" "<cmd>FzfLua lsp_live_workspace_symbols<CR>" {})
+        (mkKeymap "n" "<leader>flsw" "<cmd>FzfLua lsp_workspace_symbols<CR>" {})
+        (mkKeymap "n" "<leader>flxd" "<cmd>FzfLua lsp_document_diagnostics<CR>" {})
+        (mkKeymap "n" "<leader>flxw" "<cmd>FzfLua lsp_workspace_diagnostics<CR>" {})
+        (mkKeymap "n" "<leader>flxx" "<cmd>FzfLua lsp_workspace_diagnostics<CR>" {})
 
-      # DAP
-      (mkKeymap "n" "<leader>fdb" "<cmd>FzfLua dap_breakpoints<CR>" {})
-      (mkKeymap "n" "<leader>fdc" "<cmd>FzfLua dap_commands<CR>" {})
-      (mkKeymap "n" "<leader>fdC" "<cmd>FzfLua dap_configurations<CR>" {})
-      (mkKeymap "n" "<leader>fdf" "<cmd>FzfLua dap_frames<CR>" {})
-      (mkKeymap "n" "<leader>fdv" "<cmd>FzfLua dap_variables<CR>" {})
-      (mkKeymap "n" "<leader>de" "function() require('dap').set_exception_breakpoints() end" {
-        lua = true;
-      })
+        # DAP
+        (mkKeymap "n" "<leader>fdb" "<cmd>FzfLua dap_breakpoints<CR>" {})
+        (mkKeymap "n" "<leader>fdc" "<cmd>FzfLua dap_commands<CR>" {})
+        (mkKeymap "n" "<leader>fdC" "<cmd>FzfLua dap_configurations<CR>" {})
+        (mkKeymap "n" "<leader>fdf" "<cmd>FzfLua dap_frames<CR>" {})
+        (mkKeymap "n" "<leader>fdv" "<cmd>FzfLua dap_variables<CR>" {})
+        (mkKeymap "n" "<leader>de" "function() require('dap').set_exception_breakpoints() end" {
+          lua = true;
+        })
 
-      # QuickFix
-      (mkKeymap "n" "<leader>fxx" "<cmd>FzfLua quickfix<CR>" {})
-      (mkKeymap "n" "<leader>fxh" "<cmd>FzfLua quickfix_stack<CR>" {})
-      (mkKeymap "n" "<leader>fxlx" "<cmd>FzfLua loclist<CR>" {})
-      (mkKeymap "n" "<leader>fxlh" "<cmd>FzfLua loclist_stack<CR>" {})
+        # QuickFix
+        (mkKeymap "n" "<leader>fxx" "<cmd>FzfLua quickfix<CR>" {})
+        (mkKeymap "n" "<leader>fxh" "<cmd>FzfLua quickfix_stack<CR>" {})
+        (mkKeymap "n" "<leader>fxlx" "<cmd>FzfLua loclist<CR>" {})
+        (mkKeymap "n" "<leader>fxlh" "<cmd>FzfLua loclist_stack<CR>" {})
 
-      # Git
-      (mkKeymap "n" "<leader>fgB" "<cmd>FzfLua git_blame<CR>" {})
-      (mkKeymap "n" "<leader>fgb" "<cmd>FzfLua git_branches<CR>" {})
-      (mkKeymap "n" "<leader>fgc" "<cmd>FzfLua git_commits<CR>" {})
-      (mkKeymap "n" "<leader>fgC" "<cmd>FzfLua git_bcommits<CR>" {})
-      (mkKeymap "n" "<leader>fgf" "<cmd>FzfLua git_files<CR>" {})
-      (mkKeymap "n" "<leader>fgS" "<cmd>FzfLua git_stash<CR>" {})
-      (mkKeymap "n" "<leader>fgs" "<cmd>FzfLua git_status<CR>" {})
-      (mkKeymap "n" "<leader>fgt" "<cmd>FzfLua git_tags<CR>" {})
-      (mkKeymap "n" "]g" ":Gitsigns next_hunk<CR>" {})
-      (mkKeymap "n" "[g" ":Gitsigns prev_hunk<CR>" {})
+        # Git
+        (mkKeymap "n" "<leader>fgB" "<cmd>FzfLua git_blame<CR>" {})
+        (mkKeymap "n" "<leader>fgb" "<cmd>FzfLua git_branches<CR>" {})
+        (mkKeymap "n" "<leader>fgc" "<cmd>FzfLua git_commits<CR>" {})
+        (mkKeymap "n" "<leader>fgC" "<cmd>FzfLua git_bcommits<CR>" {})
+        (mkKeymap "n" "<leader>fgf" "<cmd>FzfLua git_files<CR>" {})
+        (mkKeymap "n" "<leader>fgS" "<cmd>FzfLua git_stash<CR>" {})
+        (mkKeymap "n" "<leader>fgs" "<cmd>FzfLua git_status<CR>" {})
+        (mkKeymap "n" "<leader>fgt" "<cmd>FzfLua git_tags<CR>" {})
+        (mkKeymap "n" "]g" ":Gitsigns next_hunk<CR>" {})
+        (mkKeymap "n" "[g" ":Gitsigns prev_hunk<CR>" {})
 
-      # mini.files
-      (mkKeymap "n" "-" ":lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>" {
-        desc = "Open mini.files in the parent of this buffer";
-      })
-      (mkKeymap "n" "<leader>e" ":lua MiniFiles.open(MiniFiles.get_latest_path())<CR>" {
-        desc = "Open mini.files in last opened path";
-      })
-    ];
+        # mini.files
+        (mkKeymap "n" "-" ":lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>" {
+          desc = "Open mini.files in the parent of this buffer";
+        })
+        (mkKeymap "n" "<leader>e" ":lua MiniFiles.open(MiniFiles.get_latest_path())<CR>" {
+          desc = "Open mini.files in last opened path";
+        })
+
+        # nvim-treesitter-textobjects
+        (mkTSTextObjSelectKeymap "af" "@function.outer")
+        (mkTSTextObjSelectKeymap "if" "@function.inner")
+        (mkTSTextObjSelectKeymap "ac" "@class.outer")
+        (mkTSTextObjSelectKeymap "ic" "@class.inner")
+        (mkTSTextObjSelectKeymap "aa" "@parameter.outer")
+        (mkTSTextObjSelectKeymap "ia" "@parameter.inner")
+
+        (mkTSTextObjSwapKeymap "cxa" "@parameter.inner" "next")
+        (mkTSTextObjSwapKeymap "cxA" "@parameter.inner" "previous")
+      ]
+      ++ (mkTSTextObjMoveKeymaps "f" "@function.outer" "start")
+      ++ (mkTSTextObjMoveKeymaps "F" "@function.outer" "end")
+      ++ (mkTSTextObjMoveKeymaps "]" "@function.outer" "start")
+      ++ (mkTSTextObjMoveKeymaps "c" "@class.outer" "start");
 
     extraPlugins = with pkgs.vimPlugins; {
       tele-nvim = {
@@ -817,52 +872,17 @@ in {
       nixrun-nvim = {package = noBuildPlug "nixrun-nvim";};
       nvim-treesitter-textobjects = {
         package = pkgs.vimPlugins.nvim-treesitter-textobjects;
-        setup = setup "nvim-treesitter.configs" {
-          textobjects = {
-            select = {
-              enable = true;
-              lookahed = true;
-              keymaps = {
-                "af" = "@function.outer";
-                "if" = "@function.inner";
-                "ac" = "@class.outer";
-                "ic" = "@class.inner";
-              };
-
-              selection_modes = {
-                "@parameter.outer" = "v";
-                "@function.outer" = "V";
-                "@class.outer" = "V";
-              };
+        setup = setup "nvim-treesitter-textobjects" {
+          select = {
+            lookahed = true;
+            selection_modes = {
+              "@parameter.outer" = "v";
+              "@function.outer" = "V";
+              "@class.outer" = "V";
             };
-            swap = {
-              enable = true;
-              swap_next = {
-                "cx;" = "@parameter.inner";
-              };
-              swap_previous = {
-                "cx," = "@parameter.inner";
-              };
-            };
-
-            move = {
-              enable = true;
-              set_jumps = true;
-              goto_next_start = {
-                "]f" = "@function.outer";
-              };
-              goto_previous_start = {
-                "[f" = "@function.outer";
-                "[C" = "@class.outer";
-              };
-              goto_next_end = {
-                "]F" = "@function.outer";
-              };
-              goto_previous_end = {
-                "[F" = "@function.outer";
-                "]C" = "@class.outer";
-              };
-            };
+          };
+          move = {
+            set_jumps = true;
           };
         };
       };
