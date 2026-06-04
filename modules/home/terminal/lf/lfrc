@@ -272,7 +272,7 @@ cmd unarchive ${{
 	lf -remote "send $id reload"
 }}
 
-cmd zip ${{
+cmd zipClipboard !{{
 	zipfile="${f%.zip}.zip"
 	printf 'give archive name (default \033[32m%s\033[0m): ' "$(basename "$zipfile")"
 	read ans
@@ -379,7 +379,7 @@ map <c-g> $lazygit
 # }}
 
 # Archive Mappings {{
-map Az zip
+map Az zipClipboard
 map At tar
 map Ag targz
 map Ab targz
