@@ -20,7 +20,11 @@
     groups.py = {};
   };
 
-  nix.settings.trusted-users = ["py"];
+  nix.settings = {
+    trusted-users = ["py"];
+    max-jobs = 1;
+    cores = 1;
+  };
 
   security = {
     sudo = {
