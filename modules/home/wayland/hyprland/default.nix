@@ -56,6 +56,7 @@ in {
     wayland.windowManager.hyprland = {
       enable = true;
       package = null;
+      configType = "hyprlang";
       extraConfig = ''
         source = ${impurity.link ./options.conf}
         source = ${impurity.link ./hardware.conf}

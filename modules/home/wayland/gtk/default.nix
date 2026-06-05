@@ -11,6 +11,7 @@
         name = "Lexend";
         size = 13;
       };
+      gtk4.theme = config.gtk.theme;
       theme = {
         name = "Kanagawa-BL";
         package = pkgs.kanagawa-gtk-theme;
