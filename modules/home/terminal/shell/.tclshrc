@@ -6,6 +6,8 @@ if {!$tcl_interactive} {
     return
 }
 
+set env(SHELL) [info nameofexecutable]
+
 package require tclreadline
 
 # uncomment the following line to use
@@ -39,9 +41,39 @@ set tclreadline::historyLength 200
 # command (instead of when cleanly exiting)
 set tclreadline::autosave 1
 
+variable ::pushd_stack
+proc pushd {dir} {
+    lappend ::pushd_stack [pwd]
+    puts stderr $::pushd_stack
+    cd $dir
+}
+
+proc popd {} {
+    if {![info exists ::pushd_stack] || [llength $::pushd_stack] == 0} {
+        error "popd: empty directory stack"
+    }
+    set last_i [expr {[llength $::pushd_stack] - 1}]
+    cd [lindex $::pushd_stack $last_i]
+    set ::pushd_stack [lreplace $::pushd_stack $last_i $last_i]
+    puts stderr $::pushd_stack
+}
+
+proc c {args} {pushd {*}$args}
+
 # TODO: completion
 proc z {dir} {
-    command z $dir
+    if {[catch {exec z -e $dir} results options]} {
+        return $options $results
+    }
+
+    pushd $results
+}
+
+proc lfcd {args} {
+    set dir [exec lf -print-last-dir {*}$args]
+    if {$dir != ""} {
+        pushd $dir
+    }
 }
 
 namespace eval tclreadline {
@@ -59,13 +91,21 @@ namespace eval tclreadline {
     proc prompt1 {} {
         namespace upvar ::tclreadline status status
         namespace upvar ::tclreadline color color
-        set arrowCol [expr {$status? $color(green) : $color(green)}]
-        return "\n$color(aqua)[pwd]\n$arrowCol> $color(reset)"
+        set arrowPre [expr {
+            $status == 0
+            ? "$color(green)"
+            : "$color(red)$status "
+        }]
+        return "\n$color(aqua)[pwd]\n$arrowPre> $color(reset)"
     }
 
     proc prompt2 {} {
         namespace upvar ::tclreadline color color
         return "$color(grey)...> $color(reset)"
+    }
+
+    proc always1 {args} {
+        return 1
     }
 
     # custom main loop
@@ -115,15 +155,21 @@ namespace eval tclreadline {
                     }
                 }
 
-                if {[catch {
-                    set ::tclreadline::result [eval $::tclreadline::LINE]
-                    if {$::tclreadline::result != "" && [tclreadline::Print]} {
+                if {[
+                    catch {eval $::tclreadline::LINE} ::tclreadline::result options
+                ]} {
+                    if {[dict exists $options -errorcode]
+                        && [::tclreadline::always1 [
+                            set details [dict get $options -errorcode]]]
+                        && [lindex $details 0] eq "CHILDSTATUS"} \
+                    {
+                        set ::tclreadline::status [lindex $details 2]
+                    } elseif {$::tclreadline::result != "" && [tclreadline::Print]} {
+                        set ::tclreadline::status {-1}
                         puts $::tclreadline::result
                     }
-                    set ::tclreadline::result ""
-                } ::tclreadline::errorMsg]} {
-                    puts stderr $::tclreadline::errorMsg
-                    puts stderr "while evaluating $::tclreadline::LINE"
+                } else {
+                    set ::tclreadline::status 0
                 }
 
             }

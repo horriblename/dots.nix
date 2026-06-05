@@ -8,6 +8,6 @@
     tclPackages.tclreadline
   ];
 
-  home.file.".inputrc" = impurity.link ./.inputrc;
-  home.file.".tclshrc" = impurity.link ./.tclshrc;
+  home.file.".inputrc".source = impurity.link ./.inputrc;
+  home.file.".tclshrc".source = impurity.link ./.tclshrc;
 }
