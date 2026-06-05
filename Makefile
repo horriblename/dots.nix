@@ -12,6 +12,9 @@ build-hm: ## Build HM config
 hm: ## Switch HM config
 	IMPURITY_PATH="$$PWD" nh home switch . -- --impure -L --show-trace
 
+home-manager: ## like hm, but without nh
+	IMPURITY_PATH="$$PWD" home-manager switch --flake . --impure -L --show-trace
+
 nix-on-droid: ## nix-on-droid switch
 	nix-on-droid switch --flake .
 
