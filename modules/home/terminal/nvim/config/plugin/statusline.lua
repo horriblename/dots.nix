@@ -182,6 +182,14 @@ function _G.StatuslineLsp()
 	return " " .. main_lsp.name .. count
 end
 
+local direnv_available, direnv = pcall(require, "direnv")
+function _G.StatuslineDirenv()
+	if direnv_available then
+		local s = direnv.statusline()
+		return s == "" and s or " " .. s
+	end
+end
+
 function _G.Tabline()
 	local s = require('string.buffer').new()
 	local tab_ids = vim.api.nvim_list_tabpages()
@@ -265,6 +273,7 @@ vim.o.statusline = table.concat({
 	-- Right-aligned
 	"%=",
 	"%{%v:lua.StatuslineLsp()%}%*",
+	"%{%v:lua.StatuslineDirenv()%}",
 	"%{%v:lua.StatuslineDiagnostics()%}",
 	"  %P",
 	"  %l:%c",
