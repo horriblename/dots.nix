@@ -431,12 +431,7 @@
             echo "000" > ./GITCOUNT
           '';
 
-          installPhase =
-            prev.installPhase
-            + ''
-              wrapProgram $out/bin/Write \
-                --set SDL_VIDEODRIVER wayland
-            '';
+          patches = (prev.patches or []) ++ [./pkgs/temp.patch];
 
           nativeBuildInputs =
             prev.nativeBuildInputs
