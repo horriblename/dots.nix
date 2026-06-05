@@ -13,7 +13,7 @@
           gamma-correct-blending = false;
           include = "${pkgs.foot.themes}/share/foot/themes/gruvbox-dark";
         };
-        colors = {
+        colors-dark = {
           alpha = "0.6";
           cursor = "282828 ebdbb2";
         };
