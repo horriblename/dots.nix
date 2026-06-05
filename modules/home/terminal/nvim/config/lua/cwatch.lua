@@ -10,6 +10,8 @@ function M.watch_file(fname)
 	if err ~= nil then
 		vim.notify(err)
 	end
+
+	vim.cmd.cgetfile(fullpath)
 end
 
 function M.unwatch_file(fname)
