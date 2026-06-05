@@ -191,37 +191,114 @@ function _G.StatuslineDirenv()
 end
 
 function _G.Tabline()
-	local s = require('string.buffer').new()
 	local tab_ids = vim.api.nvim_list_tabpages()
+	local cols = vim.o.columns
+	local half_screen = cols / 2
+	local total_width = 0
+	local center_i
+	---@type {size: integer, s: string}[]
+	local tabs = {}
 	for i = 1, vim.fn.tabpagenr('$') do
 		local win = vim.api.nvim_tabpage_get_win(tab_ids[i])
 		local cwd = vim.fn.fnamemodify(
 			vim.fn.getcwd(win, i),
 			[[:p:~:s#\/$##:gs#\([^/]\)[^/]*\/#\1\/#]])
 
-		-- tab click target
-		s:put("%", i, "T")
-
-		-- tab highlight and tabnr
+		local s, w
 		if i == vim.fn.tabpagenr() then
-			s:put("%#TabLineSel# ")
+			s = string.format([[%%%dT%%#TablineSel# %s ]], i, cwd)
+			w = #cwd + 2
+			center_i = #tabs + 1
 		else
-			s:put("%#Special# ", i, "%#TabLine#")
+			s = string.format([[%%%dT%%#Special# %d%%#TabLine#%s ]], i, i, cwd)
+			w = #cwd + #tostring(i) + 2
 		end
 
-		-- label
-		s:put(cwd, " ")
+		table.insert(tabs, { size = w, s = s })
+		total_width = total_width + w
 	end
 
-	-- filler
-	s:put("%#TabLineFill#%T")
 
-	-- right-align close button
-	if vim.fn.tabpagenr('$') > 1 then
-		s:put("%=%#ErrorMsg#%999X X")
+	local filler = "%#TabLineFill#%T"
+	local close = "%=%#ErrorMsg#%999X X"
+	-- handle overflow
+	if cols < total_width + 1 then
+		local left_i = center_i
+		local acc_size = math.ceil(tabs[center_i].size / 2)
+		local buf_size = #tabs[center_i].s
+		local left_trim
+		for i = center_i - 1, 1, -1 do
+			acc_size = acc_size + tabs[i].size
+			left_i = i
+			buf_size = buf_size + #tabs[i].s
+			if half_screen < acc_size then
+				left_trim = acc_size - half_screen
+				break
+			end
+		end
+
+		-- Centering tab would lead to empty space in left side,
+		-- so render it as normal, but place %< at the end
+		if not left_trim then
+			_G.strat = "left align"
+			local buf = require("string.buffer").new()
+			for _, tab in ipairs(tabs) do
+				buf:put(tab.s)
+			end
+			buf:put("%<")
+			buf:put(filler)
+			buf:put(close)
+			return buf:get()
+		end
+
+		local right_i = center_i
+		local right_trim
+		acc_size = math.floor(tabs[center_i].size / 2)
+		for i = center_i + 1, #tabs do
+			acc_size = acc_size + tabs[i].size
+			right_i = i
+			buf_size = buf_size + #tabs[i].s
+			if half_screen < acc_size then
+				right_trim = acc_size - half_screen
+				break
+			end
+		end
+
+		-- Centering tab would lead to empty space in right side,
+		-- so render it as normal, using default trimming mechanism
+		if not right_trim then
+			_G.strat = "right align"
+			local buf = require("string.buffer").new()
+			for _, tab in ipairs(tabs) do
+				buf:put(tab.s)
+			end
+			buf:put(filler)
+			buf:put(close)
+			return buf:get()
+		end
+
+		_G.strat = "center"
+		local buf = require("string.buffer").new(buf_size + #filler + #close)
+		buf:put(tabs[left_i].s)
+		for i = left_i + 1, right_i - 1 do
+			buf:put(tabs[i].s)
+		end
+		if left_i ~= right_i then
+			buf:put(tabs[right_i].s:sub(1, #tabs[right_i].s - right_trim))
+		end
+		buf:put(filler)
+		buf:put(close)
+		return buf:get()
 	end
 
-	return s:get()
+	_G.strat = "none"
+	local buf = require("string.buffer").new()
+	for _, tab in ipairs(tabs) do
+		buf:put(tab.s)
+	end
+	buf:put(filler)
+	buf:put(close)
+	return buf:get()
 end
 
 -- autocmds
