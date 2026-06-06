@@ -24,6 +24,7 @@
     trusted-users = ["py"];
     max-jobs = 1;
     cores = 1;
+    http-connections = 3;
   };
 
   security = {
