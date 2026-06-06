@@ -12,7 +12,7 @@ in {
     services = {
       wakapi = {
         database.dialect = "sqlite3";
-        environmentFiles = ["/etc/wakapi/salt"];
+        environmentFiles = ["/etc/wakapi/env"];
         settings = {
           server.port = 3474;
         };
