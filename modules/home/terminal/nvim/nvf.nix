@@ -587,6 +587,7 @@ in {
     ];
 
     luaConfigPre = ''
+      vim.fn.setenv("VIMINIT", "")
       vim.opt.runtimepath:prepend({"${impurity.link ./config}"});
       local attached_parent, err = require("tele").try_attach_parent({})
       if attached_parent then
