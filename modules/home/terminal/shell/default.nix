@@ -60,6 +60,7 @@
       g = "git";
       gs = "git status";
       gc = "git commit";
+      ports = "ss --tcp --udp --numeric --listening --processes";
     };
   };
 
