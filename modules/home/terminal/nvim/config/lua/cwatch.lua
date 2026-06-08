@@ -9,6 +9,7 @@ function M.watch_file(fname)
 	local err = watcher:watch(fullpath)
 	if err ~= nil then
 		vim.notify(err)
+		return
 	end
 
 	vim.cmd.cgetfile(fullpath)
