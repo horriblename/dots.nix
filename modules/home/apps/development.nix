@@ -10,6 +10,8 @@ in
     home.packages = [
       pkgs.act
       pkgs.ttags
+      pkgs.nix-output-monitor
+      pkgs.hurl
       pkgs.libqalculate
     ];
 
