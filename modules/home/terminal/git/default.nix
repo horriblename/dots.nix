@@ -40,7 +40,7 @@ in {
         tool = "nvimdiff";
       };
       difftool.nvimdiff = {
-        cmd = "nvim -d \"$LOCAL\" \"$REMOTE\"";
+        cmd = "nvim -c \"packadd nvim.difftool\" -d \"$LOCAL\" \"$REMOTE\"";
       };
     };
   };
