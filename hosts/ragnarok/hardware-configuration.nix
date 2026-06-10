@@ -31,7 +31,7 @@
   fileSystems."/home" = {
     device = "/dev/disk/by-uuid/a3d3b7d9-3013-44a4-9d18-608303d3607e";
     fsType = "btrfs";
-    options = ["subvol=@home"];
+    options = ["subvol=@home" "compress=zstd"];
   };
 
   fileSystems."/mnt/choncc" = {
