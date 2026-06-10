@@ -46,8 +46,6 @@
     ];
   };
 
-  systemd.sleep.extraConfig = "HibernateDelaySec=900";
-
   systemd.services = {
     nix-gc = {
       # HACK: make sure impurity symlinks are alive before gc
