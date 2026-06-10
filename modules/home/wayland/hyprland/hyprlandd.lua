@@ -1,6 +1,19 @@
 -- Monitor configuration is done in nix
+---@module 'hyprgrass'
 
-_G.hl = _G.hl or {}
+---@alias HgSingleDirection 'l' | 'r' | 'u' | 'd'
+
+---@alias HgGesture
+---| {kind: "swipe", fingers: integer, direction: HgSingleDirection}
+---| {kind: "edge", origin: HgSingleDirection, direction: HgSingleDirection}
+
+---@class HgGestureArg
+---@field gesture HgGesture
+---@field action string|fun()
+
+---@class HyprgrassAPI
+---@field gesture fun(HgGestureArg)
+_G.hg = hl.plugin.hyprgrass
 
 local function indent(indents)
 	return string.rep('  ', indents)
@@ -29,9 +42,18 @@ local function dbg_inner(indents, seen, x)
 	end
 end
 
+function _G.inspect(x)
+	return dbg_inner(0, { id = 1 }, x)
+end
+
 function _G.dbg(x)
 	print(dbg_inner(0, { id = 1 }, x))
+	return x
 end
+
+hl.on("hyprland.start", function()
+	hl.dispatch(hl.dsp.exec_cmd("eww open bar_vert"))
+end)
 
 hl.config({
 	general = {
@@ -84,6 +106,8 @@ hl.bind("ALT+SHIFT+COMMA", hl.dsp.focus({ workspace = "-1" }), eflag)
 
 hl.bind("ALT+X", hl.dsp.exec_cmd("foot"))
 
+hl.bind("ALT + mouse:272", hl.dsp.window.drag(), {})
+hl.bind("CONTROL + mouse:272", hl.dsp.window.resize(), {})
 -- bindm=ALT,mouse:272,movewindow
 -- bindm=ALT,mouse:273,resizewindow
 
@@ -98,29 +122,55 @@ if hl.plugin.hyprgrass then
 	hl.config {
 		plugin = {
 			hyprgrass = {
-				workspace_swipe_fingers = 4,
-				workspace_swipe_edge = "d",
 				resize_on_border_long_press = true,
 				sensitivity = 5.0,
 			},
 		},
 	}
 
-	hl.plugin.hyprgrass.gesture {
-		gesture = { kind = "swipe", fingers = 3, direction = "down" },
-		action = function()
-			hl.notify('swipe:3:down')
-		end,
+	local function notifyGesture(pattern)
+		hg.bind {
+			pattern = pattern,
+			action = function()
+				hl.notification.create({
+					text = inspect(pattern),
+					duration = 2000
+				})
+			end
+		}
+	end
+
+	notifyGesture({ kind = "swipe", fingers = 5, direction = 'd' })
+	-- notifyGesture("edge:l:r")
+	-- notifyGesture("edge:r:u")
+	-- notifyGesture("longpress:5")
+	-- notifyGesture("tap:5")
+
+	hg.gesture {
+		pattern = { kind = "swipe", fingers = 3, direction = "down" },
+		action = "close",
 	}
 
-	hl.plugin.hyprgrass.gesture {
-		gesture = { kind = "swipe", fingers = 3, direction = "horizontal" },
+	hg.gesture {
+		pattern = { kind = "swipe", fingers = 4, direction = "up" },
+		action = "move",
+	}
+
+	hg.gesture {
+		pattern = { kind = "swipe", fingers = 4, direction = "horizontal" },
 		action = "workspace",
 	}
 
-	hl.plugin.hyprgrass.gesture {
-		gesture = { kind = "edge", origin = "left", direction = "right" },
-		action = "workspace",
+
+	hg.gesture {
+		pattern = { kind = "edge", origin = "up", direction = "horizontal" },
+		action = "close",
+	}
+
+	hg.bind {
+		pattern = { kind = "longpress", fingers = 3 },
+		action = hl.dsp.window.drag(),
+		mouse = true,
 	}
 end
 
