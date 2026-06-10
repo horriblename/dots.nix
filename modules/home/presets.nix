@@ -18,9 +18,12 @@ in {
       };
     })
     (mkIf (cfgPreset == "surface") {
-      dots.wayland = {
-        enable = true;
-        touchScreen = true;
+      dots = {
+        wayland = {
+          enable = true;
+          touchScreen = true;
+        };
+        development.enable = true;
       };
     })
     (mkIf (cfgPreset == "darwin-work") {dots.darwin.enable = true;})
