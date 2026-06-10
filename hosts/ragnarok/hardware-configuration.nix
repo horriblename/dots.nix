@@ -34,6 +34,12 @@
     options = ["subvol=@home" "compress=zstd"];
   };
 
+  fileSystems."/media" = {
+    device = "/dev/disk/by-uuid/a3d3b7d9-3013-44a4-9d18-608303d3607e";
+    fsType = "btrfs";
+    options = ["subvol=@media" "compress=zstd"];
+  };
+
   fileSystems."/mnt/choncc" = {
     device = "/dev/disk/by-uuid/6EE405DAE405A585";
     fsType = "ntfs";
@@ -50,6 +56,30 @@
     device = "/dev/disk/by-uuid/d29799bd-b25a-42d9-b0f4-08dd186ca155";
     fsType = "ext4";
     options = ["user" "noauto" "exec"];
+  };
+
+  fileSystems."/home/py/OpenCloud" = {
+    device = "/media/py/OpenCloud";
+    fsType = "none";
+    options = ["bind" "rw"];
+  };
+
+  fileSystems."/home/py/Music" = {
+    device = "/media/py/Music";
+    fsType = "none";
+    options = ["bind" "rw"];
+  };
+
+  fileSystems."/home/py/Pictures" = {
+    device = "/media/py/Pictures";
+    fsType = "none";
+    options = ["bind" "rw"];
+  };
+
+  fileSystems."/home/py/Videos" = {
+    device = "/media/py/Videos";
+    fsType = "none";
+    options = ["bind" "rw"];
   };
 
   fileSystems."/opt" = {

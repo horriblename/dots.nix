@@ -41,14 +41,14 @@ in {
       cleanupInterval = "1w";
       configs = {
         home = {
-          SUBVOLUME = "/home";
+          SUBVOLUME = "/media";
           TIMELINE_CREATE = true;
           TIMELINE_CLEANUP = true;
-          TIMELINE_LIMIT_HOURLY = 10;
-          TIMELINE_LIMIT_WEEKLY = 3;
-          TIMELINE_LIMIT_MONTHLY = 6;
-          TIMELINE_LIMIT_QUARTERLY = 0;
-          TIMELINE_LIMIT_YEARLY = 3;
+          TIMELINE_LIMIT_HOURLY = 5;
+          TIMELINE_LIMIT_WEEKLY = 2;
+          TIMELINE_LIMIT_MONTHLY = 1;
+          TIMELINE_LIMIT_QUARTERLY = 1;
+          TIMELINE_LIMIT_YEARLY = 1;
           ALLOW_USERS = ["py"];
         };
       };
@@ -70,7 +70,7 @@ in {
 
   # NOTE: allow connected devices by running `sudo sh -c 'usbguard generate-policy > /var/lib/usbguard/rules.conf'`
   # BEFORE enabling this on a new machine. Otherwise you will be locked out of your machine.
-  services.usbguard.enable = true;
+  # services.usbguard.enable = true;
 
   services.nixseparatedebuginfod2.enable = true;
 
