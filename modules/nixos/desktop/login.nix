@@ -4,28 +4,17 @@
   config,
   ...
 }: let
-  inherit (lib.modules) mkIf;
+  inherit (lib.modules) mkIf mkMerge;
 in {
-  config = mkIf config.dots.wayland.enable {
-    environment.systemPackages = [pkgs.onboard];
-    services = {
-      displayManager.gdm = {
-        enable = true;
-      };
-    };
+  config = mkMerge [
+    {
+      services.displayManager.gdm.enable = config.dots.wayland.enable;
+    }
 
-    security.pam.services.gdm.enableGnomeKeyring = true;
-
-    programs.dconf = {
-      enable = true;
-      profiles.user.databases = [
-        {
-          settings = {
-            "org/gnome/desktop/interface".scaling-factor = 2.0;
-            "org/gnome/desktop/a11y/applications".screen-keyboard-enabled = true;
-          };
-        }
-      ];
-    };
-  };
+    # intentionally split this way to allow easy overriding of gdm.enable
+    (mkIf config.services.displayManager.gdm.enable {
+      environment.systemPackages = [pkgs.onboard];
+      security.pam.services.gdm.enableGnomeKeyring = true;
+    })
+  ];
 }

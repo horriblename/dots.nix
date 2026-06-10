@@ -1,7 +1,13 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-{lib, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: let
+  inherit (lib.modules) mkForce;
+in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -56,6 +62,8 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   systemd.services.sshd.wantedBy = lib.mkForce [];
+
+  services.displayManager.gdm.enable = mkForce false;
 
   security.tpm2.enable = false;
   systemd.tpm2.enable = false;
