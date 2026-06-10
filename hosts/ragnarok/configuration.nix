@@ -61,7 +61,7 @@ in {
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-  systemd.services.sshd.wantedBy = lib.mkForce [];
+  systemd.services.sshd.wantedBy = mkForce [];
 
   services.displayManager.gdm.enable = mkForce false;
 
