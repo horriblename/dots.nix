@@ -52,14 +52,8 @@
     });
 
   # pos should be "start" or "end"
-  mkTSTextObjMoveKeymaps = key: tag: pos: let
-    keyNext = key;
-    keyPrev =
-      if key == "]"
-      then "["
-      else key;
-  in [
-    (mkKeymap ["n" "x" "o"] "[${keyPrev}" ''
+  mkTSTextObjMoveKeymaps = key: tag: pos: [
+    (mkKeymap ["n" "x" "o"] "[${key}" ''
         function()
           require("nvim-treesitter-textobjects.move").goto_previous_${pos}(${toLuaObject tag}, "textobjects")
         end
@@ -67,7 +61,7 @@
         lua = true;
         desc = "Move to prev ${pos} of ${tag}";
       })
-    (mkKeymap ["n" "x" "o"] "]${keyNext}" ''
+    (mkKeymap ["n" "x" "o"] "]${key}" ''
         function()
           require("nvim-treesitter-textobjects.move").goto_next_${pos}(${toLuaObject tag}, "textobjects")
         end
@@ -200,6 +194,7 @@ in {
           setupOpts = {
             config = {
               repl_open_cmd = mkLuaInline "require('iron.view').split.botright(16)";
+              close_window_on_exit = false;
 
               repl_definition = {
                 nix = {
@@ -766,7 +761,6 @@ in {
       ]
       ++ (mkTSTextObjMoveKeymaps "f" "@function.outer" "start")
       ++ (mkTSTextObjMoveKeymaps "F" "@function.outer" "end")
-      ++ (mkTSTextObjMoveKeymaps "]" "@function.outer" "start")
       ++ (mkTSTextObjMoveKeymaps "c" "@class.outer" "start");
 
     extraPlugins = with pkgs.vimPlugins; {
@@ -786,6 +780,7 @@ in {
                 hi CurSearch guibg=Orange guifg=NvimDarkGray1
                 hi IncSearch guibg=NvimLightYellow guifg=NvimDarkGray1
                 hi NonText gui=nocombine
+                hi Comment        gui=NONE
                 hi DiffAdd        guifg=NONE guibg=#123a2f
                 hi DiffDelete     guifg=NONE guibg=#3a1618
                 hi DiffChange     guifg=NONE guibg=#3a2f12
