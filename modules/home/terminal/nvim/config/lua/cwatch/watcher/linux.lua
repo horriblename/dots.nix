@@ -44,13 +44,17 @@ function Watcher.new()
 		error("inotify_init failed: " .. strerror())
 	end
 
-	local uv_poll = vim.uv.new_poll(fd)
+	local uv_poll, err = vim.uv.new_poll(fd)
 	local obj = setmetatable({
 		fd = fd,
 		paths = {},
 		wds = {},
 		uv_poll = uv_poll,
 	}, { __index = Watcher })
+
+	if not uv_poll then
+		error("inotify_init: could create uv poller: " .. err)
+	end
 
 	vim.uv.poll_start(uv_poll, "r", function(...) obj:on_inotify_readable(...) end)
 	return obj
@@ -106,7 +110,7 @@ function Watcher:list_watched()
 	return list
 end
 
-function Watcher:on_inotify_readable(err, uv_ev)
+function Watcher:on_inotify_readable(err, _)
 	if err then
 		vim.notify_once("poll error: " .. err, vim.log.levels.ERROR)
 	end
