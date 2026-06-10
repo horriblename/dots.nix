@@ -1,35 +1,27 @@
 {
-  inputs,
   lib,
   config,
+  pkgs,
   ...
 }:
 lib.mkIf config.dots.wayland.enable {
   qt = {
     enable = true;
     platformTheme.name = "qtct";
-    style.name = "kvantum";
-  };
+    platformTheme.package = [
+      pkgs.kdePackages.qt6ct
+    ];
 
-  dconf.settings = {
-    "org/gnome/desktop/interface" = {
-      icon-theme = "Kanagawa";
-    };
+    # using style.name sets QT_STYLE_OVERRIDE, which qt6ct warns against
+    # and straight up breaks opencloud
+    style.package = [
+      pkgs.libsForQt5.qtstyleplugin-kvantum
+      pkgs.qt6Packages.qtstyleplugin-kvantum
+      pkgs.kdePackages.breeze-icons
+    ];
   };
 
   xdg.configFile = {
-    "Kvantum/Gruvbox-Dark-Blue".source = "${inputs.gruvbox-kvantum}/Gruvbox-Dark-Blue";
-    "Kvantum/Gruvbox-Dark-Brown".source = "${inputs.gruvbox-kvantum}/Gruvbox-Dark-Brown";
-    "Kvantum/Gruvbox-Dark-Green".source = "${inputs.gruvbox-kvantum}/Gruvbox-Dark-Green";
-    "Kvantum/Gruvbox_Light_Blue".source = "${inputs.gruvbox-kvantum}/Gruvbox_Light_Blue";
-    "Kvantum/Gruvbox_Light_Brown".source = "${inputs.gruvbox-kvantum}/Gruvbox_Light_Brown";
-    "Kvantum/Gruvbox_Light_Green".source = "${inputs.gruvbox-kvantum}/Gruvbox_Light_Green";
-
-    "qt6ct/qt6ct.conf".source = ./qt6ct.conf;
-
-    "Kvantum/kvantum.kvconfig".text = ''
-      [General]
-      theme=Gruvbox-Dark-Brown
-    '';
+    # "qt6ct/qt6ct.conf".source = ./qt6ct.conf;
   };
 }
