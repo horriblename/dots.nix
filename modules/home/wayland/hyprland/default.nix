@@ -68,7 +68,7 @@ in {
         bind=ALT,SPACE,exec,${config.menu.launcher}
 
         ${lib.optionalString config.dots.wayland.touchScreen ''
-          source = ${./touch-gestures.conf}
+          source = ${impurity.link ./touch-gestures.conf}
           device {
             name = surface-pro-3/4-buttons
             kb_file = ${impurity.link ./surface-key.xkb}
