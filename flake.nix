@@ -43,9 +43,6 @@
     rss-aggre.url = "github:horriblename/rss-aggregator";
     rss-aggre.inputs.nixpkgs.follows = "nixpkgs";
 
-    roc = {
-      url = "github:roc-lang/roc";
-    };
     ssr-nvim.url = "github:horriblename/ssr.nvim/feature/escape";
     ssr-nvim.flake = false;
     luee.url = "github:horriblename/luee";
@@ -410,8 +407,6 @@
         ghActionsBuilder = pkgs.callPackage ./pkgs/dummy.nix {
           buildInputs =
             [
-              pkgs.roc
-              pkgs.roc-ls
               pkgs.styluslabs-write
               pkgs.nvtopPackages.nvidia
               pkgs.llama-cpp
@@ -488,8 +483,6 @@
           cargoHash = null;
         });
 
-      roc = inputs.roc.packages.${final.stdenv.system}.default;
-      roc-ls = inputs.roc.packages.${final.stdenv.system}.lang-server;
       treesitter-roc = inputs.tree-sitter-roc.packages.${final.stdenv.system}.default;
       neovim-treesitter-roc = final.callPackage ./pkgs/neovim-treesitter-roc.nix {treesitter-roc-src = inputs.tree-sitter-roc;};
 
