@@ -274,7 +274,7 @@ cmd compressClipboard !{{
 	case "$format" in
 		tar*)
 			if [ -f $archive ]; then
-				printf '\x1b[33mWARN: Existing files in tar archives will not be removed\x1b[0m\n'
+				printf '\x1b[33mWARN: Old versions of files in tar archives will not be cleaned up\x1b[0m\n'
 			fi
 			;;
 		*) ;;
@@ -285,7 +285,7 @@ cmd compressClipboard !{{
    rel_targets=$(echo "$load" | sed '1d' | sed "s|$PWD/||g")
 
 	if [ -z "$rel_targets" ]; then
-		lf -remote "send $id echo no files selected! use copy/cut to select files."
+      printf '\x1b[31mno files selected! use copy/cut to select files.\x1b[0m\n'
 		exit
 	fi
 
