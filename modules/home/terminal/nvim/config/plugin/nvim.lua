@@ -3,8 +3,14 @@ local function diagnosticJump(dir)
 	return function()
 		vim.diagnostic.jump({
 			count = dir * vim.v.count1,
-			float = true,
 			wrap = false,
+			on_jump = function(_, bufnr)
+				vim.diagnostic.open_float({
+					scope = 'cursor',
+					bufnr = bufnr,
+					focus = false,
+				})
+			end
 		})
 	end
 end
@@ -14,7 +20,7 @@ vim.keymap.set("n", "]d", diagnosticJump(1))
 vim.diagnostic.config({
 	float = {
 		suffix = function(diag)
-			return string.format(" [%s by %s]", diag.code, diag.source)
+			return string.format(" [%s by %s]", diag.code, diag.source), "Comment"
 		end
 	},
 	severity_sort = true,
@@ -29,7 +35,7 @@ local function get_selection()
 end
 
 local function ui_open(file)
-	local found = vim.fn.findfile(file, vim.o.path, 1)
+	local found = vim.fn.findfile(file, vim.o.path, 1) --[[@as string]]
 	if found ~= '' then
 		vim.ui.open(found)
 	else
