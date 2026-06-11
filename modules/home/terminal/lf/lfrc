@@ -171,34 +171,6 @@ cmd mkln ${{
 	esac
 }}
 
-# any args are passed to zip
-cmd clipboardToZip ${{
-	load=$(cat ~/.local/share/lf/files)
-	mode=$(echo "$load" | sed -n '1p')
-	files=$(echo "$load" | sed '1d' | sed "s|$PWD/||g")
-	echo "$files"
-	[ "$(echo "$files" | wc -w)" -eq 0 ] && exec lf -remote "send $id % printf '\033[31mNo files in clipboard'"
-
-	if [ "${f%.zip}" != "$f" ] ; then
-		defaultZip="$f"
-	elif [ -d "$f" ]; then
-		defaultZip="$f.zip"
-	fi
-
-	printf 'give zip file (%s):' "$defaultZip"
-	read zip
-	if [ -z "$zip" ]; then
-		[ -z "$defaultZip" ] && exec lf -remote "send $id % printf '\033[31mPlease enter the zip file name.'"
-		zip="$defaultZip"
-	fi
-
-	if [ "$mode" = 'move' ]; then
-		flags='-m'
-	fi
-	echo "$files" | xargs -d '\n' zip -r "$@" $flags "$zip"
-	lf -remote 'send clear'
-}}
-
 cmd follow_ln %{{
 	path="$(stat -c '%N' "$f" | sed -E "s/.*-> '(.*)'/\1/" )"
 	echo "$path"
@@ -272,13 +244,41 @@ cmd unarchive ${{
 	lf -remote "send $id reload"
 }}
 
-cmd zipClipboard !{{
-	zipfile="${f%.zip}.zip"
-	printf 'give archive name (default \033[32m%s\033[0m): ' "$(basename "$zipfile")"
+cmd compressClipboard !{{
+	format="${1:-zip}"
+	shift 2>/dev/null || true
+
+	case "$format" in
+		zip) ext=".zip" ;;
+		tar) ext=".tar" ;;
+		targz) ext=".tar.gz" ;;
+		tarbz2) ext=".tar.bz2" ;;
+		*)
+			printf '\x1b[31mUnknown format: %s (use zip, tar, targz, tarbz2)\x1b[0m\n' "$format"
+			exit 1
+			;;
+	esac
+
+	archive="$f"
+	case "$archive" in
+		*"$ext") ;;
+		*) archive="${archive}${ext}" ;;
+	esac
+	printf 'give archive name (default \033[32m%s\033[0m): ' "$(basename "$archive")"
 	read ans
-	ans="$(tr -d '\000-\011\013\014\016-\037' <<< "$ans")"
-	[ -n "$ans" ] && zipfile="$ans"
-	echo $zipfile
+	ans="$(echo "$ans" | tr -d '\000-\011\013\014\016-\037')"
+	if [ -n "$ans" ]; then
+		archive="$ans"
+	fi
+
+	case "$format" in
+		tar*)
+			if [ -f $archive ]; then
+				printf '\x1b[33mWARN: Existing files in tar archives will not be removed\x1b[0m\n'
+			fi
+			;;
+		*) ;;
+	esac
 
    load=$(cat ~/.local/share/lf/files)
    mode=$(echo "$load" | sed -n '1p')
@@ -286,24 +286,37 @@ cmd zipClipboard !{{
 
 	if [ -z "$rel_targets" ]; then
 		lf -remote "send $id echo no files selected! use copy/cut to select files."
+		exit
 	fi
 
-	(
-		IFS='
+	ok=0
+	if [ "$mode" = move ]; then
+		case "$format" in
+			zip) move_flag="-m" ;;
+			*) move_flag="--remove-files" ;;
+		esac
+	else
+		move_flag=""
+	fi
+	oldIFS="$IFS"
+	IFS='
 '
-		if zip -r "$zipfile" $rel_targets; then
-			[ "$mode" = move ] && rm -r $rel_targets
-		else
-			lf -remote "send $id echo $(printf '\033[31mzip failed!\033[0m')"
-		fi
-	)
+	case "$format" in
+		zip) zip -r $move_flag "$@" "$archive" $rel_targets && ok=1 ;;
+		tar) tar uv $move_flag "$@" -f "$archive" $rel_targets && ok=1 ;;
+		targz) tar uvz $move_flag "$@" -f "$archive" $rel_targets && ok=1 ;;
+		tarbz2) tar ujv $move_flag "$@" -f "$archive" $rel_targets && ok=1 ;;
+	esac
+	IFS="$oldIFS"
+
+	if [ "$ok" = 0 ]; then
+		printf '\033[31marchive failed!\033[0m'
+		exit 1
+	fi
 
 	action="${mode//y/ie}d" # => 'moved' or 'copied'
-   lf -remote "send $id :echo $action $(echo "$rel_targets" | wc -l) files into $zipfile; clear"
+   lf -remote "send $id :echo $action $(echo "$rel_targets" | wc -l) files into $archive; clear"
 }}
-cmd tar %tar cvf "$f.tar" "$f"
-cmd targz %tar cvzf "$f.tar.gz" "$f"
-cmd tarbz2 %tar cjvf "$f.tar.bz2" "$f"
 
 # Trash cli bindings
 cmd trash &{{
@@ -379,10 +392,10 @@ map <c-g> $lazygit
 # }}
 
 # Archive Mappings {{
-map Az zipClipboard
-map At tar
-map Ag targz
-map Ab targz
+map Az compressClipboard zip
+map At compressClipboard tar
+map Ag compressClipboard targz
+map Ab compressClipboard tarbz2
 map Au unarchive
 # }}
 
@@ -425,7 +438,7 @@ map ch chmod
 map Ps mkln -s
 map Pr mkln -sr
 map Ph mkln
-map Pz clipboardToZip
+map Pz compressClipboard
 map s0 shareViaNullPointer
 map r rename
 map H top
