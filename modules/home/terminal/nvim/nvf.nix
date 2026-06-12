@@ -9,6 +9,7 @@
 }: let
   inherit (inputs.nvf.lib.nvim.lua) toLuaObject;
   inherit (inputs.nvf.lib.nvim.dag) entryBetween;
+  inherit (lib.lists) optionals;
   inherit (lib.generators) mkLuaInline;
   inherit (lib.modules) mkForce mkIf;
   nix2Lua = toLuaObject;
@@ -411,6 +412,14 @@ in {
 
     treesitter = {
       fold = true;
+      # useful general-purpose grammars
+      grammars =
+        optionals devEnabled
+        (with pkgs.vimPlugins.nvim-treesitter.grammarPlugins; [
+          diff
+          regex
+        ]);
+
       context = {
         enable = true;
         setupOpts = {
@@ -574,12 +583,6 @@ in {
         };
       };
     };
-
-    treesitter.grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
-      markdown
-      markdown-inline
-      regex
-    ];
 
     luaConfigPre = ''
       vim.fn.setenv("VIMINIT", "")
