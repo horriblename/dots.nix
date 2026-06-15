@@ -3,7 +3,7 @@
     ./apps
     ./gaming.nix
     ./input.nix
-    ./login.nix
+    ./login
     ./nix-daemon.nix
     ./security.nix
     ./udev.nix
