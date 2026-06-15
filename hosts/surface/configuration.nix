@@ -94,9 +94,9 @@
   };
 
   ## Plymouth
-  boot.plymouth = {
-    enable = true;
-  };
+  # boot.plymouth = {
+  #   enable = true;
+  # };
 
   ## Lanzaboote
   imports = [inputs.lanzaboote.nixosModules.lanzaboote];
