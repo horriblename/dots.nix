@@ -2,17 +2,25 @@
   self,
   pkgs,
   inputs,
+  lib,
   ...
-}: {
+}: let
+  inherit (builtins) mapAttrs;
+  inherit (lib.attrsets) filterAttrs;
+  flakeInputs = filterAttrs (_: input: input.flake or true) inputs;
+  flakeRegistries = mapAttrs (_: input: {flake = input;}) flakeInputs;
+in {
   nix.package = pkgs.nix;
   nix.extraOptions = "experimental-features = nix-command flakes";
-  nix.registry = {
-    n.flake = inputs.nixpkgs;
-    nixpkgs.flake = inputs.nixpkgs;
-    nixgl.flake = inputs.nixgl;
-    dots.flake = self;
-    roc.flake = inputs.roc;
-  };
+  nix.registry =
+    {
+      n.flake = inputs.nixpkgs;
+      nixpkgs.flake = inputs.nixpkgs;
+      nixgl.flake = inputs.nixgl;
+      dots.flake = self;
+      roc.flake = inputs.roc;
+    }
+    // flakeRegistries;
 
   # TODO move out
   nix.settings = let
