@@ -56,6 +56,8 @@
     };
     netdata.enable = true;
     wakapi.enable = true;
+
+    pocket-id.enable = true;
   };
 
   system.stateVersion = "23.11";
