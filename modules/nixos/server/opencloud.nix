@@ -19,9 +19,13 @@ in {
   config.services = mkIf config.services.opencloud.enable {
     opencloud = {
       environment = {
-        PROXY_TLS = "false"; # disable https when behind reverse-proxy
+        # disable https when behind reverse-proxy
+        PROXY_TLS = "false"; # TODO: might be deprecated in favor of OC_INSECURE, didn't check :p
+        OC_INSECURE = "true";
+
         INITIAL_ADMIN_PASSWORD = "deez-nuts";
       };
+      environmentFile = "/etc/opencloud/secrets.env";
 
       settings = {
         csp = {
