@@ -1,6 +1,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./iscsi.nix
   ];
 
   boot.tmp.cleanOnBoot = true;
