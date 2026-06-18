@@ -63,8 +63,6 @@ in {
   services.openssh.enable = true;
   systemd.services.sshd.wantedBy = mkForce [];
 
-  services.displayManager.gdm.enable = mkForce false;
-
   security.tpm2.enable = false;
   systemd.tpm2.enable = false;
 
@@ -73,6 +71,8 @@ in {
   # services.usbguard.enable = true;
 
   services.nixseparatedebuginfod2.enable = true;
+
+  programs.regreet.enable = mkForce false;
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
