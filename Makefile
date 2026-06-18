@@ -22,7 +22,7 @@ surface-kernel: ## surface kernel
 	nix build .\#ghActionsBuilder2 --print-out-paths --option cores "$$(($$(nproc) - 2))" | cachix push horriblename
 
 deploy-poopy:
-	NIX_SSHOPTS='-p 14122' nixos-rebuild switch --flake .#poopy --build-host py@peynch.online --target-host py@peynch.online --sudo
+	NIX_SSHOPTS='-p 14122' nixos-rebuild switch --flake .#poopy --build-host py@peynch.online --target-host py@peynch.online --sudo -L --show-trace
 
 # Hint: suppress override warnings by prepending "-" to the rule
 # e.g.
