@@ -1,7 +1,6 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./iscsi.nix
     ./secrets.nix
   ];
 
