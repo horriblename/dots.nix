@@ -46,20 +46,18 @@
   };
 
   services = {
-    # Workaround for https://github.com/NixOS/nix/issues/8502
-    logrotate.checkConfig = false;
     openssh.enable = true;
 
-    opencloud = {
-      enable = true;
-      url = "https://c.peynch.online";
-      address = "127.0.0.1";
-      port = 9200;
-    };
-    netdata.enable = true;
+    # opencloud = {
+    #   enable = true;
+    #   url = "https://c.peynch.online";
+    #   address = "127.0.0.1";
+    #   port = 9200;
+    # };
+
     wakapi.enable = true;
 
-    pocket-id.enable = true;
+    # pocket-id.enable = true;
   };
 
   system.stateVersion = "23.11";
