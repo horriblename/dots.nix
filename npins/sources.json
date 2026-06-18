@@ -13,6 +13,22 @@
       "url": "https://github.com/horriblename/aerial.nvim/archive/d1a3a5262d110b1fca55a3b1027ad61a49da621a.tar.gz",
       "hash": "sha256-nHKjrloy+6unfaoWz4Haw0ygO6lJOxds8fw9n3lhY60="
     },
+    "agenix": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "ryantm",
+        "repo": "agenix"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": null,
+      "submodules": false,
+      "version": "0.15.0",
+      "revision": "564595d0ad4be7277e07fa63b5a991b3c645655d",
+      "url": "https://api.github.com/repos/ryantm/agenix/tarball/refs/tags/0.15.0",
+      "hash": "sha256-ipqShkBmHKC9ft1ZAsA6aeKps32k7+XZSPwfxeHLsAU="
+    },
     "direnv-nvim": {
       "type": "Git",
       "repository": {
