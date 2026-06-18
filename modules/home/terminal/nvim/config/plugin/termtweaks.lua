@@ -12,6 +12,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "WinEnter" }, {
 				vim.cmd("startinsert")
 			end
 		end
+		vim.wo[0][0].sidescrolloff = 0
 	end),
 })
 
