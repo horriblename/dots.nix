@@ -252,6 +252,7 @@
           modules = [
             (import "${home-manager}/nixos")
             core
+            "${(npinsFor system).agenix}/modules/age.nix"
             ./hosts/poopy/configuration.nix
             ./modules/nixos
             # TODO:  extract (see nix-on-droid config above)

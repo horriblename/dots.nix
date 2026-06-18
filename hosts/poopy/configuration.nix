@@ -2,6 +2,7 @@
   imports = [
     ./hardware-configuration.nix
     ./iscsi.nix
+    ./secrets.nix
   ];
 
   boot.tmp.cleanOnBoot = true;

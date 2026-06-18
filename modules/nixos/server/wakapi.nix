@@ -12,7 +12,9 @@ in {
     services = {
       wakapi = {
         database.dialect = "sqlite3";
-        environmentFiles = ["/etc/wakapi/env"];
+        environmentFiles = [
+          config.age.secrets.wakapiEnv.path
+        ];
         settings = {
           server.port = 3474;
         };
