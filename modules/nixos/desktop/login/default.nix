@@ -5,9 +5,11 @@
   ...
 }: let
   inherit (lib.modules) mkIf mkMerge;
+  inherit (lib.meta) getExe;
 
   regreet-niri-conf = pkgs.writeText "regreet-niri.kdl" ''
     spawn-sh-at-startup "${pkgs.regreet}/bin/regreet; niri msg action quit --skip-confirmation"
+    spawn-sh-at-startup "${getExe pkgs.wvkbd}"
     hotkey-overlay {
       skip-at-startup
     }
