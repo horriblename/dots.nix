@@ -1,9 +1,9 @@
 let
-  poopy.py = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIu+uaPWOgYSpm+zeQgbv17Q8I0x4D8Ogvb22TLxD2c2 poopy@peynch.online";
+  poopy = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBxiTVfncJGKGY9SzZtn+eoU2cyJuilegZKeoalMX4SW root@instance-20260618-1325";
   ragnarok = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDmtRhC2HaRyqg2N3TsrGxGSf9FyBCQfJLU8ddSWoprjHqktMUB5ggZV2SdeTMf6MHm0VUagg0473ZP11+Xn8wL3S3tEMxUJ+TZsM4OuIrzjnvFNAoW2s0XfM2G2jcT+1KruXsYCd6Rodheaq9T2H81P152toJGAg+Ce17j/z9DSwfV0ExvwZyu7pkLZNGBifFvSaUl6RwURrBmsPA/6DKVNryu9B3VygDT/LF0RsfTYMtApxSlCeGozddOfEMjKPIiDffMvf+o1rXWht9eVee2QnHyOE1XfjyNF/9qxsaZI4TI49+vn9/c/EvWZjYf0apPKHR6yV6hFS5LCvA6wvt917w91Yg54cDx9kUm1c6eEcIy5Dym1HF0DbrdqyoQAY5m8EqXGmqNiFmEYa9GWGQxjDkW28sETyq0q+DJpznBKmp7tSOQLW+K81BWDYkjo90dbGFg/1Bhlk/+vlam4QnCLXMkyR555tKASMKuEiroO4OLlvNYRjbSRbaHQ41Z1p+Pj2W8z5JdaF/B+UNJmTaFvL0CK01EsifiboMGi2kBro5TAKS5LhM7kVC7AKTRvAQ3CShvJtC4TN7uyao8q0dLRV2wLf6IJYn9xI0qYWnr2xE32WW7M6fHE4/SK6lsD/fJEEqPUoKgiJfQAUfDyF88d0MjOIOLYEQENm2U7dkluw== py@archbox";
 in {
-  "poopy.age".publicKeys = [
-    poopy.py
+  "wakapiSalt.age".publicKeys = [
+    poopy
     ragnarok
   ];
 }
