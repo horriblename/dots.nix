@@ -11,7 +11,7 @@
       "submodules": false,
       "revision": "d1a3a5262d110b1fca55a3b1027ad61a49da621a",
       "url": "https://github.com/horriblename/aerial.nvim/archive/d1a3a5262d110b1fca55a3b1027ad61a49da621a.tar.gz",
-      "hash": "1bb3c5wryggwy5n1ffs9m4xs0k63va0wy5magnkspyrjbapa6wlw"
+      "hash": "sha256-nHKjrloy+6unfaoWz4Haw0ygO6lJOxds8fw9n3lhY60="
     },
     "direnv-nvim": {
       "type": "Git",
@@ -24,7 +24,7 @@
       "submodules": false,
       "revision": "e623d3645152839cbe7e73e7b2aa6e31256020ea",
       "url": "https://github.com/notashelf/direnv.nvim/archive/e623d3645152839cbe7e73e7b2aa6e31256020ea.tar.gz",
-      "hash": "02dq1x2l274idxm8jf4gy0kz7mil9mhb0pac0mvw8gj7arzn81q7"
+      "hash": "sha256-Bwdkf1ZHPsR3BUxdsGBNNNbzJ/CPOIlqb5EcQUUPuAk="
     },
     "grug-far.nvim": {
       "type": "GitRelease",
@@ -40,7 +40,7 @@
       "version": "1.6.71",
       "revision": "c995bbacf8229dc096ec1c3d60f8531059c86c1b",
       "url": "https://api.github.com/repos/MagicDuck/grug-far.nvim/tarball/1.6.71",
-      "hash": "15wv6hvkiqi0rdg59y7dgaz7g6nz3141fdmkdggrc1h8aadky9zr"
+      "hash": "sha256-+Sc/m1IIBpbfa7M2F0gY35p3vnrt+FReyyDiODc0m5c="
     },
     "img-paste.vim": {
       "type": "Git",
@@ -53,7 +53,7 @@
       "submodules": false,
       "revision": "787be15ff52ea2db5ae7b813ab8808c8d4cf749e",
       "url": "https://github.com/img-paste-devs/img-paste.vim/archive/787be15ff52ea2db5ae7b813ab8808c8d4cf749e.tar.gz",
-      "hash": "1cmjyp2lvb3qa92c0jbffwbdnfz4xi2d6cz24l76frp9lqc89aid"
+      "hash": "sha256-LaqEGKbpZmcOJeIz00Ts5DvbFnduScBEUnisTcX1srI="
     },
     "llama.cpp": {
       "type": "GitRelease",
@@ -69,7 +69,7 @@
       "version": "b9628",
       "revision": "c2ba3e47a2038a2c4f51138c1843e374b174e83d",
       "url": "https://api.github.com/repos/ggml-org/llama.cpp/tarball/b9628",
-      "hash": "0zbcfhksw2ah0wlidaq25dlh3yk5szhsrcw65wxpifkjd6j2i89g"
+      "hash": "sha256-L6EopGlyung7L4azrOHXZfoBaSsCqxYpB1AJrid0bH0="
     },
     "nixrun-nvim": {
       "type": "Git",
@@ -82,7 +82,7 @@
       "submodules": false,
       "revision": "cd87e8a7d6a98033097cd2a7204948ffab11a4ea",
       "url": "https://github.com/horriblename/nixrun-nvim/archive/cd87e8a7d6a98033097cd2a7204948ffab11a4ea.tar.gz",
-      "hash": "01gqd3p1j863spzm15pw97mfvhcs7qc20lj51709smc3k9d5xchm"
+      "hash": "sha256-FbJeWpqDVZ3ACUVSIBg+msHt6kn8llD/1cMgGe5o+AU="
     },
     "pendulum-nvim": {
       "type": "GitRelease",
@@ -98,7 +98,7 @@
       "version": "v1.1.0",
       "revision": "c129ae3d69f164b3e51e067b0eca45a8d3da29ee",
       "url": "https://api.github.com/repos/ptdewey/pendulum-nvim/tarball/v1.1.0",
-      "hash": "19rlifim7fp4mvhn99vaaac49ah0pv7yycip4als1y8lzb9qygri"
+      "hash": "sha256-MT+P0/oU+aCpIjcy78++AKpEmFJqp2ThruS6U6OLNKc="
     },
     "rag-cli": {
       "type": "Git",
@@ -111,7 +111,7 @@
       "submodules": false,
       "revision": "8d6c66acf5aef1f138ef089b1e8e2707229e60ef",
       "url": "https://github.com/the-sett/rag-cli/archive/8d6c66acf5aef1f138ef089b1e8e2707229e60ef.tar.gz",
-      "hash": "0ah97d99w2rqw1hbmdqimn79zlkkdc0dg4hzav0s5f5ps5y7jfh2",
+      "hash": "sha256-Ajp5fNG3uKLBVh+S1wBrc9Kfjq0Rt7pg4DgLnlI7CSo=",
       "frozen": true
     },
     "tele-nvim": {
@@ -125,7 +125,7 @@
       "submodules": false,
       "revision": "67df5d365ccff1cf7bfccde395062f1ad9563753",
       "url": "https://github.com/horriblename/tele-nvim/archive/67df5d365ccff1cf7bfccde395062f1ad9563753.tar.gz",
-      "hash": "11w8das0q49b0jqkl1ix375dwgy8240f2s1nxxrn7dwpz02jf0cs"
+      "hash": "sha256-mgEnBfiXt2Nz7zZo4QARyD/eyhk9BjqxBCsRDLRqiIc="
     },
     "ttags": {
       "type": "Git",
@@ -138,8 +138,8 @@
       "submodules": false,
       "revision": "b59a89f0340a6c0594eb67c36980efa44d6543ec",
       "url": "https://github.com/horriblename/ttags/archive/b59a89f0340a6c0594eb67c36980efa44d6543ec.tar.gz",
-      "hash": "1lib81hb11pqd1dcm3v31dyndvs2bgx9y8lyqv7bjbwcdjcsc2cx"
+      "hash": "sha256-nQmmmWyML7nOxp4in/pbQu9mfQtjj8paaPiGsGBAK9I="
     }
   },
-  "version": 5
+  "version": 7
 }
