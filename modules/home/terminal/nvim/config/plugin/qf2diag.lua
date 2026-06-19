@@ -5,37 +5,12 @@ local group = vim.api.nvim_create_augroup("qf-to-diagnostics-sync", { clear = tr
 -- namespace. Integrating directly with :CWatch may solve this problem
 local diag_ns = vim.api.nvim_create_namespace("qf-to-diagnostics-sync")
 
-local function squash_qflist(list)
-	local squashed = {}
-	local acc = list[1]
-	if acc == nil then
-		return {}
-	end
-	local strbuf = require("string.buffer")
-	local desc = strbuf.new()
-	desc:put(acc.text)
-	for item in vim.iter(list):skip(1) do
-		if item.valid == 1 then
-			acc.text = desc:get()
-			table.insert(squashed, acc)
-
-			acc = item
-			desc:put(item.text)
-		else
-			desc:put("\n", item.text)
-		end
-	end
-	acc.text = desc:get()
-	table.insert(squashed, acc)
-	return squashed
-end
-
 function _G.DiagnosticFromQfList()
 	vim.diagnostic.reset(diag_ns)
-	local list = squash_qflist(vim.fn.getqflist())
+	local list = vim.fn.getqflist()
 	local title = vim.fn.getqflist({ title = 1 }).title
 	local bufset = {}
-	for _, diag in ipairs(vim.diagnostic.fromqflist(list)) do
+	for _, diag in ipairs(vim.diagnostic.fromqflist(list, { merge_lines = true })) do
 		diag.source = "quickfix:" .. title
 
 		-- TODO: make configurable
