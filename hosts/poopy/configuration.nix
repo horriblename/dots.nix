@@ -55,6 +55,7 @@
     # };
 
     wakapi.enable = true;
+    syncthing.enable = true;
 
     # pocket-id.enable = true;
   };
