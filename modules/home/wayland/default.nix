@@ -7,6 +7,7 @@
   imports = [
     ./audio.nix
     ./fonts.nix
+    ./syncthing.nix
 
     ./eww
     ./desktop

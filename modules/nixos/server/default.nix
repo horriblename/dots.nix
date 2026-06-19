@@ -5,5 +5,6 @@
     ./pocketid.nix
     ./wakapi.nix
     ./web.nix
+    ./syncthing.nix
   ];
 }
