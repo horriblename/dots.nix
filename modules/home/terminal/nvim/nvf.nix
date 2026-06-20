@@ -744,7 +744,7 @@ in {
         (mkKeymap "n" "[g" ":Gitsigns prev_hunk<CR>" {})
 
         # mini.files
-        (mkKeymap "n" "-" ":lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>" {
+        (mkKeymap "n" "-" ":lua local f=vim.api.nvim_buf_get_name(0); MiniFiles.open(f:match('^/') and f or vim.fn.getcwd())<CR>" {
           desc = "Open mini.files in the parent of this buffer";
         })
         (mkKeymap "n" "<leader>e" ":lua MiniFiles.open(MiniFiles.get_latest_path())<CR>" {
