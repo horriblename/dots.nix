@@ -87,6 +87,19 @@
       "url": "https://api.github.com/repos/ggml-org/llama.cpp/tarball/refs/tags/b9743",
       "hash": "sha256-MdMPSxaj78hmO4OS22BUXMzDfBOie6d8HGTtp9Nc9gs="
     },
+    "luee": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "horriblename",
+        "repo": "luee"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "bc18cdc6d843dd5362fbd58fdb6def3aa1b5f820",
+      "url": "https://github.com/horriblename/luee/archive/bc18cdc6d843dd5362fbd58fdb6def3aa1b5f820.tar.gz",
+      "hash": "sha256-g/ycCxxOZbOcU+GoShK8rYdzcvrXAfqiwmnxRKU7g2E="
+    },
     "nixrun-nvim": {
       "type": "Git",
       "repository": {

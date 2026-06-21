@@ -722,22 +722,6 @@
         "type": "github"
       }
     },
-    "luee": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1781833301,
-        "narHash": "sha256-SAjbQfsYeLPxT8zlUrTeMBMVbSTX0kyK5JIYd860orU=",
-        "owner": "horriblename",
-        "repo": "luee",
-        "rev": "7c7d8345c58d07ea584e43694a8b3160662c6c06",
-        "type": "github"
-      },
-      "original": {
-        "owner": "horriblename",
-        "repo": "luee",
-        "type": "github"
-      }
-    },
     "micros": {
       "inputs": {
         "ndg": "ndg",
@@ -1201,7 +1185,6 @@
         "hyprland-xdg-toplevel-move": "hyprland-xdg-toplevel-move",
         "impurity": "impurity",
         "lanzaboote": "lanzaboote",
-        "luee": "luee",
         "micros": "micros",
         "nix-index-database": "nix-index-database",
         "nix-on-droid": "nix-on-droid",
