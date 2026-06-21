@@ -18,6 +18,8 @@ jobs:
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
       - name: Update npins
         run: "nix run github:nixos/nixpkgs/nixos-25.11#npins -- update"
+      - name: Update auxiliary hashes
+        run: "nix-update --flake llama-cpp"
       - name: Update flake.lock
         uses: DeterminateSystems/update-flake-lock@v23
         with:

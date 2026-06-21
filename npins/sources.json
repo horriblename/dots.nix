@@ -82,10 +82,10 @@
       "version_upper_bound": null,
       "release_prefix": "b",
       "submodules": false,
-      "version": "b9628",
-      "revision": "c2ba3e47a2038a2c4f51138c1843e374b174e83d",
-      "url": "https://api.github.com/repos/ggml-org/llama.cpp/tarball/b9628",
-      "hash": "sha256-L6EopGlyung7L4azrOHXZfoBaSsCqxYpB1AJrid0bH0="
+      "version": "b9743",
+      "revision": "c57607016a1ebdd08d269e3378eee5546fc3bf3a",
+      "url": "https://api.github.com/repos/ggml-org/llama.cpp/tarball/refs/tags/b9743",
+      "hash": "sha256-MdMPSxaj78hmO4OS22BUXMzDfBOie6d8HGTtp9Nc9gs="
     },
     "nixrun-nvim": {
       "type": "Git",
@@ -152,9 +152,9 @@
       },
       "branch": "rework",
       "submodules": false,
-      "revision": "b59a89f0340a6c0594eb67c36980efa44d6543ec",
-      "url": "https://github.com/horriblename/ttags/archive/b59a89f0340a6c0594eb67c36980efa44d6543ec.tar.gz",
-      "hash": "sha256-nQmmmWyML7nOxp4in/pbQu9mfQtjj8paaPiGsGBAK9I="
+      "revision": "13ae6f62d3e3433021c7d613d84bea6e4342c3c3",
+      "url": "https://github.com/horriblename/ttags/archive/13ae6f62d3e3433021c7d613d84bea6e4342c3c3.tar.gz",
+      "hash": "sha256-3B19+A9+PKkHw8IraZ9+LA725hS/TzibhozSKHbiJQ8="
     }
   },
   "version": 7
