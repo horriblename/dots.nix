@@ -151,22 +151,6 @@ nnoremap <c-p> @p
 nnoremap <c-n> @n
 " }}}
 
-" Sub-mode mapping {{{
-nmap gj gjg
-nmap gk gjk
-nmap zL zLz
-nmap zH zHz
-
-xmap gj gjg
-xmap gk gjk
-xmap zL zLz
-xmap zH zHz
-
-map <C-w>- <C-w>-<C-w>
-map <C-w>+ <C-w>+<C-w>
-map <C-w>< <C-w><lt><C-w>
-map <C-w>> <C-w>><C-w>
-" }}}
 
 inoremap <C-r><C-k> <C-k>
 
@@ -514,11 +498,6 @@ tnoremap <C-Tab>    <C-\><C-n>:tabnext<CR>
 tnoremap <C-S-Tab>  <C-\><C-n>:tabprevious<CR>
 tnoremap <M-;>      <C-\><C-n>:tabnext<CR>
 tnoremap <M-,>      <C-\><C-n>:tabprevious<CR>
-
-" quickfix
-nnoremap <M-'><M-n> :cnext<CR>
-nnoremap <M-'><M-p> :cprev<CR>
-nnoremap <M-'><M-'> :copen<CR>
 
 " toggleterm
 noremap <M-x> :call user#general#ToggleTerm()<cr>
