@@ -532,10 +532,11 @@ for i in range(1,8)
 	exec 'tnoremap <M-' . i . '> <C-\><C-n>:' . i . 'tabnext<CR>'
 endfor
 noremap <M-9> :$tabnext<CR>
+tnoremap <M-9> <cmd>$tabnext<CR>
 
 noremap <M-C-I> :<c-u>call user#general#GotoNextFloat('botright')<cr>
-noremap <M-C-O> :<c-u>call user#general#GotoNextFloat('botright')<cr>
-tnoremap <M-C-I> <C-\><C-n>:call user#general#GotoNextFloat('topleft')<CR>
+noremap <M-C-O> :<c-u>call user#general#GotoNextFloat('topleft')<cr>
+tnoremap <M-C-I> <C-\><C-n>:call user#general#GotoNextFloat('botright')<CR>
 tnoremap <M-C-O> <C-\><C-n>:call user#general#GotoNextFloat('topleft')<CR>
 
 " }}}

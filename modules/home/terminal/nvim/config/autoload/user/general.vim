@@ -222,26 +222,31 @@ fu s:clamp(a, min, max)
 endfu
 
 " Note that directions outside of l/h/j/k are not checked and always return 1
+" src: [row, col]
 fu s:isInDirection(dir, src, target)
+	if a:dir =~# 'botright\|topleft'
+		" don't do direction filtering on these
+		return v:true
+	endif
 	return a:dir ==# 'l' && a:src[1] < a:target[1]
 		\ || a:dir ==# 'h' && a:target[1] < a:src[1]
 		\ || a:dir ==# 'j' && a:src[0] < a:target[0]
 		\ || a:dir ==# 'k' && a:target[0] < a:src[0]
 endfu
 
-fu! user#general#GotoNextFloat(dir, wrap=1) abort
+fu! user#general#GotoNextFloat(dir, wrap=v:true) abort
 	if !has("nvim")
 		return
 	endif
 	let thiswin_pos = nvim_win_get_position(nvim_get_current_win())
 	" winnr is ordered bottom to top, right to left, so we reverse if we want
 	" to go in the direction of right/down
-	let rev = a:dir =~# 'j\|l\|botright'
-	let stride = rev ? -1 : 1
-	let loop_from = s:clamp(winnr() + stride, 1, winnr('$'))
+	let rev = a:dir =~# '^\(j\|l\|botright\)$'
+	let step = rev ? -1 : 1
+	let loop_from = s:clamp(winnr() + step, 1, winnr('$'))
 	let loop_to = rev ? 1 : winnr('$')
 	let wrap_from = !a:wrap ? v:null : rev ? winnr('$') : 1
-	let loop = s:rangeMaybeWrap(loop_from, loop_to, stride, wrap_from)
+	let loop = s:rangeMaybeWrap(loop_from, loop_to, step, wrap_from)
 
 	for w in loop
 		let c = nvim_win_get_config(win_getid(w))
