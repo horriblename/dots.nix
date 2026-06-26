@@ -9,13 +9,14 @@
     ./fonts.nix
     ./syncthing.nix
 
-    ./eww
     ./desktop
+    ./eww
     ./foot
     ./gtk
     ./hyprland
     ./input
     ./menu
+    ./niri
     ./qt
     ./sway
     ./swayidle
