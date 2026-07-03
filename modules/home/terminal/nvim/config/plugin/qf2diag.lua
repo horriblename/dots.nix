@@ -14,7 +14,8 @@ function _G.DiagnosticFromQfList()
 		diag.source = "quickfix:" .. title
 
 		-- TODO: make configurable
-		if title:find("^(:rg|:grep)") then
+		local cmd = title:match("^:(%S+)")
+		if cmd == "rg" or cmd == "grep" then
 			diag.severity = vim.diagnostic.severity.INFO
 		end
 

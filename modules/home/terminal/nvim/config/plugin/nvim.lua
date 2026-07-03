@@ -1,4 +1,6 @@
+-- vim: foldmethod=marker foldlevel=0
 -- neovim specific config
+-- diagnostics {{{
 local function diagnosticJump(dir)
 	return function()
 		vim.diagnostic.jump({
@@ -25,6 +27,9 @@ vim.diagnostic.config({
 	},
 	severity_sort = true,
 })
+-- }}}
+
+-- gx: use 'gf' heuristics to find files {{{
 
 local function get_selection()
 	-- does not handle rectangular selection
@@ -49,8 +54,9 @@ vim.keymap.set("x", "gx", function()
 	local lines = get_selection()
 	ui_open(lines[1])
 end)
+-- }}}
 
--- sub-mode mapping
+-- sub-mode mapping {{{
 local function enterSubmode(prefix, key, possible)
 	prefix = vim.api.nvim_replace_termcodes(prefix, true, false, true)
 	key = vim.api.nvim_replace_termcodes(key, true, false, true)
@@ -96,3 +102,11 @@ vim.keymap.set("n", "<C-W><", function() enterSubmode("<C-W>", '<', groupResizeW
 vim.keymap.set("x", "<C-W><", function() enterSubmode("<C-W>", '<', groupResizeWin) end)
 vim.keymap.set("n", "<C-W>>", function() enterSubmode("<C-W>", '>', groupResizeWin) end)
 vim.keymap.set("x", "<C-W>>", function() enterSubmode("<C-W>", '>', groupResizeWin) end)
+-- }}}
+
+-- tree-sitter {{{
+vim.keymap.set("n", "<M-o>", "van", { remap = true })
+vim.keymap.set("n", "<M-i>", "vin", { remap = true })
+vim.keymap.set("x", "<M-o>", "an", { remap = true })
+vim.keymap.set("x", "<M-i>", "in", { remap = true })
+-- }}}
