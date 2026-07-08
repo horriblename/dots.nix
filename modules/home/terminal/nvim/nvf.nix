@@ -333,9 +333,6 @@ in {
           diagnostic.globals = ["vim"];
         };
       };
-      nil = {
-        settings.nil.nix.flake.autoArchive = false;
-      };
       nixd = mkIf langCfg.nix.lsp.enable {
         cmd = mkForce [(lib.getExe pkgs.nixd) "--log=error"];
       };
