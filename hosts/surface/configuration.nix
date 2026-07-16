@@ -7,6 +7,10 @@
   lib,
   ...
 }: {
+  imports = [
+    inputs.lanzaboote.nixosModules.lanzaboote
+    ./time.nix
+  ];
   # Use the systemd-boot EFI boot loader.
   # boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -99,7 +103,6 @@
   # };
 
   ## Lanzaboote
-  imports = [inputs.lanzaboote.nixosModules.lanzaboote];
   environment.systemPackages = [
     pkgs.sbctl
   ];
