@@ -29,6 +29,19 @@
       "url": "https://api.github.com/repos/ryantm/agenix/tarball/refs/tags/0.15.0",
       "hash": "sha256-ipqShkBmHKC9ft1ZAsA6aeKps32k7+XZSPwfxeHLsAU="
     },
+    "compl.nvim": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "horriblename",
+        "repo": "compl.nvim"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "b819f6eca705a2b7c8e7c13e9906e8252012a5cf",
+      "url": "https://github.com/horriblename/compl.nvim/archive/b819f6eca705a2b7c8e7c13e9906e8252012a5cf.tar.gz",
+      "hash": "sha256-wI9/i2iuL9TAnlgTx+FIlIrnk7nvU3BESjyeaupIqdI="
+    },
     "direnv-nvim": {
       "type": "Git",
       "repository": {
