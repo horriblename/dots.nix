@@ -83,7 +83,9 @@ local function withDesc(desc)
 end
 
 vim.keymap.set('n', '<leader>ck', '"zciw<C-r>=v:lua.kebab_case(@z)<CR><Esc>', withDesc('to kebab-case'))
+vim.keymap.set('n', '<leader>c-', '"zciw<C-r>=v:lua.kebab_case(@z)<CR><Esc>', withDesc('to kebab-case'))
 vim.keymap.set('n', '<leader>cs', '"zciw<C-r>=v:lua.snake_case(@z)<CR><Esc>', withDesc('to snake_case'))
+vim.keymap.set('n', '<leader>c_', '"zciw<C-r>=v:lua.snake_case(@z)<CR><Esc>', withDesc('to snake_case'))
 vim.keymap.set('n', '<leader>cp', '"zciw<C-r>=v:lua.PascalCase(@z)<CR><Esc>', withDesc('to PascalCase'))
 vim.keymap.set('n', '<leader>cc', '"zciw<C-r>=v:lua.camelCase(@z)<CR><Esc>', withDesc('to camelCase'))
 vim.keymap.set('n', '<leader>cC', '"zciw<C-r>=v:lua.CONST_CASE(@z)<CR><Esc>', withDesc('to CONST_CASE'))
