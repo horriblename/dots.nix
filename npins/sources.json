@@ -38,9 +38,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "b819f6eca705a2b7c8e7c13e9906e8252012a5cf",
-      "url": "https://github.com/horriblename/compl.nvim/archive/b819f6eca705a2b7c8e7c13e9906e8252012a5cf.tar.gz",
-      "hash": "sha256-wI9/i2iuL9TAnlgTx+FIlIrnk7nvU3BESjyeaupIqdI="
+      "revision": "d3b1a7ad6c34607bfe9a97f3a50fc7062eff7c42",
+      "url": "https://github.com/horriblename/compl.nvim/archive/d3b1a7ad6c34607bfe9a97f3a50fc7062eff7c42.tar.gz",
+      "hash": "sha256-CGDg29ANIuflanTGJnqGlV3B6cZySI05eYdNgkamA2w="
     },
     "direnv-nvim": {
       "type": "Git",
@@ -51,9 +51,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "e623d3645152839cbe7e73e7b2aa6e31256020ea",
-      "url": "https://github.com/notashelf/direnv.nvim/archive/e623d3645152839cbe7e73e7b2aa6e31256020ea.tar.gz",
-      "hash": "sha256-Bwdkf1ZHPsR3BUxdsGBNNNbzJ/CPOIlqb5EcQUUPuAk="
+      "revision": "9258f9f10c4c729d8296fce0e3ecb12543daad06",
+      "url": "https://github.com/notashelf/direnv.nvim/archive/9258f9f10c4c729d8296fce0e3ecb12543daad06.tar.gz",
+      "hash": "sha256-b5PpmkYWaDGLNcu+36tRR5ycATHYBjs9WrV8/jfmooQ="
     },
     "grug-far.nvim": {
       "type": "GitRelease",
@@ -66,10 +66,10 @@
       "version_upper_bound": null,
       "release_prefix": null,
       "submodules": false,
-      "version": "1.6.71",
-      "revision": "c995bbacf8229dc096ec1c3d60f8531059c86c1b",
-      "url": "https://api.github.com/repos/MagicDuck/grug-far.nvim/tarball/1.6.71",
-      "hash": "sha256-+Sc/m1IIBpbfa7M2F0gY35p3vnrt+FReyyDiODc0m5c="
+      "version": "1.6.74",
+      "revision": "1cc080f55706b38aabfa97d40acb6adf59ac4a5a",
+      "url": "https://api.github.com/repos/MagicDuck/grug-far.nvim/tarball/refs/tags/1.6.74",
+      "hash": "sha256-1iUVzCexqbSlp+wOHRurO+dsQOFveQJGbd40BIt8yys="
     },
     "img-paste.vim": {
       "type": "Git",
@@ -95,10 +95,10 @@
       "version_upper_bound": null,
       "release_prefix": "b",
       "submodules": false,
-      "version": "b9743",
-      "revision": "c57607016a1ebdd08d269e3378eee5546fc3bf3a",
-      "url": "https://api.github.com/repos/ggml-org/llama.cpp/tarball/refs/tags/b9743",
-      "hash": "sha256-MdMPSxaj78hmO4OS22BUXMzDfBOie6d8HGTtp9Nc9gs="
+      "version": "b10068",
+      "revision": "571d0d540df04f25298d0e159e520d9fc62ed121",
+      "url": "https://api.github.com/repos/ggml-org/llama.cpp/tarball/refs/tags/b10068",
+      "hash": "sha256-PU2rQT1KBxrox6Fo8sryTphR8Ir7i6Z2NEodKKgNOfI="
     },
     "luee": {
       "type": "Git",
@@ -125,36 +125,6 @@
       "revision": "cd87e8a7d6a98033097cd2a7204948ffab11a4ea",
       "url": "https://github.com/horriblename/nixrun-nvim/archive/cd87e8a7d6a98033097cd2a7204948ffab11a4ea.tar.gz",
       "hash": "sha256-FbJeWpqDVZ3ACUVSIBg+msHt6kn8llD/1cMgGe5o+AU="
-    },
-    "pendulum-nvim": {
-      "type": "GitRelease",
-      "repository": {
-        "type": "GitHub",
-        "owner": "ptdewey",
-        "repo": "pendulum-nvim"
-      },
-      "pre_releases": false,
-      "version_upper_bound": null,
-      "release_prefix": null,
-      "submodules": false,
-      "version": "v1.1.0",
-      "revision": "c129ae3d69f164b3e51e067b0eca45a8d3da29ee",
-      "url": "https://api.github.com/repos/ptdewey/pendulum-nvim/tarball/v1.1.0",
-      "hash": "sha256-MT+P0/oU+aCpIjcy78++AKpEmFJqp2ThruS6U6OLNKc="
-    },
-    "rag-cli": {
-      "type": "Git",
-      "repository": {
-        "type": "GitHub",
-        "owner": "the-sett",
-        "repo": "rag-cli"
-      },
-      "branch": "master",
-      "submodules": false,
-      "revision": "8d6c66acf5aef1f138ef089b1e8e2707229e60ef",
-      "url": "https://github.com/the-sett/rag-cli/archive/8d6c66acf5aef1f138ef089b1e8e2707229e60ef.tar.gz",
-      "hash": "sha256-Ajp5fNG3uKLBVh+S1wBrc9Kfjq0Rt7pg4DgLnlI7CSo=",
-      "frozen": true
     },
     "tele-nvim": {
       "type": "Git",
