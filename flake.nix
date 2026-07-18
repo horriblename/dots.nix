@@ -455,17 +455,6 @@
     overlay = final: prev: let
       pins = npinsFor final.stdenv.system;
     in {
-      libcallex-vim = final.vimUtils.buildVimPlugin {
-        pname = "libcallex-vim";
-        version = "git";
-        src = final.callPackage ./pkgs/libcallex-vim.nix {};
-      };
-      pendulum-nvim = final.callPackage ./pkgs/pendulum-nvim.nix {
-        src = pins.pendulum-nvim;
-        inherit (pins.pendulum-nvim) version;
-      };
-      fennel-ls = final.callPackage ./pkgs/fennel-ls.nix {};
-
       rssAggrePackages = inputs.rss-aggre.packages.${final.stdenv.system};
 
       ttags = let
@@ -489,22 +478,6 @@
         src = pins.bonsai-llama-cpp;
         version = "11434";
       };
-
-      ixwebsocket = final.callPackage ./pkgs/ixwebsocket.nix {pin = pins.IXWebSocket;};
-      rag-cli = final.callPackage ./pkgs/cli-rag/default.nix {src = pins.rag-cli;};
-      rag-cli-elm = final.callPackage ./pkgs/cli-rag/elm.nix {pin = pins.rag-cli;};
-
-      unch = final.callPackage ./pkgs/unch.nix {src = pins.unch;};
-
-      microsContainer =
-        (inputs.micros.lib.microsSystem {
-          modules = [
-            "${inputs.micros}/micros/modules/profiles/virtualization/iso-image.nix"
-            {
-              nixpkgs.hostPlatform = {inherit (final.stdenv) system;};
-            }
-          ];
-        }).config.system.build.image;
     };
     formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
     templates = import ./templates;

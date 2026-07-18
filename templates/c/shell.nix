@@ -1,2 +1,5 @@
 {pkgs ? import <nixpkgs> {}}:
-  pkgs.mkShell {}
+pkgs.mkShell {
+  # silences GCC warnings
+  hardeningDisable = ["fortify"];
+}
