@@ -25,6 +25,6 @@ fu user#zlua#comp(ArgLead, CmdLine, CursorPos) abort
 		let zlua=$ZLUA_SCRIPT
 	endif
 
-	return systemlist([zlua, '--complete', a:ArgLead])
+	return system([zlua, '--complete', a:ArgLead])
 endfun
 

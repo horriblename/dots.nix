@@ -10,10 +10,7 @@ let g:AnsiTermColors = {
 			\ }
 
 fu user#ansicolors#AnsiColorComp(lead, b, c) abort
-	if a:lead ==# ''
-		return keys(g:AnsiTermColors)
-	endif
-	return keys(g:AnsiTermColors)->matchfuzzy(a:lead)
+	return keys(g:AnsiTermColors)->join("\n")
 endfu
 
 fu user#ansicolors#InsertAnsiTermColor(color) abort
