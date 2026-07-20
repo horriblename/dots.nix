@@ -46,6 +46,10 @@ in {
           ExecStart = "${fake-hwclock} load";
           ExecStop = "${fake-hwclock} save";
         };
+
+        environment = {
+          CLOCKFILE = tickPath;
+        };
       };
     };
 
