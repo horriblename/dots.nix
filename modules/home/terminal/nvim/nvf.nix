@@ -846,17 +846,6 @@ in {
             require('fzf-lua').register_ui_select()
           '';
       };
-      compl-nvim = {
-        package = noBuildPlug "compl.nvim";
-        setup = setup "compl" {
-          completion = {
-            fuzzy = false;
-          };
-          snippet = {
-            enable = true;
-          };
-        };
-      };
       friendly-snippets = {package = friendly-snippets;};
       nvim-autopairs = {
         package = "nvim-autopairs";

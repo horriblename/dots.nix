@@ -173,6 +173,15 @@ augroup DotsMarkdown
   " nvim defaults are unoverridable due to after/ftplugin being broken
   au FileType markdown setl formatoptions+=ro/
 augroup END
+
+augroup DotsNixShellTemplate
+	au!
+	au BufNewFile shell.nix call setline(1, [
+			\ '{pkgs ? import <nixpkgs> {}}: pkgs.mkShell {',
+			\ '  packages = with pkgs; [',
+			\ '  ];',
+			\ '}'])
+augroup END
 " }}}
 
 let g:markdown_folding = 1
