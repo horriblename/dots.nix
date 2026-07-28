@@ -23,8 +23,14 @@
     kernelParams = ["console=tty0" "console=ttyS0,115200"];
   };
 
-  fileSystems."/" = {
-    device = "/dev/sda1";
-    fsType = "ext4";
+  fileSystems = {
+    "/" = {
+      device = "/dev/sda1";
+      fsType = "ext4";
+    };
+    "/boot/efi" = {
+      device = "/dev/disk/by-uuid/C345-7B38";
+      fsType = "vfat";
+    };
   };
 }
