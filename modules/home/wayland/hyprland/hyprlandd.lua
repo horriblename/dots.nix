@@ -47,7 +47,7 @@ function _G.inspect(x)
 end
 
 function _G.dbg(x)
-	print(dbg_inner(0, { id = 1 }, x))
+	print("[dbg]", dbg_inner(0, { id = 1 }, x))
 	return x
 end
 
@@ -62,6 +62,10 @@ hl.config({
 
 	debug = {
 		disable_logs = false,
+	},
+
+	input = {
+		repeat_delay = 300,
 	},
 
 	-- device = {
@@ -119,6 +123,7 @@ hl.gesture({ fingers = 4, direction = "up", action = "move" })
 hl.gesture({ fingers = 4, direction = "pinchout", action = "close" })
 
 if hl.plugin.hyprgrass then
+	_G.hg = hl.plugin.hyprgrass
 	hl.config {
 		plugin = {
 			hyprgrass = {
