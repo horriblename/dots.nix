@@ -362,7 +362,7 @@ in {
     };
 
     autocomplete.blink-cmp = {
-      enable = false;
+      enable = true;
       setupOpts = {
         sources = {
           providers = {
