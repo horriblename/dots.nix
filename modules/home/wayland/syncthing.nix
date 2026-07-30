@@ -20,6 +20,14 @@
         surface = {
           id = "E3JJSSC-H2SEIHJ-KHJB37F-RF6FWK5-MZRX4W2-S4Z32PL-7W4SWU6-RJTQJAB";
         };
+
+        pixie = {
+          id = "6MDHOXI-2EA5WV4-XUS2A3X-FNDYJAE-OUNYZWW-NYTMCBF-CH2Z3PY-NAZ4GQN";
+        };
+
+        kirin = {
+          id = "25OXMZ6-2HTHN7O-QHD5GUX-BHAPJ22-Z6UBP2X-EA53FV4-MJYEGNM-IUN2XAP";
+        };
       };
 
       folders = {
