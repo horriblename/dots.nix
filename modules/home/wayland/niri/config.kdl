@@ -87,7 +87,7 @@ layout {
 }
 
 spawn-at-startup "eww" "open" "bar_vert"
-spawn-at-startup "foot-quake"
+spawn-at-startup "foot" "--app-id" "foot-quake" "nvim" "+runtime scripts/mux.vim"
 
 hotkey-overlay { skip-at-startup; }
 
