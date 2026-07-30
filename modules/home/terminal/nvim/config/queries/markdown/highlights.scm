@@ -13,11 +13,11 @@
 ; code blocks
 ; kind of a hack: idk how to correctly match closing fences
 (fenced_code_block
-  ((fenced_code_block_delimiter) @comment))
+  (fenced_code_block_delimiter) @comment)
 
 ; quote blocks
 ((block_quote_marker) @variable
-	(#trim! @variable 0 0 0 1)
+  (#trim! @variable 0 0 0 1)
   (#set! conceal "│"))
 
 ((block_continuation) @variable
@@ -80,9 +80,7 @@
 ; )
 ; tag
 ; ("#")
-
 ; Below this point is copied from nvim runtime
-
 (setext_heading
   (paragraph) @markup.heading.1
   (setext_h1_underline) @markup.heading.1)
@@ -122,7 +120,6 @@
 ;
 ; (pipe_table_delimiter_row
 ;   "|" @punctuation.special)
-
 (pipe_table_delimiter_cell) @punctuation.special
 
 ; Code blocks (conceal backticks and language annotation)
@@ -136,14 +133,12 @@
 ;   (#set! conceal "")
 ;   (#set! conceal_lines "")
 ;     )
-
 ; (fenced_code_block
 ;   (info_string
 ;     (language) @label
 ;     (#set! conceal "")
 ;     (#set! conceal_lines "")
 ;     ))
-
 (link_destination) @markup.link.url
 
 [
@@ -192,7 +187,6 @@
 
 ; ((block_quote) @markup.quote
 ;   (#set! priority 90))
-
 ([
   (plus_metadata)
   (minus_metadata)

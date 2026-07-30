@@ -519,6 +519,10 @@ tnoremap <M-C-I> <C-\><C-n>:call user#general#GotoNextFloat('botright')<CR>
 tnoremap <M-C-O> <C-\><C-n>:call user#general#GotoNextFloat('topleft')<CR>
 
 " }}}
+" Abbreviation {{{
+noreabbrev langauge language
+noreabbrev langauges languages
+" }}}
 
 " Plugins
 nnoremap <leader>mt :make test <bar> cwindow<CR>

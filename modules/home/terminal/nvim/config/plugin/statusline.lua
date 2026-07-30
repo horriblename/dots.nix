@@ -166,7 +166,7 @@ function _G.StatuslineFtIcon()
 	return string.format(" %s%s%%*", highlight, icon)
 end
 
-local lsp_skipset = { copilot = true }
+local lsp_skipset = { copilot = true, compl_snippets = true, harper = true }
 function _G.StatuslineLsp()
 	local attached = vim.lsp.get_clients({ bufnr = vim.fn.bufnr() })
 
