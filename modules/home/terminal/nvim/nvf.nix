@@ -293,6 +293,7 @@ in {
       haskell = {
         enable = true;
         lsp.enable = false;
+        format.enable = false;
         dap.enable = false;
       };
       html.enable = true;
