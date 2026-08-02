@@ -66,10 +66,10 @@
       "version_upper_bound": null,
       "release_prefix": null,
       "submodules": false,
-      "version": "1.6.75",
-      "revision": "0f6a5d0d7a70659b11bbcd6b3673ee0fe61b6024",
-      "url": "https://api.github.com/repos/MagicDuck/grug-far.nvim/tarball/refs/tags/1.6.75",
-      "hash": "sha256-2ujUbjwwaTiO/jn78qogtXAjPzPNIcOrbLS1ver/5zA="
+      "version": "1.6.76",
+      "revision": "6e05398cf6cad05b3fb46569db96b1ccfcbbd402",
+      "url": "https://api.github.com/repos/MagicDuck/grug-far.nvim/tarball/refs/tags/1.6.76",
+      "hash": "sha256-1wSKozrS0sDeDE+/fjjB+t1RZoT5RKaMHp18n7Ukdi0="
     },
     "img-paste.vim": {
       "type": "Git",
@@ -95,10 +95,10 @@
       "version_upper_bound": null,
       "release_prefix": "b",
       "submodules": false,
-      "version": "b10121",
-      "revision": "555881ebc8b0fc0402b30e09258a32a7bfd13c52",
-      "url": "https://api.github.com/repos/ggml-org/llama.cpp/tarball/refs/tags/b10121",
-      "hash": "sha256-w/clKlVE0cHzb8SIcruG6MEtOz6CSozhSl79ZQPh3so="
+      "version": "b10223",
+      "revision": "11924d4c17abc27383376a1ac6a24fa3e36c1c0c",
+      "url": "https://api.github.com/repos/ggml-org/llama.cpp/tarball/refs/tags/b10223",
+      "hash": "sha256-gWAbHLztwfzJ6NeYGVZVN/Wb5DHcQuXQCu88i8qntnc="
     },
     "luee": {
       "type": "Git",
@@ -109,9 +109,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "bc18cdc6d843dd5362fbd58fdb6def3aa1b5f820",
-      "url": "https://github.com/horriblename/luee/archive/bc18cdc6d843dd5362fbd58fdb6def3aa1b5f820.tar.gz",
-      "hash": "sha256-g/ycCxxOZbOcU+GoShK8rYdzcvrXAfqiwmnxRKU7g2E="
+      "revision": "253420718da3bebd552cb7bb3b2a1fedca6afbd3",
+      "url": "https://github.com/horriblename/luee/archive/253420718da3bebd552cb7bb3b2a1fedca6afbd3.tar.gz",
+      "hash": "sha256-ZJeY8fAC6cP5AzHKf85Fsj8meU4P4kPMEUsX6q6BCxM="
     },
     "nixrun-nvim": {
       "type": "Git",
