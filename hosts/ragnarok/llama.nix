@@ -79,10 +79,13 @@ in {
             ];
             Restart = "always";
             RestartSec = 10;
-            WantedBy = ["default.target"];
 
             Nice = 19;
             IOSchedulingClass = "idle";
+          };
+
+          Install = {
+            WantedBy = ["default.target"];
           };
 
           # from https://www.nijho.lt/post/llama-nixos/#compiler-flags-matter
