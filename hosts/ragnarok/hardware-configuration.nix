@@ -13,17 +13,17 @@
 
   boot.initrd.availableKernelModules = ["nvme" "xhci_pci" "ahci" "usbhid" "uas" "sd_mod"];
   boot.initrd.kernelModules = [];
-  boot.loader.grub.device = "/dev/disk/by-uuid/F9E2-5B9A";
+  boot.loader.grub.device = config.fileSystems."/boot".device;
   boot.kernelModules = ["kvm-amd"];
   boot.extraModulePackages = [];
 
   fileSystems."/" = {
     device = "/dev/disk/by-label/NixRoot";
-    fsType = "ext4";
+    fsType = "btrfs";
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/F9E2-5B9A";
+    device = "/dev/disk/by-uuid/341A-056F";
     fsType = "vfat";
     options = ["fmask=0022" "dmask=0022"];
   };
