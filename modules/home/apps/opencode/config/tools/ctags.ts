@@ -1,11 +1,26 @@
 import { tool } from "@opencode-ai/plugin"
-import { existsSync } from "node:fs"
-import { join } from "node:path"
+import { existsSync, readFileSync } from "node:fs"
+import { join, isAbsolute } from "node:path"
+
+function resolveTagFiles(worktree: string): string[] {
+  const tagsFiles = join(worktree, "tagsfiles")
+
+  if (!existsSync(tagsFiles)) {
+    return [join(worktree, "tags")]
+  }
+
+  return readFileSync(tagsFiles, "utf8")
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => line && !line.startsWith("#"))
+    .map((line) => (isAbsolute(line) ? line : join(worktree, line)))
+}
 
 export default tool({
   description:
     "Look up a symbol in the repository's tags index. " +
-    "Use this to find definitions, declarations, and other symbol locations " +
+	"If the `tags` or `tagsfiles` file is available in the project root, " +
+	"use this to find definitions, declarations, and other symbol locations " +
     "without searching the entire source tree.",
 
   args: {
@@ -28,11 +43,11 @@ export default tool({
   },
 
   async execute(args, context) {
-    const tagsFile = join(context.worktree, "tags")
+    const tagFiles = resolveTagFiles(context.worktree).filter(existsSync)
 
-    if (!existsSync(tagsFile)) {
+    if (tagFiles.length === 0) {
       return [
-        `No tags file found at ${tagsFile}.`,
+        "No tags files found.",
         "Generate one with Universal Ctags, for example:",
         "",
         "  ctags -R -f tags .",
@@ -45,7 +60,8 @@ export default tool({
       ? args.symbol
       : `^${args.symbol}`
 
-    const command = ["readtags", "-t", tagsFile, query]
+    const command = tagFiles.flatMap((tagFile) => ["-t", tagFile])
+    command.push(query)
 
     if (args.kind) {
       command.push("-Q", `(eq? $kind "${args.kind}")`)
