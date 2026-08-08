@@ -1,0 +1,50 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "autoupdate": false,
+  "provider": {
+    "llama-cpp": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Llama.cpp",
+      "options": {
+        "baseURL": "http://localhost:11434/v1"
+      },
+      "models": {
+        "shmily_006/Qw3": {
+          "name": "shmily_006/Qw3",
+          "tools": true
+        },
+        "deepseek-r1:8b": {
+          "name": "deepseek-r1:8b",
+          "tools": true
+        },
+        "minimax-m2.5:cloud": {
+            "name": "minimax-m2.5:cloud",
+            "tools": true
+        },
+        "qwen2.5-coder:7b": {
+          "name": "qwen2.5-coder:3b",
+          "tools": {
+            "read": true,
+            "write": true,
+            "edit": true,
+            "grep": true,
+            "glob": true,
+            "patch": true
+          }
+        },
+        "qwen3-coder:30b": {
+          "name": "qwen3-coder:30b",
+          "tools": true,
+          "options": {
+            "keep_alive": "1h",
+            "num_ctx": 20480
+          }
+        },
+        "qwen3-coder-next": {
+          "name": "qwen3-coder-next",
+          "tools": true
+        }
+      }
+    }
+  }
+}

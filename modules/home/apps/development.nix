@@ -13,11 +13,8 @@ in
       pkgs.nix-output-monitor
       pkgs.hurl
       pkgs.libqalculate
+      pkgs.universal-ctags
     ];
-
-    programs.opencode = {
-      enable = true;
-    };
 
     services.podman.enable = true;
 

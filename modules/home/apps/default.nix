@@ -9,8 +9,9 @@
   inherit (lib.lists) optionals;
 in {
   imports = [
-    ./touch.nix
     ./development.nix
+    ./opencode
+    ./touch.nix
   ];
 
   config = mkIf config.dots.wayland.graphicalApps {
