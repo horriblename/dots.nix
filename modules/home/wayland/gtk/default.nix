@@ -7,6 +7,7 @@
   config = lib.mkIf config.dots.wayland.enable {
     gtk = {
       enable = true;
+      colorScheme = "dark";
       font = {
         name = "Lexend";
         size = 13;
