@@ -55,6 +55,20 @@
       "url": "https://github.com/notashelf/direnv.nvim/archive/9258f9f10c4c729d8296fce0e3ecb12543daad06.tar.gz",
       "hash": "sha256-b5PpmkYWaDGLNcu+36tRR5ycATHYBjs9WrV8/jfmooQ="
     },
+    "draftsman.nvim": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "chenyu76",
+        "repo": "draftsman.nvim"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "37a3afff90fd503164171feb0d36be99e1109be5",
+      "url": "https://github.com/chenyu76/draftsman.nvim/archive/37a3afff90fd503164171feb0d36be99e1109be5.tar.gz",
+      "hash": "sha256-1i/5BCd5s4v87pi7ho46q+MvJ68LOXGuqeBSoGhsttE=",
+      "frozen": true
+    },
     "grug-far.nvim": {
       "type": "GitRelease",
       "repository": {

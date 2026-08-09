@@ -862,6 +862,12 @@ in {
           vim.g.mdip_imgdir = "attachments"
         '';
       };
+      draftsman-nvim = {
+        package = noBuildPlug "draftsman.nvim";
+        setup = ''
+          vim.keymap.set("n", "<leader>V", ":DraftsmanStart<CR>")
+        '';
+      };
       nixrun-nvim = {package = noBuildPlug "nixrun-nvim";};
       nvim-treesitter-textobjects = {
         package = pkgs.vimPlugins.nvim-treesitter-textobjects;
