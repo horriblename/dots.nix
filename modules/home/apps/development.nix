@@ -10,6 +10,7 @@ in
     home.packages = [
       pkgs.act
       pkgs.gh
+      pkgs.cachix
       pkgs.ttags
       pkgs.nix-output-monitor
       pkgs.hurl
