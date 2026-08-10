@@ -16,13 +16,13 @@ jobs:
               - .#styluslabs-write
               - .#nvtopPackages.nvidia
               - .#llama-cpp
-              - .#inputs.nvf.packages.aarch64-linux.default
-              - .#inputs.hjem.packages.aarch64-linux.hjem
+              - .#inputs.nvf.packages.x86_64-linux.default
+              - .#inputs.hjem.packages.x86_64-linux.hjem
           - os: ubuntu-22.04-arm
             arch: arm64
             packages:
-              - .#inputs.nvf.packages.x86_64-linux.default
-              - .#inputs.hjem.packages.x86_64-linux.hjem
+              - .#inputs.nvf.packages.aarch64-linux.default
+              - .#inputs.hjem.packages.aarch64-linux.hjem
     steps:
       - uses: actions/checkout@v3
       - uses: cachix/install-nix-action@v26
