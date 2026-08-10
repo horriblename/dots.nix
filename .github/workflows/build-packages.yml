@@ -6,14 +6,23 @@ on:
       - "flake.lock"
 jobs:
   build_packages:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         include:
           - os: ubuntu-latest
             arch: amd64
+            packages:
+              - .#styluslabs-write
+              - .#nvtopPackages.nvidia
+              - .#llama-cpp
+              - .#inputs.nvf.packages.aarch64-linux.default
+              - .#inputs.hjem.packages.aarch64-linux.hjem
           - os: ubuntu-22.04-arm
             arch: arm64
+            packages:
+              - .#inputs.nvf.packages.x86_64-linux.default
+              - .#inputs.hjem.packages.x86_64-linux.hjem
     steps:
       - uses: actions/checkout@v3
       - uses: cachix/install-nix-action@v26
@@ -40,9 +49,6 @@ jobs:
         with:
           name: horriblename
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
-      # TODO: build inputs.nixdroidpkgs.packages.x86_64-linux.crossPkgs.aarch64-linux.openssh
       - run: |
-          nix build --no-link --print-out-paths -L \
-            .#ghActionsBuilder \
-            .#packages.aarch64-linux.ghActionsBuilder \
+          nix build --no-link --print-out-paths -L ${{ matrix.packages }} \
           | cachix push horriblename
