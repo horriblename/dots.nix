@@ -7,6 +7,13 @@ on:
 jobs:
   build_packages:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            arch: amd64
+          - os: ubuntu-22.04-arm
+            arch: arm64
     steps:
       - uses: actions/checkout@v3
       - uses: cachix/install-nix-action@v26
@@ -37,4 +44,5 @@ jobs:
       - run: |
           nix build --no-link --print-out-paths -L \
             .#ghActionsBuilder \
+            .#packages.aarch64-linux.ghActionsBuilder \
           | cachix push horriblename
