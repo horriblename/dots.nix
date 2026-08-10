@@ -22,6 +22,10 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hjem = {
+      url = "github:feel-co/hjem";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     hyprland.url = "github:hyprwm/Hyprland/v0.54.3";
     hyprgrass = {
       url = "github:horriblename/hyprgrass/hl-0.54.3";
@@ -403,8 +407,9 @@
               pkgs.llama-cpp
               inputs.hyprgrass.packages.${pkgs.stdenv.hostPlatform.system}.default
               inputs.nvf.packages.${pkgs.stdenv.hostPlatform.system}.blink-cmp
+              inputs.hjem.packages.${pkgs.stdnev.hostPlatform.system}.hjem
             ]
-            ++ (with inputs.nixdroidpkgs.packages.${pkgs.stdenv.hostPlatform.system}.crossPkgs.aarch64-linux; [
+            ++ (with inputs.nixdroidpkgs.packages.${pkgs.stdenv.hostPlatform.system}; [
               termux-auth
               openssh
             ]);
