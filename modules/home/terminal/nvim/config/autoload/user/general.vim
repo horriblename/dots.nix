@@ -35,6 +35,7 @@ set timeoutlen=400
 let &isfname = '@,48-57,/,\,.,-,_,+,,,#,$,%,~,='
 set completeopt=menu,popup,noinsert,fuzzy,menuone
 set sessionoptions=curdir,folds,help,tabpages,winsize,terminal,skiprtp
+set belloff=backspace,cursor,complete,copy,ctrlg,error,esc,mess,showmatch,operator,register,spell,wildmode
 
 " Tab Settings
 set noexpandtab
@@ -87,7 +88,7 @@ set foldtext=user#general#foldtext()
 
 set wildcharm=<Tab>
 set wildmode=longest:full
-set wildoptions=fuzzy,pum
+set wildoptions=fuzzy,pum,tagfile
 set wildmenu
 
 set cmdwinheight=4

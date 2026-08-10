@@ -298,6 +298,14 @@ endfu
 xnoremap <expr> su <SID>surroundTag('u')
 xnoremap <expr> st <SID>surroundTag(input('Surround with tag (and attributes): '))
 
+" latex environment \begin{...} \end{...}
+fu s:surroundEnv(env)
+let &operatorfunc = function('Surround', ['\begin{'.a:env.'}', '\end{'.a:env.'}'])
+	return "g@"
+endfu
+
+xnoremap <expr> s\ <SID>surroundEnv(input('Surround with LaTeX environment: '))
+
 " }}}
 " de-surround {{{
 function Desurround(char, type='')
