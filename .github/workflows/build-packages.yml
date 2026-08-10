@@ -50,5 +50,4 @@ jobs:
           name: horriblename
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
       - run: |
-          nix build --no-link --print-out-paths -L ${{ join(matrix.packages, ' ') }} \
-          | cachix push horriblename
+          nix build --no-link --print-out-paths -L ${{ join(matrix.packages, ' ') }}
