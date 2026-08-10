@@ -407,13 +407,15 @@
               pkgs.llama-cpp
               inputs.hyprgrass.packages.${pkgs.stdenv.hostPlatform.system}.default
               inputs.nvf.packages.${pkgs.stdenv.hostPlatform.system}.blink-cmp
-              inputs.hjem.packages.${pkgs.stdnev.hostPlatform.system}.hjem
+              inputs.hjem.packages.${pkgs.stdenv.hostPlatform.system}.hjem
             ]
             ++ (with inputs.nixdroidpkgs.packages.${pkgs.stdenv.hostPlatform.system}; [
               termux-auth
               openssh
             ]);
         };
+
+        inherit (inputs.hjem.packages.${system}) hjem;
 
         styluslabs-write = pkgs.styluslabs-write.overrideAttrs (_final: prev: {
           src = inputs.styluslabs-write;
