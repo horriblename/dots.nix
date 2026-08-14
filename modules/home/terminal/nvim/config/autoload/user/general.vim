@@ -175,13 +175,16 @@ augroup DotsMarkdown
   au FileType markdown setl formatoptions+=ro/
 augroup END
 
-augroup DotsNixShellTemplate
+fu! user#general#maybeApplyTemplate(name)
+	let template = nvim_get_runtime_file('templates/' . a:name, v:false)
+	if !empty(template)
+		call setline(1, readfile(template[0]))
+	endif
+endfu
+
+augroup DotsTemplates
 	au!
-	au BufNewFile shell.nix call setline(1, [
-			\ '{pkgs ? import <nixpkgs> {}}: pkgs.mkShell {',
-			\ '  packages = with pkgs; [',
-			\ '  ];',
-			\ '}'])
+	au BufNewFile * :call user#general#maybeApplyTemplate(bufname())
 augroup END
 " }}}
 
