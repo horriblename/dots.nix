@@ -445,7 +445,7 @@
             blasSupport = true;
           }).overrideAttrs {
             inherit src version;
-            npmDepsHash = "sha256-FHvd2bMvBc9EXrJEzu8EN78oUVSLcOKYCc0232V+L4A=";
+            npmDepsHash = "sha256-2Q7XhaLAArmviOLdQsNbYTfdyDE5pW9lR26cRHEVl9k=";
           };
 
         ollama-python = pkgs.python3.withPackages (p: with p; [ollama]);
