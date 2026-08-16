@@ -38,9 +38,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "d3b1a7ad6c34607bfe9a97f3a50fc7062eff7c42",
-      "url": "https://github.com/horriblename/compl.nvim/archive/d3b1a7ad6c34607bfe9a97f3a50fc7062eff7c42.tar.gz",
-      "hash": "sha256-CGDg29ANIuflanTGJnqGlV3B6cZySI05eYdNgkamA2w="
+      "revision": "612fc9b9c2e7afd1c562ab3b38fb4b397bb0f748",
+      "url": "https://github.com/horriblename/compl.nvim/archive/612fc9b9c2e7afd1c562ab3b38fb4b397bb0f748.tar.gz",
+      "hash": "sha256-8WpeOCPcknIriVA43/VSkQlWAf+cWQjGrdu8nxkJZaE="
     },
     "direnv-nvim": {
       "type": "Git",
