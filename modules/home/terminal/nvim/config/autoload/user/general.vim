@@ -33,9 +33,16 @@ set jumpoptions=stack
 set formatoptions+=ro/
 set timeoutlen=400
 let &isfname = '@,48-57,/,\,.,-,_,+,,,#,$,%,~,='
-set completeopt=menu,popup,noinsert,fuzzy,menuone
 set sessionoptions=curdir,folds,help,tabpages,winsize,terminal,skiprtp
 set belloff=backspace,cursor,complete,copy,ctrlg,error,esc,mess,showmatch,operator,register,spell,wildmode
+
+" completion
+set completeopt=menu,popup,noinsert,fuzzy,menuone
+set autocomplete
+set complete=o,.,w,b,u
+set pummaxwidth=40
+set pumheight=15
+set autocompletetimeout=60
 
 " Tab Settings
 set noexpandtab

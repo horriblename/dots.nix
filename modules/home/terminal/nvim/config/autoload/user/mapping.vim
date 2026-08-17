@@ -62,6 +62,9 @@ fu s:fileInfo() abort
 endfu
 nnoremap <c-g> :call <SID>fileInfo()<CR>
 
+" :)))))) https://github.com/neovim/neovim/discussions/39082
+inoremap <expr> <CR>   pumvisible() ? "\<C-e><CR>" : "\<CR>"
+
 "}}}
 
 nnoremap <leader>& :AlignCharCol<CR>

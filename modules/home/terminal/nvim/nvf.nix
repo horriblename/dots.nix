@@ -362,52 +362,6 @@ in {
       fidget-nvim.enable = true;
     };
 
-    autocomplete.blink-cmp = {
-      enable = true;
-      setupOpts = {
-        sources = {
-          providers = {
-            # copilot.score_offset = -20;
-            buffer.score_offset = -30;
-          };
-        };
-
-        signature = {
-          enabled = true;
-          window.border = ["" "" "" "▕" "" "" "" "▌"];
-        };
-        completion.documentation = {
-          window.border = ["" "" "" "▕" "" "" "" "▌"];
-        };
-        appearance = {
-          kind_icons = {
-            Variable = "󰀫";
-            Class = "";
-            Interface = "";
-            Struct = "";
-            Unit = "󰑭";
-            Value = "󰎠";
-            Enum = "";
-            EnumMember = "";
-            Keyword = "󰌋";
-            Snippet = "󰩫";
-            Operator = "󰆕";
-            TypeParameter = "T";
-          };
-        };
-        cmdline.keymap = mkForce {};
-      };
-      mappings = {
-        complete = "<C-x><C-a>";
-        close = "<C-e>";
-        confirm = "<C-y>";
-        next = "<C-n>";
-        previous = "<C-p>";
-        scrollDocsDown = "<C-j>";
-        scrollDocsUp = "<C-k>";
-      };
-    };
-
     treesitter = {
       fold = true;
       # useful general-purpose grammars
@@ -682,9 +636,17 @@ in {
         # Image pasre
         (mkKeymap "n" "<leader>P" ":call mdip#MarkdownClipboardImage()<CR>" {})
 
-        # luasnip
-        (mkKeymap ["n" "i" "s"] "<C-;>" "<Plug>luasnip-jump-next" {silent = true;})
-        (mkKeymap ["n" "i" "s"] "<C-,>" "<Plug>luasnip-jump-prev" {silent = true;})
+        # snippets
+        (mkKeymap ["n" "i" "s"] "<C-;>" "function() vim.snippet.jump(1) end" {
+          silent = true;
+          noremap = false;
+          lua = true;
+        })
+        (mkKeymap ["n" "i" "s"] "<C-,>" "function() vim.snippet.jump(-1) end" {
+          silent = true;
+          noremap = false;
+          lua = true;
+        })
 
         (mkKeymap ["n" "x" "o"] "<leader>gs" ":Gitsigns stage_hunk<CR>" {})
         (mkKeymap ["n" "x" "o"] "<leader>gr" ":Gitsigns reset_hunk<CR>" {})
