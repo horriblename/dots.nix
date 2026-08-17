@@ -67,6 +67,7 @@ set colorcolumn=+1
 set matchpairs+=<:>,*:*,`:`
 set list listchars=tab:\ \ ,trail:·
 set fillchars=diff:╱,foldopen:▼,foldclose:⯈
+set winborder=single
 
 fu g:Listchars(expandtab, tabstop)
 	let head = get(b:, 'enable_indent_hints', 1) ? '│' : ' '

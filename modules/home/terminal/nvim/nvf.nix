@@ -376,6 +376,7 @@ in {
         enable = true;
         setupOpts = {
           max_lines = 5;
+          separator = null;
         };
       };
     };
@@ -571,7 +572,7 @@ in {
       vim.cmd.highlight("default", "link", "DashboardHeader", "DevIconNix")
 
       -- LSP help window border
-      local border = {"", "", "", "▕", "", "", "", "▌"}
+      local border = {"", "", "", "│", "", "", "", "▌"}
       local orig = vim.lsp.util.open_floating_preview
       vim.lsp.util.open_floating_preview = function(contexts, syntax, opts, ...)
         opts = opts or {}
@@ -740,6 +741,7 @@ in {
               group = group,
               command = [[
                 hi WinSeparator guifg=smokewhite
+                hi! link NormalFloat Pmenu
                 hi CurSearch guibg=Orange guifg=NvimDarkGray1
                 hi IncSearch guibg=NvimLightYellow guifg=NvimDarkGray1
                 hi NonText gui=nocombine
@@ -753,6 +755,8 @@ in {
                 hi SpellRare      gui=underdotted guisp=LightBlue
                 hi SpellLocal     gui=underdotted guisp=SlateBlue
                 hi WinSeparator guifg=smokewhite
+
+                hi TreesitterContextLineNumber guibg=#021320 guifg=#4b6479
               ]]
             })
           end
