@@ -9,7 +9,6 @@
     xdg-utils
     # preview tools
     bat
-    chafa
     glow
     catdoc
     catdocx
@@ -28,6 +27,7 @@
       extraBackends = [
         # file, unzip & gzip already included
         binutils
+        chafa
         bzip2
         unrar-wrapper
         gnutar
