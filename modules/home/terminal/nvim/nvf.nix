@@ -15,6 +15,7 @@
   nix2Lua = toLuaObject;
   devEnabled = config.dots.development.enable;
   langCfg = config.programs.nvf.settings.vim.languages;
+  lspCfg = config.programs.nvf.settings.vim.lsp;
   setup = module: table: "require('${module}').setup(${nix2Lua table})";
   mkKeymap = mode: key: action: opts:
     {
@@ -281,22 +282,25 @@ in {
 
     languages = {
       enableDAP = devEnabled;
-      enableExtraDiagnostics = true;
-      enableFormat = true;
+      enableExtraDiagnostics = devEnabled;
+      enableFormat = devEnabled;
       enableTreesitter = true;
 
-      clang.enable = true;
+      clang = {
+        enable = true;
+        dap.debugger = [];
+      };
       go = {
         enable = true;
         format.enable = false;
       };
       haskell = {
-        enable = true;
+        enable = devEnabled;
         lsp.enable = false;
         format.enable = false;
         dap.enable = false;
       };
-      html.enable = true;
+      html.enable = devEnabled;
       lua = {
         enable = true;
         lsp.lazydev.enable = false;
@@ -306,7 +310,7 @@ in {
         enable = true;
       };
       nix = {
-        enable = true;
+        enable = devEnabled;
         lsp.servers = ["nixd"];
       };
       python.enable = true;
@@ -318,15 +322,12 @@ in {
     };
 
     lsp.servers = {
-      clangd.cmd =
-        mkIf langCfg.clang.lsp.enable
-        (lib.mkForce ["${pkgs.llvmPackages_19.clang-tools}/bin/clangd"]);
+      clangd = mkIf langCfg.clang.lsp.enable {
+        cmd = lib.mkForce ["${pkgs.llvmPackages_19.clang-tools}/bin/clangd"];
+      };
+      glsl_analyzer = {}; # calls vim.lsp.enable()
       clojure_lsp = {};
       elmls = {};
-      jdtls = {
-        enable = false;
-        cmd = ["jdt-language-server" "-configuration" "${config.xdg.cacheHome}/jdtls/config" "-data" "${config.xdg.cacheHome}/jdtls/workspace"];
-      };
       lua-language-server = {
         settings.Lua = {
           runtime.version = "LuaJIT";
@@ -343,7 +344,7 @@ in {
         root_markers = [".git" "main.roc"];
       };
       yamlls = {};
-      harper = {
+      harper = mkIf lspCfg.presets.harper.enable {
         filetypes = mkForce ["markdown" "gitcommit" "typst" "mail"];
       };
     };
