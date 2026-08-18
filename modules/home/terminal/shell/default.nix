@@ -6,7 +6,6 @@
 }: {
   imports = [
     ./bash.nix
-    ./tclsh.nix
   ];
   home = {
     sessionVariables = {
@@ -180,7 +179,16 @@
         }
 
         typeset -a precmd_functions # initialize the array
-        precmd_functions+=(set_beam_cursor)
+        precmd_functions+=(set_beam_cursor emit_osc7)
+
+        if [ -z "''${SSH_TTY+x}" ]; then
+          function emit_osc7() {
+            emulate -L zsh
+            printf '\033]7;file://%s\033\\' "$PWD"
+          }
+          # I have no idea where add-zsh-hook comes from honestly
+          add-zsh-hook chpwd emit_osc7
+        fi
 
         function zellij_set_tab_name() {
             command nohup zellij action rename-tab "''${PWD##*/}" >/dev/null 2>&1
