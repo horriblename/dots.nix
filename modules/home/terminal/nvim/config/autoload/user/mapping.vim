@@ -62,9 +62,6 @@ fu s:fileInfo() abort
 endfu
 nnoremap <c-g> :call <SID>fileInfo()<CR>
 
-" :)))))) https://github.com/neovim/neovim/discussions/39082
-inoremap <expr> <CR>   pumvisible() ? "\<C-e><CR>" : "\<CR>"
-
 "}}}
 
 nnoremap <leader>& :AlignCharCol<CR>
@@ -241,6 +238,24 @@ inoremap {<CR> {<CR>}<ESC>O
 inoremap <expr> ) user#autoclose#CloseRight(")")
 inoremap <expr> ] user#autoclose#CloseRight("]")
 inoremap <expr> } user#autoclose#CloseRight("}")
+
+fu! s:enter()
+	let line = getline('.')
+	let col = col('.')
+	let before = line[col-2]
+	let after = line[col-1]
+	let pairClose = get(user#autoclose#pairsByLeft, before, '')
+
+	if pairClose !=# '' && pairClose == after
+		" <C-e> to close pum
+		" :)))))) https://github.com/neovim/neovim/discussions/39082
+		return pumvisible() ? "\<C-e>\<CR>\<C-g>O" : "\<CR>\<C-g>O"
+	endif
+
+	return pumvisible() ? "\<C-e>\<CR>" : "\<CR>"
+endfu
+inoremap <expr> <CR> <SID>enter()
+
 " }}}
 
 nnoremap S :%s##gI<Left><Left><Left>
