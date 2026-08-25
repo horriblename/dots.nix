@@ -25,7 +25,9 @@ in {
   time.timeZone = "Europe/Berlin";
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.py = {};
+  users.users.py = {
+    extraGroups = ["libvirtd"];
+  };
 
   programs.zsh.enable = true;
 
@@ -58,6 +60,9 @@ in {
   environment.systemPackages = [pkgs.nvtopPackages.nvidia];
 
   virtualisation.waydroid.enable = true;
+
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
