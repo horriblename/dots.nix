@@ -80,6 +80,15 @@ in {
             ];
           };
         };
+
+        auto-pause-mpv = mkWmService {
+          Unit.Description = "Auto pause mpv when other media plays";
+
+          Service = {
+            ExecStart = "/bin/sh ${./auto-pause-mpv.sh}";
+            Type = "simple";
+          };
+        };
       };
     };
   };
