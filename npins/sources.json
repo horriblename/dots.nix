@@ -127,6 +127,19 @@
       "url": "https://github.com/horriblename/nixrun-nvim/archive/cd87e8a7d6a98033097cd2a7204948ffab11a4ea.tar.gz",
       "hash": "sha256-FbJeWpqDVZ3ACUVSIBg+msHt6kn8llD/1cMgGe5o+AU="
     },
+    "one-small-step-for-vimkind": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "jbyuki",
+        "repo": "one-small-step-for-vimkind"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "1af6ffb9b5229a856e8090fa2f690e0931a5aace",
+      "url": "https://github.com/jbyuki/one-small-step-for-vimkind/archive/1af6ffb9b5229a856e8090fa2f690e0931a5aace.tar.gz",
+      "hash": "sha256-IqyNgMf8hH2KpRY8gTrqREMCZwMNfDRdH/joqhGhjxI="
+    },
     "tele-nvim": {
       "type": "Git",
       "repository": {

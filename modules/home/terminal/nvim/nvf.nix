@@ -226,6 +226,14 @@ in {
             };
           };
         };
+        "live-preview.nvim" = {
+          package = pkgs.vimPlugins.live-preview-nvim;
+          cmd = ["LivePreview"];
+          setupModule = "livepreview";
+          setupOpts = {
+            sync_scroll = true;
+          };
+        };
         direnv-nvim = {
           package = noBuildPlug "direnv-nvim";
           setupModule = "direnv";
@@ -238,6 +246,18 @@ in {
               edit = null;
             };
           };
+        };
+        one-small-step-for-vimkind = {
+          package = noBuildPlug "one-small-step-for-vimkind";
+          keys = [
+            {
+              key = "<leader>dL";
+              lua = true;
+              mode = ["n"];
+              action = "function() require'osv'.launch({port = 8086}) end";
+              desc = "Launch OSV Neovim debugging";
+            }
+          ];
         };
       };
     };
@@ -278,6 +298,26 @@ in {
 
     debugger.nvim-dap = {
       ui.enable = true;
+      configurations = {
+        lua = [
+          {
+            type = "nlua";
+            request = "attach";
+            name = "(OSV) Attach to running Neovim instance";
+          }
+        ];
+      };
+      adapters = {
+        nlua = mkLuaInline ''
+          function(callback, config)
+            callback({
+              type = "server",
+              host = config.host or "127.0.0.1",
+              port = config.port or 8086,
+            })
+          end
+        '';
+      };
     };
 
     languages = {
@@ -288,7 +328,7 @@ in {
 
       clang = {
         enable = true;
-        dap.debugger = [];
+        format.enable = false;
       };
       go = {
         enable = true;
@@ -322,9 +362,6 @@ in {
     };
 
     lsp.servers = {
-      clangd = mkIf langCfg.clang.lsp.enable {
-        cmd = lib.mkForce ["${pkgs.llvmPackages_19.clang-tools}/bin/clangd"];
-      };
       glsl_analyzer = {}; # calls vim.lsp.enable()
       clojure_lsp = {};
       elmls = {};
@@ -334,6 +371,9 @@ in {
           workspace.library = ["lua" "\${env:VIMRUNTIME}"];
           diagnostic.globals = ["vim"];
         };
+      };
+      rust_analyzer = {
+        cmd = mkForce ["rust_analyzer"];
       };
       nixd = mkIf langCfg.nix.lsp.enable {
         cmd = mkForce [(lib.getExe pkgs.nixd) "--log=error"];
@@ -567,6 +607,8 @@ in {
         }
       })
 
+      require("dap.ext.vscode").json_decode = require("dkjson").decode
+
       vim.fn.sign_define("DapBreakpointCondition", { text = "⊜", texthl = "ErrorMsg", linehl = "", numhl = "" })
       vim.fn.sign_define("DapBreakpointRejected", { text = "󰜺", texthl = "ErrorMsg", linehl = "", numhl = "" })
       vim.fn.sign_define("DapLogPoint", { text = "", texthl = "ErrorMsg", linehl = "", numhl = "" })
@@ -602,7 +644,7 @@ in {
 
         # Diffview
         (mkKeymap "n" "<leader>gdq" ":DiffviewClose<CR>" {})
-        (mkKeymap "n" "<leader>gdd" ":DiffviewOpen" {silent = false;})
+        (mkKeymap "n" "<leader>gdd" ":DiffviewOpen " {silent = false;})
         (mkKeymap "n" "<leader>gdm" ":DiffviewOpen<CR>" {})
         (mkKeymap "n" "<leader>gdh" ":DiffviewFileHistory %<CR>" {})
         (mkKeymap "n" "<leader>gde" ":DiffviewToggleFiles<CR>" {})
@@ -728,6 +770,8 @@ in {
       ++ (mkTSTextObjMoveKeymaps "F" "@function.outer" "end")
       ++ (mkTSTextObjMoveKeymaps "c" "@class.outer" "start");
 
+    luaPackages = ["dkjson"];
+
     extraPlugins = with pkgs.vimPlugins; {
       tele-nvim = {
         package = noBuildPlug "tele-nvim";
@@ -819,6 +863,7 @@ in {
         package = "nvim-autopairs";
         setup = setup "nvim-autopairs" {
           check_ts = true;
+          map_cr = false;
           disable_filetype = ["TelescopePrompt"];
           enable_afterquote = false;
         };
