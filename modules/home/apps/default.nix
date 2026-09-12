@@ -12,6 +12,7 @@ in {
     ./development.nix
     ./opencode
     ./touch.nix
+    ./gdb.nix
   ];
 
   config = mkIf config.dots.wayland.graphicalApps {
@@ -19,6 +20,7 @@ in {
       [
         # CLI tools
         keep-sorted
+        imagemagick
 
         firefox
         kdePackages.okular
