@@ -6,5 +6,6 @@
     ./wakapi.nix
     ./web.nix
     ./syncthing.nix
+    ./radicale.nix
   ];
 }

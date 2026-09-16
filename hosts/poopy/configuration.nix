@@ -56,6 +56,7 @@
 
     wakapi.enable = true;
     syncthing.enable = true;
+    radicale.enable = true;
 
     # pocket-id.enable = true;
   };
