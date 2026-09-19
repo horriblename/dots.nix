@@ -3,7 +3,7 @@ fu user#zlua#chdir(pattern) abort
 	if ! empty($ZLUA_SCRIPT)
 		let zlua=$ZLUA_SCRIPT
 	endif
-	let dir=system([zlua, '-e', a:pattern])
+	let dir=system([zlua, '-e', a:pattern])->trim()
 	if strlen(dir) == 0
 		echoerr 'z.lua: directory not found'
 		return
@@ -17,6 +17,8 @@ fu user#zlua#chdir(pattern) abort
 		wincmd n
 		execute 'tcd ' . dir
 	endif
+
+	echo dir
 endfun
 
 fu user#zlua#comp(ArgLead, CmdLine, CursorPos) abort
