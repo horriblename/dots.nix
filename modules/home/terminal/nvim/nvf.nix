@@ -96,7 +96,7 @@ in {
           before = ''
             vim.g.undotree_ShortIndicators = true
             vim.g.undotree_TreeVertShape = '│'
-            vim.g.undotree_DiffCommand = [[sh -c 'git diff --word-diff --word-diff-regex="[^\n]" --no-index "$@" | tail -n +5' git]]
+            vim.g.undotree_DiffCommand = [[sh -c 'git diff --word-diff --no-index "$@" | tail -n +5' git]]
             vim.g.undotree_CustomMap = function()
               vim.wo.winfixwidth = true
               vim.wo.winfixheight = true
@@ -343,7 +343,6 @@ in {
       html.enable = devEnabled;
       lua = {
         enable = true;
-        lsp.lazydev.enable = false;
         format.enable = false;
       };
       markdown = {
@@ -358,6 +357,8 @@ in {
         enable = false;
       };
       sql.enable = false;
+      json.enable = devEnabled;
+      json5.enable = devEnabled;
       zig.enable = false;
     };
 
@@ -409,7 +410,7 @@ in {
       grammars =
         optionals devEnabled
         (with pkgs.vimPlugins.nvim-treesitter.grammarPlugins; [
-          diff
+          # diff # doesn't support word-diff so I'd rather just use my own
           regex
         ]);
 
@@ -607,8 +608,6 @@ in {
         }
       })
 
-      require("dap.ext.vscode").json_decode = require("dkjson").decode
-
       vim.fn.sign_define("DapBreakpointCondition", { text = "⊜", texthl = "ErrorMsg", linehl = "", numhl = "" })
       vim.fn.sign_define("DapBreakpointRejected", { text = "󰜺", texthl = "ErrorMsg", linehl = "", numhl = "" })
       vim.fn.sign_define("DapLogPoint", { text = "", texthl = "ErrorMsg", linehl = "", numhl = "" })
@@ -769,8 +768,6 @@ in {
       ++ (mkTSTextObjMoveKeymaps "f" "@function.outer" "start")
       ++ (mkTSTextObjMoveKeymaps "F" "@function.outer" "end")
       ++ (mkTSTextObjMoveKeymaps "c" "@class.outer" "start");
-
-    luaPackages = ["dkjson"];
 
     extraPlugins = with pkgs.vimPlugins; {
       tele-nvim = {
