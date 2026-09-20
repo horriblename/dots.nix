@@ -5,6 +5,7 @@
   inputs = {
     # attribute sets listing all dependency used within the flake?
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nix-index-database.url = "github:Mic92/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     # nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -102,7 +103,13 @@
           [
             ./modules/core
             ./modules/home/home.nix
-            {dots = {inherit preset;};}
+            {pkgs, ...}: {
+              _module.args = {
+                pkgs-unstable = inputs.nixpkgs-unstable.legacyPackages
+                  .${pkgs.stdenv.hostPlatform.system};
+              };
+              dots = {inherit preset;};
+            }
           ]
           ++ extraModules;
         extraSpecialArgs = {
