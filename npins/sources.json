@@ -96,10 +96,10 @@
       "version_upper_bound": null,
       "release_prefix": "b",
       "submodules": false,
-      "version": "b10936",
-      "revision": "790cf51aabd61763486050dec7451d9147cb7c61",
-      "url": "https://api.github.com/repos/ggml-org/llama.cpp/tarball/refs/tags/b10936",
-      "hash": "sha256-KbZgKmPkMbKw+N+N2ykGIVhcXktaOvZfkPF1/siFenk="
+      "version": "b11057",
+      "revision": "59657a613ab0fa4ab327d6c790123dff30bfbd67",
+      "url": "https://api.github.com/repos/ggml-org/llama.cpp/tarball/refs/tags/b11057",
+      "hash": "sha256-5GG3zPMlbuH67oJ+tmliW8ymS2qK2+KDIe0I+0ihdsY="
     },
     "luee": {
       "type": "Git",
