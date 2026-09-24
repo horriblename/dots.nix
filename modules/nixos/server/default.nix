@@ -7,5 +7,6 @@
     ./web.nix
     ./syncthing.nix
     ./radicale.nix
+    ./forgejo.nix
   ];
 }
