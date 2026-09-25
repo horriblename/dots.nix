@@ -103,13 +103,13 @@
           [
             ./modules/core
             ./modules/home/home.nix
-            {pkgs, ...}: {
+            ({pkgs, ...}: {
               _module.args = {
                 pkgs-unstable = inputs.nixpkgs-unstable.legacyPackages
                   .${pkgs.stdenv.hostPlatform.system};
               };
               dots = {inherit preset;};
-            }
+            })
           ]
           ++ extraModules;
         extraSpecialArgs = {
@@ -479,11 +479,6 @@
 
       treesitter-roc = inputs.tree-sitter-roc.packages.${final.stdenv.system}.default;
       neovim-treesitter-roc = final.callPackage ./pkgs/neovim-treesitter-roc.nix {treesitter-roc-src = inputs.tree-sitter-roc;};
-
-      bonsai-llama-cpp = final.llama-cpp.overrideAttrs {
-        src = pins.bonsai-llama-cpp;
-        version = "11434";
-      };
     };
     formatter = forEachSystem (system: nixpkgs.legacyPackages.${system}.alejandra);
     templates = import ./templates;

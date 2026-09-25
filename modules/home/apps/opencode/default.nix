@@ -1,4 +1,5 @@
 {
+  pkgs-unstable,
   lib,
   config,
   impurity,
@@ -9,6 +10,7 @@ in {
   config = mkIf config.dots.development.enable {
     programs.opencode = {
       enable = true;
+      package = pkgs-unstable.opencode;
     };
 
     xdg.configFile = {
