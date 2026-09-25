@@ -25,6 +25,10 @@
           id = "6MDHOXI-2EA5WV4-XUS2A3X-FNDYJAE-OUNYZWW-NYTMCBF-CH2Z3PY-NAZ4GQN";
         };
 
+        pix = {
+          id = "V7UMOZP-5KSM24J-ZVHVELR-JSCNFJX-HL3NTYU-HE4IE3A-3SDSOOG-UBJJZQA";
+        };
+
         kirin = {
           id = "25OXMZ6-2HTHN7O-QHD5GUX-BHAPJ22-Z6UBP2X-EA53FV4-MJYEGNM-IUN2XAP";
         };
@@ -34,6 +38,7 @@
         Documents = {
           path = "~/Documents";
           devices = [
+            "pix"
             "poopy"
             "ragnarok"
             "surface"
@@ -45,6 +50,7 @@
           devices = [
             "poopy"
             "ragnarok"
+            "surface"
           ];
         };
       };

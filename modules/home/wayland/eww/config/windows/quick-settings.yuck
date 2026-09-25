@@ -61,7 +61,7 @@
            :icon  "Settings_Power"
            :style "color: crimson; font-size: 1.3rem;"
            :class ""
-           :onclick "${EWW_CMD} open logout_win"))
+           :onclick "${EWW_CMD} open logout_win; ${EWW_CMD} close quick_settings_win"))
     (box :orientation "h"
          :spacing 16
          (_quick_setting_btn
