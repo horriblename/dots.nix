@@ -17,6 +17,9 @@ in {
         ];
         settings = {
           server.port = 3474;
+          security = {
+            allow_signup = false;
+          };
         };
       };
 
