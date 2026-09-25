@@ -449,6 +449,7 @@
             cudaSupport = false;
             rocmSupport = false;
             metalSupport = false;
+            vulkanSupport = true;
             blasSupport = true;
           }).overrideAttrs {
             inherit src version;
