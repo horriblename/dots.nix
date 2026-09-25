@@ -1,43 +1,51 @@
 {
+  lib,
+  config,
   pkgs,
   impurity,
   ...
-}: {
-  home.packages = with pkgs; [
-    lf
+}: let
+  inherit (lib.lists) optionals;
+in {
+  home.packages = with pkgs;
+    [
+      lf
 
-    xdg-utils
-    # preview tools
-    bat
-    glow
-    catdoc
-    catdocx
-    perlPackages.FileMimeInfo
-    # FIXME broken package
-    # haskellPackages.pdftotext
+      xdg-utils
+      # preview tools
+      bat
+      glow
+      perlPackages.FileMimeInfo
+      # FIXME broken package
+      # haskellPackages.pdftotext
 
-    # archive tools
-    # zip
-    # p7zip
-    # unzip
-    # gnutar
-    # gzip
-    # xz
-    (unp.override {
-      extraBackends = [
-        # file, unzip & gzip already included
-        binutils
-        chafa
-        bzip2
-        unrar-wrapper
-        gnutar
-        xz
-      ];
-    })
+      # archive tools
+      # zip
+      # p7zip
+      # unzip
+      # gnutar
+      # gzip
+      # xz
+      (unp.override {
+        extraBackends = [
+          # file, unzip & gzip already included
+          binutils
+          bzip2
+          unrar-wrapper
+          gnutar
+          xz
+        ];
+      })
 
-    # others
-    #pdfgrep
-  ];
+      # others
+      #pdfgrep
+    ]
+    ++ optionals config.dots.wayland.enable [
+      chafa
+      catdoc
+      catdocx
+      poppler-utils
+    ];
 
   xdg.configFile = {
     "lf/lfrc".text = ''
