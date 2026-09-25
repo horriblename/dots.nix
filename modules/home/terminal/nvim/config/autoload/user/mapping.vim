@@ -18,7 +18,8 @@ vnoremap <S-Tab>  <gv
 
 inoremap <S-Tab> <C-d>
 
-noremap! <C-BS> <C-w>
+inoremap <C-BS> <C-G>u<C-w>
+cnoremap <C-BS> <C-W>
 tnoremap <C-BS> <C-w>
 
 tnoremap <M-C-V> <cmd>put "<CR>
@@ -67,6 +68,8 @@ nnoremap <c-g> :call <SID>fileInfo()<CR>
 nnoremap <leader>& :AlignCharCol<CR>
 
 nnoremap zV :let &foldlevel = foldlevel('.')<CR>
+
+nnoremap y. :call setreg(expand('<reg>'), @% . ':' . line('.')) \| echo @"<CR>
 
 " Movement {{{
 
@@ -244,18 +247,21 @@ fu! s:enter()
 	let col = col('.')
 	let before = line[col-2]
 	let after = line[col-1]
-	let pairClose = get(user#autoclose#pairsByLeft, before, '')
-
+	let pairClose = user#autoclose#getClosing(before)
 	if pairClose !=# '' && pairClose == after
 		" <C-e> to close pum
 		" :)))))) https://github.com/neovim/neovim/discussions/39082
-		return pumvisible() ? "\<C-e>\<CR>\<C-g>O" : "\<CR>\<C-g>O"
+		return pumvisible() ? "\<C-e>\<CR>\<C-o>O" : "\<CR>\<C-o>O"
 	endif
 
 	return pumvisible() ? "\<C-e>\<CR>" : "\<CR>"
 endfu
 inoremap <expr> <CR> <SID>enter()
 
+" }}}
+
+" Repeat Replace {{{
+nnoremap c. /\M<C-R>"<CR>cgn<C-A><Esc>
 " }}}
 
 nnoremap S :%s##gI<Left><Left><Left>
@@ -359,7 +365,7 @@ nnoremap <expr> dsf <SID>desurround_f()
 nnoremap <leader>zl :set langmap=yYzZ\\"§&/()=?`ü+öä#-Ü*ÖÄ'\\;:_;zZyY@#^&*()_+[]\\;'\\\\/{}:\\"\\|\\<\\>?<cr>
 nnoremap <leader>zL :set langmap=<cr>
 
-" quick settings
+" quick settings {{{
 nnoremap <leader>zn :set number! relativenumber!<cr>
 nnoremap <leader>zw :set wrap! <bar> set wrap?<CR>
 nnoremap <expr> <leader>z<Tab> set expandtab! <bar> set expandtab?<cr>
@@ -390,8 +396,9 @@ fu! user#mapping#WrapMovements()
 	onoremap 0 g0
 endfu
 nnoremap <leader>zgj :call user#mapping#WrapMovements()<CR>
+" }}}
 
-" silent! map <unique> prevents new binds from replacing old ones
+" silent! map <unique> prevents these binds from replacing existing ones
 silent! nnoremap <unique> <leader>e :25Lexplore<CR>
 silent! nnoremap <unique> <leader>ff :find 
 silent! nnoremap <unique> <leader>fb :buffer 
@@ -426,7 +433,7 @@ tnoremap <M-x> <Cmd>close<cr>
 " }}}
 " }}}
 " {{{ Cmdline/HUD
-" Cursor movement
+" Cursor movement {{{
 noremap! <C-b> <Left>
 noremap! <C-f> <Right>
 noremap! <M-b> <S-Left>
@@ -437,6 +444,7 @@ cnoremap <expr> <C-a> pumvisible() == 0? '<Home>' : '<C-a>'
 cnoremap <C-e> <End>
 
 cnoremap <C-x> <Tab>
+" }}}
 
 " regex shortcuts
 cnoremap <M-w> \<\><Left><Left>

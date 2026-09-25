@@ -1,9 +1,11 @@
 if vim.g.loaded_marksign == 1 then
 	return
 end
-vim.g.loaded_marksign  = 1
+vim.g.loaded_marksign = 1
 
-local sign_hl_group    = "DiagnosticOk"
+local sign_hl_group   = "MarksignSign"
+
+vim.cmd([[hi default link MarksignSign CurSearch]])
 
 ---@alias Bufnr integer
 ---@alias ExtmarkId integer

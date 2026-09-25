@@ -28,6 +28,7 @@ vim.api.nvim_create_autocmd({ "TermOpen" }, {
 vim.api.nvim_create_autocmd({ "BufLeave" }, {
 	group = augroup,
 	pattern = "term://*",
+	nested = true,
 	callback = function()
 		vim.cmd.checktime()
 	end,

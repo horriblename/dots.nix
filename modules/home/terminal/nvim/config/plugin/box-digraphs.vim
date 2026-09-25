@@ -4,3 +4,7 @@ digraphs \|- 9484
 digraphs -\| 9488
 digraphs \|_ 9492
 digraphs _\| 9496
+
+digraphs ^1 185
+digraphs ^2 178
+digraphs ^3 179

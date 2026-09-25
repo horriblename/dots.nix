@@ -11,3 +11,12 @@ endfu
 fu! user#autoclose#InsertSymmetric(c) abort
 	return  strpart(getline('.'), col('.')-1, 1) == a:c ? "\<Right>" : a:c.a:c."\<Left>"
 endfu
+
+" returns '' if not found
+fu! user#autoclose#getClosing(open)
+	if a:open == '{' | return '}'
+	elseif a:open == '(' | return ')'
+	elseif a:open == '[' | return ']'
+	elseif a:open == '<' | return '>'
+	endif
+endfu

@@ -34,7 +34,7 @@ _G.reg = vim.reg
 _G.F = function(...)
 	return require("F")(...)
 end
-_G.E = setmetatable({}, {
+_G.env = setmetatable({}, {
 	__index = function(_, env)
 		return os.getenv(env)
 	end,
@@ -43,13 +43,24 @@ _G.E = setmetatable({}, {
 	end,
 })
 
-local old_notify = vim.notify
-vim.notify = function(msg, lvl, opt)
-	lvl = lvl or vim.log.levels.INFO
-	if lvl > vim.log.levels.DEBUG then
-		old_notify(msg, lvl, opt)
+if not _G.dots_overridden_notify then
+	_G.dots_overridden_notify = true
+	local old_notify = vim.notify
+	---@diagnostic disable-next-line: duplicate-set-field
+	vim.notify = function(msg, lvl, opt)
+		lvl = lvl or vim.log.levels.INFO
+		if lvl > vim.log.levels.DEBUG then
+			old_notify(msg, lvl, opt)
+		end
 	end
 end
+
+-- expose some lib functions cuz god knows I need them
+_G = setmetatable(_G, {
+	__index = function(_, key)
+		return math[key] or table[key]
+	end
+})
 
 -- user command that opens a file in the runtime path
 vim.api.nvim_create_user_command("EditRuntime", function(args)
