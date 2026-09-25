@@ -4,7 +4,7 @@ build-nixos: ## Build NixOS config
 	nix build .#nixosConfigurations.$$(hostname).config.system.build.toplevel
 
 nixos: ## nixos-rebuild switch
-	IMPURITY_PATH="$$PWD" nh os switch . -- --impure -L --show-trace
+	IMPURITY_PATH="$$PWD" nh os switch . --ask -- --impure -L --show-trace
 
 build-hm: ## Build HM config
 	nix build .#homeConfigurations."$$(whoami)@$$(hostname)".activationPackage -L
