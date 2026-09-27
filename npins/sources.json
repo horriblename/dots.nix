@@ -24,10 +24,10 @@
       "version_upper_bound": null,
       "release_prefix": null,
       "submodules": false,
-      "version": "0.15.0",
-      "revision": "564595d0ad4be7277e07fa63b5a991b3c645655d",
-      "url": "https://api.github.com/repos/ryantm/agenix/tarball/refs/tags/0.15.0",
-      "hash": "sha256-ipqShkBmHKC9ft1ZAsA6aeKps32k7+XZSPwfxeHLsAU="
+      "version": "0.17.0",
+      "revision": "07a33319a408a0c770f0fe5d0d98f5e7b4e5a5e7",
+      "url": "https://api.github.com/repos/ryantm/agenix/tarball/refs/tags/0.17.0",
+      "hash": "sha256-dLq4qfJvm2ZfkwGGdgWl/nsA2aavpQMrPQbNqbkLXKE="
     },
     "direnv-nvim": {
       "type": "Git",
@@ -96,10 +96,10 @@
       "version_upper_bound": null,
       "release_prefix": "b",
       "submodules": false,
-      "version": "b11057",
-      "revision": "59657a613ab0fa4ab327d6c790123dff30bfbd67",
-      "url": "https://api.github.com/repos/ggml-org/llama.cpp/tarball/refs/tags/b11057",
-      "hash": "sha256-5GG3zPMlbuH67oJ+tmliW8ymS2qK2+KDIe0I+0ihdsY="
+      "version": "b11206",
+      "revision": "2b129ccfa03aea330d2d9ac4650a10de393dbe3a",
+      "url": "https://api.github.com/repos/ggml-org/llama.cpp/tarball/refs/tags/b11206",
+      "hash": "sha256-89IW0L1et9TF469eIhC4ZKXbxaFW/FP29B/dRNe1AbY="
     },
     "luee": {
       "type": "Git",
