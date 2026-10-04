@@ -24,10 +24,10 @@
       "version_upper_bound": null,
       "release_prefix": null,
       "submodules": false,
-      "version": "0.17.0",
-      "revision": "07a33319a408a0c770f0fe5d0d98f5e7b4e5a5e7",
-      "url": "https://api.github.com/repos/ryantm/agenix/tarball/refs/tags/0.17.0",
-      "hash": "sha256-dLq4qfJvm2ZfkwGGdgWl/nsA2aavpQMrPQbNqbkLXKE="
+      "version": "0.18.0",
+      "revision": "9353cb29366a8535ac9483065284785fd48012a2",
+      "url": "https://api.github.com/repos/ryantm/agenix/tarball/refs/tags/0.18.0",
+      "hash": "sha256-/FjF9A8HVLVftjdmz1MPA2G0wSYWRaC628NTAsCqeyI="
     },
     "direnv-nvim": {
       "type": "Git",
@@ -96,10 +96,10 @@
       "version_upper_bound": null,
       "release_prefix": "b",
       "submodules": false,
-      "version": "b11206",
-      "revision": "2b129ccfa03aea330d2d9ac4650a10de393dbe3a",
-      "url": "https://api.github.com/repos/ggml-org/llama.cpp/tarball/refs/tags/b11206",
-      "hash": "sha256-89IW0L1et9TF469eIhC4ZKXbxaFW/FP29B/dRNe1AbY="
+      "version": "b11382",
+      "revision": "11fe02151f79c41d0d4af7da708755d73b9c0da6",
+      "url": "https://api.github.com/repos/ggml-org/llama.cpp/tarball/refs/tags/b11382",
+      "hash": "sha256-km1Ze5KyHX7BCRbPd/Goo3j0PnNX0lFkgoqJaO3Wp1s="
     },
     "luee": {
       "type": "Git",
@@ -110,9 +110,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "253420718da3bebd552cb7bb3b2a1fedca6afbd3",
-      "url": "https://github.com/horriblename/luee/archive/253420718da3bebd552cb7bb3b2a1fedca6afbd3.tar.gz",
-      "hash": "sha256-ZJeY8fAC6cP5AzHKf85Fsj8meU4P4kPMEUsX6q6BCxM="
+      "revision": "92e10e7c06b15b8a2850edec10a436cff55c5961",
+      "url": "https://github.com/horriblename/luee/archive/92e10e7c06b15b8a2850edec10a436cff55c5961.tar.gz",
+      "hash": "sha256-1tlEsW2R5m8/JNo5t/bObbrA5t0yrWUUIQTfrJZzGzg="
     },
     "nixrun-nvim": {
       "type": "Git",
@@ -149,9 +149,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "67df5d365ccff1cf7bfccde395062f1ad9563753",
-      "url": "https://github.com/horriblename/tele-nvim/archive/67df5d365ccff1cf7bfccde395062f1ad9563753.tar.gz",
-      "hash": "sha256-mgEnBfiXt2Nz7zZo4QARyD/eyhk9BjqxBCsRDLRqiIc="
+      "revision": "1e6dde36e5894e8227ed11a596792220cad448eb",
+      "url": "https://github.com/horriblename/tele-nvim/archive/1e6dde36e5894e8227ed11a596792220cad448eb.tar.gz",
+      "hash": "sha256-e1Jo0mABznLDCCXBNwGKiuSdeLioU/0yTdxEs9pE+Lw="
     },
     "ttags": {
       "type": "Git",
