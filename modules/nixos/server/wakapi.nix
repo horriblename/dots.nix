@@ -13,7 +13,7 @@ in {
       wakapi = {
         database.dialect = "sqlite3";
         environmentFiles = [
-          "/etc/wakapi/secrets.env"
+          config.age.secrets.wakapiEnv.path
         ];
         settings = {
           server.port = 3474;
