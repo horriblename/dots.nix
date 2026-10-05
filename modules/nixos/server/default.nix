@@ -1,12 +1,12 @@
 {
   imports = [
+    ./forgejo.nix
     ./monitor.nix
     ./opencloud.nix
-    ./pocketid.nix
+    ./postgresql.nix
+    ./radicale.nix
+    ./syncthing.nix
     ./wakapi.nix
     ./web.nix
-    ./syncthing.nix
-    ./radicale.nix
-    ./forgejo.nix
   ];
 }
