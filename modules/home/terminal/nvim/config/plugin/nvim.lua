@@ -1,4 +1,6 @@
 -- vim: foldmethod=marker foldlevel=0
+local util = require('dots.util')
+
 -- neovim specific config
 -- diagnostics {{{
 local function diagnosticJump(dir)
@@ -110,3 +112,27 @@ vim.keymap.set("n", "<M-i>", "vin", { remap = true })
 vim.keymap.set("x", "<M-o>", "an", { remap = true })
 vim.keymap.set("x", "<M-i>", "in", { remap = true })
 -- }}}
+
+-- nvim-dap mappings {{{
+-- HACK: vim.fn.setreg(vim.keycode("<CR>")) results in "\r\n" which effectively
+-- hits enter twice
+util.mkDirectionalKeymap(
+	"<leader>dgk", ":lua require('dap').step_back()\n",
+	"<leader>dgj", ":lua require('dap').step_over()\n")
+
+util.mkDirectionalKeymap(
+	nil, "",
+	"<leader>dc", ":lua require('dap').continue()\n")
+-- }}}
+
+-- Misc.
+vim.api.nvim_create_user_command("Restart", function()
+	local path = vim.fn.stdpath('cache') .. '/restart.vim'
+	local viminit = vim.g.dots_viminit or os.getenv('VIMINIT')
+	if viminit then
+		vim.fn.setenv("VIMINIT", viminit)
+	end
+
+	vim.cmd("mksession! " .. path)
+	vim.cmd("restart source " .. path)
+end, {})
