@@ -59,6 +59,10 @@
     radicale.enable = true;
     forgejo.enable = true;
 
+    kanidm = {
+      server.enable = true;
+      # client.enable = true;
+    };
     # pocket-id.enable = true;
   };
 
