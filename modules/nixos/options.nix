@@ -4,7 +4,7 @@
   ...
 }: let
   inherit (lib.options) mkOption mkEnableOption;
-  inherit (lib.types) enum;
+  inherit (lib.types) enum listOf str;
 in {
   options = {
     dots = {
@@ -25,6 +25,15 @@ in {
 
       ai = {
         enable = mkEnableOption "Electricity Bill Pro Max";
+      };
+
+      statePaths = mkOption {
+        description = ''
+          Option tracking all the stateful files I don't yet know how to deal
+          with.
+        '';
+        type = listOf str;
+        default = [];
       };
     };
   };
