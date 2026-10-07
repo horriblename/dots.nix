@@ -16,6 +16,8 @@ in
       pkgs.hurl
       pkgs.libqalculate
       pkgs.universal-ctags
+      pkgs.screen
+      pkgs.bubblewrap
     ];
 
     services.podman.enable = true;
