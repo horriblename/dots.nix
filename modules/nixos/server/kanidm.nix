@@ -1,3 +1,22 @@
+# NOTE: manual setup:
+#
+# Setting up credentials for user
+#
+# ```bash
+# sudo -u kanidm kanidmd scripting recover-account idm_admin
+# # Note down the new password
+# kanidm --url https://auth.peynch.online login --name idm_admin
+# kanidm --url https://auth.peynch.online person credential create-reset-token py
+# ```
+#
+# Secrets for each OIDC client:
+#
+# ```bash
+# kanidm --url https://auth.peynch.online system oauth2 show-basic-secret wakapi \
+#   | awk '{print "WAKAPI_OIDC_PROVIDERS_0_CLIENT_SECRET=" $0 }' \
+#   | sudo -u wakapi tee /etc/wakapi/oauthSecret.env
+# sudo -u wakapi chmod 600 /etc/wakapi/kanidmSecret.env
+# ```
 {
   pkgs,
   config,
@@ -32,6 +51,49 @@ in {
             };
             ldap_client_address_info = {
               proxy-v2 = ["127.0.0.1"];
+            };
+          };
+        };
+
+        client = {
+          settings = {
+            uri = "https://${domain}";
+          };
+        };
+
+        provision = {
+          enable = true;
+
+          persons = {
+            py = {
+              displayName = "Py";
+            };
+          };
+
+          groups = {
+            wakapi_users = {
+              members = ["py"];
+            };
+          };
+
+          systems = {
+            oauth2 = {
+              forgejo = {
+                displayName = "Forgejo";
+                originUrl = "https://git.peynch.online/";
+                originLanding = "https://git.peynch.online/";
+                imageFile = "${config.services.forgejo.package.data}/public/assets/img/forgejo.svg";
+              };
+
+              wakapi = {
+                displayName = "Wakapi";
+                allowInsecureClientDisablePkce = true;
+                originUrl = "https://wakapi.peynch.online/oidc/kanidm/callback";
+                originLanding = "https://wakapi.peynch.online";
+                scopeMaps = {
+                  wakapi_users = ["openid" "email" "profile"];
+                };
+              };
             };
           };
         };
