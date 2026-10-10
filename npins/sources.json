@@ -127,6 +127,19 @@
       "url": "https://github.com/horriblename/nixrun-nvim/archive/cd87e8a7d6a98033097cd2a7204948ffab11a4ea.tar.gz",
       "hash": "sha256-FbJeWpqDVZ3ACUVSIBg+msHt6kn8llD/1cMgGe5o+AU="
     },
+    "nvim-dap-ui": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "horriblename",
+        "repo": "nvim-dap-ui"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "041d284d02915b3e9132acbaf9842d93174ca939",
+      "url": "https://github.com/horriblename/nvim-dap-ui/archive/041d284d02915b3e9132acbaf9842d93174ca939.tar.gz",
+      "hash": "sha256-N1/G0WdVbCWRQvtaOmrgguuw5SpjjQC+9Z2Y275ElQQ="
+    },
     "one-small-step-for-vimkind": {
       "type": "Git",
       "repository": {

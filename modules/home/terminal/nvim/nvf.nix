@@ -262,6 +262,10 @@ in {
       };
     };
 
+    pluginOverrides = {
+      nvim-dap-ui = noBuildPlug "nvim-dap-ui";
+    };
+
     augroups =
       map (name: {
         inherit name;
