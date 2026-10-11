@@ -57,6 +57,7 @@
     wakapi.enable = true;
     syncthing.enable = true;
     radicale.enable = true;
+    rustical.enable = true;
     forgejo.enable = true;
 
     kanidm = {
