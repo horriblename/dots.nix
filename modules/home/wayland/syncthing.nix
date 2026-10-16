@@ -53,6 +53,16 @@
             "surface"
           ];
         };
+
+        Music = {
+          path = "~/Music";
+          devices = [
+            "pix"
+            "poopy"
+            "ragnarok"
+            "surface"
+          ];
+        };
       };
     };
   };
