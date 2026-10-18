@@ -139,7 +139,7 @@ end, { desc = "Annotate a global mark" })
 vim.api.nvim_create_user_command("Marks", function()
 	local qflist = {}
 	for _, mark in ipairs(vim.fn.getmarklist()) do
-		local name = string.match(mark.mark, "[A-Q]")
+		local name = string.match(mark.mark, "[A-Z]")
 		if name and mark.file ~= "" then
 			local anno = vim.g.MARKSIGN_ANNOTATIONS
 				and vim.g.MARKSIGN_ANNOTATIONS[name]
