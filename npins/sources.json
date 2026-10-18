@@ -67,10 +67,10 @@
       "version_upper_bound": null,
       "release_prefix": null,
       "submodules": false,
-      "version": "1.6.78",
-      "revision": "11595bf747edc270bce2069d1020502ad4ae56cf",
-      "url": "https://api.github.com/repos/MagicDuck/grug-far.nvim/tarball/refs/tags/1.6.78",
-      "hash": "sha256-gkWjZM7xn2OqM6KEoqSaJ+POqcrWO93rO6aOgvsrJhc="
+      "version": "1.6.79",
+      "revision": "bbde8ef5ae46ceee2c3bd8b21fc048c5f8ffbfc0",
+      "url": "https://api.github.com/repos/MagicDuck/grug-far.nvim/tarball/refs/tags/1.6.79",
+      "hash": "sha256-na3L3oHhX/CiCKGBJeiuUykChkK9qg3OXxRN3Q5gWlE="
     },
     "img-paste.vim": {
       "type": "Git",
@@ -96,10 +96,10 @@
       "version_upper_bound": null,
       "release_prefix": "b",
       "submodules": false,
-      "version": "b11552",
-      "revision": "23b0202a189c44a54625aadcb37a946dd1d6278d",
-      "url": "https://api.github.com/repos/ggml-org/llama.cpp/tarball/refs/tags/b11552",
-      "hash": "sha256-oISUD+czPe/RzXfCl0hyWxIbQnKFE37KwQmWdJwrHw8="
+      "version": "b11717",
+      "revision": "848bbda9041decd87904f7eb5a2990863ecce03b",
+      "url": "https://api.github.com/repos/ggml-org/llama.cpp/tarball/refs/tags/b11717",
+      "hash": "sha256-6pkDHYe2qVY02raD8Yv5ugoJmNp3tR9m9f4zRqJJ1J0="
     },
     "luee": {
       "type": "Git",
