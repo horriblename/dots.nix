@@ -62,7 +62,7 @@
 
     kanidm = {
       server.enable = true;
-      # client.enable = true;
+      client.enable = true;
     };
     # pocket-id.enable = true;
   };
