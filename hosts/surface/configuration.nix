@@ -112,6 +112,14 @@
     pkiBundle = "/var/lib/sbctl";
   };
 
+  nix = {
+    settings = {
+      trusted-public-keys = [
+        "ragnarok:D3aaqApOOCgMNuF9mgHxde//GJhN0ngqULc0Wsu3Gmk="
+      ];
+    };
+  };
+
   # system.copySystemConfiguration = true;
 
   system.stateVersion = "23.11"; # DO NOT CHANGE THIS
