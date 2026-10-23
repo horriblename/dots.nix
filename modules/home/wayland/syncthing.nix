@@ -29,7 +29,7 @@ in {
         poopy = {
           id = "AXAKT35-H3IRXLS-2SBCS3G-ZTHGTR3-BXLXDZE-RDY5OWW-D4KPGHL-IACICQN";
           addresses = [
-            "tcp://sync.peynch.online"
+            "tcp://peynch.online:22000"
           ];
         };
 
@@ -42,7 +42,7 @@ in {
         };
 
         pix = {
-          id = "V7UMOZP-5KSM24J-ZVHVELR-JSCNFJX-HL3NTYU-HE4IE3A-3SDSOOG-UBJJZQA";
+          id = "UU3TCIY-NFIQSEP-KT4UPQ7-NHB3SKO-UL7NTAN-KUGNUKJ-272LQVA-XDPJHAV";
           autoAcceptFolders = isPoopy;
         };
       };
