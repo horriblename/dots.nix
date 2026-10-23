@@ -1,0 +1,50 @@
+vim.lsp.enable('snipls')
+-- vim.api.nvim_create_autocmd({ 'BufEnter' }, {
+-- 	group = sn_group,
+-- 	callback = function()
+-- 		-- Stop the previous LSP client if it exists
+-- 		if last_client_id then
+-- 			local client = vim.lsp.get_client_by_id(last_client_id)
+-- 			if client then
+-- 				vim.notify('Stopping previous LSP client: ' .. tostring(last_client_id))
+-- 				client:stop()
+-- 			end
+-- 			last_client_id = nil
+-- 		end
+-- 		-- Delay to ensure the previous server has fully stopped before starting a new one
+-- 		vim.defer_fn(function()
+-- 			local snipls = require("snipls.snippet")
+-- 			-- paths table
+-- 			local pkg_path_fr = vim.fn.stdpath 'data' .. '/lazy/friendly-snippets/package.json'
+-- 			local paths = snipls.parse_pkg(pkg_path_fr, vim.bo.filetype)
+-- 			if not paths or #paths == 0 then
+-- 				vim.notify('No snippets found for filetype: ' .. vim.bo.filetype, vim.log.levels.WARN)
+-- 				return
+-- 			end
+-- 			local usr_paths = snipls.parse_pkg(
+-- 				vim.fn.expand('$MYVIMRC'):match '(.*[/\\])' .. 'snippets/json_snippets/package.json',
+-- 				vim.bo.filetype
+-- 			)
+-- 			table.insert(paths, usr_paths[1])
+-- 			-- Concat all the snippets from all the paths
+-- 			local all_snippets = { isIncomplete = false, items = {} }
+-- 			for _, snips_path in ipairs(paths) do
+-- 				local snips = snipls.read_file(snips_path)
+-- 				local lsp_snip = snipls.process_snippets(snips, 'USR')
+-- 				if lsp_snip and lsp_snip.items then
+-- 					for _, snippet_item in ipairs(lsp_snip.items) do
+-- 						table.insert(all_snippets.items, snippet_item)
+-- 					end
+-- 				end
+-- 			end
+-- 			-- Start the new mock LSP server
+-- 			local client_id = snipls.start_mock_lsp(all_snippets)
+-- 			if client_id then
+-- 				vim.notify('Started new LSP client with ID: ' .. tostring(client_id))
+-- 			end
+-- 			-- Store the new client ID for future buffer changes
+-- 			last_client_id = client_id
+-- 		end, 500) -- 500ms delay to ensure clean server shutdown
+-- 	end,
+-- 	desc = 'Handle LSP for buffer changes',
+-- })

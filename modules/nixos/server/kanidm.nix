@@ -122,6 +122,11 @@ in {
           '';
 
           ${ldapDomain}.extraConfig = ''
+            handle /.well-known/acme-challenge/* {
+              root * ${certCfg.webroot or acmeCfg.defaults.webroot}
+              file_server
+            }
+
             reverse_proxy ${cfg.settings.ldapbindaddress}
           '';
         };
