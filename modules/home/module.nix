@@ -16,6 +16,7 @@ with lib; {
           "linode"
           "deck"
           "droid"
+          "poopy"
           "darwin-work"
         ];
         default = "minimal";

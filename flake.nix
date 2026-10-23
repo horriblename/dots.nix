@@ -263,7 +263,7 @@
                 users.py = {pkgs, ...}: {
                   imports = [./modules/home/home.nix];
                   nix.package = lib.mkForce pkgs.nix;
-                  dots.preset = "minimal";
+                  dots.preset = "poopy";
                 };
                 extraSpecialArgs = {
                   inherit self inputs;
