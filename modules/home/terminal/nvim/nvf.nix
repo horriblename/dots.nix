@@ -301,7 +301,19 @@ in {
     };
 
     debugger.nvim-dap = {
-      ui.enable = true;
+      ui = {
+        enable = true;
+        setupOpts = {
+          mappings = {
+            edit = "cc";
+            expand = ["zo" "za"];
+            open = ["gd" "<CR>"];
+            remove = "dd";
+            repl = ["<localleader>r"];
+            watch = ["<localleader>w"];
+          };
+        };
+      };
       configurations = {
         lua = [
           {
@@ -502,7 +514,8 @@ in {
       };
 
       clue = {
-        enable = true;
+        # hangs in SSH sessions
+        enable = devEnabled;
         setupOpts = {
           triggers = let
             mkTrigger = mode: keys: {inherit mode keys;};
@@ -578,6 +591,21 @@ in {
           large_file_cutoff = 2000;
           large_file_overrides = {
             providers = [];
+          };
+        };
+      };
+      colorizer = {
+        enable = true;
+        setupOpts = {
+          parsers = {
+            css = true;
+            hex = {
+              default = true;
+              rrggbbaa = false;
+              hash_aarrggbb = true;
+              aarrggbb = true;
+              no_hash = true;
+            };
           };
         };
       };
