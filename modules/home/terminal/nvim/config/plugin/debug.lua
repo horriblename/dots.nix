@@ -79,3 +79,48 @@ end, {
 	nargs = 1,
 	complete = "runtime",
 })
+
+-- functional utils
+function _G.map(tbl, f)
+	assert(type(tbl) == "table")
+	local ret = {}
+	for k, v in pairs(tbl) do
+		ret[k] = f(v)
+	end
+	return ret
+end
+
+function _G.each(tbl, f)
+	assert(type(tbl) == "table")
+	for _, v in pairs(tbl) do
+		f(v)
+	end
+end
+
+local function flatten(tbl)
+	assert(vim.isarray(tbl))
+	local ret = {}
+	for _, v in ipairs(tbl) do
+		if type(v) == "table" then
+			table.insert(ret, flatten(v))
+		else
+			table.insert(ret, v)
+		end
+	end
+	return ret
+end
+_G.flatten = flatten
+
+function _G.filter(tbl, pred)
+	local ret = {}
+	for k, v in pairs(tbl) do
+		if pred(v) then
+			ret[k] = v
+		end
+	end
+	return ret
+end
+
+function _G.len(tbl)
+	return #tbl
+end

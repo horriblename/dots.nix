@@ -123,6 +123,28 @@ util.mkDirectionalKeymap(
 util.mkDirectionalKeymap(
 	nil, "",
 	"<leader>dc", ":lua require('dap').continue()\n")
+
+vim.api.nvim_create_user_command("DapConditionalBreakpoint", function(args)
+	---@param cond string?
+	local function inner(cond)
+		-- vim.ui.input() might be cancelled
+		if cond then
+			require("dap").set_breakpoint(cond)
+		end
+	end
+
+	if args.args ~= "" then
+		inner(args.args)
+	else
+		vim.ui.input({
+			prompt = "Enter conditional expr: ",
+			scope = "line",
+		}, inner)
+	end
+end, {
+	nargs = "*",
+})
+vim.keymap.set("n", "<leader>dB", ":DapConditionalBreakpoint<CR>", {})
 -- }}}
 
 -- Misc.

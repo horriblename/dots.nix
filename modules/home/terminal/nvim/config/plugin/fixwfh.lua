@@ -134,6 +134,8 @@ local function on_win_closed(ev)
 			vim.notify("[fixwfh] no descendant of sibling has " .. option, vim.log.levels.TRACE)
 			return
 		end
+		-- FIXME: if the parent spans the entire window height/width, and the leaf is the only child
+		-- we should skip it
 		descendants = winids
 	end
 

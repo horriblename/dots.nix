@@ -18,6 +18,7 @@ vim.api.nvim_create_autocmd("WinLeave", {
 
 local opts = { remap = false }
 vim.keymap.set('t', '<M-m>', '<C-\\><C-n>', opts)
+vim.keymap.set('t', '<M-m>xg', '<C-\\><C-n>G[[v[[:cgetbuf<CR>', { remap = true })
 vim.keymap.set({ 'n', 'i', 'x', 's', 't' }, '<M-m>w', function()
 	require('tterm').toggleterm()
 end, opts)
