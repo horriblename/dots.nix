@@ -56,6 +56,6 @@ in {
       };
     };
 
-    dots.statePaths = [cfg.rustical.environmentFiles];
+    dots.statePaths = cfg.environmentFiles;
   };
 }
