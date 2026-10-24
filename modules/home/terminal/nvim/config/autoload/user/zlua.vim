@@ -1,4 +1,4 @@
-fu user#zlua#chdir(pattern) abort
+fu user#zlua#chdir(pattern, split=v:true) abort
 	let zlua='z.lua'
 	if ! empty($ZLUA_SCRIPT)
 		let zlua=$ZLUA_SCRIPT
@@ -14,7 +14,9 @@ fu user#zlua#chdir(pattern) abort
 		" (probably) a new window
 		execute 'tcd ' . dir
 	else
-		wincmd n
+		if a:split
+			wincmd n
+		endif
 		execute 'tcd ' . dir
 	endif
 

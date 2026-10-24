@@ -114,8 +114,8 @@ endif
 
 " User Commands
 " {{{
-command! -bar -nargs=1 -complete=custom,user#zlua#comp Z call user#zlua#chdir(<q-args>)
-command! -bar -nargs=1 -complete=custom,user#ansicolors#AnsiColorComp AnsiColor call user#ansicolors#InsertAnsiTermColor(<q-args>)
+command! -bar -nargs=1 -bang -complete=custom,user#zlua#comp Z 
+	\ call user#zlua#chdir(<q-args>, <bang>1)
 
 " Save file as sudo when no sudo permissions
 if has('vim')
