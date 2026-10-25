@@ -63,6 +63,10 @@
       url = "github:nix-community/lanzaboote/v0.4.2";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    pwndbg = {
+      url = "github:pwndbg/pwndbg/2026.10.22";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     styluslabs-write = {
       url = "git+https://github.com/horriblename/Write?ref=wayland&submodules=1";
       flake = false;
@@ -423,6 +427,8 @@
         };
 
         inherit (inputs.hjem.packages.${system}) hjem;
+
+        inherit (inputs.pwndbg.packages.${system}) pwndbg;
 
         styluslabs-write = pkgs.styluslabs-write.overrideAttrs (_final: prev: {
           src = inputs.styluslabs-write;
