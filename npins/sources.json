@@ -96,10 +96,10 @@
       "version_upper_bound": null,
       "release_prefix": "b",
       "submodules": false,
-      "version": "b12030",
-      "revision": "a91eab67d8389d979d29fdf6633b2edd0718eb4b",
-      "url": "https://api.github.com/repos/ggml-org/llama.cpp/tarball/refs/tags/b12030",
-      "hash": "sha256-hJsrOn96GstrFibZtJU6af1QqDVd0hyhW+8dzMEUf9o="
+      "version": "b12199",
+      "revision": "372dc5ca157276beb6c67b2e92477e8d662e964a",
+      "url": "https://api.github.com/repos/ggml-org/llama.cpp/tarball/refs/tags/b12199",
+      "hash": "sha256-IjLEP7HqxMgheSIC+3jNTqbvrFYO3vf7oCR8qMuhsNM="
     },
     "luee": {
       "type": "Git",
@@ -123,9 +123,9 @@
       },
       "branch": "v2",
       "submodules": false,
-      "revision": "0a3ba06baf899880dcd0cfed60a4338765d5b42c",
-      "url": "https://github.com/horriblename/nixrun-nvim/archive/0a3ba06baf899880dcd0cfed60a4338765d5b42c.tar.gz",
-      "hash": "sha256-U+3hTvyRcSRHgWbZQ5+jvr73S6CO8HC1h8mZwAu9PXU="
+      "revision": "9e0f66eb00d899cdc33e945c233b1b712da00a8c",
+      "url": "https://github.com/horriblename/nixrun-nvim/archive/9e0f66eb00d899cdc33e945c233b1b712da00a8c.tar.gz",
+      "hash": "sha256-FfTSx4Z2XJjUtpB4TINCMkqTqP+u68nfR6UUxO+RvGw="
     },
     "nvim-dap-ui": {
       "type": "Git",
@@ -162,9 +162,9 @@
       },
       "branch": "main",
       "submodules": false,
-      "revision": "1e6dde36e5894e8227ed11a596792220cad448eb",
-      "url": "https://github.com/horriblename/tele-nvim/archive/1e6dde36e5894e8227ed11a596792220cad448eb.tar.gz",
-      "hash": "sha256-e1Jo0mABznLDCCXBNwGKiuSdeLioU/0yTdxEs9pE+Lw="
+      "revision": "0d1f63e934fa249055ae04aa9841f875de23016c",
+      "url": "https://github.com/horriblename/tele-nvim/archive/0d1f63e934fa249055ae04aa9841f875de23016c.tar.gz",
+      "hash": "sha256-CrIErV8DRt6HUQuNFeYzTgnT9qAvqurBGVtvIQQcgy4="
     },
     "ttags": {
       "type": "Git",
